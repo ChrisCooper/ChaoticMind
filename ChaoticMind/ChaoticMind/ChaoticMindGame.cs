@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using FarseerPhysics;
+using FarseerPhysics.Dynamics;
+
 namespace ChaoticMind
 {
     /// <summary>
@@ -19,10 +22,16 @@ namespace ChaoticMind
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        //Farseer physics simulator
+        World world;
+
         public ChaoticMindGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            //Create the physics simulator object, specifying that we want no gravity (since we're top-down)
+            world = new World(Vector2.Zero);
         }
 
         /// <summary>
@@ -67,10 +76,12 @@ namespace ChaoticMind
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape)) {
                 this.Exit();
+            }
 
-            // TODO: Add your update logic here
+            //Update the FarseerPhysics physics
+            world.Step((float)(gameTime.ElapsedGameTime.TotalMilliseconds * 0.001));
 
             base.Update(gameTime);
         }
