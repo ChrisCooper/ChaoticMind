@@ -19,19 +19,19 @@ namespace ChaoticMind
     /// </summary>
     public class ChaoticMindGame : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        GraphicsDeviceManager _graphics;
+        SpriteBatch _spriteBatch;
 
         //Farseer physics simulator
-        World world;
+        World _world;
 
         public ChaoticMindGame()
         {
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
             //Create the physics simulator object, specifying that we want no gravity (since we're top-down)
-            world = new World(Vector2.Zero);
+            _world = new World(Vector2.Zero);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace ChaoticMind
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
         }
@@ -69,7 +69,7 @@ namespace ChaoticMind
         }
 
         /// <summary>
-        /// Allows the game to run logic such as updating the world,
+        /// Allows the game to run logic such as updating the _world,
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
@@ -81,7 +81,7 @@ namespace ChaoticMind
             }
 
             //Update the FarseerPhysics physics
-            world.Step((float)(gameTime.ElapsedGameTime.TotalMilliseconds * 0.001));
+            _world.Step((float)(gameTime.ElapsedGameTime.TotalMilliseconds * 0.001));
 
             base.Update(gameTime);
         }
