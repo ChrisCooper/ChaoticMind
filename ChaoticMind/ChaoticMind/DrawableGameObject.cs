@@ -13,10 +13,10 @@ namespace ChaoticMind
     {
         AnimatedSprite _sprite;
 
-        public DrawableGameObject(String spriteResourcePrefix, int numFrames, World world, Vector2 startingPosition)
+        public DrawableGameObject(String spriteResourcePrefix, int numFrames, float animationDuration, World world, Vector2 startingPosition)
             : base(world, startingPosition)
         {
-            _sprite = new AnimatedSprite(spriteResourcePrefix, numFrames, 1.0f);
+            _sprite = new AnimatedSprite(spriteResourcePrefix, numFrames, animationDuration);
         }
 
         public new void Update(float deltaTime)

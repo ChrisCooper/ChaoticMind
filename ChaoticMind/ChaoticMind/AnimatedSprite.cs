@@ -39,8 +39,8 @@ namespace ChaoticMind
             //Update the elapsed time, and set the _currentFrameIndex accordingly
             _elapsedTime += deltaTime;
             
-            //Loop the time
-            if (_elapsedTime > _animationDuration) {
+            //Loop the animation
+            while (_elapsedTime > _animationDuration) {
                 _elapsedTime -= _animationDuration;
             }
             _currentFrameIndex = (int)((_elapsedTime / _animationDuration) * _animationSequence.NumFrames);

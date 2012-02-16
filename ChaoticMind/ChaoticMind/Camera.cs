@@ -53,7 +53,7 @@ namespace ChaoticMind
         private void updateFromInput(float deltaTime)
         {
             KeyboardState keyState = Keyboard.GetState();
-            float forcePower = 1.0f;
+            float forcePower = 10.0f;
 
             //Apply force in the arrow key direction
             Vector2 force = Vector2.Zero;
@@ -75,14 +75,14 @@ namespace ChaoticMind
             }
             if (keyState.IsKeyDown(Keys.OemPlus))
             {
-                _zoom += forcePower * deltaTime;
+                _zoom *= 1 + (1f * deltaTime);
             }
             if (keyState.IsKeyDown(Keys.OemMinus))
             {
-                _zoom -= forcePower * deltaTime;
+                _zoom *= 1 - (1f * deltaTime);
             }
 
-            _position += force;
+            _position += force * (1/_zoom);
 
         }
     }

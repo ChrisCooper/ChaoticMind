@@ -115,6 +115,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="ChaoticMindGame.cs" />
     <Compile Include="SpriteAnimationSequence.cs" />
+    <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

@@ -64,15 +64,17 @@ namespace ChaoticMind
         protected override void LoadContent()
         {
 
-            //Create a bunch of random game objects for now
-            for (int i = 0; i < 1; i++)
+            //Create a bunch of fun random game objects for now
+            for (int i = 0; i < 100; i++)
             {
-                DrawableGameObject obj = new DrawableGameObject("TestImage", 5, _world, Vector2.Zero);
+                DrawableGameObject obj = new DrawableGameObject("TestImages/TestImage", 5, ((float)Utilities.randomDouble()) + 0.1f, _world, Utilities.randomVector()*1000);
                 _objects.Add(obj);
+                DrawableGameObject obj2 = new DrawableGameObject("TestImages/Box", 17, ((float)Utilities.randomDouble()) + 0.1f, _world, Utilities.randomVector() * 1000);
+                _objects.Add(obj2);
             }
 
-            _objects.Add(new DrawableGameObject("TestImage", 5, _world, new Vector2(100.0f, 100.0f)));
-            _objects.Add(new DrawableGameObject("TestImage", 5, _world, new Vector2(151.0f, 114.0f)));
+            //_objects.Add(new DrawableGameObject("TestImage", 5, _world, new Vector2(100.0f, 100.0f)));
+            //_objects.Add(new DrawableGameObject("TestImage", 5, _world, new Vector2(151.0f, 114.0f)));
         
         }
 
@@ -100,7 +102,7 @@ namespace ChaoticMind
                 this.Exit();
             }
 
-            //Update all objects in ourlist. This is not where physics is evaluated,
+            //Update all objects in our list. This is not where physics is evaluated,
             // it is only where object-specific actions are performed, like applying control forces
             foreach (DrawableGameObject obj in _objects)
             {

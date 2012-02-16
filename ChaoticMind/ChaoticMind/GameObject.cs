@@ -13,6 +13,8 @@ namespace ChaoticMind
     {
         Body _body;
 
+        static Random garbageRandom = new Random();
+
         public GameObject(World world, Vector2 startingPosition)
         {
             // This method creates a body (has mass, position, rotation),
@@ -25,6 +27,25 @@ namespace ChaoticMind
 
         public void Update(float deltaTime)
         {
+
+            //This logic is purely for testing Farseer integration, and for fun!
+
+            if (Utilities.randomInt() % 10 == 0)
+            {
+                _body.ApplyLinearImpulse(Utilities.randomVector() * deltaTime*10000000);
+            }
+            if (Utilities.randomInt() % 1000 == 0)
+            {
+                _body.ApplyLinearImpulse(Utilities.randomVector() * deltaTime * 1000000000);
+            }
+            if (Utilities.randomInt() % 40 == 0)
+            {
+                _body.ApplyLinearImpulse((-1 * _body.Position) * deltaTime * 5000);
+            }
+            if (Utilities.randomInt() % 10000 == 0)
+            {
+                _body.ApplyLinearImpulse(Utilities.randomVector() * deltaTime * 10000000000);
+            }
         }
 
         public Vector2 Position
