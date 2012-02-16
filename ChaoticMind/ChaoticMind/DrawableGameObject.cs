@@ -19,7 +19,7 @@ namespace ChaoticMind
             _sprite = new AnimatedSprite(spriteResourcePrefix, numFrames, animationDuration);
         }
 
-        public new void Update(float deltaTime)
+        public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
 

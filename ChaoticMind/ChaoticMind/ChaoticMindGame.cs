@@ -54,6 +54,16 @@ namespace ChaoticMind
 
             _mainCamera = new Camera(Vector2.Zero, 1.0f, _graphics.GraphicsDevice, _spriteBatch);
 
+            //Create a bunch of fun random game objects for now
+            for (int i = 0; i < 100; i++)
+            {
+                DrawableGameObject obj = new SillyBox("TestImages/TestImage", 5, _world, Utilities.randomVector() * 1000);
+                obj.Initialize();
+                _objects.Add(obj);
+                DrawableGameObject obj2 = new SillyBox("TestImages/Box", 16, _world, Utilities.randomVector() * 1000);
+                _objects.Add(obj2);
+            }
+
             base.Initialize();
         }
 
@@ -62,20 +72,7 @@ namespace ChaoticMind
         /// all of your content.
         /// </summary>
         protected override void LoadContent()
-        {
-
-            //Create a bunch of fun random game objects for now
-            for (int i = 0; i < 100; i++)
-            {
-                DrawableGameObject obj = new DrawableGameObject("TestImages/TestImage", 5, ((float)Utilities.randomDouble()) + 0.1f, _world, Utilities.randomVector()*1000);
-                _objects.Add(obj);
-                DrawableGameObject obj2 = new DrawableGameObject("TestImages/Box", 17, ((float)Utilities.randomDouble()) + 0.1f, _world, Utilities.randomVector() * 1000);
-                _objects.Add(obj2);
-            }
-
-            //_objects.Add(new DrawableGameObject("TestImage", 5, _world, new Vector2(100.0f, 100.0f)));
-            //_objects.Add(new DrawableGameObject("TestImage", 5, _world, new Vector2(151.0f, 114.0f)));
-        
+        {        
         }
 
 
