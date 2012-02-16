@@ -18,25 +18,52 @@ namespace ChaoticMind
         String _resourcePrefix;
 
         //One texture for each frame of the animation.
-        //Possible TODO: The simplest graphics optimization to make is 
-        // to change this class to use sprite sheets instead of individual textures,
-        // but this is not a high-priority change until we have performance issues.
+        //Possible TODO: A simpl graphics optimization to make is 
+        // to change this class to use sprite sheets instead of individual textures
+        // for each frame, but this is not a high-priority change until we have
+        // performance issues.
         Texture2D[] _frameTextures;
 
-        public SpriteAnimationSequence(String resourcePrefix, int numFrames)
+        //Used to load images, and can be shared accross all sequence instances
+        public static ContentManager SharedContentManager;
+
+        //Maps resource names to actual existing animation sequence objects.
+        //This is because duplicate sequences don't make sense to have.
+        static Dictionary<String, SpriteAnimationSequence> ExisitingSequences = new Dictionary<string,SpriteAnimationSequence>();
+
+        public static SpriteAnimationSequence newOrExistingSpriteAnimationSequence(String resourcePrefix, int numFrames)
+        {
+            SpriteAnimationSequence sequence;
+            if (ExisitingSequences.ContainsKey(resourcePrefix)) {
+                sequence = ExisitingSequences[resourcePrefix];
+                return sequence;
+            }
+            return new SpriteAnimationSequence(resourcePrefix, numFrames);
+        }
+
+        private SpriteAnimationSequence(String resourcePrefix, int numFrames)
         {
             _numFrames = numFrames;
             _resourcePrefix = resourcePrefix;
             _frameTextures = new Texture2D[_numFrames];
+            LoadContent();
         }
 
-        public void LoadContent(ContentManager contentManager)
+        public void LoadContent()
         {
+            //Given the instance's _resourcePrefix, e.g. "examplePrefix",
+            //Loads the textures "examplePrefix0" through "examplePrefixN",
+            //where N is  _numFrames-1
             for (int i = 0; i < _numFrames; i++)
             {
                 String fileName = _resourcePrefix + i.ToString();
-                _frameTextures[i] = contentManager.Load<Texture2D>(fileName);
+                _frameTextures[i] = SharedContentManager.Load<Texture2D>(fileName);
             }
+        }
+
+        public Texture2D getTexture(int frameIndex)
+        {
+            return _frameTextures[frameIndex];
         }
 
         public int NumFrames

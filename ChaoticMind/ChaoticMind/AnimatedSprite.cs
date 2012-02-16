@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace ChaoticMind
 {
@@ -21,31 +22,40 @@ namespace ChaoticMind
         // Time per frame is _animationDuration / numberOfFrames.
         float _animationDuration;
 
-        //Whether the animation will restart once it reaches the last frame;
-        bool _shouldRepeatAnimation;
-
         //The time that has passed since the animation started
         float _elapsedTime = 0.0f;
 
         // Keeps track of what frame of the animation we are on
         int _currentFrameIndex = 0;
 
-        public AnimatedSprite(SpriteAnimationSequence animationSequence, float animationDuration, bool shouldRepeat)
+        public AnimatedSprite(String resourcePrefix, int numFrames, float animationDuration)
         {
-            _animationSequence = animationSequence;
+            _animationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence(resourcePrefix, numFrames);
             _animationDuration = animationDuration;
-            _shouldRepeatAnimation = shouldRepeat;
         }
 
-        public void update(GameTime gameTime)
+        public void Update(float deltaTime)
         {
             //Update the elapsed time, and set the _currentFrameIndex accordingly
-            _elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _elapsedTime += deltaTime;
             
+            //Loop the time
             if (_elapsedTime > _animationDuration) {
                 _elapsedTime -= _animationDuration;
             }
             _currentFrameIndex = (int)((_elapsedTime / _animationDuration) * _animationSequence.NumFrames);
+        }
+
+        public Texture2D CurrentTexture
+        {
+            get
+            {
+                return _animationSequence.getTexture(_currentFrameIndex);
+            }
+        }
+        public Vector2 CurrentTextureOrigin
+        {
+            get { return new Vector2(CurrentTexture.Bounds.Center.X, CurrentTexture.Bounds.Center.Y); }
         }
     }
 }
