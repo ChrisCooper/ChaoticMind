@@ -12,7 +12,7 @@ namespace ChaoticMind
     {
 
         public SillyBox(CharacterType characterType, World world, Vector2 startingPosition)
-            : base(characterType, world, Utilities.randomVector() * 1000)
+            : base(characterType, world, startingPosition)
         {
         }
 
@@ -21,7 +21,7 @@ namespace ChaoticMind
         protected override void decideOnMovementTargets()
         {
             LocationToMoveToward = _body.Position + Utilities.randomNormalizedVector();
-            LocationToMoveToward += -1 * _body.Position * 0.00001f;
+            LocationToMoveToward += -1 * _body.Position * _characterType.MaxMovementForce / 5000.0f;
         }
     }
 }

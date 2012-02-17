@@ -57,15 +57,15 @@ namespace ChaoticMind
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _mainCamera = new Camera(Vector2.Zero, 1.0f, _graphics.GraphicsDevice, _spriteBatch);
+            _mainCamera = new Camera(Vector2.Zero, 15.0f, _graphics.GraphicsDevice, _spriteBatch);
 
             //Create a bunch of fun random game objects for now
             for (int i = 0; i < 100; i++)
             {
-                SillyBox obj = new SillyBox(CharacterType.SillyBox, _world, Utilities.randomVector() * 1000);
+                SillyBox obj = new SillyBox(CharacterType.SillyBox, _world, Utilities.randomVector() * 40.0f);
                 _objects.Add(obj);
 
-                SillyBox obj2 = new SillyBox(CharacterType.CountingBox, _world, Utilities.randomVector() * 1000);
+                SillyBox obj2 = new SillyBox(CharacterType.CountingBox, _world, Utilities.randomVector() * 40.0f);
                 _objects.Add(obj2);
             }
 

@@ -15,11 +15,11 @@ namespace ChaoticMind
     //I will look into that and change it perhaps when I have an ineternet connection.
     class CharacterType
     {
-        static float defaultPixelsPerMeter = 10.0f;
+        static float defaultPixelsPerMeter = 64.0f;
 
-        public static CharacterType SillyBox = new CharacterType("TestImages/Box", 16, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 10000000.0f);
-        public static CharacterType CountingBox = new CharacterType("TestImages/TestImage", 5, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 10000000.0f);
-        public static CharacterType ControllableBox = new CharacterType("TestImages/TestPlayer", 1, 1.0f, ObjectShapes.CIRCLE, 1.0f, 100000000.0f);
+        public static CharacterType SillyBox = new CharacterType("TestImages/Box", 16, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 10.0f);
+        public static CharacterType CountingBox = new CharacterType("TestImages/TestImage", 5, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 10.0f);
+        public static CharacterType ControllableBox = new CharacterType("TestImages/TestPlayer", 1, 1.0f, 20.0f, ObjectShapes.CIRCLE, 1.0f, 50.0f);
 
         String _imagePrefix;
         int _numFrames;

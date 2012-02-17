@@ -14,13 +14,16 @@ namespace ChaoticMind
     class Character  : DrawableGameObject
     {
 
-        CharacterType _characterType;
+        protected CharacterType _characterType;
 
         public Character(CharacterType characterType, World world, Vector2 startingPosition)
-            : base(characterType.ImagePrefix, characterType.NumFrames, characterType.AnimationDuration, world, startingPosition)
+            : base(characterType.ImagePrefix, characterType.NumFrames, characterType.AnimationDuration, characterType.PixelsPerMeter, world, startingPosition)
         {
             _characterType = characterType;
 
+
+            float objectWidth = _sprite.CurrentTexture.Bounds.Width / _characterType.PixelsPerMeter;
+            float objectHeight = _sprite.CurrentTexture.Bounds.Height / _characterType.PixelsPerMeter;
 
             switch (characterType.ObjectShape) 
             {
@@ -28,10 +31,10 @@ namespace ChaoticMind
                     // This method creates a body (has mass, position, rotation),
                     // as well as a rectangular fixture, which is just a shape stapled to the body.
                     // The fixture is what collides with other objects and impacts how the body moves
-                    _body = BodyFactory.CreateRectangle(world, 64.0f, 64.0f, 1.0f);
+                    _body = BodyFactory.CreateRectangle(world, objectWidth, objectHeight, 1.0f);
                     break;
                 case ObjectShapes.CIRCLE:
-                    _body = BodyFactory.CreateCircle(world, 64.0f/2, 1.0f);
+                    _body = BodyFactory.CreateCircle(world, objectWidth / 2, 1.0f);
                     break;
             }
             
