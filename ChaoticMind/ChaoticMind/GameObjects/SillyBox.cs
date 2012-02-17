@@ -14,12 +14,6 @@ namespace ChaoticMind
         public SillyBox(CharacterType characterType, World world, Vector2 startingPosition)
             : base(characterType, world, Utilities.randomVector() * 1000)
         {
-            // This method creates a body (has mass, position, rotation),
-            // as well as a rectangular fixture, which is just a shape stapled to the body.
-            // The fixture is what collides with other objects and impacts how the body moves
-            _body = BodyFactory.CreateRectangle(world, 64.0f, 64.0f, 1.0f);
-            _body.BodyType = BodyType.Dynamic;
-            _body.Position = startingPosition;
         }
 
         //Use input (in the case of a controllable character)

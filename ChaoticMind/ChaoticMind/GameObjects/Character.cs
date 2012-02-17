@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
+using FarseerPhysics.Factories;
 
 namespace ChaoticMind
 {
@@ -19,6 +20,23 @@ namespace ChaoticMind
             : base(characterType.ImagePrefix, characterType.NumFrames, characterType.AnimationDuration, world, startingPosition)
         {
             _characterType = characterType;
+
+
+            switch (characterType.ObjectShape) 
+            {
+                case ObjectShapes.RECTANGLE:
+                    // This method creates a body (has mass, position, rotation),
+                    // as well as a rectangular fixture, which is just a shape stapled to the body.
+                    // The fixture is what collides with other objects and impacts how the body moves
+                    _body = BodyFactory.CreateRectangle(world, 64.0f, 64.0f, 1.0f);
+                    break;
+                case ObjectShapes.CIRCLE:
+                    _body = BodyFactory.CreateCircle(world, 64.0f/2, 1.0f);
+                    break;
+            }
+            
+            _body.BodyType = BodyType.Dynamic;
+            _body.Position = startingPosition;
         }
 
         public override void Update(float deltaTime) {
