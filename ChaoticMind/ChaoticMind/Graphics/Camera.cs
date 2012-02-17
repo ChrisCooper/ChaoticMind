@@ -29,6 +29,13 @@ namespace ChaoticMind
             _spriteBatch = spriteBatch;
         }
 
+        public Vector2 screenPointToWorld(Vector2 screenPoint)
+        {
+            return ((screenPoint - _toCentre) / _zoom) + _position;
+
+            //(o.Position - _position) * _zoom + _toCentre;
+        }
+
         public void Draw(DrawableGameObject o)
         {
             _spriteBatch.Draw(o.CurrentTexture, (o.Position - _position) * _zoom + _toCentre, null, Color.White, o.Rotation, o.CurrentTextureOrigin, _zoom / o.PixelsPerMeter, SpriteEffects.None, 1.0f);

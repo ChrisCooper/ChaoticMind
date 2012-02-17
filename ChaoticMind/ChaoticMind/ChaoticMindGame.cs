@@ -21,12 +21,17 @@ namespace ChaoticMind
     {
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
+        SpriteFont _debugFont;
+
+        FrameRateCounter _fpsCounter;
 
         //Farseer physics simulator
         World _world;
 
         //Draws the objects
         Camera _mainCamera;
+
+        ControllableSillyBox _player;
 
         //Any objects in this array will have Update called on them and be drawn by the _mainCamera object
         List<DrawableGameObject> _objects = new List<DrawableGameObject>();
@@ -56,11 +61,13 @@ namespace ChaoticMind
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _debugFont = Content.Load<SpriteFont>("DebugFont");
+            _fpsCounter = new FrameRateCounter(_spriteBatch, _debugFont);
 
             _mainCamera = new Camera(Vector2.Zero, 15.0f, _graphics.GraphicsDevice, _spriteBatch);
 
             //Create a bunch of fun random game objects for now
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 200; i++)
             {
                 SillyBox obj = new SillyBox(CharacterType.SillyBox, _world, Utilities.randomVector() * 40.0f);
                 _objects.Add(obj);
@@ -69,8 +76,8 @@ namespace ChaoticMind
                 _objects.Add(obj2);
             }
 
-            ControllableSillyBox player = new ControllableSillyBox(CharacterType.ControllableBox, _world, Vector2.Zero);
-            _objects.Add(player);
+            _player = new ControllableSillyBox(CharacterType.ControllableBox, _world, Vector2.Zero);
+            _objects.Add(_player);
 
             base.Initialize();
         }
@@ -107,6 +114,8 @@ namespace ChaoticMind
                 this.Exit();
             }
 
+            _fpsCounter.Update(gameTime);
+
             //Update all objects in our list. This is not where physics is evaluated,
             // it is only where object-specific actions are performed, like applying control forces
             foreach (DrawableGameObject obj in _objects)
@@ -138,6 +147,19 @@ namespace ChaoticMind
                 _mainCamera.Draw(obj);
             }
             
+
+
+
+
+            /*Debugging writing*/
+            _fpsCounter.Draw(gameTime);
+            _spriteBatch.DrawString(_debugFont, string.Format("Player: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
+            Vector2 mouseLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+            Vector2 worldMouseLocation = _mainCamera.screenPointToWorld(mouseLocation);
+            _spriteBatch.DrawString(_debugFont, string.Format(".({0:0}, {1:0})", worldMouseLocation.X, worldMouseLocation.Y), mouseLocation, Color.White);
+
+
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
