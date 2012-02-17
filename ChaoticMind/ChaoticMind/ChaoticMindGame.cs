@@ -34,6 +34,11 @@ namespace ChaoticMind
         public ChaoticMindGame()
         {
             _graphics = new GraphicsDeviceManager(this);
+            _graphics.PreferredBackBufferWidth = 1400; //_graphics.GraphicsDevice.DisplayMode.Width;
+            _graphics.PreferredBackBufferHeight = 800; //_graphics.GraphicsDevice.DisplayMode.Height;
+            _graphics.IsFullScreen = false;
+
+
             Content.RootDirectory = "Content";
             SpriteAnimationSequence.SharedContentManager = Content;
 
@@ -57,12 +62,15 @@ namespace ChaoticMind
             //Create a bunch of fun random game objects for now
             for (int i = 0; i < 100; i++)
             {
-                DrawableGameObject obj = new SillyBox("TestImages/TestImage", 5, _world, Utilities.randomVector() * 1000);
-                obj.Initialize();
+                SillyBox obj = new SillyBox(CharacterType.SillyBox, _world, Utilities.randomVector() * 1000);
                 _objects.Add(obj);
-                DrawableGameObject obj2 = new SillyBox("TestImages/Box", 16, _world, Utilities.randomVector() * 1000);
+
+                SillyBox obj2 = new SillyBox(CharacterType.CountingBox, _world, Utilities.randomVector() * 1000);
                 _objects.Add(obj2);
             }
+
+            ControllableSillyBox player = new ControllableSillyBox(CharacterType.ControllableBox, _world, Vector2.Zero);
+            _objects.Add(player);
 
             base.Initialize();
         }

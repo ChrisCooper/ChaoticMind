@@ -13,17 +13,11 @@ namespace ChaoticMind
     {
         protected Body _body;
 
-        static Random garbageRandom = new Random();
-
         public GameObject(World world, Vector2 startingPosition)
         {
         }
 
         public virtual void Update(float deltaTime)
-        {
-        }
-
-        public virtual void Initialize()
         {
         }
 
