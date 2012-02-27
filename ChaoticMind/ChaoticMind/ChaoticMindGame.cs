@@ -67,7 +67,7 @@ namespace ChaoticMind
             _mainCamera = new Camera(Vector2.Zero, 15.0f, _graphics.GraphicsDevice, _spriteBatch);
 
             //Create a bunch of fun random game objects for now
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < 100; i++)
             {
                 SillyBox obj = new SillyBox(CharacterType.SillyBox, _world, Utilities.randomVector() * 40.0f);
                 _objects.Add(obj);

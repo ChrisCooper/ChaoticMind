@@ -39,6 +39,8 @@ namespace ChaoticMind
             {
                 LocationToMoveToward += Vector2.UnitY;
             }
+
+            //Vector2 mouseLocation = _mainCamera.screenPointToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y));
         }
     }
 }
