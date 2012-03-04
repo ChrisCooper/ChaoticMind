@@ -42,16 +42,24 @@ namespace ChaoticMind
             _currentFrameIndex = (int)((_elapsedTime / _animationDuration) * _animationSequence.NumFrames) % _animationSequence.NumFrames;
         }
 
-        public Texture2D CurrentTexture
+        public Texture2D Texture
         {
             get
             {
-                return _animationSequence.getTexture(_currentFrameIndex);
+                return _animationSequence.Texture;
+            }
+        }
+
+        public Rectangle CurrentTextureBounds
+        {
+            get
+            {
+                return _animationSequence.getRectangle(_currentFrameIndex);
             }
         }
         public Vector2 CurrentTextureOrigin
         {
-            get { return new Vector2(CurrentTexture.Bounds.Center.X, CurrentTexture.Bounds.Center.Y); }
+            get { return new Vector2(CurrentTextureBounds.Width / 2, CurrentTextureBounds.Height / 2); }
         }
     }
 }

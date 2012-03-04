@@ -28,11 +28,19 @@ namespace ChaoticMind
             _sprite.Update(deltaTime);
         }
 
-        public Texture2D CurrentTexture
+        public Texture2D Texture
         {
             get
             {
-                return _sprite.CurrentTexture;
+                return _sprite.Texture;
+            }
+        }
+
+        public Rectangle CurrentTextureBounds
+        {
+            get
+            {
+                return _sprite.CurrentTextureBounds;
             }
         }
 

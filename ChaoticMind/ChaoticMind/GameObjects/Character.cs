@@ -11,7 +11,7 @@ namespace ChaoticMind
     //This class is for all intelligent actors in the game, such as 
     // the main player character, and enemies.
     // (Enemies are coming at a later stage of development)
-    class Character  : DrawableGameObject
+    class Character : DrawableGameObject
     {
 
         protected CharacterType _characterType;
@@ -22,8 +22,8 @@ namespace ChaoticMind
             _characterType = characterType;
 
 
-            float objectWidth = _sprite.CurrentTexture.Bounds.Width / _characterType.PixelsPerMeter;
-            float objectHeight = _sprite.CurrentTexture.Bounds.Height / _characterType.PixelsPerMeter;
+            float objectWidth = _sprite.CurrentTextureBounds.Width / _characterType.PixelsPerMeter;
+            float objectHeight = _sprite.CurrentTextureBounds.Height / _characterType.PixelsPerMeter;
 
             switch (characterType.ObjectShape) 
             {
