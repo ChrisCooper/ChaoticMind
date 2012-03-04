@@ -31,6 +31,11 @@ namespace ChaoticMind
         //Draws the objects
         Camera _mainCamera;
 
+        internal Camera MainCamera
+        {
+            get { return _mainCamera; }
+        }
+
         ControllableSillyBox _player;
 
         //Any objects in this array will have Update called on them and be drawn by the _mainCamera object
@@ -65,9 +70,10 @@ namespace ChaoticMind
             _fpsCounter = new FrameRateCounter(_spriteBatch, _debugFont);
 
             _mainCamera = new Camera(Vector2.Zero, 15.0f, _graphics.GraphicsDevice, _spriteBatch);
+            InputManager.Initialize();
 
             //Create a bunch of fun random game objects for now
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 200; i++)
             {
                 SillyBox obj = new SillyBox(CharacterType.SillyBox, _world, Utilities.randomVector() * 40.0f);
                 _objects.Add(obj);
@@ -115,6 +121,8 @@ namespace ChaoticMind
             }
 
             _fpsCounter.Update(gameTime);
+
+            InputManager.Update(deltaTime);
 
             //Update all objects in our list. This is not where physics is evaluated,
             // it is only where object-specific actions are performed, like applying control forces
