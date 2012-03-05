@@ -14,10 +14,10 @@ namespace ChaoticMind
         protected AnimatedSprite _sprite;
         protected float _pixelsPerMeter;
 
-        public DrawableGameObject(String spriteResourcePrefix, int numFrames, float animationDuration, float pixelsPerMeter, World world, Vector2 startingPosition)
+        public DrawableGameObject(String spriteResource, int xSize, int ySize, float animationDuration, float pixelsPerMeter, World world, Vector2 startingPosition)
             : base(world, startingPosition)
         {
-            _sprite = new AnimatedSprite(spriteResourcePrefix, numFrames, animationDuration);
+            _sprite = new AnimatedSprite(spriteResource, xSize, ySize, animationDuration);
             _pixelsPerMeter = pixelsPerMeter;
         }
 
@@ -33,11 +33,19 @@ namespace ChaoticMind
             _sprite.Update(deltaTime);
         }
 
-        public Texture2D CurrentTexture
+        public Texture2D Texture
         {
             get
             {
-                return _sprite.CurrentTexture;
+                return _sprite.Texture;
+            }
+        }
+
+        public Rectangle CurrentTextureBounds
+        {
+            get
+            {
+                return _sprite.CurrentTextureBounds;
             }
         }
 

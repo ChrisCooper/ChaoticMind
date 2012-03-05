@@ -8,7 +8,7 @@ using FarseerPhysics.Dynamics;
 
 namespace ChaoticMind
 {
-    class ControllableSillyBox : SillyBox
+    class ControllableSillyBox : Character
     {
 
         public ControllableSillyBox(CharacterType characterType, World world, Vector2 startingPosition)

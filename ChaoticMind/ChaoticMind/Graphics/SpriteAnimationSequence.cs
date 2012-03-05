@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
@@ -9,20 +10,18 @@ namespace ChaoticMind
 {
     class SpriteAnimationSequence
     {
-        //The number of frames in the animation
-        int _numFrames;
+        //The name of the name of the resource to be loaded as this animation.
+        String _spriteResource;
 
-        //The prefix for the name of the resources to be loaded as this animation.
-        //E.g. if this string is "person", and it has 4 frames, the resources loaded
-        // will be "person0", "person1", "person2", and "person3".
-        String _resourcePrefix;
+        //One texture for all animation frames
+        Texture2D _texture;
 
-        //One texture for each frame of the animation.
-        //Possible TODO: A simpl graphics optimization to make is 
-        // to change this class to use sprite sheets instead of individual textures
-        // for each frame, but this is not a high-priority change until we have
-        // performance issues.
-        Texture2D[] _frameTextures;
+        //size of the texture (allows for spritesheets with mutiple rows)
+        int _xSize;
+        int _ySize;
+
+        //sections of the spritesheet (length = number of frames)
+        Rectangle[] _frameRects;
 
         //Used to load images, and can be shared accross all sequence instances
         public static ContentManager SharedContentManager;
@@ -31,46 +30,66 @@ namespace ChaoticMind
         //This is because duplicate sequences don't make sense to have.
         static Dictionary<String, SpriteAnimationSequence> ExisitingSequences = new Dictionary<string,SpriteAnimationSequence>();
 
-        public static SpriteAnimationSequence newOrExistingSpriteAnimationSequence(String resourcePrefix, int numFrames)
+        public static SpriteAnimationSequence newOrExistingSpriteAnimationSequence(String spriteResource, int xSize, int ySize)
         {
             SpriteAnimationSequence sequence;
-            if (ExisitingSequences.ContainsKey(resourcePrefix)) {
-                sequence = ExisitingSequences[resourcePrefix];
-                return sequence;
+            if (ExisitingSequences.ContainsKey(spriteResource))
+            {
+                sequence = ExisitingSequences[spriteResource];
             }
-            return new SpriteAnimationSequence(resourcePrefix, numFrames);
+            else
+            {
+                sequence = new SpriteAnimationSequence(spriteResource, xSize, ySize);
+                ExisitingSequences[spriteResource] = sequence;
+            }
+            return sequence;
         }
 
-        private SpriteAnimationSequence(String resourcePrefix, int numFrames)
+        private SpriteAnimationSequence(String spriteResource, int xSize, int ySize)
         {
-            _numFrames = numFrames;
-            _resourcePrefix = resourcePrefix;
-            _frameTextures = new Texture2D[_numFrames];
+            _spriteResource = spriteResource;
+            _xSize = xSize;
+            _ySize = ySize;
             LoadContent();
         }
 
         public void LoadContent()
         {
-            //Given the instance's _resourcePrefix, e.g. "examplePrefix",
-            //Loads the textures "examplePrefix0" through "examplePrefixN",
-            //where N is  _numFrames-1
-            for (int i = 0; i < _numFrames; i++)
+            //load the texture
+            _texture = SharedContentManager.Load<Texture2D>(_spriteResource);
+
+            //calculate the number of frames and allocates the req # of rectangles
+            int framesPerRow = _texture.Width / _xSize;
+            int numRows = _texture.Height / _ySize;
+            _frameRects = new Rectangle[framesPerRow * numRows];
+            
+            for (int i = 0 ; i < numRows; i++)
             {
-                String fileName = _resourcePrefix + i.ToString();
-                _frameTextures[i] = SharedContentManager.Load<Texture2D>(fileName);
+                for (int j = 0; j < framesPerRow; j++)
+                {
+                    _frameRects[i * framesPerRow + j] = new Rectangle(j * _xSize, (numRows - i - 1) * _ySize, _xSize, _ySize);
+                }
             }
         }
 
-        public Texture2D getTexture(int frameIndex)
+        public Texture2D Texture
         {
-            return _frameTextures[frameIndex];
+            get
+            {
+                return _texture;
+            }
+        }
+
+        public Rectangle getFrameRect (int frameIndex)
+        {
+            return _frameRects[frameIndex];
         }
 
         public int NumFrames
         {
             get
             {
-                return _numFrames;
+                return _frameRects.GetLength(0);
             }
         }
     }

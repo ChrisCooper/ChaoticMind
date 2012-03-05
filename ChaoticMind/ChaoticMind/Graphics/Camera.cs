@@ -38,7 +38,7 @@ namespace ChaoticMind
 
         public void Draw(DrawableGameObject o)
         {
-            _spriteBatch.Draw(o.CurrentTexture, (o.Position - _position) * _zoom + _toCentre, null, Color.White, o.Rotation, o.CurrentTextureOrigin, _zoom / o.PixelsPerMeter, SpriteEffects.None, 1.0f);
+            _spriteBatch.Draw(o.Texture, (o.Position - _position) * _zoom + _toCentre, o.CurrentTextureBounds, Color.White, o.Rotation, o.CurrentTextureOrigin, _zoom / o.PixelsPerMeter, SpriteEffects.None, 1.0f);
         }
 
 

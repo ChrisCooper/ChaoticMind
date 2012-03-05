@@ -29,7 +29,7 @@ namespace ChaoticMind
 
             _sprite = new StaticSprite(resourseStringFromDoorConfiguration(openDoors));
             
-            _pixelsPerMeter = TileSideLength / _sprite.CurrentTexture.Bounds.Width;
+            _pixelsPerMeter = TileSideLength / _sprite.CurrentTextureBounds.Width;
            
             // This method creates a body (has mass, position, rotation),
             // as well as a rectangular fixture, which is just a shape stapled to the body.
