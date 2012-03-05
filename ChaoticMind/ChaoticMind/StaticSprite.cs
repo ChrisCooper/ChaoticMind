@@ -8,7 +8,7 @@ namespace ChaoticMind
     class StaticSprite : AnimatedSprite
     {
         public StaticSprite(String resourcePrefix)
-            : base(resourcePrefix, 64, 64, 1)
+            : base(resourcePrefix, 1, 1, 1)
         {
         }
     }
