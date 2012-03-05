@@ -17,7 +17,7 @@ namespace ChaoticMind
         protected CharacterType _characterType;
 
         public Character(CharacterType characterType, World world, Vector2 startingPosition)
-            : base(characterType.ImagePrefix, characterType.NumFrames, characterType.AnimationDuration, characterType.PixelsPerMeter, world, startingPosition)
+            : base(characterType.SpriteName, characterType.XSize, characterType.YSize, characterType.AnimationDuration, characterType.PixelsPerMeter, world, startingPosition)
         {
             _characterType = characterType;
 

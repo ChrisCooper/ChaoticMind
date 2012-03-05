@@ -28,9 +28,9 @@ namespace ChaoticMind
         // Keeps track of what frame of the animation we are on
         int _currentFrameIndex = 0;
 
-        public AnimatedSprite(String resourcePrefix, int numFrames, float animationDuration)
+        public AnimatedSprite(String spriteResource, int xSize, int ySize, float animationDuration)
         {
-            _animationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence(resourcePrefix, numFrames);
+            _animationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence(spriteResource, xSize, ySize);
             _animationDuration = animationDuration;
         }
 
@@ -54,7 +54,7 @@ namespace ChaoticMind
         {
             get
             {
-                return _animationSequence.getRectangle(_currentFrameIndex);
+                return _animationSequence.getFrameRect(_currentFrameIndex);
             }
         }
         public Vector2 CurrentTextureOrigin
