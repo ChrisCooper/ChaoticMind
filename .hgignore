@@ -22,6 +22,7 @@ ChaoticMind\ChaoticMindContent\obj\x86\Debug\DesignTimeResolveAssemblyReferences
 *.cachefile
 *.sbr
 *.scc
+*.orig
 [Bb]in
 [Dd]ebug*/
 obj/
