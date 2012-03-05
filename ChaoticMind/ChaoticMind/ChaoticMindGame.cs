@@ -73,12 +73,12 @@ namespace ChaoticMind
             InputManager.Initialize();
 
             //Create a bunch of fun random game objects for now
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < 10; i++)
             {
-                SillyBox obj = new SillyBox(CharacterType.SillyBox, _world, Utilities.randomVector() * 40.0f);
+                SillyBox obj = new SillyBox(CharacterType.SillyBox, _world, Utilities.randomVector() * 10.0f);
                 _objects.Add(obj);
 
-                SillyBox obj2 = new SillyBox(CharacterType.CountingBox, _world, Utilities.randomVector() * 40.0f);
+                SillyBox obj2 = new SillyBox(CharacterType.CountingBox, _world, Utilities.randomVector() * 10.0f);
                 _objects.Add(obj2);
             }
 

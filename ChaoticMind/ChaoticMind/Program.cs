@@ -11,8 +11,6 @@ namespace ChaoticMind
         {
             get { return _sharedGame; }
         }
-        
- 
 
         /// <summary>
         /// The main entry point for the application.

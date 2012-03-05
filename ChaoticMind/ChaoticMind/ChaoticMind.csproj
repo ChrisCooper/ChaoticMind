@@ -123,6 +123,7 @@
     <Compile Include="ChaoticMindGame.cs" />
     <Compile Include="GameObjects\SillyBox.cs" />
     <Compile Include="Graphics\SpriteAnimationSequence.cs" />
+    <Compile Include="StaticSprite.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>

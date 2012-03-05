@@ -17,30 +17,33 @@ namespace ChaoticMind
     {
         static float defaultPixelsPerMeter = 64.0f;
 
-        public static CharacterType SillyBox = new CharacterType("TestImages/Box", 16, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 10.0f);
-        public static CharacterType CountingBox = new CharacterType("TestImages/TestImage", 5, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 10.0f);
-        public static CharacterType ControllableBox = new CharacterType("TestImages/TestPlayer", 1, 1.0f, 20.0f, ObjectShapes.CIRCLE, 1.0f, 50.0f);
+        public static CharacterType SillyBox = new CharacterType("TestImages/Box", 16, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 1.0f, 10.0f);
+        public static CharacterType CountingBox = new CharacterType("TestImages/TestImage", 5, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 1.0f, 10.0f);
+        public static CharacterType ControllableBox = new CharacterType("TestImages/TestPlayer", 1, 1.0f, ObjectShapes.CIRCLE, 5.0f, 1.0f, 30.0f);
 
         String _imagePrefix;
         int _numFrames;
         float _animationDuration;
         float _pixelsPerMeter;
         ObjectShapes _objectShape;
+        float _density;
         float _maxTurningTorque;
         float _maxMovementForce;
 
-        CharacterType(String imagePrefix, int numFrames, float animationDuration, ObjectShapes shape, float maxTurningTorque, float maxMovementForce) : this(imagePrefix, numFrames, animationDuration, defaultPixelsPerMeter, shape, maxTurningTorque, maxMovementForce)
+        CharacterType(String imagePrefix, int numFrames, float animationDuration, ObjectShapes shape, float density, float maxTurningTorque, float maxMovementForce)
+            : this(imagePrefix, numFrames, animationDuration, defaultPixelsPerMeter, shape, density, maxTurningTorque, maxMovementForce)
         {
         }
 
 
-        CharacterType(String imagePrefix, int numFrames, float animationDuration, float pixelsPerMeter, ObjectShapes shape, float maxTurningTorque, float maxMovementForce)
+        CharacterType(String imagePrefix, int numFrames, float animationDuration, float pixelsPerMeter, ObjectShapes shape, float density, float maxTurningTorque, float maxMovementForce)
         {
             _imagePrefix = imagePrefix;
             _numFrames = numFrames;
             _animationDuration = animationDuration;
             _pixelsPerMeter = pixelsPerMeter;
             _objectShape = shape;
+            _density = density;
             _maxTurningTorque = maxTurningTorque;
             _maxMovementForce = maxMovementForce;
         }
@@ -68,6 +71,11 @@ namespace ChaoticMind
         public ObjectShapes ObjectShape
         {
             get { return _objectShape; }
+        }
+
+        public float Density
+        {
+            get { return _density; }
         }
 
         public float MaxTurningTorque

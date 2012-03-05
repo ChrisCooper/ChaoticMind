@@ -31,10 +31,10 @@ namespace ChaoticMind
                     // This method creates a body (has mass, position, rotation),
                     // as well as a rectangular fixture, which is just a shape stapled to the body.
                     // The fixture is what collides with other objects and impacts how the body moves
-                    _body = BodyFactory.CreateRectangle(world, objectWidth, objectHeight, 1.0f);
+                    _body = BodyFactory.CreateRectangle(world, objectWidth, objectHeight, _characterType.Density);
                     break;
                 case ObjectShapes.CIRCLE:
-                    _body = BodyFactory.CreateCircle(world, objectWidth / 2, 1.0f);
+                    _body = BodyFactory.CreateCircle(world, objectWidth / 2, _characterType.Density);
                     break;
             }
             
