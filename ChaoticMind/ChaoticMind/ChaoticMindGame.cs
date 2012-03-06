@@ -106,7 +106,8 @@ namespace ChaoticMind
             //_backgroundMusic.Enqueue(0);  //Load first wav from Music content to play
             //_backgroundMusic.Play();    //Start playing the music from the current queue
 
-            _testTile = new MapTile(_world, Vector2.Zero, MapTile.randomDoorConfiguration());
+            DoorDirection doors = MapTile.randomDoorConfiguration();
+            _testTile = new MapTile(_world, Vector2.Zero, doors);
 
             base.Initialize();
         }
@@ -170,7 +171,8 @@ namespace ChaoticMind
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            //GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin();
 

@@ -7,6 +7,7 @@ using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Common;
 using FarseerPhysics.Common.Decomposition;
+using Microsoft.Xna.Framework.Graphics;
 
 
 namespace ChaoticMind
@@ -20,11 +21,50 @@ namespace ChaoticMind
         WEST = 1 << 3
     };
 
-    //Body type should be Kinematic
     class MapTile : DrawableGameObject
     {
 
         public const float TileSideLength = 20.0f;
+
+        static List<List<Vertices>> WallVertices;
+
+        static MapTile()
+        {
+            WallVertices = new List<List<Vertices>>();
+
+            List<StaticSprite> wallSprites = new List<StaticSprite>();
+            wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometryNW"));
+            wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometryNE"));
+            wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometrySE"));
+            wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometrySW"));
+
+
+            foreach (StaticSprite sprite in wallSprites) {
+                float pixelsPerMeter = sprite.CurrentTextureBounds.Width / TileSideLength;
+
+                uint[] data = new uint[sprite.Texture.Width * sprite.Texture.Height];
+
+                sprite.Texture.GetData(data);
+
+                //Generate a Polygon
+                Vertices verts = PolygonTools.CreatePolygon(data, sprite.Texture.Width);
+
+                //Center
+                Vector2 centeringVector = new Vector2(-sprite.Texture.Width / 2, -sprite.Texture.Height / 2);
+                verts.Translate(ref centeringVector);
+
+                //Scale
+                Vector2 scale = new Vector2(1 / pixelsPerMeter, 1 / pixelsPerMeter);
+                verts.Scale(ref scale);
+
+                //Since it is a concave polygon, we need to partition it into several smaller convex polygons
+
+                List<Vertices> list = BayazitDecomposer.ConvexPartition(verts);
+
+                WallVertices.Add(list);
+                
+            }
+        }
 
         public MapTile(World world, Vector2 startingPosition, DoorDirection openDoors) : base(world, startingPosition)
         {
@@ -33,35 +73,13 @@ namespace ChaoticMind
 
             _pixelsPerMeter = _sprite.CurrentTextureBounds.Width / TileSideLength;
 
-
-            uint[] data = new uint[_sprite.Texture.Width * _sprite.Texture.Height];
-
-            _sprite.Texture.GetData(data);
-
-            //Generate a Polygon
-            Vertices verts = PolygonTools.CreatePolygon(data, _sprite.Texture.Width);
-
-            //Center
-            Vector2 centeringVector = new Vector2(-_sprite.Texture.Width/2, -_sprite.Texture.Height/2);
-            verts.Translate(ref centeringVector);
-
-            //Scale
-            Vector2 scale = new Vector2(1/_pixelsPerMeter, 1/_pixelsPerMeter);
-            verts.Scale(ref scale);
-            
-   
-
-            //Since it is a concave polygon, we need to partition it into several smaller convex polygons
-
-            List<Vertices> list = BayazitDecomposer.ConvexPartition(verts);
-
-
             _body = new Body(world);
-            List<Fixture> compund = FixtureFactory.AttachCompoundPolygon(list, 1.0f, _body);
+
+            loadWallFixtures();
 
             _body.BodyType = BodyType.Kinematic;
 
-            _body.AngularVelocity = 0.3f;
+            _body.AngularVelocity = 0.1f;
            
             // This method creates a body (has mass, position, rotation),
             // as well as a rectangular fixture, which is just a shape stapled to the body.
@@ -71,9 +89,17 @@ namespace ChaoticMind
             _body.Position = startingPosition;
         }
 
+        private void loadWallFixtures()
+        {
+            foreach (List<Vertices> list in WallVertices)
+            {
+                List<Fixture> compund = FixtureFactory.AttachCompoundPolygon(list, 1.0f, _body);
+            }
+        }
+
         private String resourseStringFromDoorConfiguration(DoorDirection config)
         {
-            return "TileGeometry/TileGeometry_NSEW";
+            return "TileAppearance/TileAppearance_NSEW";
             return "MapTileGeo"
                 + ((config & DoorDirection.NORTH) != 0 ? "N" : "")
                 + ((config & DoorDirection.SOUTH) != 0 ? "S" : "")

@@ -70,8 +70,37 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TileGeometry\TileGeometry_NSEW.png">
-      <Name>TileGeometry_NSEW</Name>
+    <Compile Include="Music\FieldsOfUtopiaCutDemoLoop.wav">
+      <Name>FieldsOfUtopiaCutDemoLoop</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TileGeometry\BoxWallGeometryNE.png">
+      <Name>BoxWallGeometryNE</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="TileGeometry\BoxWallGeometryNW.png">
+      <Name>BoxWallGeometryNW</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="TileGeometry\BoxWallGeometrySE.png">
+      <Name>BoxWallGeometrySE</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="TileGeometry\BoxWallGeometrySW.png">
+      <Name>BoxWallGeometrySW</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TileAppearance\TileAppearance_NSEW.png">
+      <Name>TileAppearance_NSEW</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
