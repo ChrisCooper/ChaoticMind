@@ -38,6 +38,9 @@ namespace ChaoticMind
 
         ControllableSillyBox _player;
 
+        //Audio
+        MusicController _backgroundMusic;
+
         //Any objects in this array will have Update called on them and be drawn by the _mainCamera object
         List<DrawableGameObject> _objects = new List<DrawableGameObject>();
 
@@ -54,6 +57,8 @@ namespace ChaoticMind
 
             Content.RootDirectory = "Content";
             SpriteAnimationSequence.SharedContentManager = Content;
+
+            MusicController.SharedContentManager = Content;
 
             //Create the physics simulator object, specifying that we want no gravity (since we're top-down)
             _world = new World(Vector2.Zero);
@@ -90,6 +95,11 @@ namespace ChaoticMind
 
             _player = new ControllableSillyBox(CharacterType.ControllableBox, _world, Vector2.Zero);
             _objects.Add(_player);
+
+
+            _backgroundMusic = new MusicController();
+            //_backgroundMusic.Enqueue(0);  //Load first wav from Music content to play
+            //_backgroundMusic.Play();    //Start playing the music from the current queue
 
             _testTile = new MapTile(_world, Vector2.Zero, MapTile.randomDoorConfiguration());
 
