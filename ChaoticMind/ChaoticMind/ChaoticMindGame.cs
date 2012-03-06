@@ -41,8 +41,11 @@ namespace ChaoticMind
         //Any objects in this array will have Update called on them and be drawn by the _mainCamera object
         List<DrawableGameObject> _objects = new List<DrawableGameObject>();
 
+        MapTile _testTile;
+
         public ChaoticMindGame()
         {
+
             _graphics = new GraphicsDeviceManager(this);
             _graphics.PreferredBackBufferWidth = 1400; //_graphics.GraphicsDevice.DisplayMode.Width;
             _graphics.PreferredBackBufferHeight = 800; //_graphics.GraphicsDevice.DisplayMode.Height;
@@ -64,6 +67,7 @@ namespace ChaoticMind
         /// </summary>
         protected override void Initialize()
         {
+
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _debugFont = Content.Load<SpriteFont>("DebugFont");
@@ -73,17 +77,21 @@ namespace ChaoticMind
             InputManager.Initialize();
 
             //Create a bunch of fun random game objects for now
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 100; i++)
             {
-                SillyBox obj = new SillyBox(CharacterType.SillyBox, _world, Utilities.randomVector() * 10.0f);
+                float distance = 100.0f;
+
+                SillyBox obj = new SillyBox(CharacterType.SillyBox, _world, Utilities.randomVector() * distance + distance*Vector2.UnitX);
                 _objects.Add(obj);
 
-                SillyBox obj2 = new SillyBox(CharacterType.CountingBox, _world, Utilities.randomVector() * 10.0f);
+                SillyBox obj2 = new SillyBox(CharacterType.CountingBox, _world, Utilities.randomVector() * distance + distance * Vector2.UnitX);
                 _objects.Add(obj2);
             }
 
             _player = new ControllableSillyBox(CharacterType.ControllableBox, _world, Vector2.Zero);
             _objects.Add(_player);
+
+            _testTile = new MapTile(_world, Vector2.Zero, MapTile.randomDoorConfiguration());
 
             base.Initialize();
         }
@@ -133,6 +141,8 @@ namespace ChaoticMind
 
             _mainCamera.Update(deltaTime);
 
+            _testTile.Update(deltaTime);
+
             //Update the FarseerPhysics physics
             _world.Step(deltaTime);
 
@@ -148,6 +158,8 @@ namespace ChaoticMind
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
+
+            _mainCamera.Draw(_testTile);
 
             //Draw all objects in our list
             foreach (DrawableGameObject obj in _objects)
