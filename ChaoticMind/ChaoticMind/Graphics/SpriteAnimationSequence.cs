@@ -17,8 +17,8 @@ namespace ChaoticMind
         Texture2D _texture;
 
         //size of the texture (allows for spritesheets with mutiple rows)
-        int _xSize;
-        int _ySize;
+        int _xFrames;
+        int _yFrames;
 
         //sections of the spritesheet (length = number of frames)
         Rectangle[] _frameRects;
@@ -30,7 +30,7 @@ namespace ChaoticMind
         //This is because duplicate sequences don't make sense to have.
         static Dictionary<String, SpriteAnimationSequence> ExisitingSequences = new Dictionary<string,SpriteAnimationSequence>();
 
-        public static SpriteAnimationSequence newOrExistingSpriteAnimationSequence(String spriteResource, int xSize, int ySize)
+        public static SpriteAnimationSequence newOrExistingSpriteAnimationSequence(String spriteResource, int xFrames, int yFrames)
         {
             SpriteAnimationSequence sequence;
             if (ExisitingSequences.ContainsKey(spriteResource))
@@ -39,17 +39,17 @@ namespace ChaoticMind
             }
             else
             {
-                sequence = new SpriteAnimationSequence(spriteResource, xSize, ySize);
+                sequence = new SpriteAnimationSequence(spriteResource, xFrames, yFrames);
                 ExisitingSequences[spriteResource] = sequence;
             }
             return sequence;
         }
 
-        private SpriteAnimationSequence(String spriteResource, int xSize, int ySize)
+        private SpriteAnimationSequence(String spriteResource, int xFrames, int yFrames)
         {
             _spriteResource = spriteResource;
-            _xSize = xSize;
-            _ySize = ySize;
+            _xFrames = xFrames;
+            _yFrames = yFrames;
             LoadContent();
         }
 
@@ -59,15 +59,15 @@ namespace ChaoticMind
             _texture = SharedContentManager.Load<Texture2D>(_spriteResource);
 
             //calculate the number of frames and allocates the req # of rectangles
-            int framesPerRow = _texture.Width / _xSize;
-            int numRows = _texture.Height / _ySize;
-            _frameRects = new Rectangle[framesPerRow * numRows];
+            int xSize = _texture.Width / _xFrames;
+            int ySize = _texture.Height / _yFrames;
+            _frameRects = new Rectangle[_yFrames * _xFrames];
             
-            for (int i = 0 ; i < numRows; i++)
+            for (int row = 0 ; row < _yFrames; row++)
             {
-                for (int j = 0; j < framesPerRow; j++)
+                for (int col = 0; col < _xFrames; col++)
                 {
-                    _frameRects[i * framesPerRow + j] = new Rectangle(j * _xSize, (numRows - i - 1) * _ySize, _xSize, _ySize);
+                    _frameRects[row * _xFrames + col] = new Rectangle(col * xSize, (_yFrames - row - 1) * ySize, xSize, ySize);
                 }
             }
         }

@@ -28,9 +28,9 @@ namespace ChaoticMind
         // Keeps track of what frame of the animation we are on
         int _currentFrameIndex = 0;
 
-        public AnimatedSprite(String spriteResource, int xSize, int ySize, float animationDuration)
+        public AnimatedSprite(String spriteResource, int xFrames, int yFrames, float animationDuration)
         {
-            _animationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence(spriteResource, xSize, ySize);
+            _animationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence(spriteResource, xFrames, yFrames);
             _animationDuration = animationDuration;
         }
 

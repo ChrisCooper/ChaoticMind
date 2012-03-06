@@ -5,14 +5,21 @@ namespace ChaoticMind
 #if WINDOWS || XBOX
     static class Program
     {
+
+        static ChaoticMindGame _sharedGame;
+        public static ChaoticMindGame SharedGame
+        {
+            get { return _sharedGame; }
+        }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         static void Main(string[] args)
         {
-            using (ChaoticMindGame game = new ChaoticMindGame())
+            using (_sharedGame = new ChaoticMindGame())
             {
-                game.Run();
+                _sharedGame.Run();
             }
         }
     }

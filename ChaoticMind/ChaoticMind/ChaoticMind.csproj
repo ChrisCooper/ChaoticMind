@@ -107,7 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audio\MusicController.cs" />
+    <Compile Include="InputManager.cs" />
     <Compile Include="FramerateCounterComponent.cs" />
     <Compile Include="GameObjects\CharacterType.cs" />
     <Compile Include="Graphics\AnimatedSprite.cs" />
@@ -123,6 +123,7 @@
     <Compile Include="ChaoticMindGame.cs" />
     <Compile Include="GameObjects\SillyBox.cs" />
     <Compile Include="Graphics\SpriteAnimationSequence.cs" />
+    <Compile Include="StaticSprite.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>

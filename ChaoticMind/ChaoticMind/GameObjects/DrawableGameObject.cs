@@ -9,16 +9,21 @@ using FarseerPhysics.Dynamics;
 
 namespace ChaoticMind
 {
-    class DrawableGameObject : GameObject
+    abstract class DrawableGameObject : GameObject
     {
         protected AnimatedSprite _sprite;
-        float _pixelsPerMeter;
+        protected float _pixelsPerMeter;
 
-        public DrawableGameObject(String spriteResource, int xSize, int ySize, float animationDuration, float pixelsPerMeter, World world, Vector2 startingPosition)
+        public DrawableGameObject(String spriteResource, int xFrames, int yFrames, float animationDuration, float pixelsPerMeter, World world, Vector2 startingPosition)
             : base(world, startingPosition)
         {
-            _sprite = new AnimatedSprite(spriteResource, xSize, ySize, animationDuration);
+            _sprite = new AnimatedSprite(spriteResource, xFrames, yFrames, animationDuration);
             _pixelsPerMeter = pixelsPerMeter;
+        }
+
+        public DrawableGameObject(World world, Vector2 startingPosition)
+            : base(world, startingPosition)
+        {
         }
 
         public override void Update(float deltaTime)
