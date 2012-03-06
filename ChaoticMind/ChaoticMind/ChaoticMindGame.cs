@@ -44,7 +44,7 @@ namespace ChaoticMind
         //Any objects in this array will have Update called on them and be drawn by the _mainCamera object
         List<DrawableGameObject> _objects = new List<DrawableGameObject>();
 
-        MapTile _testTile;
+        MapManager _mapManager;
 
         public ChaoticMindGame()
         {
@@ -82,7 +82,7 @@ namespace ChaoticMind
             InputManager.Initialize();
 
             //Create a bunch of fun random game objects for now
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 50; i++)
             {
                 float distance = 100.0f;
 
@@ -107,8 +107,8 @@ namespace ChaoticMind
             //_backgroundMusic.Enqueue(0);  //Load first wav from Music content to play
             //_backgroundMusic.Play();    //Start playing the music from the current queue
 
-            DoorDirection doors = MapTile.randomDoorConfiguration();
-            _testTile = new MapTile(_world, Vector2.Zero, doors);
+            _mapManager = new MapManager(10, 10);
+            _mapManager.Initialize(_world);
 
             base.Initialize();
         }
@@ -158,7 +158,7 @@ namespace ChaoticMind
 
             _mainCamera.Update(deltaTime);
 
-            _testTile.Update(deltaTime);
+            _mapManager.Update(deltaTime);
 
             //Update the FarseerPhysics physics
             _world.Step(deltaTime);
@@ -177,7 +177,7 @@ namespace ChaoticMind
 
             _spriteBatch.Begin();
 
-            _mainCamera.Draw(_testTile);
+            _mapManager.DrawMap(_mainCamera);
 
             //Draw all objects in our list
             foreach (DrawableGameObject obj in _objects)

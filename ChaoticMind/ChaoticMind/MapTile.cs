@@ -24,7 +24,7 @@ namespace ChaoticMind
     class MapTile : DrawableGameObject
     {
 
-        public const float TileSideLength = 20.0f;
+        public const float TileSideLength = 15.0f;
 
         static List<List<Vertices>> WallVertices;
 
@@ -44,7 +44,7 @@ namespace ChaoticMind
 
             _body.BodyType = BodyType.Kinematic;
 
-            _body.AngularVelocity = 0.1f;
+            //_body.AngularVelocity = 0.1f;
            
             // This method creates a body (has mass, position, rotation),
             // as well as a rectangular fixture, which is just a shape stapled to the body.
@@ -114,6 +114,11 @@ namespace ChaoticMind
                 WallVertices.Add(list);
 
             }
+        }
+
+        public static Vector2 WorldPositionForGridCoordinates(int row, int col)
+        {
+            return new Vector2(-TileSideLength * col, -TileSideLength * row);
         }
     }
 }
