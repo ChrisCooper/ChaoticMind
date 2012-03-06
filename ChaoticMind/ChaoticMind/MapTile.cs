@@ -28,43 +28,8 @@ namespace ChaoticMind
 
         static List<List<Vertices>> WallVertices;
 
-        static MapTile()
-        {
-            WallVertices = new List<List<Vertices>>();
-
-            List<StaticSprite> wallSprites = new List<StaticSprite>();
-            wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometryNW"));
-            wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometryNE"));
-            wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometrySE"));
-            wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometrySW"));
-
-
-            foreach (StaticSprite sprite in wallSprites) {
-                float pixelsPerMeter = sprite.CurrentTextureBounds.Width / TileSideLength;
-
-                uint[] data = new uint[sprite.Texture.Width * sprite.Texture.Height];
-
-                sprite.Texture.GetData(data);
-
-                //Generate a Polygon
-                Vertices verts = PolygonTools.CreatePolygon(data, sprite.Texture.Width);
-
-                //Center
-                Vector2 centeringVector = new Vector2(-sprite.Texture.Width / 2, -sprite.Texture.Height / 2);
-                verts.Translate(ref centeringVector);
-
-                //Scale
-                Vector2 scale = new Vector2(1 / pixelsPerMeter, 1 / pixelsPerMeter);
-                verts.Scale(ref scale);
-
-                //Since it is a concave polygon, we need to partition it into several smaller convex polygons
-
-                List<Vertices> list = BayazitDecomposer.ConvexPartition(verts);
-
-                WallVertices.Add(list);
-                
-            }
-        }
+        int _xGridCoord;
+        int _yGridCoord;
 
         public MapTile(World world, Vector2 startingPosition, DoorDirection openDoors) : base(world, startingPosition)
         {
@@ -110,6 +75,45 @@ namespace ChaoticMind
         public static DoorDirection randomDoorConfiguration()
         {
             return (DoorDirection) (Utilities.randomInt() % ((int)DoorDirection.WEST) + 1);
+        }
+
+        static MapTile()
+        {
+            WallVertices = new List<List<Vertices>>();
+
+            List<StaticSprite> wallSprites = new List<StaticSprite>();
+            wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometryNW"));
+            wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometryNE"));
+            wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometrySE"));
+            wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometrySW"));
+
+
+            foreach (StaticSprite sprite in wallSprites)
+            {
+                float pixelsPerMeter = sprite.CurrentTextureBounds.Width / TileSideLength;
+
+                uint[] data = new uint[sprite.Texture.Width * sprite.Texture.Height];
+
+                sprite.Texture.GetData(data);
+
+                //Generate a Polygon
+                Vertices verts = PolygonTools.CreatePolygon(data, sprite.Texture.Width);
+
+                //Center
+                Vector2 centeringVector = new Vector2(-sprite.Texture.Width / 2, -sprite.Texture.Height / 2);
+                verts.Translate(ref centeringVector);
+
+                //Scale
+                Vector2 scale = new Vector2(1 / pixelsPerMeter, 1 / pixelsPerMeter);
+                verts.Scale(ref scale);
+
+                //Since it is a concave polygon, we need to partition it into several smaller convex polygons
+
+                List<Vertices> list = BayazitDecomposer.ConvexPartition(verts);
+
+                WallVertices.Add(list);
+
+            }
         }
     }
 }

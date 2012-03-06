@@ -16,6 +16,11 @@ namespace ChaoticMind
         {
         }
 
+        public Body Body
+        {
+            get { return _body; }
+        }
+
         //Use input to decide what direction this character should try to face and move
         protected override void decideOnMovementTargets()
         {

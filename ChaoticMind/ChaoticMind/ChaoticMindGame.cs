@@ -95,6 +95,7 @@ namespace ChaoticMind
 
             _player = new ControllableSillyBox(CharacterType.ControllableBox, _world, Vector2.Zero);
             _objects.Add(_player);
+            _mainCamera.setTarget(_player.Body);
 
 
             _backgroundMusic = new MusicController();

@@ -6,11 +6,14 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using FarseerPhysics.Dynamics;
 
 namespace ChaoticMind
 {
     class Camera
     {
+        const float FollowFaithfulness = 0.05f;
+
         //Position of the camera in game coordinates
         Vector2 _position;
 
@@ -21,12 +24,18 @@ namespace ChaoticMind
         //A vector to the centre of the screen. Used to position drawing
         Vector2 _toCentre = Vector2.Zero;
 
+        Body _target;
+
         public Camera(Vector2 startingPosition, float startingZoom, GraphicsDevice graphics, SpriteBatch spriteBatch)
         {
             _position = startingPosition;
             _zoom = startingZoom;
             _graphicsDevice = graphics;
             _spriteBatch = spriteBatch;
+        }
+
+        public void setTarget(Body target) {
+            _target = target;
         }
 
         public Vector2 screenPointToWorld(Vector2 screenPoint)
@@ -44,7 +53,13 @@ namespace ChaoticMind
 
         public void Update(float deltaTime)
         {
+            
             updateFromInput(deltaTime);
+
+            if (_target != null)
+            {
+                _position += FollowFaithfulness * (_target.Position - _position);
+            }
 
             updateFrame();
         }
