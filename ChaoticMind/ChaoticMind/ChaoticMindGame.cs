@@ -103,10 +103,6 @@ namespace ChaoticMind
             //_backgroundMusic.Play();    //Start playing the music from the current queue
 
 
-            _backgroundMusic = new MusicController();
-            //_backgroundMusic.Enqueue(0);  //Load first wav from Music content to play
-            //_backgroundMusic.Play();    //Start playing the music from the current queue
-
             _mapManager = new MapManager(5, 5);
             _mapManager.Initialize(_world);
 
