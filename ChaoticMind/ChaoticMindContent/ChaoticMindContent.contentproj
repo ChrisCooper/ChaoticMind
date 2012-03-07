@@ -99,13 +99,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TileAppearance\TileAppearance_NSEW.png">
-      <Name>TileAppearance_NSEW</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="TileGeometry\DoorGeometryE.png">
       <Name>DoorGeometryE</Name>
       <Importer>TextureImporter</Importer>
