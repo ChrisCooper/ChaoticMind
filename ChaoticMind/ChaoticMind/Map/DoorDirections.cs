@@ -31,31 +31,15 @@ namespace ChaoticMind
         public static DoorDirections RandomDoors() {
             int combo = Utilities.randomInt() % (1 << 3) + 1;
             
-            
             //Prevent single doors
-            while (combo == 1 || combo == 2 || combo == 4 || combo == 8)
-            {
+            while (combo == 1 || combo == 2 || combo == 4 || combo == 8){
                 combo = Utilities.randomInt() % (1 << 3) + 1;
             }
 
-            bool north = false, south = false, east = false, west = false;
-
-            if ((combo & 1) != 0)
-            {
-                north = true;
-            }
-            if ((combo & 2) != 0)
-            {
-                south = true;
-            }
-            if ((combo & 4) != 0)
-            {
-                east = true;
-            }
-            if ((combo & 8) != 0)
-            {
-                west = true;
-            }
+            bool north = (combo & 1) != 0;
+            bool south = (combo & 2) != 0;
+            bool east = (combo & 4) != 0;
+            bool west = (combo & 8) != 0;
 
             return new DoorDirections(north, south, east, west);
         }
@@ -68,22 +52,10 @@ namespace ChaoticMind
             {
                 throw new Exception("Cannot convert no doors to an index.");
             }
-            if (_north)  
-            {
-                return 0;
-            }
-            else if (_south) 
-            {
-                return 1;
-            }
-            else if (_east)
-            {
-                return 2;
-            }
-            else
-            {
-                return 3;
-            }
+            if (_north) return 0;
+            else if (_south) return 1;
+            else if (_east) return 2;
+            else return 3;
         }
 
         private int numberOfDoors
