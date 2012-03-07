@@ -110,6 +110,20 @@ namespace ChaoticMind
 
         public static String appearanceStringFromDoorConfiguration(DoorDirections config)
         {
+            String baseName = "TileAppearance/TileAppearance_";
+            if (config.Type == ComboType.TRIPLE)
+            {
+                return baseName + "Triple";
+            }
+            else if (config.Type == ComboType.STRAIGHT)
+            {
+                return baseName + "Straight";
+            }
+            else
+            {
+                return baseName + "Bent";
+            }
+            
             return "TileAppearance/TileAppearance_"
                 + (config.hasNorth ? "N" : "")
                 + (config.hasSouth ? "S" : "")

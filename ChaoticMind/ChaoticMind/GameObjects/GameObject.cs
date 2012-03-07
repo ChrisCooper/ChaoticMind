@@ -29,7 +29,7 @@ namespace ChaoticMind
             }
         }
 
-        public float Rotation
+        public virtual float Rotation
         {
             get
             {

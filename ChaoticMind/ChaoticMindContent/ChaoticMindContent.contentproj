@@ -128,53 +128,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TileAppearance\TileAppearance_EW.png">
-      <Name>TileAppearance_EW</Name>
+    <Compile Include="TileAppearance\TileAppearance_Bent.png">
+      <Name>TileAppearance_Bent</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="TileAppearance\TileAppearance_NE.png">
-      <Name>TileAppearance_NE</Name>
+    <Compile Include="TileAppearance\TileAppearance_Straight.png">
+      <Name>TileAppearance_Straight</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="TileAppearance\TileAppearance_NEW.png">
-      <Name>TileAppearance_NEW</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="TileAppearance\TileAppearance_NS.png">
-      <Name>TileAppearance_NS</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="TileAppearance\TileAppearance_NSE.png">
-      <Name>TileAppearance_NSE</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="TileAppearance\TileAppearance_NSW.png">
-      <Name>TileAppearance_NSW</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="TileAppearance\TileAppearance_NW.png">
-      <Name>TileAppearance_NW</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="TileAppearance\TileAppearance_SE.png">
-      <Name>TileAppearance_SE</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="TileAppearance\TileAppearance_SEW.png">
-      <Name>TileAppearance_SEW</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="TileAppearance\TileAppearance_SW.png">
-      <Name>TileAppearance_SW</Name>
+    <Compile Include="TileAppearance\TileAppearance_Triple.png">
+      <Name>TileAppearance_Triple</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
