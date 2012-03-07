@@ -124,11 +124,13 @@ namespace ChaoticMind
                 return baseName + "Bent";
             }
             
+            /*
             return "TileAppearance/TileAppearance_"
                 + (config.hasNorth ? "N" : "")
                 + (config.hasSouth ? "S" : "")
                 + (config.hasEast ? "E" : "")
                 + (config.hasWest ? "W" : "");
+            */
         }
 
         internal static List<List<Vertices>> ClosedDoorVerticesForConfiguration(DoorDirections openDoors)
