@@ -103,7 +103,7 @@ namespace ChaoticMind
             //_backgroundMusic.Play();    //Start playing the music from the current queue
 
 
-            _mapManager = new MapManager(5, 5);
+            _mapManager = new MapManager(10, 10);
             _mapManager.Initialize(_world);
 
             base.Initialize();

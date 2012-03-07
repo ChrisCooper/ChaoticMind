@@ -15,7 +15,7 @@ namespace ChaoticMind
     class MapTile : DrawableGameObject
     {
 
-        public const float TileSideLength = 15.0f;
+        public const float TileSideLength = 10.0f;
 
         DoorDirections _openDoors;
 
