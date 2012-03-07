@@ -53,11 +53,11 @@ namespace ChaoticMind
         }
 
         public static DoorDirections RandomDoors() {
-            int combo = Utilities.randomInt() % (1 << 3) + 1;
+            int combo = randomDirection();
             
             //Prevent single doors
             while (combo == 1 || combo == 2 || combo == 4 || combo == 8){
-                combo = Utilities.randomInt() % ((1 << 4) - 1) + 1;
+                combo = randomDirection();
             }
 
             bool north = (combo & 1) != 0;
@@ -65,7 +65,19 @@ namespace ChaoticMind
             bool east = (combo & 4) != 0;
             bool west = (combo & 8) != 0;
 
-            return new DoorDirections(north, south, east, west);
+            DoorDirections newDirections = new DoorDirections(north, south, east, west);
+
+            if (newDirections.NumberOfDoors < 2 || newDirections.NumberOfDoors > 3)
+            {
+                throw new Exception("Incorrect number of doors (" + newDirections.NumberOfDoors + ") returned by DoorDirections.RandomDoors()! ");
+            }
+
+            return newDirections;
+        }
+
+        public static int randomDirection()
+        {
+            return Utilities.randomInt() % ((1 << 4) - 2) + 1;
         }
 
         public int toIndex() {
