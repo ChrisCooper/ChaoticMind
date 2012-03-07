@@ -12,7 +12,7 @@ namespace ChaoticMind
 {
     class Camera
     {
-        const float FollowFaithfulness = 0.05f;
+        const float FollowFaithfulness = 0.1f;
 
         //Position of the camera in game coordinates
         Vector2 _position;
