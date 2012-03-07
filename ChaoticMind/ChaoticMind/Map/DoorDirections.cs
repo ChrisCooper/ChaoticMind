@@ -55,8 +55,8 @@ namespace ChaoticMind
         public static DoorDirections RandomDoors() {
             int combo = Utilities.randomInt() % (1 << 3) + 1;
             
-            //Prevent single doors
-            while (combo == 1 || combo == 2 || combo == 4 || combo == 8){
+            //Prevent single/all doors
+            while (combo == 1 || combo == 2 || combo == 4 || combo == 8 || combo == 15){
                 combo = Utilities.randomInt() % ((1 << 4) - 1) + 1;
             }
 
