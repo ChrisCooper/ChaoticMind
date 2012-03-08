@@ -80,6 +80,17 @@ namespace ChaoticMind
             _mainCamera = new Camera(Vector2.Zero, 50.0f, _graphics.GraphicsDevice, _spriteBatch);
             InputManager.Initialize();
 
+            //Create a bunch of fun random game objects for now
+            for (int i = 0; i < 50; i++) {
+                float distance = 100.0f;
+
+                SillyBox obj = new SillyBox(CharacterType.SillyBox, _world, Utilities.randomVector() * distance + distance * Vector2.UnitX);
+                _objects.Add(obj);
+
+                SillyBox obj2 = new SillyBox(CharacterType.CountingBox, _world, Utilities.randomVector() * distance + distance * Vector2.UnitX);
+                _objects.Add(obj2);
+            }
+
             _player = new ControllableSillyBox(CharacterType.ControllableBox, _world, Vector2.Zero);
             _objects.Add(_player);
             _mainCamera.setTarget(_player.Body);

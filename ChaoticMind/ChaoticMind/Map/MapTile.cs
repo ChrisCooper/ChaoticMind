@@ -15,7 +15,7 @@ namespace ChaoticMind {
 
         public const float TileSideLength = 24.0f;
         private const float SnapThreshold = 0.9999f;
-        private const float MovementSpeed = 10f;
+        private const float MovementSpeed = 15f;
 
         DoorDirections _openDoors;
         float _imageRotation;
@@ -56,7 +56,7 @@ namespace ChaoticMind {
             
         }
 
-        public void setTarget(Vector2 target) {
+        private void setTarget(Vector2 target) {
             if (_isMoving) {
                 throw new Exception("Can't set tile target while it's already moving.");
             }
@@ -108,8 +108,8 @@ namespace ChaoticMind {
             }
         }
 
-        public static Vector2 WorldPositionForGridCoordinates(int row, int col) {
-            return new Vector2(-TileSideLength * col, -TileSideLength * row);
+        public static Vector2 WorldPositionForGridCoordinates(int x, int y) {
+            return new Vector2(TileSideLength * x, TileSideLength * y);
         }
 
 
@@ -136,6 +136,10 @@ namespace ChaoticMind {
 
         internal void go() {
             _body.LinearVelocity = 5.0f * Vector2.UnitX;
+        }
+
+        internal void shiftTo(int destX, int destY) {
+            setTarget(MapTile.WorldPositionForGridCoordinates(destX, destY));
         }
     }
 }
