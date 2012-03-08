@@ -13,12 +13,11 @@ using Microsoft.Xna.Framework.Graphics;
 namespace ChaoticMind {
     class MapTile : DrawableGameObject {
 
-        public const float TileSideLength = 10.0f;
+        public const float TileSideLength = 24.0f;
         private const float SnapThreshold = 0.9999f;
         private const float MovementSpeed = 10f;
 
         DoorDirections _openDoors;
-
         float _imageRotation;
 
 
@@ -26,6 +25,9 @@ namespace ChaoticMind {
         Vector2 _startLocation;
         Vector2 _targetLocation;
         float _travelDistance;
+        //stores the doors that are actually useful
+        DoorDirections _connectedDoors;
+
         Vector2 _travelDirection;
 
         bool _isMoving;
@@ -33,6 +35,8 @@ namespace ChaoticMind {
         public MapTile(World world, Vector2 startingPosition, DoorDirections openDoors)
             : base(world, startingPosition) {
             _openDoors = openDoors;
+
+            _connectedDoors = _openDoors;
 
             _imageRotation = _openDoors.imageRotation();
 
@@ -106,6 +110,24 @@ namespace ChaoticMind {
 
         public static Vector2 WorldPositionForGridCoordinates(int row, int col) {
             return new Vector2(-TileSideLength * col, -TileSideLength * row);
+        }
+
+
+        public void updateConnectedDoors() {
+            //dummy return
+            _connectedDoors = _openDoors;
+        }
+
+        public StaticSprite Overlay {
+            get {
+                return MapTileUtilities.getOverlay(_connectedDoors);
+            }
+        }
+
+        public float OverlayRotation {
+            get {
+                return _connectedDoors.imageRotation();
+            }
         }
 
         public override float Rotation {

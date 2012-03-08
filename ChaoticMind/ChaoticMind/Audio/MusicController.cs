@@ -36,7 +36,6 @@ namespace ChaoticMind
             String currSongName;
             Song currSong;
 
-
             //for each in Music ... TBI
             currSongName = "Music/FieldsOfUtopiaCutDemoLoop"; //temp value
             currSong = SharedContentManager.Load<Song>(currSongName);

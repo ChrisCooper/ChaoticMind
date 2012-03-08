@@ -15,7 +15,7 @@ namespace ChaoticMind
     /// </summary>
     class AnimatedSprite
     {
-        // contains th actual image data 
+        // contains the actual image data 
         SpriteAnimationSequence _animationSequence;
 
         // Total time the animation should take to play.
