@@ -5,27 +5,19 @@ using System.Text;
 using FarseerPhysics.Common;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Common.Decomposition;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 
 namespace ChaoticMind {
     class MapTileUtilities {
 
-        static List<List<Vertices>> _WallVertices;
-        static List<List<Vertices>> _DoorVertices;
         static List<StaticSprite> _OverlaySprites;
 
-        public static List<List<Vertices>> WallVertices {
-            get { return _WallVertices; }
-        }
-
         static MapTileUtilities() {
-            loadWallVertices();
-
-            loadDoorVertices();
-
             loadOverlays();
         }
 
-        //store and retrieve method seems messy but works
+        //load the overlay textures
         private static void loadOverlays() {
             _OverlaySprites = new List<StaticSprite>(3);
             _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Triple"));
@@ -33,82 +25,44 @@ namespace ChaoticMind {
             _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Bent"));
         }
 
-        private static void loadDoorVertices() {
-            _DoorVertices = new List<List<Vertices>>();
+        //attaches the physics fixtures to the map tile
+        public static void AttachFixtures (Body b, DoorDirections doors){
 
-            List<StaticSprite> doorSprites = new List<StaticSprite>();
-            doorSprites.Add(new StaticSprite("TileGeometry/DoorGeometryN"));
-            doorSprites.Add(new StaticSprite("TileGeometry/DoorGeometryS"));
-            doorSprites.Add(new StaticSprite("TileGeometry/DoorGeometryE"));
-            doorSprites.Add(new StaticSprite("TileGeometry/DoorGeometryW"));
+            const float wallWidth = MapTile.TileSideLength * MapTile.TileWallPercent;
+            const float doorWidth = MapTile.TileSideLength * MapTile.TileDoorPercent;
+            const float halfSide = MapTile.TileSideLength / 2.0f;
+            const float sideSegWidth = (MapTile.TileSideLength - doorWidth) / 2.0f;
 
-
-            foreach (StaticSprite sprite in doorSprites) {
-                float pixelsPerMeter = sprite.CurrentTextureBounds.Width / MapTile.TileSideLength;
-
-                uint[] data = new uint[sprite.Texture.Width * sprite.Texture.Height];
-
-                sprite.Texture.GetData(data);
-
-                //Generate a Polygon
-                Vertices verts = PolygonTools.CreatePolygon(data, sprite.Texture.Width);
-
-                //Center
-                Vector2 centeringVector = new Vector2(-sprite.Texture.Width / 2, -sprite.Texture.Height / 2);
-                verts.Translate(ref centeringVector);
-
-                //Scale
-                Vector2 scale = new Vector2(1 / pixelsPerMeter, 1 / pixelsPerMeter);
-                verts.Scale(ref scale);
-
-                //Since it is a concave polygon, we need to partition it into several smaller convex polygons
-
-                List<Vertices> list = BayazitDecomposer.ConvexPartition(verts);
-
-                _DoorVertices.Add(list);
+            if (doors.Type == ComboType.TRIPLE) {
+                FixtureFactory.AttachRectangle(wallWidth, MapTile.TileSideLength, 1, new Vector2(-halfSide + wallWidth/2.0f, 0), b); //left all
+                FixtureFactory.AttachRectangle(sideSegWidth, wallWidth, 1, new Vector2(-(sideSegWidth + doorWidth) / 2.0f, -halfSide + wallWidth / 2.0f), b); //top left
+                FixtureFactory.AttachRectangle(sideSegWidth, wallWidth, 1, new Vector2((sideSegWidth + doorWidth) / 2.0f, -halfSide + wallWidth / 2.0f), b); //top right
+                FixtureFactory.AttachRectangle(sideSegWidth, wallWidth, 1, new Vector2(-(sideSegWidth + doorWidth) / 2.0f, halfSide - wallWidth / 2.0f), b); //bottom left
+                FixtureFactory.AttachRectangle(sideSegWidth, wallWidth, 1, new Vector2((sideSegWidth + doorWidth) / 2.0f, halfSide - wallWidth / 2.0f), b); //bottom right
+                FixtureFactory.AttachRectangle(wallWidth, sideSegWidth, 1, new Vector2(halfSide - wallWidth / 2.0f, -(sideSegWidth + doorWidth) / 2.0f), b); //right top
+                FixtureFactory.AttachRectangle(wallWidth, sideSegWidth, 1, new Vector2(halfSide - wallWidth / 2.0f, (sideSegWidth + doorWidth) / 2.0f), b); //right bottom
             }
-        }
-
-        public static List<Vertices> DoorVertices(DoorDirections door) {
-            return _DoorVertices[door.toIndex()];
-        }
-
-        private static void loadWallVertices() {
-            _WallVertices = new List<List<Vertices>>();
-
-            List<StaticSprite> wallSprites = new List<StaticSprite>();
-            wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometryNW"));
-            wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometryNE"));
-            wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometrySE"));
-            wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometrySW"));
-
-            foreach (StaticSprite sprite in wallSprites) {
-                float pixelsPerMeter = sprite.CurrentTextureBounds.Width / MapTile.TileSideLength;
-
-                uint[] data = new uint[sprite.Texture.Width * sprite.Texture.Height];
-
-                sprite.Texture.GetData(data);
-
-                //Generate a Polygon
-                Vertices verts = PolygonTools.CreatePolygon(data, sprite.Texture.Width);
-
-                //Center
-                Vector2 centeringVector = new Vector2(-sprite.Texture.Width / 2, -sprite.Texture.Height / 2);
-                verts.Translate(ref centeringVector);
-
-                //Scale
-                Vector2 scale = new Vector2(1 / pixelsPerMeter, 1 / pixelsPerMeter);
-                verts.Scale(ref scale);
-
-                //Since it is a concave polygon, we need to partition it into several smaller convex polygons
-
-                List<Vertices> list = BayazitDecomposer.ConvexPartition(verts);
-
-                _WallVertices.Add(list);
-
+            else if (doors.Type == ComboType.STRAIGHT) {
+                FixtureFactory.AttachRectangle(wallWidth, MapTile.TileSideLength, 1, new Vector2(-halfSide + wallWidth / 2.0f, 0), b); //left all
+                FixtureFactory.AttachRectangle(wallWidth, MapTile.TileSideLength, 1, new Vector2(halfSide - wallWidth / 2.0f, 0), b); //right all
+                FixtureFactory.AttachRectangle(sideSegWidth, wallWidth, 1, new Vector2(-(sideSegWidth + doorWidth) / 2.0f, -halfSide + wallWidth / 2.0f), b); //top left
+                FixtureFactory.AttachRectangle(sideSegWidth, wallWidth, 1, new Vector2((sideSegWidth + doorWidth) / 2.0f, -halfSide + wallWidth / 2.0f), b); //top right
+                FixtureFactory.AttachRectangle(sideSegWidth, wallWidth, 1, new Vector2(-(sideSegWidth + doorWidth) / 2.0f, halfSide - wallWidth / 2.0f), b); //bottom left
+                FixtureFactory.AttachRectangle(sideSegWidth, wallWidth, 1, new Vector2((sideSegWidth + doorWidth) / 2.0f, halfSide - wallWidth / 2.0f), b); //bottom right
             }
-        }
+            else {
+                //bent
+                FixtureFactory.AttachRectangle(wallWidth, MapTile.TileSideLength, 1, new Vector2(-halfSide + wallWidth / 2.0f, 0), b); //left all
+                FixtureFactory.AttachRectangle(MapTile.TileSideLength, wallWidth, 1, new Vector2(0, halfSide - wallWidth / 2.0f), b); //bottom all
+                FixtureFactory.AttachRectangle(sideSegWidth, wallWidth, 1, new Vector2(-(sideSegWidth + doorWidth) / 2.0f, -halfSide + wallWidth / 2.0f), b); //top left
+                FixtureFactory.AttachRectangle(sideSegWidth, wallWidth, 1, new Vector2((sideSegWidth + doorWidth) / 2.0f, -halfSide + wallWidth / 2.0f), b); //top right
+                FixtureFactory.AttachRectangle(wallWidth, sideSegWidth, 1, new Vector2(halfSide - wallWidth / 2.0f, -(sideSegWidth + doorWidth) / 2.0f), b); //right top
+                FixtureFactory.AttachRectangle(wallWidth, sideSegWidth, 1, new Vector2(halfSide - wallWidth / 2.0f, (sideSegWidth + doorWidth) / 2.0f), b); //right bottom
+            }
 
+            //rotate the tile
+            b.Rotation = doors.tileRotation();
+        }
 
         public static String appearanceStringFromDoorConfiguration(DoorDirections config) {
             String baseName = "TileAppearance/TileAppearance_";
@@ -131,27 +85,9 @@ namespace ChaoticMind {
                 return _OverlaySprites[1];
             }
             else {
+                //bent
                 return _OverlaySprites[2];
             }
-        }
-
-        internal static List<List<Vertices>> ClosedDoorVerticesForConfiguration(DoorDirections openDoors) {
-            List<List<Vertices>> list = new List<List<Vertices>>();
-
-            if (!openDoors.hasNorth) {
-                list.Add(DoorVertices(DoorDirections.NORTH));
-            }
-            if (!openDoors.hasSouth) {
-                list.Add(DoorVertices(DoorDirections.SOUTH));
-            }
-            if (!openDoors.hasEast) {
-                list.Add(DoorVertices(DoorDirections.EAST));
-            }
-            if (!openDoors.hasWest) {
-                list.Add(DoorVertices(DoorDirections.WEST));
-            }
-
-            return list;
         }
     }
 }

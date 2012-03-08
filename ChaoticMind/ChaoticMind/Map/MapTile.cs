@@ -14,9 +14,10 @@ namespace ChaoticMind {
     class MapTile : DrawableGameObject {
 
         public const float TileSideLength = 24.0f;
+        public const float TileDoorPercent = 2/16.0f;
+        public const float TileWallPercent = 1/16.0f;
 
         DoorDirections _openDoors;
-        float _imageRotation;
 
         //stores the doors that are actually useful
         DoorDirections _connectedDoors;
@@ -27,33 +28,17 @@ namespace ChaoticMind {
 
             _connectedDoors = _openDoors;
 
-            _imageRotation = _openDoors.imageRotation();
-
             _sprite = new StaticSprite(MapTileUtilities.appearanceStringFromDoorConfiguration(openDoors));
 
             _pixelsPerMeter = _sprite.CurrentTextureBounds.Width / TileSideLength;
 
             _body = new Body(world);
 
-            loadWallFixtures();
-
-            loadDoorFixtures();
+            MapTileUtilities.AttachFixtures(_body, _openDoors);
 
             _body.BodyType = BodyType.Kinematic;
 
             _body.Position = startingPosition;
-        }
-
-        private void loadDoorFixtures() {
-            foreach (List<Vertices> list in MapTileUtilities.ClosedDoorVerticesForConfiguration(_openDoors)) {
-                List<Fixture> compund = FixtureFactory.AttachCompoundPolygon(list, 1.0f, _body);
-            }
-        }
-
-        private void loadWallFixtures() {
-            foreach (List<Vertices> list in MapTileUtilities.WallVertices) {
-                List<Fixture> compund = FixtureFactory.AttachCompoundPolygon(list, 1.0f, _body);
-            }
         }
 
         public static Vector2 WorldPositionForGridCoordinates(int row, int col) {
@@ -75,12 +60,8 @@ namespace ChaoticMind {
 
         public float OverlayRotation {
             get {
-                return _connectedDoors.imageRotation();
+                return _connectedDoors.tileRotation();
             }
-        }
-
-        public override float Rotation {
-            get { return _imageRotation; }
         }
     }
 }

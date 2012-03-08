@@ -101,9 +101,8 @@ namespace ChaoticMind {
         }
 
 
-        //This method accounts for the fact that only 3 tile images are used, and simply rotated to fith the correct orientation.
-        internal float imageRotation() {
-            float rads = 0.0f;
+        //This method accounts for the fact that only 3 tile images are used, and simply rotated to fit the correct orientation.
+        internal float tileRotation() {
             switch (Type) {
                 case ComboType.STRAIGHT:
                     if (!hasNorth) {
@@ -134,7 +133,7 @@ namespace ChaoticMind {
                     break;
 
             }
-            return rads;
+            return 0.0f;
         }
     }
 }

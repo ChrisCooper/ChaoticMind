@@ -5,16 +5,14 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ChaoticMind
-{
+namespace ChaoticMind {
     /// <summary>
     /// This serves to provide actual instances of an animations to be tied to specific instances of game objects.
     /// It does not contain image data, but rather, it references a specific set of images stored in a SpriteAnimationSequence.
     /// This class keeps track of its own framerate, current frame, and uses this info to request the correct image
     /// from the SpriteAnimationSequence.
     /// </summary>
-    class AnimatedSprite
-    {
+    class AnimatedSprite {
         // contains the actual image data 
         SpriteAnimationSequence _animationSequence;
 
@@ -28,37 +26,30 @@ namespace ChaoticMind
         // Keeps track of what frame of the animation we are on
         int _currentFrameIndex = 0;
 
-        public AnimatedSprite(String spriteResource, int xFrames, int yFrames, float animationDuration)
-        {
+        public AnimatedSprite(String spriteResource, int xFrames, int yFrames, float animationDuration) {
             _animationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence(spriteResource, xFrames, yFrames);
             _animationDuration = animationDuration;
         }
 
-        public void Update(float deltaTime)
-        {
+        public void Update(float deltaTime) {
             //Update the elapsed time, and set the _currentFrameIndex accordingly
             _elapsedTime += deltaTime;
-            
+
             _currentFrameIndex = (int)((_elapsedTime / _animationDuration) * _animationSequence.NumFrames) % _animationSequence.NumFrames;
         }
 
-        public Texture2D Texture
-        {
-            get
-            {
+        public Texture2D Texture {
+            get {
                 return _animationSequence.Texture;
             }
         }
 
-        public Rectangle CurrentTextureBounds
-        {
-            get
-            {
+        public Rectangle CurrentTextureBounds {
+            get {
                 return _animationSequence.getFrameRect(_currentFrameIndex);
             }
         }
-        public Vector2 CurrentTextureOrigin
-        {
+        public Vector2 CurrentTextureOrigin {
             get { return new Vector2(CurrentTextureBounds.Width / 2, CurrentTextureBounds.Height / 2); }
         }
     }
