@@ -41,13 +41,21 @@ namespace ChaoticMind
         public Vector2 screenPointToWorld(Vector2 screenPoint)
         {
             return ((screenPoint - _toCentre) / _zoom) + _position;
+        }
 
-            //(o.Position - _position) * _zoom + _toCentre;
+        private Vector2 WorldToScreenPos(Vector2 worldPoint)
+        {
+            return (worldPoint - _position) * _zoom + _toCentre;
         }
 
         public void Draw(DrawableGameObject o)
         {
-            _spriteBatch.Draw(o.Texture, (o.Position - _position) * _zoom + _toCentre, o.CurrentTextureBounds, Color.White, o.Rotation, o.CurrentTextureOrigin, _zoom / o.PixelsPerMeter, SpriteEffects.None, 1.0f);
+            _spriteBatch.Draw(o.Texture, WorldToScreenPos(o.Position), o.CurrentTextureBounds, Color.White, o.Rotation, o.CurrentTextureOrigin, _zoom / o.PixelsPerMeter, SpriteEffects.None, 1.0f);
+        }
+
+        public void DrawOverlay(MapTile tile, Color clr)
+        {
+            _spriteBatch.Draw(tile.Overlay.Texture, WorldToScreenPos(tile.Position), tile.Overlay.CurrentTextureBounds, clr, tile.OverlayRotation, tile.Overlay.CurrentTextureOrigin, _zoom / tile.PixelsPerMeter, SpriteEffects.None, 1.0f);
         }
 
 

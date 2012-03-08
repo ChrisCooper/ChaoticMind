@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 
 namespace ChaoticMind
@@ -41,6 +42,7 @@ namespace ChaoticMind
             foreach (MapTile tile in _tiles)
             {
                 camera.Draw(tile);
+                camera.DrawOverlay(tile, Color.White * 0.3f);
             }
         }
     }

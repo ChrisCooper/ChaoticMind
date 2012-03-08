@@ -6,28 +6,34 @@ using FarseerPhysics.Common;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Common.Decomposition;
 
-namespace ChaoticMind
-{
-    class MapTileUtilities
-    {
+namespace ChaoticMind {
+    class MapTileUtilities {
+
         static List<List<Vertices>> _WallVertices;
-        public static List<List<Vertices>> WallVertices
-        {
+        static List<List<Vertices>> _DoorVertices;
+        static List<StaticSprite> _OverlaySprites;
+
+        public static List<List<Vertices>> WallVertices {
             get { return _WallVertices; }
         }
 
-        static List<List<Vertices>> _DoorVertices;
-
-        static MapTileUtilities()
-        {
+        static MapTileUtilities() {
             loadWallVertices();
 
             loadDoorVertices();
 
+            loadOverlays();
         }
 
-        private static void loadDoorVertices()
-        {
+        //store and retrieve method seems messy but works
+        private static void loadOverlays() {
+            _OverlaySprites = new List<StaticSprite>(3);
+            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Triple"));
+            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Straight"));
+            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Bent"));
+        }
+
+        private static void loadDoorVertices() {
             _DoorVertices = new List<List<Vertices>>();
 
             List<StaticSprite> doorSprites = new List<StaticSprite>();
@@ -37,8 +43,7 @@ namespace ChaoticMind
             doorSprites.Add(new StaticSprite("TileGeometry/DoorGeometryW"));
 
 
-            foreach (StaticSprite sprite in doorSprites)
-            {
+            foreach (StaticSprite sprite in doorSprites) {
                 float pixelsPerMeter = sprite.CurrentTextureBounds.Width / MapTile.TileSideLength;
 
                 uint[] data = new uint[sprite.Texture.Width * sprite.Texture.Height];
@@ -64,13 +69,11 @@ namespace ChaoticMind
             }
         }
 
-        public static List<Vertices> DoorVertices(DoorDirections door)
-        {
+        public static List<Vertices> DoorVertices(DoorDirections door) {
             return _DoorVertices[door.toIndex()];
         }
 
-        private static void loadWallVertices()
-        {
+        private static void loadWallVertices() {
             _WallVertices = new List<List<Vertices>>();
 
             List<StaticSprite> wallSprites = new List<StaticSprite>();
@@ -79,8 +82,7 @@ namespace ChaoticMind
             wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometrySE"));
             wallSprites.Add(new StaticSprite("TileGeometry/BoxWallGeometrySW"));
 
-            foreach (StaticSprite sprite in wallSprites)
-            {
+            foreach (StaticSprite sprite in wallSprites) {
                 float pixelsPerMeter = sprite.CurrentTextureBounds.Width / MapTile.TileSideLength;
 
                 uint[] data = new uint[sprite.Texture.Width * sprite.Texture.Height];
@@ -108,49 +110,44 @@ namespace ChaoticMind
         }
 
 
-        public static String appearanceStringFromDoorConfiguration(DoorDirections config)
-        {
+        public static String appearanceStringFromDoorConfiguration(DoorDirections config) {
             String baseName = "TileAppearance/TileAppearance_";
-            if (config.Type == ComboType.TRIPLE)
-            {
+            if (config.Type == ComboType.TRIPLE) {
                 return baseName + "Triple";
             }
-            else if (config.Type == ComboType.STRAIGHT)
-            {
+            else if (config.Type == ComboType.STRAIGHT) {
                 return baseName + "Straight";
             }
-            else
-            {
+            else {
                 return baseName + "Bent";
             }
-            
-            /*
-            return "TileAppearance/TileAppearance_"
-                + (config.hasNorth ? "N" : "")
-                + (config.hasSouth ? "S" : "")
-                + (config.hasEast ? "E" : "")
-                + (config.hasWest ? "W" : "");
-            */
         }
 
-        internal static List<List<Vertices>> ClosedDoorVerticesForConfiguration(DoorDirections openDoors)
-        {
+        public static StaticSprite getOverlay(DoorDirections d) {
+            if (d.Type == ComboType.TRIPLE) {
+                return _OverlaySprites[0];
+            }
+            else if (d.Type == ComboType.STRAIGHT) {
+                return _OverlaySprites[1];
+            }
+            else {
+                return _OverlaySprites[2];
+            }
+        }
+
+        internal static List<List<Vertices>> ClosedDoorVerticesForConfiguration(DoorDirections openDoors) {
             List<List<Vertices>> list = new List<List<Vertices>>();
 
-            if (!openDoors.hasNorth)
-            {
+            if (!openDoors.hasNorth) {
                 list.Add(DoorVertices(DoorDirections.NORTH));
             }
-            if (!openDoors.hasSouth)
-            {
+            if (!openDoors.hasSouth) {
                 list.Add(DoorVertices(DoorDirections.SOUTH));
             }
-            if (!openDoors.hasEast)
-            {
+            if (!openDoors.hasEast) {
                 list.Add(DoorVertices(DoorDirections.EAST));
             }
-            if (!openDoors.hasWest)
-            {
+            if (!openDoors.hasWest) {
                 list.Add(DoorVertices(DoorDirections.WEST));
             }
 

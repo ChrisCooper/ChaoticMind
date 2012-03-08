@@ -10,20 +10,23 @@ using FarseerPhysics.Common.Decomposition;
 using Microsoft.Xna.Framework.Graphics;
 
 
-namespace ChaoticMind
-{
-    class MapTile : DrawableGameObject
-    {
+namespace ChaoticMind {
+    class MapTile : DrawableGameObject {
 
         public const float TileSideLength = 10.0f;
 
         DoorDirections _openDoors;
-
         float _imageRotation;
 
-        public MapTile(World world, Vector2 startingPosition, DoorDirections openDoors) : base(world, startingPosition)
-        {
+        //stores the doors that are actually useful
+        DoorDirections _connectedDoors;
+
+        public MapTile(World world, Vector2 startingPosition, DoorDirections openDoors)
+            : base(world, startingPosition) {
             _openDoors = openDoors;
+
+            //TEMP:
+            _connectedDoors = _openDoors;
 
             _imageRotation = _openDoors.imageRotation();
 
@@ -42,29 +45,35 @@ namespace ChaoticMind
             _body.Position = startingPosition;
         }
 
-        private void loadDoorFixtures()
-        {
-            foreach (List<Vertices> list in MapTileUtilities.ClosedDoorVerticesForConfiguration(_openDoors))
-            {
+        private void loadDoorFixtures() {
+            foreach (List<Vertices> list in MapTileUtilities.ClosedDoorVerticesForConfiguration(_openDoors)) {
                 List<Fixture> compund = FixtureFactory.AttachCompoundPolygon(list, 1.0f, _body);
             }
         }
 
-        private void loadWallFixtures()
-        {
-            foreach (List<Vertices> list in MapTileUtilities.WallVertices)
-            {
+        private void loadWallFixtures() {
+            foreach (List<Vertices> list in MapTileUtilities.WallVertices) {
                 List<Fixture> compund = FixtureFactory.AttachCompoundPolygon(list, 1.0f, _body);
             }
         }
 
-        public static Vector2 WorldPositionForGridCoordinates(int row, int col)
-        {
+        public static Vector2 WorldPositionForGridCoordinates(int row, int col) {
             return new Vector2(-TileSideLength * col, -TileSideLength * row);
         }
 
-        public override float Rotation
-        {
+        public StaticSprite Overlay {
+            get {
+                return MapTileUtilities.getOverlay(_connectedDoors);
+            }
+        }
+
+        public float OverlayRotation {
+            get {
+                return _connectedDoors.imageRotation();
+            }
+        }
+
+        public override float Rotation {
             get { return _imageRotation; }
         }
     }
