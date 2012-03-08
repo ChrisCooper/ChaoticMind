@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace ChaoticMind {
     class MapTile : DrawableGameObject {
 
-        public const float TileSideLength = 10.0f;
+        public const float TileSideLength = 24.0f;
 
         DoorDirections _openDoors;
         float _imageRotation;
@@ -25,7 +25,6 @@ namespace ChaoticMind {
             : base(world, startingPosition) {
             _openDoors = openDoors;
 
-            //TEMP:
             _connectedDoors = _openDoors;
 
             _imageRotation = _openDoors.imageRotation();
@@ -59,6 +58,13 @@ namespace ChaoticMind {
 
         public static Vector2 WorldPositionForGridCoordinates(int row, int col) {
             return new Vector2(-TileSideLength * col, -TileSideLength * row);
+        }
+
+        //TODO
+        //compute connected doors
+        public void updateConnectedDoors() {
+            //dummy return
+            _connectedDoors = _openDoors;
         }
 
         public StaticSprite Overlay {

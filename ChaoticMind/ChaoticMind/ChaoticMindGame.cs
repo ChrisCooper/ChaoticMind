@@ -78,7 +78,7 @@ namespace ChaoticMind
             _debugFont = Content.Load<SpriteFont>("DebugFont");
             _fpsCounter = new FrameRateCounter(_spriteBatch, _debugFont);
 
-            _mainCamera = new Camera(Vector2.Zero, 15.0f, _graphics.GraphicsDevice, _spriteBatch);
+            _mainCamera = new Camera(Vector2.Zero, 50.0f, _graphics.GraphicsDevice, _spriteBatch);
             InputManager.Initialize();
 
             //Create a bunch of fun random game objects for now
