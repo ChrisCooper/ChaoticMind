@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FarseerPhysics.Dynamics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace ChaoticMind
 {
@@ -12,6 +14,7 @@ namespace ChaoticMind
 
         int _gridWidth = 3;
         int _gridHeight = 3;
+        private bool hasntMovedTemp = true;
 
         public MapManager(int mapWidth, int mapHeight)
         {
@@ -34,6 +37,19 @@ namespace ChaoticMind
 
         public void Update(float deltaTime)
         {
+            foreach (MapTile tile in _tiles)
+            {
+                tile.Update(deltaTime);
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.P) && hasntMovedTemp) {
+                for (int i = 0; i < _gridWidth; i++) {
+
+                    //_tiles[i].setTarget(MapTile.WorldPositionForGridCoordinates(0, i + 1));
+                    _tiles[i].go();
+                }
+                hasntMovedTemp = false;
+            }
         }
 
         public void DrawMap(Camera camera)
