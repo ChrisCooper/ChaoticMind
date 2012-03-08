@@ -181,10 +181,6 @@ namespace ChaoticMind
                 _mainCamera.Draw(obj);
             }
             
-
-
-
-
             /*Debugging writing*/
             _fpsCounter.Draw(gameTime);
             _spriteBatch.DrawString(_debugFont, string.Format("Player: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
