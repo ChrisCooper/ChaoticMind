@@ -15,6 +15,7 @@ ChaoticMind\ChaoticMindContent\obj\x86\Debug\DesignTimeResolveAssemblyReferences
 *.tlb
 *.tlh
 *.bak
+*.vsp
 *.cache
 *.ilk
 *.log
