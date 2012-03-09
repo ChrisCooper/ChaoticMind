@@ -12,11 +12,10 @@ namespace ChaoticMind {
     //Could this be a struct? Probably......... Dang.
     //I will look into that and change it perhaps when I have an ineternet connection.
     class CharacterType {
-        static float defaultPixelsPerMeter = 64.0f;
 
-        public static CharacterType SillyBox = new CharacterType("TestImages/Box", 17, 1, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 1.0f, 10.0f);
-        public static CharacterType CountingBox = new CharacterType("TestImages/TestImage", 5, 2, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 1.0f, 10.0f);
-        public static CharacterType ControllableBox = new CharacterType("TestImages/TestPlayer", 1, 1, 1.0f, ObjectShapes.CIRCLE, 5.0f, 1.0f, 2500.0f);
+        public static CharacterType SillyBox = new CharacterType("TestImages/Box", 17, 1, 1.0f, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 1.0f, 10.0f);
+        public static CharacterType CountingBox = new CharacterType("TestImages/TestImage", 5, 2, 1.0f, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 1.0f, 10.0f);
+        public static CharacterType ControllableBox = new CharacterType("TestImages/TestPlayer", 1, 1, 1.0f, 1.0f, ObjectShapes.CIRCLE, 5.0f, 1.0f, 2500.0f);
 
         static CharacterType() {
 
@@ -25,7 +24,7 @@ namespace ChaoticMind {
         String _spriteName;
         int _xFrames;
         int _yFrames;
-
+        float _entitySize;
         float _animationDuration;
         float _pixelsPerMeter;
         ObjectShapes _objectShape;
@@ -33,17 +32,12 @@ namespace ChaoticMind {
         float _maxTurningTorque;
         float _maxMovementForce;
 
-        CharacterType(String spriteName, int xFrames, int yFrames, float animationDuration, ObjectShapes shape, float density, float maxTurningTorque, float maxMovementForce)
-            : this(spriteName, xFrames, yFrames, animationDuration, defaultPixelsPerMeter, shape, density, maxTurningTorque, maxMovementForce) {
-        }
-
-
-        CharacterType(String spriteName, int xFrames, int yFrames, float animationDuration, float pixelsPerMeter, ObjectShapes shape, float density, float maxTurningTorque, float maxMovementForce) {
+        CharacterType(String spriteName, int xFrames, int yFrames, float entitySize, float animationDuration, ObjectShapes shape, float density, float maxTurningTorque, float maxMovementForce) {
             _spriteName = spriteName;
             _xFrames = xFrames;
             _yFrames = yFrames;
+            _entitySize = entitySize;
             _animationDuration = animationDuration;
-            _pixelsPerMeter = pixelsPerMeter;
             _objectShape = shape;
             _density = density;
             _maxTurningTorque = maxTurningTorque;
@@ -66,8 +60,8 @@ namespace ChaoticMind {
             get { return _animationDuration; }
         }
 
-        public float PixelsPerMeter {
-            get { return _pixelsPerMeter; }
+        public float EntitySize {
+            get { return _entitySize; }
         }
 
         public ObjectShapes ObjectShape {

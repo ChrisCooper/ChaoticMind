@@ -20,9 +20,9 @@ namespace ChaoticMind {
         //load the overlay textures
         private static void loadOverlays() {
             _OverlaySprites = new List<StaticSprite>(3);
-            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Triple"));
-            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Straight"));
-            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Bent"));
+            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Triple", MapTile.TileSideLength));
+            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Straight", MapTile.TileSideLength));
+            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Bent", MapTile.TileSideLength));
         }
 
         //attaches the physics fixtures to the map tile

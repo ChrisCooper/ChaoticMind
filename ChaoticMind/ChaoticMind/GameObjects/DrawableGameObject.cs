@@ -12,13 +12,11 @@ namespace ChaoticMind
     abstract class DrawableGameObject : GameObject
     {
         protected AnimatedSprite _sprite;
-        protected float _pixelsPerMeter;
 
-        public DrawableGameObject(String spriteResource, int xFrames, int yFrames, float animationDuration, float pixelsPerMeter, World world, Vector2 startingPosition)
+        public DrawableGameObject(String spriteResource, int xFrames, int yFrames, float entitySize, float animationDuration, World world, Vector2 startingPosition)
             : base(world, startingPosition)
         {
-            _sprite = new AnimatedSprite(spriteResource, xFrames, yFrames, animationDuration);
-            _pixelsPerMeter = pixelsPerMeter;
+            _sprite = new AnimatedSprite(spriteResource, xFrames, yFrames, entitySize, animationDuration);
         }
 
         public DrawableGameObject(World world, Vector2 startingPosition)
@@ -61,7 +59,7 @@ namespace ChaoticMind
         {
             get
             {
-                return _pixelsPerMeter;
+                return _sprite.PixelsPerMeter;
             }
         }
     }
