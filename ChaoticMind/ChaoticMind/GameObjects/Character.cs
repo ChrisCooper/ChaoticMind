@@ -14,6 +14,8 @@ namespace ChaoticMind {
 
         protected CharacterType _characterType;
 
+        private Vector2 _locationToFace;
+
         public Character(CharacterType characterType, World world, Vector2 startingPosition)
             : base(characterType.SpriteName, characterType.XSize, characterType.YSize, characterType.EntitySize, characterType.AnimationDuration, world, startingPosition) {
             _characterType = characterType;
@@ -32,6 +34,8 @@ namespace ChaoticMind {
 
             _body.BodyType = BodyType.Dynamic;
             _body.Position = startingPosition;
+
+            _locationToFace = new Vector2(0, 1);
         }
 
         public override void Update(float deltaTime) {
@@ -51,6 +55,12 @@ namespace ChaoticMind {
 
             _body.ApplyLinearImpulse(_characterType.MaxMovementForce * movement * deltaTime);
 
+            //face the correct location
+            float angle = (float)(Math.Atan2(-(Position.X - _locationToFace.X), Position.Y - _locationToFace.Y));
+
+            //I had no end of problems trying to get it to work by applying forces so it's set for now
+            _body.Rotation = angle;
+
         }
 
         //The location in global coordinates that this character will attempt to
@@ -63,8 +73,8 @@ namespace ChaoticMind {
         //The location in global coordinates that this character will attempt to
         // turn torward
         protected Vector2 LocationToFace {
-            get;
-            set;
+            get { return _locationToFace; }
+            set { _locationToFace = value; }
         }
     }
 }
