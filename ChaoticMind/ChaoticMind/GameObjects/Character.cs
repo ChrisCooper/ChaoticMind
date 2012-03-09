@@ -15,22 +15,18 @@ namespace ChaoticMind {
         protected CharacterType _characterType;
 
         public Character(CharacterType characterType, World world, Vector2 startingPosition)
-            : base(characterType.SpriteName, characterType.XSize, characterType.YSize, characterType.AnimationDuration, characterType.PixelsPerMeter, world, startingPosition) {
+            : base(characterType.SpriteName, characterType.XSize, characterType.YSize, characterType.EntitySize, characterType.AnimationDuration, world, startingPosition) {
             _characterType = characterType;
-
-
-            float objectWidth = _sprite.CurrentTextureBounds.Width / _characterType.PixelsPerMeter;
-            float objectHeight = _sprite.CurrentTextureBounds.Height / _characterType.PixelsPerMeter;
 
             switch (characterType.ObjectShape) {
                 case ObjectShapes.RECTANGLE:
                     // This method creates a body (has mass, position, rotation),
                     // as well as a rectangular fixture, which is just a shape stapled to the body.
                     // The fixture is what collides with other objects and impacts how the body moves
-                    _body = BodyFactory.CreateRectangle(world, objectWidth, objectHeight, _characterType.Density);
+                    _body = BodyFactory.CreateRectangle(world, _characterType.EntitySize, _characterType.EntitySize, _characterType.Density);
                     break;
                 case ObjectShapes.CIRCLE:
-                    _body = BodyFactory.CreateCircle(world, objectWidth / 2, _characterType.Density);
+                    _body = BodyFactory.CreateCircle(world, _characterType.EntitySize / 2, _characterType.Density);
                     break;
             }
 

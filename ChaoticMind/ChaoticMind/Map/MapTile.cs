@@ -39,9 +39,7 @@ namespace ChaoticMind {
 
             _connectedDoors = _openDoors;
 
-            _sprite = new StaticSprite(MapTileUtilities.appearanceStringFromDoorConfiguration(openDoors));
-
-            _pixelsPerMeter = _sprite.CurrentTextureBounds.Width / TileSideLength;
+            _sprite = new StaticSprite(MapTileUtilities.appearanceStringFromDoorConfiguration(openDoors), TileSideLength);
 
             _body = new Body(world);
             _body.Position = startingPosition;

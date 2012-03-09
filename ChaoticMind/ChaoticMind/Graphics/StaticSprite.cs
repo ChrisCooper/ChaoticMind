@@ -5,8 +5,8 @@ using System.Text;
 
 namespace ChaoticMind {
     class StaticSprite : AnimatedSprite {
-        public StaticSprite(String resourcePrefix)
-            : base(resourcePrefix, 1, 1, 1) {
+        public StaticSprite(String resourcePrefix, float entitySize)
+            : base(resourcePrefix, 1, 1, entitySize, 1) {
         }
     }
 }

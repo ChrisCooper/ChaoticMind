@@ -26,8 +26,8 @@ namespace ChaoticMind {
         // Keeps track of what frame of the animation we are on
         int _currentFrameIndex = 0;
 
-        public AnimatedSprite(String spriteResource, int xFrames, int yFrames, float animationDuration) {
-            _animationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence(spriteResource, xFrames, yFrames);
+        public AnimatedSprite(String spriteResource, int xFrames, int yFrames, float entitySize, float animationDuration) {
+            _animationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence(spriteResource, xFrames, yFrames, entitySize);
             _animationDuration = animationDuration;
         }
 
@@ -36,6 +36,10 @@ namespace ChaoticMind {
             _elapsedTime += deltaTime;
 
             _currentFrameIndex = (int)((_elapsedTime / _animationDuration) * _animationSequence.NumFrames) % _animationSequence.NumFrames;
+        }
+
+        public float PixelsPerMeter {
+            get { return _animationSequence.PixelsPerMeter; }
         }
 
         public Texture2D Texture {
