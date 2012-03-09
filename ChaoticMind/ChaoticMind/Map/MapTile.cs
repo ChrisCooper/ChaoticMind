@@ -14,8 +14,8 @@ namespace ChaoticMind {
     class MapTile : DrawableGameObject {
 
         public const float TileSideLength = 24.0f;
-        public const float TileDoorPercent = 2/16.0f;
-        public const float TileWallPercent = 1/16.0f;
+        public const float TileDoorPercent = 2 / 16.0f;
+        public const float TileWallPercent = 1 / 16.0f;
         private const float SnapThreshold = 0.9999f;
         private const float MovementSpeed = 35f;
 
@@ -50,7 +50,7 @@ namespace ChaoticMind {
 
             MapTileUtilities.AttachFixtures(_body, _openDoors);
 
-            
+
         }
 
         private void setTarget(Vector2 target) {
@@ -114,7 +114,6 @@ namespace ChaoticMind {
                 return _connectedDoors.tileRotation();
             }
         }
-        }
 
         internal void go() {
             _body.LinearVelocity = 5.0f * Vector2.UnitX;
@@ -122,5 +121,6 @@ namespace ChaoticMind {
 
         internal void shiftTo(int destX, int destY) {
             setTarget(MapTile.WorldPositionForGridCoordinates(destX, destY));
+        }
     }
 }
