@@ -14,13 +14,24 @@ namespace ChaoticMind {
     class MapTile : DrawableGameObject {
 
         public const float TileSideLength = 24.0f;
-        public const float TileDoorPercent = 2/16.0f;
-        public const float TileWallPercent = 1/16.0f;
+        public const float TileDoorPercent = 2 / 16.0f;
+        public const float TileWallPercent = 1 / 16.0f;
+        private const float SnapThreshold = 0.9999f;
+        private const float MovementSpeed = 35f;
 
         DoorDirections _openDoors;
 
+
+        //Todo: abstract into travel class
+        Vector2 _startLocation;
+        Vector2 _targetLocation;
+        float _travelDistance;
         //stores the doors that are actually useful
         DoorDirections _connectedDoors;
+
+        Vector2 _travelDirection;
+
+        bool _isMoving;
 
         public MapTile(World world, Vector2 startingPosition, DoorDirections openDoors)
             : base(world, startingPosition) {
@@ -31,20 +42,60 @@ namespace ChaoticMind {
             _sprite = new StaticSprite(MapTileUtilities.appearanceStringFromDoorConfiguration(openDoors), TileSideLength);
 
             _body = new Body(world);
+            _body.Position = startingPosition;
+            _body.BodyType = BodyType.Kinematic;
+
 
             MapTileUtilities.AttachFixtures(_body, _openDoors);
 
-            _body.BodyType = BodyType.Kinematic;
 
-            _body.Position = startingPosition;
         }
 
-        public static Vector2 WorldPositionForGridCoordinates(int row, int col) {
-            return new Vector2(-TileSideLength * col, -TileSideLength * row);
+        private void setTarget(Vector2 target) {
+            if (_isMoving) {
+                throw new Exception("Can't set tile target while it's already moving.");
+            }
+
+            _startLocation = Position;
+            _targetLocation = target;
+            _travelDistance = (_targetLocation - _startLocation).Length();
+            _travelDirection = (_targetLocation - _startLocation);
+            _travelDirection.Normalize();
+
+            _isMoving = true;
         }
 
-        //TODO
-        //compute connected doors
+        public override void Update(float deltaTime) {
+
+            if (_isMoving) {
+                float percent = travelPercent();
+
+                _body.LinearVelocity = (_travelDirection) * movementFunction(percent);
+
+                if (percent > SnapThreshold) {
+                    snapToTarget();
+                }
+            }
+        }
+
+        private void snapToTarget() {
+            _body.LinearVelocity = Vector2.Zero;
+            _isMoving = false;
+        }
+
+        private float movementFunction(float percent) {
+            return ((-Math.Abs((percent - 0.5f) * 0.99f)) + 0.5f) * MovementSpeed;
+        }
+
+        private float travelPercent() {
+            return (_travelDistance - (_targetLocation - Position).Length()) / _travelDistance;
+        }
+
+        public static Vector2 WorldPositionForGridCoordinates(int x, int y) {
+            return new Vector2(TileSideLength * x, TileSideLength * y);
+        }
+
+
         public void updateConnectedDoors() {
             //dummy return
             _connectedDoors = _openDoors;
@@ -60,6 +111,14 @@ namespace ChaoticMind {
             get {
                 return _connectedDoors.tileRotation();
             }
+        }
+
+        internal void go() {
+            _body.LinearVelocity = 5.0f * Vector2.UnitX;
+        }
+
+        internal void shiftTo(int destX, int destY) {
+            setTarget(MapTile.WorldPositionForGridCoordinates(destX, destY));
         }
     }
 }

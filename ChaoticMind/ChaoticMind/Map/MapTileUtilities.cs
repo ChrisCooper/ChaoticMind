@@ -76,7 +76,6 @@ namespace ChaoticMind {
                 return baseName + "Bent";
             }
         }
-
         public static StaticSprite getOverlay(DoorDirections d) {
             if (d.Type == ComboType.TRIPLE) {
                 return _OverlaySprites[0];

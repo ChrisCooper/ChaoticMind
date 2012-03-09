@@ -50,7 +50,6 @@ namespace ChaoticMind {
             _graphics.PreferredBackBufferHeight = 800; //_graphics.GraphicsDevice.DisplayMode.Height;
             _graphics.IsFullScreen = false;
 
-
             Content.RootDirectory = "Content";
             SpriteAnimationSequence.SharedContentManager = Content;
 
