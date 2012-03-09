@@ -62,7 +62,6 @@ namespace ChaoticMind {
 
         //probably not the most effecient way of doing it
         //better way might be to have each tile analyze and set the tiles to the north and west of them
-        //seems to have issues with shifting
         private void UpdateOverlays() {
             for (int x = 0; x < _tiles.GetLength(0); x++) {
                 for (int y = 0 ; y < _tiles.GetLength(1) ; y++){
@@ -109,7 +108,6 @@ namespace ChaoticMind {
             }
 
             //update the overlays
-            //TODO: Why doesn't this work properly?
             UpdateOverlays();
         }
 
