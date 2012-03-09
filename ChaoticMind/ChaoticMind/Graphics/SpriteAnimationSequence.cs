@@ -6,10 +6,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
-namespace ChaoticMind
-{
-    class SpriteAnimationSequence
-    {
+namespace ChaoticMind {
+    class SpriteAnimationSequence {
         //The name of the name of the resource to be loaded as this animation.
         String _spriteResource;
 
@@ -28,33 +26,28 @@ namespace ChaoticMind
 
         //Maps resource names to actual existing animation sequence objects.
         //This is because duplicate sequences don't make sense to have.
-        static Dictionary<String, SpriteAnimationSequence> ExisitingSequences = new Dictionary<string,SpriteAnimationSequence>();
+        static Dictionary<String, SpriteAnimationSequence> ExisitingSequences = new Dictionary<string, SpriteAnimationSequence>();
 
-        public static SpriteAnimationSequence newOrExistingSpriteAnimationSequence(String spriteResource, int xFrames, int yFrames)
-        {
+        public static SpriteAnimationSequence newOrExistingSpriteAnimationSequence(String spriteResource, int xFrames, int yFrames) {
             SpriteAnimationSequence sequence;
-            if (ExisitingSequences.ContainsKey(spriteResource))
-            {
+            if (ExisitingSequences.ContainsKey(spriteResource)) {
                 sequence = ExisitingSequences[spriteResource];
             }
-            else
-            {
+            else {
                 sequence = new SpriteAnimationSequence(spriteResource, xFrames, yFrames);
                 ExisitingSequences[spriteResource] = sequence;
             }
             return sequence;
         }
 
-        private SpriteAnimationSequence(String spriteResource, int xFrames, int yFrames)
-        {
+        private SpriteAnimationSequence(String spriteResource, int xFrames, int yFrames) {
             _spriteResource = spriteResource;
             _xFrames = xFrames;
             _yFrames = yFrames;
             LoadContent();
         }
 
-        public void LoadContent()
-        {
+        public void LoadContent() {
             //load the texture
             _texture = SharedContentManager.Load<Texture2D>(_spriteResource);
 
@@ -62,33 +55,26 @@ namespace ChaoticMind
             int xSize = _texture.Width / _xFrames;
             int ySize = _texture.Height / _yFrames;
             _frameRects = new Rectangle[_yFrames * _xFrames];
-            
-            for (int row = 0 ; row < _yFrames; row++)
-            {
-                for (int col = 0; col < _xFrames; col++)
-                {
+
+            for (int row = 0; row < _yFrames; row++) {
+                for (int col = 0; col < _xFrames; col++) {
                     _frameRects[row * _xFrames + col] = new Rectangle(col * xSize, (_yFrames - row - 1) * ySize, xSize, ySize);
                 }
             }
         }
 
-        public Texture2D Texture
-        {
-            get
-            {
+        public Texture2D Texture {
+            get {
                 return _texture;
             }
         }
 
-        public Rectangle getFrameRect (int frameIndex)
-        {
+        public Rectangle getFrameRect(int frameIndex) {
             return _frameRects[frameIndex];
         }
 
-        public int NumFrames
-        {
-            get
-            {
+        public int NumFrames {
+            get {
                 return _frameRects.GetLength(0);
             }
         }

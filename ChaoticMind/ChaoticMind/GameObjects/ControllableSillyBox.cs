@@ -6,43 +6,34 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 
-namespace ChaoticMind
-{
-    class ControllableSillyBox : Character
-    {
+namespace ChaoticMind {
+    class ControllableSillyBox : Character {
 
         public ControllableSillyBox(CharacterType characterType, World world, Vector2 startingPosition)
-            : base(characterType, world, startingPosition)
-        {
+            : base(characterType, world, startingPosition) {
             _body.LinearDamping = 30;
         }
 
-        public Body Body
-        {
+        public Body Body {
             get { return _body; }
         }
 
         //Use input to decide what direction this character should try to face and move
-        protected override void decideOnMovementTargets()
-        {
+        protected override void decideOnMovementTargets() {
             KeyboardState keyState = Keyboard.GetState();
 
             LocationToMoveToward = _body.Position;
 
-            if (keyState.IsKeyDown(Keys.A))
-            {
+            if (keyState.IsKeyDown(Keys.A)) {
                 LocationToMoveToward -= Vector2.UnitX;
             }
-            if (keyState.IsKeyDown(Keys.D))
-            {
+            if (keyState.IsKeyDown(Keys.D)) {
                 LocationToMoveToward += Vector2.UnitX;
             }
-            if (keyState.IsKeyDown(Keys.W))
-            {
+            if (keyState.IsKeyDown(Keys.W)) {
                 LocationToMoveToward -= Vector2.UnitY;
             }
-            if (keyState.IsKeyDown(Keys.S))
-            {
+            if (keyState.IsKeyDown(Keys.S)) {
                 LocationToMoveToward += Vector2.UnitY;
             }
 

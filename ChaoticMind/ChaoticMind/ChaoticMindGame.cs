@@ -12,13 +12,11 @@ using Microsoft.Xna.Framework.Media;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 
-namespace ChaoticMind
-{
+namespace ChaoticMind {
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class ChaoticMindGame : Microsoft.Xna.Framework.Game
-    {
+    public class ChaoticMindGame : Microsoft.Xna.Framework.Game {
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
         SpriteFont _debugFont;
@@ -31,8 +29,7 @@ namespace ChaoticMind
         //Draws the objects
         Camera _mainCamera;
 
-        internal Camera MainCamera
-        {
+        internal Camera MainCamera {
             get { return _mainCamera; }
         }
 
@@ -46,8 +43,7 @@ namespace ChaoticMind
 
         MapManager _mapManager;
 
-        public ChaoticMindGame()
-        {
+        public ChaoticMindGame() {
 
             _graphics = new GraphicsDeviceManager(this);
             _graphics.PreferredBackBufferWidth = 1400; //_graphics.GraphicsDevice.DisplayMode.Width;
@@ -69,8 +65,7 @@ namespace ChaoticMind
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
-        protected override void Initialize()
-        {
+        protected override void Initialize() {
 
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -111,8 +106,7 @@ namespace ChaoticMind
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
         /// </summary>
-        protected override void LoadContent()
-        {        
+        protected override void LoadContent() {
         }
 
 
@@ -120,8 +114,7 @@ namespace ChaoticMind
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
         /// </summary>
-        protected override void UnloadContent()
-        {
+        protected override void UnloadContent() {
             // TODO: Unload any non ContentManager content here
         }
 
@@ -130,8 +123,7 @@ namespace ChaoticMind
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime)
-        {
+        protected override void Update(GameTime gameTime) {
             float deltaTime = ((float)gameTime.ElapsedGameTime.TotalMilliseconds) * 0.001f;
 
             // Allows the game to exit
@@ -145,8 +137,7 @@ namespace ChaoticMind
 
             //Update all objects in our list. This is not where physics is evaluated,
             // it is only where object-specific actions are performed, like applying control forces
-            foreach (DrawableGameObject obj in _objects)
-            {
+            foreach (DrawableGameObject obj in _objects) {
                 obj.Update(deltaTime);
             }
 
@@ -164,9 +155,7 @@ namespace ChaoticMind
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
-        {
-            //GraphicsDevice.Clear(Color.CornflowerBlue);
+        protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin();
@@ -174,19 +163,16 @@ namespace ChaoticMind
             _mapManager.DrawMap(_mainCamera);
 
             //Draw all objects in our list
-            foreach (DrawableGameObject obj in _objects)
-            {
+            foreach (DrawableGameObject obj in _objects) {
                 _mainCamera.Draw(obj);
             }
-            
+
             /*Debugging writing*/
             _fpsCounter.Draw(gameTime);
             _spriteBatch.DrawString(_debugFont, string.Format("Player: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
             Vector2 mouseLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
             Vector2 worldMouseLocation = _mainCamera.screenPointToWorld(mouseLocation);
             _spriteBatch.DrawString(_debugFont, string.Format(".({0:0}, {1:0})", worldMouseLocation.X, worldMouseLocation.Y), mouseLocation, Color.White);
-
-
 
             _spriteBatch.End();
 

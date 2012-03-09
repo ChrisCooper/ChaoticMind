@@ -6,27 +6,23 @@ using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Factories;
 
-namespace ChaoticMind
-{
+namespace ChaoticMind {
     //This class is for all intelligent actors in the game, such as 
     // the main player character, and enemies.
     // (Enemies are coming at a later stage of development)
-    class Character : DrawableGameObject
-    {
+    class Character : DrawableGameObject {
 
         protected CharacterType _characterType;
 
         public Character(CharacterType characterType, World world, Vector2 startingPosition)
-            : base(characterType.SpriteName, characterType.XSize, characterType.YSize, characterType.AnimationDuration, characterType.PixelsPerMeter, world, startingPosition)
-        {
+            : base(characterType.SpriteName, characterType.XSize, characterType.YSize, characterType.AnimationDuration, characterType.PixelsPerMeter, world, startingPosition) {
             _characterType = characterType;
 
 
             float objectWidth = _sprite.CurrentTextureBounds.Width / _characterType.PixelsPerMeter;
             float objectHeight = _sprite.CurrentTextureBounds.Height / _characterType.PixelsPerMeter;
 
-            switch (characterType.ObjectShape) 
-            {
+            switch (characterType.ObjectShape) {
                 case ObjectShapes.RECTANGLE:
                     // This method creates a body (has mass, position, rotation),
                     // as well as a rectangular fixture, which is just a shape stapled to the body.
@@ -37,7 +33,7 @@ namespace ChaoticMind
                     _body = BodyFactory.CreateCircle(world, objectWidth / 2, _characterType.Density);
                     break;
             }
-            
+
             _body.BodyType = BodyType.Dynamic;
             _body.Position = startingPosition;
         }
@@ -51,12 +47,10 @@ namespace ChaoticMind
 
         //Use input (in the case of a controllable character)
         // or an AI routine to decide what direction this character should try to face, and move
-        protected virtual void decideOnMovementTargets()
-        {
+        protected virtual void decideOnMovementTargets() {
         }
 
-        private void performMovement(float deltaTime)
-        {
+        private void performMovement(float deltaTime) {
             Vector2 movement = LocationToMoveToward - _body.Position;
 
             _body.ApplyLinearImpulse(_characterType.MaxMovementForce * movement * deltaTime);
@@ -65,16 +59,14 @@ namespace ChaoticMind
 
         //The location in global coordinates that this character will attempt to
         // move torward (by strafing if necessary)
-        protected Vector2 LocationToMoveToward
-        {
+        protected Vector2 LocationToMoveToward {
             get;
             set;
         }
 
         //The location in global coordinates that this character will attempt to
         // turn torward
-        protected Vector2 LocationToFace
-        {
+        protected Vector2 LocationToFace {
             get;
             set;
         }

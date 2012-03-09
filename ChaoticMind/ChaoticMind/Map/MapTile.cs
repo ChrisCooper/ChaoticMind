@@ -14,11 +14,12 @@ namespace ChaoticMind {
     class MapTile : DrawableGameObject {
 
         public const float TileSideLength = 24.0f;
+        public const float TileDoorPercent = 2/16.0f;
+        public const float TileWallPercent = 1/16.0f;
         private const float SnapThreshold = 0.9999f;
         private const float MovementSpeed = 35f;
 
         DoorDirections _openDoors;
-        float _imageRotation;
 
 
         //Todo: abstract into travel class
@@ -38,8 +39,6 @@ namespace ChaoticMind {
 
             _connectedDoors = _openDoors;
 
-            _imageRotation = _openDoors.imageRotation();
-
             _sprite = new StaticSprite(MapTileUtilities.appearanceStringFromDoorConfiguration(openDoors));
 
             _pixelsPerMeter = _sprite.CurrentTextureBounds.Width / TileSideLength;
@@ -49,9 +48,7 @@ namespace ChaoticMind {
             _body.BodyType = BodyType.Kinematic;
 
 
-            loadWallFixtures();
-
-            loadDoorFixtures();
+            MapTileUtilities.AttachFixtures(_body, _openDoors);
 
             
         }
@@ -96,18 +93,6 @@ namespace ChaoticMind {
             return (_travelDistance - (_targetLocation - Position).Length()) / _travelDistance;
         }
 
-        private void loadDoorFixtures() {
-            foreach (List<Vertices> list in MapTileUtilities.ClosedDoorVerticesForConfiguration(_openDoors)) {
-                List<Fixture> compund = FixtureFactory.AttachCompoundPolygon(list, 1.0f, _body);
-            }
-        }
-
-        private void loadWallFixtures() {
-            foreach (List<Vertices> list in MapTileUtilities.WallVertices) {
-                List<Fixture> compund = FixtureFactory.AttachCompoundPolygon(list, 1.0f, _body);
-            }
-        }
-
         public static Vector2 WorldPositionForGridCoordinates(int x, int y) {
             return new Vector2(TileSideLength * x, TileSideLength * y);
         }
@@ -126,12 +111,9 @@ namespace ChaoticMind {
 
         public float OverlayRotation {
             get {
-                return _connectedDoors.imageRotation();
+                return _connectedDoors.tileRotation();
             }
         }
-
-        public override float Rotation {
-            get { return _imageRotation; }
         }
 
         internal void go() {
@@ -140,6 +122,5 @@ namespace ChaoticMind {
 
         internal void shiftTo(int destX, int destY) {
             setTarget(MapTile.WorldPositionForGridCoordinates(destX, destY));
-        }
     }
 }
