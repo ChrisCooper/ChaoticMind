@@ -26,6 +26,10 @@ namespace ChaoticMind
 
         Body _target;
 
+        float _shakeMagnitude = 0.0f;
+        float _shakeDecay = 0.95f;
+        float _shakeIncreaseAmount = 1.0f;
+
         public Camera(Vector2 startingPosition, float startingZoom, GraphicsDevice graphics, SpriteBatch spriteBatch)
         {
             _position = startingPosition;
@@ -70,6 +74,10 @@ namespace ChaoticMind
             {
                 _position += FollowFaithfulness * (_target.Position - _position);
             }
+
+            _position += _shakeMagnitude * Utilities.randomVector();
+
+            _shakeMagnitude *= _shakeDecay;
 
             updateFrame();
         }
@@ -116,6 +124,10 @@ namespace ChaoticMind
 
             _position += force * (1/_zoom);
 
+        }
+
+        internal void shake() {
+            _shakeMagnitude += _shakeIncreaseAmount;
         }
     }
 }

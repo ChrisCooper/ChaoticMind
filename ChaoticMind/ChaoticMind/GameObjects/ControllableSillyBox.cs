@@ -12,6 +12,7 @@ namespace ChaoticMind {
         public ControllableSillyBox(CharacterType characterType, World world, Vector2 startingPosition)
             : base(characterType, world, startingPosition) {
             _body.LinearDamping = 30;
+            _body.AngularDamping = 5;
         }
 
         public Body Body {

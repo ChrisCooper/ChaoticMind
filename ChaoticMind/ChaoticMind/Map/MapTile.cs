@@ -16,7 +16,7 @@ namespace ChaoticMind {
         public const float TileSideLength = 24.0f;
         public const float TileDoorPercent = 2 / 16.0f;
         public const float TileWallPercent = 1 / 16.0f;
-        private const float SnapThreshold = 0.9999f;
+        private const float SnapThreshold = 0.99999f;
         private const float MovementSpeed = 35f;
 
         DoorDirections _openDoors;
@@ -69,7 +69,8 @@ namespace ChaoticMind {
 
                 _body.LinearVelocity = (_travelDirection) * movementFunction(percent);
 
-                if (percent > SnapThreshold) {
+                //Are we there yet?
+                if (percent > SnapThreshold || Vector2.Dot(_travelDirection, _targetLocation - Position) < 0) {
                     snapToTarget();
                 }
             }
@@ -81,7 +82,9 @@ namespace ChaoticMind {
         }
 
         private float movementFunction(float percent) {
-            return ((-Math.Abs((percent - 0.5f) * 0.99f)) + 0.5f) * MovementSpeed;
+            float part = ((percent - 0.5f) * 0.999999f);
+            return ((-(part * part)) + 0.27f)*3.5f * MovementSpeed;
+            //return ((-Math.Abs((percent - 0.5f) * 0.99f)) + 0.5f) * MovementSpeed;
         }
 
         private float travelPercent() {
@@ -105,6 +108,7 @@ namespace ChaoticMind {
         }
 
         public StaticSprite Overlay {
+
             get {
                 return MapTileUtilities.getOverlay(_connectedDoors);
             }
