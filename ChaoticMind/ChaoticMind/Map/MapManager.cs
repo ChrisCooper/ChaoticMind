@@ -63,7 +63,6 @@ namespace ChaoticMind {
             for (int x = 0; x < _tiles.GetLength(0); x++) {
                 for (int y = 0 ; y < _tiles.GetLength(1) ; y++){
                     if (_tiles[x, y] != null) {
-                        //Console.WriteLine(x + " " + y);
                         _tiles[x, y].updateConnectedDoors(getTileDoors(x, y-1), getTileDoors(x, y+1), getTileDoors(x+1, y), getTileDoors(x-1, y));
                     }
                 }

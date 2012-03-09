@@ -37,7 +37,7 @@ namespace ChaoticMind {
             : base(world, startingPosition) {
             _openDoors = openDoors;
 
-            _connectedDoors = _openDoors;
+            _connectedDoors = new DoorDirections(false, false, false, false);
 
             _sprite = new StaticSprite(MapTileUtilities.appearanceStringFromDoorConfiguration(openDoors), TileSideLength);
 
