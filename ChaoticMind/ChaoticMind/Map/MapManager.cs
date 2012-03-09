@@ -22,25 +22,24 @@ namespace ChaoticMind {
 
         private bool hasntMovedTemp = true;
 
+        World _world;
+        private MapTile _shiftedOutTile;
+
         public MapManager(int mapWidth, int mapHeight) {
             _gridWidth = mapWidth;
             _gridHeight = mapHeight;
-            _tiles = new MapTile[_gridHeight + 2, _gridWidth + 2];
+            _tiles = new MapTile[_gridWidth, _gridHeight];
         }
 
         //Make the tiles
         public void Initialize(World world) {
+            _world = world;
             for (int y = 0; y < _gridHeight; y++) {
                 for (int x = 0; x < _gridWidth; x++) {
-                    setTile(x, y, new MapTile(world, MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors()));
+                    _tiles[x,y] = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors());
                 }
             }
         }
-
-        private void setTile(int x, int y, MapTile mapTile) {
-            _tiles[y + 1, x + 1] = mapTile;
-        }
-
 
         public void Update(float deltaTime) {
             foreach (MapTile tile in _tiles) {
@@ -51,39 +50,53 @@ namespace ChaoticMind {
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.P) && hasntMovedTemp) {
-                shiftRow(0, ShiftDirection.RIGHT);
+                shiftRow(0, ShiftDirection.RIGHT, DoorDirections.RandomDoors());
                 hasntMovedTemp = false;
             }
         }
 
-        private void shiftRow(int yIndex, ShiftDirection direction) {
+        private void shiftRow(int yIndex, ShiftDirection direction, DoorDirections newTileDoors) {
+            //Set all the tiles to start moving
             for (int x = 0; x < _gridWidth; x++) {
                 shiftTile(x, yIndex, x + (direction == ShiftDirection.RIGHT ? 1 : -1), yIndex);
             }
             
-            //remove the now-empty tile
-            //This will be changed to be the new tile in the future
-            setTile(direction == ShiftDirection.RIGHT ? -1 : _gridWidth, yIndex, null);
+            //Shift all the tiles in the array to their new positions 
+            if (direction == ShiftDirection.RIGHT) {
+                _shiftedOutTile = _tiles[_gridWidth - 1, yIndex];
 
-            for (int x = _gridWidth; x > 0; x--) {
-                setTile(x , yIndex, getTile(x + direction == ShiftDirection.RIGHT ? -1 : 1, yIndex));
-                ///shiftTile(0, x, 0, x + (direction == ShiftDirection.RIGHT ? 1 : -1));
+                //shift the tiles in our array to represent the new arrangement
+                for (int x = _gridWidth - 1; x > 0; x--) {
+                    _tiles[x, yIndex] = _tiles[x-1, yIndex];
+                }
+
+                //TODO: don't reassign this. pass it in.
+                MapTile pushingTile = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(-1, yIndex), newTileDoors);
+                _tiles[0, yIndex] = pushingTile;
+                pushingTile.shiftTo(0, yIndex);
+            }
+            else {
+                _shiftedOutTile = _tiles[0, yIndex];
+                //shift the tiles in our array to represent the new arrangement
+                for (int x = 0; x < _gridWidth-2; x++) {
+                    _tiles[x, yIndex] = _tiles[x + 1, yIndex];
+                }
+
+                //TODO: don't reassign this. pass it in.
+                int newX = _gridHeight-1;
+                MapTile pushingTile = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(newX + 1, yIndex), newTileDoors);
+                _tiles[newX, yIndex] = pushingTile;
             }
         }
 
         private void shiftTile(int tileX, int tileY, int destX, int destY) {
-            MapTile tile = getTile(tileX, tileY);
-            tile.shiftTo(destX, destY);
-        }
-
-        private MapTile getTile(int tileX, int tileY) {
-            return _tiles[tileY + 1, tileX + 1];
+            _tiles[tileX, tileY].shiftTo(destX, destY);
         }
 
         public void DrawMap(Camera camera) {
             for (int y = 0; y < _gridHeight; y++) {
                 for (int x = 0; x < _gridWidth; x++) {
-                    MapTile tile = getTile(x, y);
+                    MapTile tile = _tiles[x,y];
                     camera.Draw(tile);
                     camera.DrawOverlay(tile, Color.White * 0.3f);
                 }

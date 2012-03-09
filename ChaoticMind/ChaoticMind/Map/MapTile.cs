@@ -15,7 +15,7 @@ namespace ChaoticMind {
 
         public const float TileSideLength = 24.0f;
         private const float SnapThreshold = 0.9999f;
-        private const float MovementSpeed = 15f;
+        private const float MovementSpeed = 35f;
 
         DoorDirections _openDoors;
         float _imageRotation;
