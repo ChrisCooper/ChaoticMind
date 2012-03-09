@@ -7,7 +7,9 @@ namespace ChaoticMind {
     public enum ComboType {
         STRAIGHT = 0,
         BENT = 1,
-        TRIPLE = 2
+        TRIPLE = 2,
+        SINGLE = 3,
+        NONE = 4
     }
 
     class DoorDirections {
@@ -23,10 +25,15 @@ namespace ChaoticMind {
 
         public ComboType Type {
             get {
-                if (NumberOfDoors == 3) {
+                if (NumberOfDoors == 0){
+                    return ComboType.NONE;
+                }
+                else if (NumberOfDoors == 1) {
+                    return ComboType.SINGLE;
+                }
+                else if (NumberOfDoors == 3){
                     return ComboType.TRIPLE;
                 }
-
                 if (hasNorth && hasSouth || hasEast && hasWest) {
                     return ComboType.STRAIGHT;
                 }
@@ -89,15 +96,19 @@ namespace ChaoticMind {
 
         public bool hasNorth {
             get { return _north; }
+            set { _north = value; }
         }
         public bool hasSouth {
             get { return _south; }
+            set { _south = value; }
         }
         public bool hasEast {
             get { return _east; }
+            set { _east = value; }
         }
         public bool hasWest {
             get { return _west; }
+            set { _west = value; }
         }
 
 
@@ -131,7 +142,12 @@ namespace ChaoticMind {
                         return (float)(-Math.PI / 2);
                     }
                     break;
-
+                case ComboType.SINGLE:
+                    if (hasNorth) return 0.0f;
+                    if (hasSouth) return (float)Math.PI;
+                    if (hasEast) return (float)Math.PI/2;
+                    if (hasWest) return (float)(-Math.PI/2);
+                    break;
             }
             return 0.0f;
         }

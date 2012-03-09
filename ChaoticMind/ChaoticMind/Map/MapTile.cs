@@ -21,11 +21,11 @@ namespace ChaoticMind {
 
         DoorDirections _openDoors;
 
-
         //Todo: abstract into travel class
         Vector2 _startLocation;
         Vector2 _targetLocation;
         float _travelDistance;
+
         //stores the doors that are actually useful
         DoorDirections _connectedDoors;
 
@@ -45,10 +45,7 @@ namespace ChaoticMind {
             _body.Position = startingPosition;
             _body.BodyType = BodyType.Kinematic;
 
-
             MapTileUtilities.AttachFixtures(_body, _openDoors);
-
-
         }
 
         private void setTarget(Vector2 target) {
@@ -95,10 +92,16 @@ namespace ChaoticMind {
             return new Vector2(TileSideLength * x, TileSideLength * y);
         }
 
+        //if each tile knew it's position, no parameters would be needed
+        public void updateConnectedDoors(DoorDirections n, DoorDirections s, DoorDirections e, DoorDirections w) {
+            _connectedDoors.hasNorth = _openDoors.hasNorth && n != null && n.hasSouth;
+            _connectedDoors.hasSouth = _openDoors.hasSouth && s != null && s.hasNorth;
+            _connectedDoors.hasEast = _openDoors.hasEast && e != null && e.hasWest;
+            _connectedDoors.hasWest = _openDoors.hasWest && w != null && w.hasEast;
+        }
 
-        public void updateConnectedDoors() {
-            //dummy return
-            _connectedDoors = _openDoors;
+        public DoorDirections Doors {
+            get { return _openDoors; }
         }
 
         public StaticSprite Overlay {

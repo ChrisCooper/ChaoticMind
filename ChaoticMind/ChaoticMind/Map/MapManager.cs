@@ -39,19 +39,34 @@ namespace ChaoticMind {
                     _tiles[x,y] = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors());
                 }
             }
+            //initially set the overlays
+            UpdateOverlays();
         }
 
         public void Update(float deltaTime) {
             foreach (MapTile tile in _tiles) {
-                if (tile == null) {
-                    continue;
+                if (tile != null) {
+                    tile.Update(deltaTime);
                 }
-                tile.Update(deltaTime);
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.P) && hasntMovedTemp) {
                 shiftRow(0, ShiftDirection.RIGHT, DoorDirections.RandomDoors());
                 hasntMovedTemp = false;
+            }
+        }
+
+        //probably not the most effecient way of doing it
+        //better way might be to have each tile analyze and set the tiles to the north and west of them
+        //seems to have issues with shifting
+        private void UpdateOverlays() {
+            for (int x = 0; x < _tiles.GetLength(0); x++) {
+                for (int y = 0 ; y < _tiles.GetLength(1) ; y++){
+                    if (_tiles[x, y] != null) {
+                        //Console.WriteLine(x + " " + y);
+                        _tiles[x, y].updateConnectedDoors(getTileDoors(x, y-1), getTileDoors(x, y+1), getTileDoors(x+1, y), getTileDoors(x-1, y));
+                    }
+                }
             }
         }
 
@@ -87,6 +102,10 @@ namespace ChaoticMind {
                 MapTile pushingTile = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(newX + 1, yIndex), newTileDoors);
                 _tiles[newX, yIndex] = pushingTile;
             }
+
+            //update the overlays
+            //TODO: Why doesn't this work properly?
+            UpdateOverlays();
         }
 
         private void shiftTile(int tileX, int tileY, int destX, int destY) {
@@ -101,6 +120,13 @@ namespace ChaoticMind {
                     camera.DrawOverlay(tile, Color.White * 0.3f);
                 }
             }
+        }
+
+        private DoorDirections getTileDoors(int x, int y) {
+            if (x >= 0 && x < _gridWidth && y >= 0 && y < _gridHeight) {
+                return _tiles[x, y].Doors;
+            }
+            return null;
         }
     }
 }

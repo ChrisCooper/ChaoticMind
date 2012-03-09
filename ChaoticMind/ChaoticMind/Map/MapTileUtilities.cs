@@ -19,10 +19,11 @@ namespace ChaoticMind {
 
         //load the overlay textures
         private static void loadOverlays() {
-            _OverlaySprites = new List<StaticSprite>(3);
+            _OverlaySprites = new List<StaticSprite>(4);
             _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Triple", MapTile.TileSideLength));
             _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Straight", MapTile.TileSideLength));
             _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Bent", MapTile.TileSideLength));
+            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Single", MapTile.TileSideLength));
         }
 
         //attaches the physics fixtures to the map tile
@@ -72,8 +73,11 @@ namespace ChaoticMind {
             else if (config.Type == ComboType.STRAIGHT) {
                 return baseName + "Straight";
             }
-            else {
+            else if (config.Type == ComboType.BENT) {
                 return baseName + "Bent";
+            }
+            else{
+                return null;
             }
         }
         public static StaticSprite getOverlay(DoorDirections d) {
@@ -83,10 +87,16 @@ namespace ChaoticMind {
             else if (d.Type == ComboType.STRAIGHT) {
                 return _OverlaySprites[1];
             }
-            else {
-                //bent
+            else if (d.Type == ComboType.BENT){
                 return _OverlaySprites[2];
             }
+            else if (d.Type == ComboType.SINGLE) {
+                return _OverlaySprites[3];
+            }
+            else if (d.Type == ComboType.NONE) {
+                return null;
+            }
+            return null;
         }
     }
 }
