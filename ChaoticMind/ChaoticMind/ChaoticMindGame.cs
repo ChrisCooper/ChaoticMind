@@ -97,7 +97,7 @@ namespace ChaoticMind {
 
 
             _mapManager = new MapManager(10, 10);
-            _mapManager.Initialize(_world);
+            _mapManager.Initialize(_world, _mainCamera);
 
             base.Initialize();
         }
@@ -123,6 +123,7 @@ namespace ChaoticMind {
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+
         protected override void Update(GameTime gameTime) {
             float deltaTime = ((float)gameTime.ElapsedGameTime.TotalMilliseconds) * 0.001f;
 

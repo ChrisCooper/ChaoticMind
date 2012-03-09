@@ -23,6 +23,8 @@ namespace ChaoticMind {
         private bool hasntMovedTemp = true;
 
         World _world;
+        Camera _camera;
+
         private MapTile _shiftedOutTile;
 
         public MapManager(int mapWidth, int mapHeight) {
@@ -32,13 +34,15 @@ namespace ChaoticMind {
         }
 
         //Make the tiles
-        public void Initialize(World world) {
+        public void Initialize(World world, Camera camera) {
             _world = world;
             for (int y = 0; y < _gridHeight; y++) {
                 for (int x = 0; x < _gridWidth; x++) {
                     _tiles[x,y] = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors());
                 }
             }
+
+            _camera = camera;
         }
 
         public void Update(float deltaTime) {
@@ -56,6 +60,8 @@ namespace ChaoticMind {
         }
 
         private void shiftRow(int yIndex, ShiftDirection direction, DoorDirections newTileDoors) {
+            _camera.shake();
+
             //Set all the tiles to start moving
             for (int x = 0; x < _gridWidth; x++) {
                 shiftTile(x, yIndex, x + (direction == ShiftDirection.RIGHT ? 1 : -1), yIndex);
