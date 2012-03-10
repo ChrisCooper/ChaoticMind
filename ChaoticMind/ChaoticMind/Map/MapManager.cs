@@ -20,7 +20,10 @@ namespace ChaoticMind {
 
         MapTile[,] _tiles;
 
-        private bool hasntMovedTemp = true;
+        //shift timing
+        //make sure to update if the shifting speed is altered
+        public const float MinShiftTime = 5000; //5 seconds
+        private DateTimeOffset _lastShiftTime = DateTimeOffset.Now.AddMilliseconds(-MinShiftTime);
 
         World _world;
         Camera _camera;
@@ -54,13 +57,12 @@ namespace ChaoticMind {
                 }
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.P) && hasntMovedTemp) {
+            if (Keyboard.GetState().IsKeyDown(Keys.P) && shiftTimePercent() > 0.999f) {
                 shiftTiles(0, ShiftDirection.DOWN, DoorDirections.RandomDoors());
-                hasntMovedTemp = false;
             }
         }
 
-        //probably not the most effecient way of doing it
+        //TODO: probably not the most effecient way of doing it
         //better way might be to have each tile analyze and set the tiles to the north and west of them
         private void UpdateOverlays() {
             for (int x = 0; x < _tiles.GetLength(0); x++) {
@@ -72,7 +74,17 @@ namespace ChaoticMind {
             }
         }
 
+        //returns the percent of the shift time that has elapsed since the last shift
+        public float shiftTimePercent() {
+            double temp = (DateTimeOffset.Now - _lastShiftTime).TotalMilliseconds / MinShiftTime;
+            return temp > 1 ? 1 : (float)temp;
+        }
+
+        //shift the row/col of tiles
+        //TODO: KNOWN BUG: Fixtures of old tiles are not removed from the tile that gets shifted out
         private void shiftTiles(int index, ShiftDirection dir, DoorDirections newTileDoors) {
+
+            _lastShiftTime = DateTimeOffset.Now;
 
             int gridLimit = dir == ShiftDirection.LEFT || dir == ShiftDirection.RIGHT ? _gridWidth : _gridHeight;
 

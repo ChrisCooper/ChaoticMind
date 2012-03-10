@@ -142,5 +142,9 @@ namespace ChaoticMind {
             get { return _isVisible; }
             set { _isVisible = value; }
         }
+
+        public bool IsMoving {
+            get { return _isMoving; }
+        }
     }
 }
