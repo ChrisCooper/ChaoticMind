@@ -127,12 +127,10 @@ namespace ChaoticMind {
 
         //Minimap
         public void DrawMap(Camera camera) {
-
-
             for (int y = 0; y < _gridHeight; y++) {
                 for (int x = 0; x < _gridWidth; x++) {
                     MapTile tile = _tiles[x, y];
-                    camera.DrawMap(tile);
+                    camera.DrawMinimap(tile);
                 }
             }
         }

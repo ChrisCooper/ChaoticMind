@@ -63,12 +63,13 @@ namespace ChaoticMind
                 _spriteBatch.Draw(tile.Overlay.Texture, WorldToScreenPos(tile.Position), tile.Overlay.CurrentTextureBounds, clr, tile.OverlayRotation, tile.Overlay.CurrentTextureOrigin, _zoom / tile.PixelsPerMeter, SpriteEffects.None, 1.0f);
             }
         }
-        public void DrawMap(MapTile tile) {
+
+        public void DrawMinimap(MapTile tile) {
             if (tile.MapSprite != null) {
-                _spriteBatch.Draw(tile.MapSprite.Texture, WorldToMapPos(tile.Position), tile.MapSprite.CurrentTextureBounds, Color.White, tile.Rotation, tile.MapSprite.CurrentTextureOrigin, 1 / tile.PixelsPerMeter, SpriteEffects.None, 1.0f);
+                _spriteBatch.Draw(tile.MapSprite.Texture, WorldToMapPos(tile.Position), tile.MapSprite.CurrentTextureBounds, Color.White, tile.Rotation, tile.MapSprite.CurrentTextureOrigin, 1 / tile.MapSprite.PixelsPerMeter, SpriteEffects.None, 1.0f);
             }
             if (tile.Overlay != null) {
-                //_spriteBatch.Draw(tile.Overlay.Texture, WorldToMapPos(tile.Position), tile.Overlay.CurrentTextureBounds, Color.CornflowerBlue * 0.8f, tile.OverlayRotation, tile.Overlay.CurrentTextureOrigin, 1 / tile.PixelsPerMeter, SpriteEffects.None, 1.0f);
+                //_spriteBatch.Draw(tile.Overlay.Texture, WorldToMapPos(tile.Position), tile.Overlay.CurrentTextureBounds, Color.CornflowerBlue * 0.8f, tile.OverlayRotation, tile.Overlay.CurrentTextureOrigin, 1 / tile.Overlay.PixelsPerMeter, SpriteEffects.None, 1.0f);
             }
         }
 
