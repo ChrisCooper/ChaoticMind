@@ -57,8 +57,18 @@ namespace ChaoticMind {
                 }
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.P) && shiftTimePercent() > 0.999f) {
+            //temp shifting logic
+            if (Keyboard.GetState().IsKeyDown(Keys.Up)) {
+                shiftTiles(0, ShiftDirection.UP, DoorDirections.RandomDoors());
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.Down)) {
                 shiftTiles(0, ShiftDirection.DOWN, DoorDirections.RandomDoors());
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.Left)) {
+                shiftTiles(0, ShiftDirection.LEFT, DoorDirections.RandomDoors());
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.Right)) {
+                shiftTiles(0, ShiftDirection.RIGHT, DoorDirections.RandomDoors());
             }
         }
 
@@ -81,8 +91,11 @@ namespace ChaoticMind {
         }
 
         //shift the row/col of tiles
-        //TODO: KNOWN BUG: Fixtures of old tiles are not removed from the tile that gets shifted out
         private void shiftTiles(int index, ShiftDirection dir, DoorDirections newTileDoors) {
+
+            if (shiftTimePercent() < 1){
+                return;
+            }
 
             _lastShiftTime = DateTimeOffset.Now;
 
@@ -143,6 +156,10 @@ namespace ChaoticMind {
                 _tiles[index, shiftEnd] = pushingTile;
                 pushingTile.shiftTo(index, shiftEnd);
             }
+
+            //tell the shifted out tile not to collide with anything and mark it for deletion
+            _shiftedOutTile.EnableCollisions(false);
+            _shiftedOutTile = null;
 
             //update the overlays
             UpdateOverlays();

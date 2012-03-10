@@ -146,5 +146,15 @@ namespace ChaoticMind {
         public bool IsMoving {
             get { return _isMoving; }
         }
+
+        //remove the resources of the tile
+        public void EnableCollisions(bool b) {
+            if (b){
+                _body.CollidesWith = Category.All;
+            }
+            else{
+                _body.CollidesWith = Category.None;
+            }
+        }
     }
 }

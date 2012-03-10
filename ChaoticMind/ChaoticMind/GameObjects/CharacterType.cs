@@ -26,7 +26,6 @@ namespace ChaoticMind {
         int _yFrames;
         float _entitySize;
         float _animationDuration;
-        float _pixelsPerMeter;
         ObjectShapes _objectShape;
         float _density;
         float _maxTurningTorque;
