@@ -34,6 +34,7 @@ namespace ChaoticMind {
             _MapSprites.Add(new StaticSprite("Minimap/TileMap_Triple", MapTile.TileSideLength));
             _MapSprites.Add(new StaticSprite("Minimap/TileMap_Straight", MapTile.TileSideLength));
             _MapSprites.Add(new StaticSprite("Minimap/TileMap_Bent", MapTile.TileSideLength));
+            _MapSprites.Add(new StaticSprite("Minimap/TileMap_Hidden", MapTile.TileSideLength));
         }
 
         //attaches the physics fixtures to the map tile
@@ -108,7 +109,10 @@ namespace ChaoticMind {
             }
             return null;
         }
-        public static StaticSprite getMapSprite(DoorDirections d) {
+        public static StaticSprite getMapSprite(DoorDirections d, bool visible) {
+            if (!visible) {
+                return _MapSprites[3];
+            }
             if (d.Type == ComboType.TRIPLE) {
                 return _MapSprites[0];
             }

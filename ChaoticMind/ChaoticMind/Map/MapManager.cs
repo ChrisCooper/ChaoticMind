@@ -38,7 +38,7 @@ namespace ChaoticMind {
             _world = world;
             for (int y = 0; y < _gridHeight; y++) {
                 for (int x = 0; x < _gridWidth; x++) {
-                    _tiles[x,y] = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors());
+                    _tiles[x,y] = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors(), false);
                 }
             }
             //initially set the overlays
@@ -90,7 +90,7 @@ namespace ChaoticMind {
                 }
 
                 //TODO: don't reassign this. pass it in.
-                MapTile pushingTile = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(-1, yIndex), newTileDoors);
+                MapTile pushingTile = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(-1, yIndex), newTileDoors, true);
                 _tiles[0, yIndex] = pushingTile;
                 pushingTile.shiftTo(0, yIndex);
             }
@@ -103,7 +103,7 @@ namespace ChaoticMind {
 
                 //TODO: don't reassign this. pass it in.
                 int newX = _gridHeight-1;
-                MapTile pushingTile = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(newX + 1, yIndex), newTileDoors);
+                MapTile pushingTile = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(newX + 1, yIndex), newTileDoors, true);
                 _tiles[newX, yIndex] = pushingTile;
             }
 

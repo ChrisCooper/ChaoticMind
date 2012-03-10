@@ -32,8 +32,9 @@ namespace ChaoticMind {
         Vector2 _travelDirection;
 
         bool _isMoving;
+        bool _isVisible;
 
-        public MapTile(World world, Vector2 startingPosition, DoorDirections openDoors)
+        public MapTile(World world, Vector2 startingPosition, DoorDirections openDoors, bool visible)
             : base(world, startingPosition) {
             _openDoors = openDoors;
 
@@ -46,6 +47,8 @@ namespace ChaoticMind {
             _body.BodyType = BodyType.Kinematic;
 
             MapTileUtilities.AttachFixtures(_body, _openDoors);
+
+            _isVisible = visible;
         }
 
         private void setTarget(Vector2 target) {
@@ -131,8 +134,13 @@ namespace ChaoticMind {
 
         public StaticSprite MapSprite {
             get {
-                return MapTileUtilities.getMapSprite(_openDoors);
+                return MapTileUtilities.getMapSprite(_openDoors, _isVisible);
             }
+        }
+
+        public bool IsVisible {
+            get { return _isVisible; }
+            set { _isVisible = value; }
         }
     }
 }
