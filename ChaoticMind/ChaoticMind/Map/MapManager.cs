@@ -72,9 +72,9 @@ namespace ChaoticMind {
             }
         }
 
-        private void shiftTiles(int index, ShiftDirection direction, DoorDirections newTileDoors) {
+        private void shiftTiles(int index, ShiftDirection dir, DoorDirections newTileDoors) {
 
-            int gridLimit = direction == ShiftDirection.LEFT || direction == ShiftDirection.LEFT ? _gridWidth : _gridHeight;
+            int gridLimit = dir == ShiftDirection.LEFT || dir == ShiftDirection.RIGHT ? _gridWidth : _gridHeight;
 
             //check if the index is valid
             if (index < 0 || index >= gridLimit) {
@@ -83,13 +83,13 @@ namespace ChaoticMind {
 
             _camera.shake();
 
-            if (direction == ShiftDirection.LEFT || direction == ShiftDirection.RIGHT) {
-                int shiftStart = direction == ShiftDirection.RIGHT ? _gridWidth - 1 : 0;
-                int shiftEnd = direction == ShiftDirection.RIGHT ? 0 : _gridWidth - 1;
-                int shiftInc = direction == ShiftDirection.RIGHT ? -1 : 1;
+            if (dir == ShiftDirection.LEFT || dir == ShiftDirection.RIGHT) {
+                int shiftStart = dir == ShiftDirection.RIGHT ? gridLimit - 1 : 0;
+                int shiftEnd = dir == ShiftDirection.RIGHT ? 0 : gridLimit - 1;
+                int shiftInc = dir == ShiftDirection.RIGHT ? -1 : 1;
 
                 //Set all the tiles to start moving
-                for (int x = 0; x < _gridWidth; x++) {
+                for (int x = 0; x < gridLimit; x++) {
                     shiftTile(x, index, x - shiftInc, index);
                 }
 
@@ -108,12 +108,12 @@ namespace ChaoticMind {
                 pushingTile.shiftTo(shiftEnd, index);
             }
             else {
-                int shiftStart = direction == ShiftDirection.DOWN ? _gridHeight - 1 : 0;
-                int shiftEnd = direction == ShiftDirection.DOWN ? 0 : _gridHeight - 1;
-                int shiftInc = direction == ShiftDirection.DOWN ? -1 : 1;
+                int shiftStart = dir == ShiftDirection.DOWN ? gridLimit - 1 : 0;
+                int shiftEnd = dir == ShiftDirection.DOWN ? 0 : gridLimit - 1;
+                int shiftInc = dir == ShiftDirection.DOWN ? -1 : 1;
 
                 //Set all the tiles to start moving
-                for (int y = 0; y < _gridHeight; y++) {
+                for (int y = 0; y < gridLimit; y++) {
                     shiftTile(index, y, index, y - shiftInc);
                 }
 
