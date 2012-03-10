@@ -55,7 +55,7 @@ namespace ChaoticMind {
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.P) && hasntMovedTemp) {
-                shiftRow(0, ShiftDirection.LEFT, DoorDirections.RandomDoors());
+                shiftTiles(0, ShiftDirection.DOWN, DoorDirections.RandomDoors());
                 hasntMovedTemp = false;
             }
         }
@@ -72,31 +72,65 @@ namespace ChaoticMind {
             }
         }
 
-        private void shiftRow(int yIndex, ShiftDirection direction, DoorDirections newTileDoors) {
+        private void shiftTiles(int index, ShiftDirection direction, DoorDirections newTileDoors) {
+
+            int gridLimit = direction == ShiftDirection.LEFT || direction == ShiftDirection.LEFT ? _gridWidth : _gridHeight;
+
+            //check if the index is valid
+            if (index < 0 || index >= gridLimit) {
+                return;
+            }
+
             _camera.shake();
 
-            int shiftStart = direction == ShiftDirection.RIGHT ? _gridWidth - 1 : 0;
-            int shiftEnd = direction == ShiftDirection.RIGHT ? 0 : _gridWidth - 1;
-            int shiftInc = direction == ShiftDirection.RIGHT ? -1 : 1;
+            if (direction == ShiftDirection.LEFT || direction == ShiftDirection.RIGHT) {
+                int shiftStart = direction == ShiftDirection.RIGHT ? _gridWidth - 1 : 0;
+                int shiftEnd = direction == ShiftDirection.RIGHT ? 0 : _gridWidth - 1;
+                int shiftInc = direction == ShiftDirection.RIGHT ? -1 : 1;
 
-            //Set all the tiles to start moving
-            for (int x = 0; x < _gridWidth; x++) {
-                shiftTile(x, yIndex, x - shiftInc, yIndex);
+                //Set all the tiles to start moving
+                for (int x = 0; x < _gridWidth; x++) {
+                    shiftTile(x, index, x - shiftInc, index);
+                }
+
+                //store the tile that is getting shifted out
+                _shiftedOutTile = _tiles[shiftStart, index];
+
+                //shift the tiles in our array to represent the new arrangement
+                for (int x = shiftStart; x != shiftEnd; x += shiftInc) {
+                    _tiles[x, index] = _tiles[x + shiftInc, index];
+                }
+
+                //set the location of the tile that was pushed in a move it into place
+                //TODO: don't reassign this. pass it in.
+                MapTile pushingTile = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(shiftEnd + shiftInc, index), newTileDoors, true);
+                _tiles[shiftEnd, index] = pushingTile;
+                pushingTile.shiftTo(shiftEnd, index);
             }
+            else {
+                int shiftStart = direction == ShiftDirection.DOWN ? _gridHeight - 1 : 0;
+                int shiftEnd = direction == ShiftDirection.DOWN ? 0 : _gridHeight - 1;
+                int shiftInc = direction == ShiftDirection.DOWN ? -1 : 1;
 
-            //store the tile that is getting shifted out
-            _shiftedOutTile = _tiles[shiftStart, yIndex];
+                //Set all the tiles to start moving
+                for (int y = 0; y < _gridHeight; y++) {
+                    shiftTile(index, y, index, y - shiftInc);
+                }
 
-            //shift the tiles in our array to represent the new arrangement
-            for (int x = shiftStart; x != shiftEnd; x += shiftInc) {
-                _tiles[x, yIndex] = _tiles[x + shiftInc, yIndex];
+                //store the tile that is getting shifted out
+                _shiftedOutTile = _tiles[index, shiftStart];
+
+                //shift the tiles in our array to represent the new arrangement
+                for (int y = shiftStart; y != shiftEnd; y += shiftInc) {
+                    _tiles[index, y] = _tiles[index, y + shiftInc];
+                }
+
+                //set the location of the tile that was pushed in a move it into place
+                //TODO: don't reassign this. pass it in.
+                MapTile pushingTile = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(index, shiftEnd + shiftInc), newTileDoors, true);
+                _tiles[index, shiftEnd] = pushingTile;
+                pushingTile.shiftTo(index, shiftEnd);
             }
-
-            //set the location of the tile that was pushed in a move it into place
-            //TODO: don't reassign this. pass it in.
-            MapTile pushingTile = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(shiftEnd + shiftInc, yIndex), newTileDoors, true);
-            _tiles[shiftEnd, yIndex] = pushingTile;
-            pushingTile.shiftTo(shiftEnd, yIndex);
 
             //update the overlays
             UpdateOverlays();
