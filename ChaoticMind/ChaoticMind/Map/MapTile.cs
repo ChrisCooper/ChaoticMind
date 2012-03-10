@@ -77,13 +77,14 @@ namespace ChaoticMind {
         }
 
         private void snapToTarget() {
+            _body.Position = _targetLocation;
             _body.LinearVelocity = Vector2.Zero;
             _isMoving = false;
         }
 
         private float movementFunction(float percent) {
             float part = ((percent - 0.5f) * 0.999999f);
-            return ((-(part * part)) + 0.27f)*3.5f * MovementSpeed;
+            return ((-(part * part)) + 0.26f)*3.5f * MovementSpeed;
             //return ((-Math.Abs((percent - 0.5f) * 0.99f)) + 0.5f) * MovementSpeed;
         }
 
@@ -126,6 +127,12 @@ namespace ChaoticMind {
 
         internal void shiftTo(int destX, int destY) {
             setTarget(MapTile.WorldPositionForGridCoordinates(destX, destY));
+        }
+
+        public StaticSprite MapSprite {
+            get {
+                return MapTileUtilities.getMapSprite(_openDoors);
+            }
         }
     }
 }

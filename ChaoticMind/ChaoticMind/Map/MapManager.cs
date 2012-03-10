@@ -115,12 +115,24 @@ namespace ChaoticMind {
             _tiles[tileX, tileY].shiftTo(destX, destY);
         }
 
-        public void DrawMap(Camera camera) {
+        public void DrawTiles(Camera camera) {
             for (int y = 0; y < _gridHeight; y++) {
                 for (int x = 0; x < _gridWidth; x++) {
                     MapTile tile = _tiles[x,y];
                     camera.Draw(tile);
                     camera.DrawOverlay(tile, Color.White * 0.3f);
+                }
+            }
+        }
+
+        //Minimap
+        public void DrawMap(Camera camera) {
+
+
+            for (int y = 0; y < _gridHeight; y++) {
+                for (int x = 0; x < _gridWidth; x++) {
+                    MapTile tile = _tiles[x, y];
+                    camera.DrawMap(tile);
                 }
             }
         }

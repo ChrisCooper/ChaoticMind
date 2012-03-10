@@ -161,12 +161,16 @@ namespace ChaoticMind {
 
             _spriteBatch.Begin();
 
-            _mapManager.DrawMap(_mainCamera);
+            //Draw map tiles
+            _mapManager.DrawTiles(_mainCamera);
 
             //Draw all objects in our list
             foreach (DrawableGameObject obj in _objects) {
                 _mainCamera.Draw(obj);
             }
+
+            //Draw map tiles
+            _mapManager.DrawMap(_mainCamera);
 
             /*Debugging writing*/
             _fpsCounter.Draw(gameTime);

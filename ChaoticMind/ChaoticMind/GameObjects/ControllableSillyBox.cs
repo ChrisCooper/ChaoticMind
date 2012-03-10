@@ -13,6 +13,9 @@ namespace ChaoticMind {
             : base(characterType, world, startingPosition) {
             _body.LinearDamping = 30;
             _body.AngularDamping = 5;
+
+            //_minimapRepresentation = imagemanager.load("");
+
         }
 
         public Body Body {
