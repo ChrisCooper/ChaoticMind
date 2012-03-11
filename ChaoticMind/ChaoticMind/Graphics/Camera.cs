@@ -105,41 +105,14 @@ namespace ChaoticMind
         //some sort of input manger in the future, but we need to make that first.
         private void updateFromInput(float deltaTime)
         {
-            KeyboardState keyState = Keyboard.GetState();
-            
-            /*
-            float forcePower = 10.0f;
-
-            //Apply force in the arrow key direction
-            Vector2 force = Vector2.Zero;
-            if (keyState.IsKeyDown(Keys.Left))
-            {
-                force.X -= forcePower;
-            }
-            if (keyState.IsKeyDown(Keys.Right))
-            {
-                force.X += forcePower;
-            }
-            if (keyState.IsKeyDown(Keys.Up))
-            {
-                force.Y -= forcePower;
-            }
-            if (keyState.IsKeyDown(Keys.Down))
-            {
-                force.Y += forcePower;
-            }
-            */ 
-            if (keyState.IsKeyDown(Keys.OemPlus))
+            if (InputManager.IsKeyDown(Keys.OemPlus))
             {
                 _zoom *= 1 + (1f * deltaTime);
             }
-            if (keyState.IsKeyDown(Keys.OemMinus))
+            if (InputManager.IsKeyDown(Keys.OemMinus))
             {
                 _zoom *= 1 - (1f * deltaTime);
             }
-
-            //_position += force * (1/_zoom);
-
         }
 
         internal void shake() {

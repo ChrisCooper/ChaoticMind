@@ -24,20 +24,18 @@ namespace ChaoticMind {
 
         //Use input to decide what direction this character should try to face and move
         protected override void decideOnMovementTargets() {
-            KeyboardState keyState = Keyboard.GetState();
-
             LocationToMoveToward = _body.Position;
 
-            if (keyState.IsKeyDown(Keys.A)) {
+            if (InputManager.IsKeyDown(Keys.A)) {
                 LocationToMoveToward -= Vector2.UnitX;
             }
-            if (keyState.IsKeyDown(Keys.D)) {
+            if (InputManager.IsKeyDown(Keys.D)) {
                 LocationToMoveToward += Vector2.UnitX;
             }
-            if (keyState.IsKeyDown(Keys.W)) {
+            if (InputManager.IsKeyDown(Keys.W)) {
                 LocationToMoveToward -= Vector2.UnitY;
             }
-            if (keyState.IsKeyDown(Keys.S)) {
+            if (InputManager.IsKeyDown(Keys.S)) {
                 LocationToMoveToward += Vector2.UnitY;
             }
 

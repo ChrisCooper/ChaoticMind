@@ -17,6 +17,12 @@ namespace ChaoticMind {
     /// This is the main type for your game
     /// </summary>
     public class ChaoticMindGame : Microsoft.Xna.Framework.Game {
+        enum GameState {
+            NORMAL,
+            PAUSED,
+            SHIFTING
+        }
+
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
         SpriteFont _debugFont;
@@ -42,6 +48,9 @@ namespace ChaoticMind {
         List<DrawableGameObject> _objects = new List<DrawableGameObject>();
 
         MapManager _mapManager;
+        
+        //state of the game
+        private GameState _gameState = GameState.NORMAL;
 
         public ChaoticMindGame() {
 
@@ -127,28 +136,44 @@ namespace ChaoticMind {
         protected override void Update(GameTime gameTime) {
             float deltaTime = ((float)gameTime.ElapsedGameTime.TotalMilliseconds) * 0.001f;
 
-            // Allows the game to exit
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape)) {
+            //must call once BEFORE any keyboard/mouse operations
+            InputManager.UpdateStart(deltaTime);
+            
+            //Allows the game to exit
+            if (InputManager.IsKeyDown(Keys.Escape)) {
                 this.Exit();
+            }
+            //pause/unpause
+            if (InputManager.IsKeyClicked(Keys.P)) {
+                _gameState = _gameState == GameState.PAUSED ? GameState.NORMAL : GameState.PAUSED;
+            }
+            //shifting interface
+            if (InputManager.IsKeyClicked(Keys.E)) {
+                _gameState = _gameState == GameState.SHIFTING ? GameState.NORMAL : GameState.SHIFTING;
+            }
+
+            if (_gameState == GameState.NORMAL) {
+                //Update all objects in our list. This is not where physics is evaluated,
+                // it is only where object-specific actions are performed, like applying control forces
+                foreach (DrawableGameObject obj in _objects) {
+                    obj.Update(deltaTime);
+                }
+
+                _mainCamera.Update(deltaTime);
+
+                _mapManager.Update(deltaTime);
+
+                //Update the FarseerPhysics physics
+                _world.Step(deltaTime);
+            }
+            else if (_gameState == GameState.SHIFTING) {
+                //update stuff with the shifting overlay
             }
 
             _fpsCounter.Update(gameTime);
 
-            InputManager.Update(deltaTime);
-
-            //Update all objects in our list. This is not where physics is evaluated,
-            // it is only where object-specific actions are performed, like applying control forces
-            foreach (DrawableGameObject obj in _objects) {
-                obj.Update(deltaTime);
-            }
-
-            _mainCamera.Update(deltaTime);
-
-            _mapManager.Update(deltaTime);
-
-            //Update the FarseerPhysics physics
-            _world.Step(deltaTime);
-
+            //must call once per frame AFTER all keyboard operations
+            InputManager.UpdateEnd();
             base.Update(gameTime);
         }
 
@@ -172,9 +197,18 @@ namespace ChaoticMind {
             //Draw map tiles
             _mapManager.DrawMap(_mainCamera);
 
+            if (_gameState == GameState.PAUSED) {
+                _spriteBatch.DrawString(_debugFont, "Game is paused", new Vector2(600.0f, 400.0f), Color.White);
+            }
+            else if (_gameState == GameState.SHIFTING) {
+                _spriteBatch.DrawString(_debugFont, "Shifting interface is enabled", new Vector2(600.0f, 400.0f), Color.White);
+            }
+
             /*Debugging writing*/
             _fpsCounter.Draw(gameTime);
             _spriteBatch.DrawString(_debugFont, string.Format("Player: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
+            _spriteBatch.DrawString(_debugFont, string.Format("In Tile: ({0:0}, {1:0})", _player.MapTileIndex.X, _player.MapTileIndex.Y), new Vector2(10.0f, 65.0f), Color.White);
+
             Vector2 mouseLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
             Vector2 worldMouseLocation = _mainCamera.screenPointToWorld(mouseLocation);
             _spriteBatch.DrawString(_debugFont, string.Format(".({0:0}, {1:0})", worldMouseLocation.X, worldMouseLocation.Y), mouseLocation, Color.White);

@@ -22,7 +22,7 @@ namespace ChaoticMind {
 
         //shift timing
         //make sure to update if the shifting speed is altered
-        public const float MinShiftTime = 5000; //5 seconds
+        public const float MinShiftTime = 3000; //3 seconds
         private DateTimeOffset _lastShiftTime = DateTimeOffset.Now.AddMilliseconds(-MinShiftTime);
 
         World _world;
@@ -58,16 +58,16 @@ namespace ChaoticMind {
             }
 
             //temp shifting logic
-            if (Keyboard.GetState().IsKeyDown(Keys.Up)) {
+            if (InputManager.IsKeyClicked(Keys.Up)) {
                 shiftTiles(0, ShiftDirection.UP, DoorDirections.RandomDoors());
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Down)) {
+            else if (InputManager.IsKeyClicked(Keys.Down)) {
                 shiftTiles(0, ShiftDirection.DOWN, DoorDirections.RandomDoors());
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Left)) {
+            else if (InputManager.IsKeyClicked(Keys.Left)) {
                 shiftTiles(0, ShiftDirection.LEFT, DoorDirections.RandomDoors());
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Right)) {
+            else if (InputManager.IsKeyClicked(Keys.Right)) {
                 shiftTiles(0, ShiftDirection.RIGHT, DoorDirections.RandomDoors());
             }
         }
