@@ -137,7 +137,7 @@ namespace ChaoticMind {
             float deltaTime = ((float)gameTime.ElapsedGameTime.TotalMilliseconds) * 0.001f;
 
             //must call once BEFORE any keyboard/mouse operations
-            InputManager.UpdateStart(deltaTime);
+            InputManager.Update(deltaTime);
             
             //Allows the game to exit
             if (InputManager.IsKeyDown(Keys.Escape)) {
@@ -167,13 +167,14 @@ namespace ChaoticMind {
                 _world.Step(deltaTime);
             }
             else if (_gameState == GameState.SHIFTING) {
-                //update stuff with the shifting overlay
+                //update stuff for the shifting overlay
+            }
+            else if (_gameState == GameState.PAUSED) {
+                //update stuff for the pause menu
             }
 
             _fpsCounter.Update(gameTime);
 
-            //must call once per frame AFTER all keyboard operations
-            InputManager.UpdateEnd();
             base.Update(gameTime);
         }
 

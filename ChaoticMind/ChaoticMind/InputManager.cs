@@ -23,12 +23,10 @@ namespace ChaoticMind {
 
         //update start/end pair have to be used every update loop
         //anything between them will work properly
-        public static void UpdateStart(float deltaTime) {
+        public static void Update(float deltaTime) {
             _mainManager.InstanceUpdate(deltaTime);
-            _mainManager._curState = Keyboard.GetState();
-        }
-        public static void UpdateEnd() {
             _mainManager._oldState = _mainManager._curState;
+            _mainManager._curState = Keyboard.GetState();
         }
 
         public void InstanceUpdate(float deltaTime) {
