@@ -116,7 +116,7 @@
     <Compile Include="Graphics\AnimatedSprite.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="GameObjects\Character.cs" />
-    <Compile Include="GameObjects\ControllableSillyBox.cs" />
+    <Compile Include="GameObjects\Player.cs" />
     <Compile Include="GameObjects\DrawableGameObject.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="Map\MapManager.cs" />

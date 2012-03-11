@@ -97,15 +97,13 @@ namespace ChaoticMind {
                 return;
             }
 
-            _lastShiftTime = DateTimeOffset.Now;
-
-            int gridLimit = dir == ShiftDirection.LEFT || dir == ShiftDirection.RIGHT ? _gridWidth : _gridHeight;
-
             //check if the index is valid
+            int gridLimit = dir == ShiftDirection.LEFT || dir == ShiftDirection.RIGHT ? _gridWidth : _gridHeight;
             if (index < 0 || index >= gridLimit) {
                 return;
             }
 
+            _lastShiftTime = DateTimeOffset.Now;
             _camera.shake();
 
             if (dir == ShiftDirection.LEFT || dir == ShiftDirection.RIGHT) {
@@ -189,9 +187,9 @@ namespace ChaoticMind {
             }
         }
 
-        private DoorDirections getTileDoors(int x, int y) {
+        public DoorDirections getTileDoors(int x, int y) {
             if (x >= 0 && x < _gridWidth && y >= 0 && y < _gridHeight) {
-                return _tiles[x, y].Doors;
+                return _tiles[x, y].OpenDoors;
             }
             return null;
         }

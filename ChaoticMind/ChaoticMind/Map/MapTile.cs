@@ -99,7 +99,7 @@ namespace ChaoticMind {
             return new Vector2(TileSideLength * x, TileSideLength * y);
         }
 
-        //if each tile knew it's position, no parameters would be needed
+        //updates the connected doors
         public void updateConnectedDoors(DoorDirections n, DoorDirections s, DoorDirections e, DoorDirections w) {
             _connectedDoors.hasNorth = _openDoors.hasNorth && n != null && n.hasSouth;
             _connectedDoors.hasSouth = _openDoors.hasSouth && s != null && s.hasNorth;
@@ -107,7 +107,20 @@ namespace ChaoticMind {
             _connectedDoors.hasWest = _openDoors.hasWest && w != null && w.hasEast;
         }
 
-        public DoorDirections Doors {
+        //override to deal with shifting
+        //will get an int back every time even though it's floating point division
+        public override Vector2 MapTileIndex {
+            get {
+                if (_isMoving) {
+                    return _targetLocation / TileSideLength;
+                }
+                else {
+                    return _body.Position / TileSideLength; ;
+                }
+            }
+        }
+
+        public DoorDirections OpenDoors {
             get { return _openDoors; }
         }
 
@@ -143,11 +156,7 @@ namespace ChaoticMind {
             set { _isVisible = value; }
         }
 
-        public bool IsMoving {
-            get { return _isMoving; }
-        }
-
-        //remove the resources of the tile
+        //enable/diable the collisions of the object
         public void EnableCollisions(bool b) {
             if (b){
                 _body.CollidesWith = Category.All;

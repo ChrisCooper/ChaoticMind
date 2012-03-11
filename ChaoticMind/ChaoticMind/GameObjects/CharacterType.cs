@@ -15,7 +15,7 @@ namespace ChaoticMind {
 
         public static CharacterType SillyBox = new CharacterType("TestImages/Box", 17, 1, 1.0f, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 1.0f, 10.0f);
         public static CharacterType CountingBox = new CharacterType("TestImages/TestImage", 5, 2, 1.0f, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 1.0f, 10.0f);
-        public static CharacterType ControllableBox = new CharacterType("TestImages/TestPlayer", 1, 1, 1.0f, 1.0f, ObjectShapes.CIRCLE, 5.0f, 1.0f, 2500.0f);
+        public static CharacterType Player = new CharacterType("TestImages/TestPlayer", 1, 1, 1.0f, 1.0f, ObjectShapes.CIRCLE, 5.0f, 1.0f, 2500.0f);
 
         static CharacterType() {
 

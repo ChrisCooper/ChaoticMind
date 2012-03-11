@@ -7,9 +7,9 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 
 namespace ChaoticMind {
-    class ControllableSillyBox : Character {
+    class Player : Character {
 
-        public ControllableSillyBox(CharacterType characterType, World world, Vector2 startingPosition)
+        public Player(CharacterType characterType, World world, Vector2 startingPosition)
             : base(characterType, world, startingPosition) {
             _body.LinearDamping = 30;
             _body.AngularDamping = 5;
