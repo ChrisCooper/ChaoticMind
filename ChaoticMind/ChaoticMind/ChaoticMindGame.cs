@@ -22,10 +22,16 @@ namespace ChaoticMind {
             PAUSED,
             SHIFTING
         }
-
+        //screen size
+        const int MAX_X = 1440;
+        const int MAX_Y = 800;
+        
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
         SpriteFont _debugFont;
+
+        StaticSprite _pauseBackground;
+        Vector2 _pauseLocation = new Vector2(MAX_X / 2.0f, MAX_Y / 2.0f); //half width and height
 
         FrameRateCounter _fpsCounter;
 
@@ -55,8 +61,8 @@ namespace ChaoticMind {
         public ChaoticMindGame() {
 
             _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = 1400; //_graphics.GraphicsDevice.DisplayMode.Width;
-            _graphics.PreferredBackBufferHeight = 800; //_graphics.GraphicsDevice.DisplayMode.Height;
+            _graphics.PreferredBackBufferWidth = MAX_X;
+            _graphics.PreferredBackBufferHeight = MAX_Y;
             _graphics.IsFullScreen = false;
 
             Content.RootDirectory = "Content";
@@ -116,6 +122,7 @@ namespace ChaoticMind {
         /// all of your content.
         /// </summary>
         protected override void LoadContent() {
+            _pauseBackground = new StaticSprite("Menus/PauseScreen", 1);
         }
 
 
@@ -199,7 +206,8 @@ namespace ChaoticMind {
             _mapManager.DrawMap(_mainCamera);
 
             if (_gameState == GameState.PAUSED) {
-                _spriteBatch.DrawString(_debugFont, "Game is paused", new Vector2(600.0f, 400.0f), Color.White);
+                //_spriteBatch.DrawString(_debugFont, "Game is paused", new Vector2(600.0f, 400.0f), Color.White);
+                _spriteBatch.Draw(_pauseBackground.Texture, _pauseLocation, _pauseBackground.CurrentTextureBounds, Color.White, 0.0f, _pauseBackground.CurrentTextureOrigin, 3, SpriteEffects.None, 0.0f);
             }
             else if (_gameState == GameState.SHIFTING) {
                 _spriteBatch.DrawString(_debugFont, "Shifting interface is enabled", new Vector2(600.0f, 400.0f), Color.White);
