@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 
 namespace ChaoticMind {
-    class MapTile : DrawableGameObject {
+    class MapTile : DrawableGameObject, IMiniMapable {
 
         public const float TileSideLength = 24.0f;
         public const float TileDoorPercent = 2 / 16.0f;
@@ -145,7 +145,8 @@ namespace ChaoticMind {
             setTarget(MapTile.WorldPositionForGridCoordinates(destX, destY));
         }
 
-        public StaticSprite MapSprite {
+
+        public AnimatedSprite MapSprite {
             get {
                 return MapTileUtilities.getMapSprite(_openDoors, _isVisible);
             }
