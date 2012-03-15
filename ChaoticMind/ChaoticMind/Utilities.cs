@@ -26,7 +26,7 @@ namespace ChaoticMind {
             return rand.Next();
         }
         public static int randomInt(int low, int high) {
-            return rand.Next() % high + low;
+            return rand.Next(low, high);
         }
     }
 }
