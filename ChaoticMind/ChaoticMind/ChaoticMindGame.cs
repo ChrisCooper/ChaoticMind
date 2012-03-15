@@ -25,6 +25,9 @@ namespace ChaoticMind {
         //screen size
         const int MAX_X = 1440;
         const int MAX_Y = 800;
+
+        //map dimension
+        const int MAP_SIZE = 10;
         
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
@@ -45,7 +48,11 @@ namespace ChaoticMind {
             get { return _mainCamera; }
         }
 
+        //player
         Player _player;
+
+        //collectable objects
+        Collectable _currentCollectable;
 
         //Audio
         MusicController _backgroundMusic;
@@ -91,27 +98,26 @@ namespace ChaoticMind {
             InputManager.Initialize();
 
             //Create a bunch of fun random game objects for now
-            for (int i = 0; i < 50; i++) {
-                float distance = 100.0f;
-
-                SillyBox obj = new SillyBox(CharacterType.SillyBox, _world, Utilities.randomVector() * distance + distance * Vector2.UnitX);
+            for (int i = 0; i < 100; i++) {
+                SillyBox obj = new SillyBox(CharacterType.SillyBox, _world, Utilities.randomVector() * 100.0f + 100.0f * Vector2.UnitX);
                 _objects.Add(obj);
-
-                SillyBox obj2 = new SillyBox(CharacterType.CountingBox, _world, Utilities.randomVector() * distance + distance * Vector2.UnitX);
-                _objects.Add(obj2);
             }
 
+            //set up player
             _player = new Player(CharacterType.Player, _world, Vector2.Zero);
             _objects.Add(_player);
             _mainCamera.setTarget(_player.Body);
 
+            //set up collectable
+            _currentCollectable = new Collectable("TestImages/Collectable", 5, 2, 2, _world, new Vector2(Utilities.randomInt(0, 2), Utilities.randomInt(0, 2)) * MapTile.TileSideLength);
+            _objects.Add(_currentCollectable);
 
             _backgroundMusic = new MusicController();
             //_backgroundMusic.Enqueue(0);  //Load first wav from Music content to play
             //_backgroundMusic.Play();    //Start playing the music from the current queue
 
 
-            _mapManager = new MapManager(10, 10);
+            _mapManager = new MapManager(MAP_SIZE, MAP_SIZE);
             _mapManager.Initialize(_world, _mainCamera);
 
             base.Initialize();
@@ -205,6 +211,7 @@ namespace ChaoticMind {
             //Draw minimap
             _mapManager.DrawMap(_mainCamera);
             _mainCamera.DrawMinimap(_player);
+            _mainCamera.DrawMinimap(_currentCollectable);
 
             if (_gameState == GameState.PAUSED) {
                 //_spriteBatch.DrawString(_debugFont, "Game is paused", new Vector2(600.0f, 400.0f), Color.White);

@@ -17,7 +17,7 @@ namespace ChaoticMind {
         private Vector2 _locationToFace;
 
         public Character(CharacterType characterType, World world, Vector2 startingPosition)
-            : base(characterType.SpriteName, characterType.XSize, characterType.YSize, characterType.EntitySize, characterType.AnimationDuration, world, startingPosition) {
+            : base(characterType.SpriteName, characterType.XFrames, characterType.YFrames, characterType.EntitySize, characterType.AnimationDuration, world, startingPosition) {
             _characterType = characterType;
 
             switch (characterType.ObjectShape) {
