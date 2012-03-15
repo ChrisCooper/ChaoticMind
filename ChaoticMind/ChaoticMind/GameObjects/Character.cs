@@ -15,16 +15,17 @@ namespace ChaoticMind {
         protected CharacterType _characterType;
 
         private Vector2 _locationToFace;
+        private Vector2 _locationToMoveToward;
 
         public Character(CharacterType characterType, World world, Vector2 startingPosition)
             : base(characterType.SpriteName, characterType.XFrames, characterType.YFrames, characterType.EntitySize, characterType.AnimationDuration, world, startingPosition) {
             _characterType = characterType;
 
             switch (characterType.ObjectShape) {
+                // This method creates a body (has mass, position, rotation),
+                // as well as a rectangular fixture, which is just a shape stapled to the body.
+                // The fixture is what collides with other objects and impacts how the body moves
                 case ObjectShapes.RECTANGLE:
-                    // This method creates a body (has mass, position, rotation),
-                    // as well as a rectangular fixture, which is just a shape stapled to the body.
-                    // The fixture is what collides with other objects and impacts how the body moves
                     _body = BodyFactory.CreateRectangle(world, _characterType.EntitySize, _characterType.EntitySize, _characterType.Density);
                     break;
                 case ObjectShapes.CIRCLE:
@@ -51,7 +52,7 @@ namespace ChaoticMind {
         }
 
         private void performMovement(float deltaTime) {
-            Vector2 movement = LocationToMoveToward - _body.Position;
+            Vector2 movement = _locationToMoveToward - _body.Position;
 
             _body.ApplyLinearImpulse(_characterType.MaxMovementForce * movement * deltaTime);
 
@@ -66,8 +67,8 @@ namespace ChaoticMind {
         //The location in global coordinates that this character will attempt to
         // move torward (by strafing if necessary)
         protected Vector2 LocationToMoveToward {
-            get;
-            set;
+            get { return _locationToMoveToward; }
+            set { _locationToMoveToward = value; }
         }
 
         //The location in global coordinates that this character will attempt to

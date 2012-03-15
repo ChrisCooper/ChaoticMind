@@ -46,7 +46,6 @@ namespace ChaoticMind {
                 LocationToMoveToward += Vector2.UnitY;
             }
 
-            //Vector2 mouseLocation = InputManager.MouseWorldPosition;
             LocationToFace = InputManager.MouseWorldPosition;
         }
     }
