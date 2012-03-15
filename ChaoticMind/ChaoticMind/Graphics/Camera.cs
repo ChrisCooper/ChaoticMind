@@ -64,9 +64,9 @@ namespace ChaoticMind
             }
         }
 
-        public void DrawMinimap(IMiniMapable tile) {
-            if (tile.MapSprite != null) {
-                _spriteBatch.Draw(tile.MapSprite.Texture, WorldToMapPos(tile.Position), tile.MapSprite.CurrentTextureBounds, Color.White, tile.Rotation, tile.MapSprite.CurrentTextureOrigin, 1 / tile.MapSprite.PixelsPerMeter, SpriteEffects.None, 1.0f);
+        public void DrawMinimap(IMiniMapable obj) {
+            if (obj.MapSprite != null) {
+                _spriteBatch.Draw(obj.MapSprite.Texture, WorldToMapPos(obj.MapPosition), obj.MapSprite.CurrentTextureBounds, Color.White, obj.MapRotation, obj.MapSprite.CurrentTextureOrigin, 1 / obj.MapSprite.PixelsPerMeter, SpriteEffects.None, 1.0f);
             }
         }
 
@@ -75,9 +75,7 @@ namespace ChaoticMind
         }
 
 
-        public void Update(float deltaTime)
-        {
-            
+        public void Update(float deltaTime){ 
             updateFromInput(deltaTime);
 
             if (_target != null)
@@ -120,8 +118,8 @@ namespace ChaoticMind
     internal interface IMiniMapable {
         AnimatedSprite MapSprite {get;}
 
-        Vector2 Position { get; }
+        Vector2 MapPosition { get; }
 
-        float Rotation { get; }
+        float MapRotation { get; }
     }
 }

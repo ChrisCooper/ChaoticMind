@@ -151,6 +151,12 @@ namespace ChaoticMind {
                 return MapTileUtilities.getMapSprite(_openDoors, _isVisible);
             }
         }
+        public Vector2 MapPosition {
+            get { return Position; }
+        }
+        public float MapRotation {
+            get { return Rotation;  }
+        }
 
         public bool IsVisible {
             get { return _isVisible; }

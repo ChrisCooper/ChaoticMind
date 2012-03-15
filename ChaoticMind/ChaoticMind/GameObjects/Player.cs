@@ -7,19 +7,31 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 
 namespace ChaoticMind {
-    class Player : Character {
+    class Player : Character, IMiniMapable {
+
+        AnimatedSprite _minimapSprite;
 
         public Player(CharacterType characterType, World world, Vector2 startingPosition)
             : base(characterType, world, startingPosition) {
             _body.LinearDamping = 30;
             _body.AngularDamping = 5;
 
-            //_minimapRepresentation = imagemanager.load("");
+            _minimapSprite = new StaticSprite("Minimap/PlayerMinimap", MapTile.TileSideLength / 2);
 
         }
 
         public Body Body {
             get { return _body; }
+        }
+
+        public AnimatedSprite MapSprite{
+            get { return _minimapSprite; }
+        }
+        public Vector2 MapPosition {
+            get { return Position; }
+        }
+        public float MapRotation {
+            get { return 0; }
         }
 
         //Use input to decide what direction this character should try to face and move

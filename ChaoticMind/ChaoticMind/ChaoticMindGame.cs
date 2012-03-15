@@ -202,8 +202,9 @@ namespace ChaoticMind {
                 _mainCamera.Draw(obj);
             }
 
-            //Draw map tiles
+            //Draw minimap
             _mapManager.DrawMap(_mainCamera);
+            _mainCamera.DrawMinimap(_player);
 
             if (_gameState == GameState.PAUSED) {
                 //_spriteBatch.DrawString(_debugFont, "Game is paused", new Vector2(600.0f, 400.0f), Color.White);
