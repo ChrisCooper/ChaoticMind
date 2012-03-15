@@ -46,6 +46,11 @@ namespace ChaoticMind {
                 LocationToMoveToward += Vector2.UnitY;
             }
 
+            //shooting
+            if (InputManager.MouseState().LeftButton == ButtonState.Pressed) {
+                Shoot();
+            }
+
             LocationToFace = InputManager.MouseWorldPosition;
         }
     }

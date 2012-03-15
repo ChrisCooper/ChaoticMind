@@ -10,12 +10,8 @@ namespace ChaoticMind {
 
         static InputManager _mainManager;
 
-        MouseState _currentMouseState;
-        KeyboardState _oldState, _curState;
-
-        public static Vector2 MouseWorldPosition {
-            get { return Program.SharedGame.MainCamera.screenPointToWorld(new Vector2(_mainManager._currentMouseState.X, _mainManager._currentMouseState.Y)); }
-        }
+        MouseState _oldMouseState, _curMouseState;
+        KeyboardState _oldKeyState, _curKeyState;
 
         public static void Initialize() {
             _mainManager = new InputManager();
@@ -24,24 +20,29 @@ namespace ChaoticMind {
         //update start/end pair have to be used every update loop
         //anything between them will work properly
         public static void Update(float deltaTime) {
-            _mainManager.InstanceUpdate(deltaTime);
-            _mainManager._oldState = _mainManager._curState;
-            _mainManager._curState = Keyboard.GetState();
+            _mainManager._oldMouseState = _mainManager._curMouseState;
+            _mainManager._curMouseState = Mouse.GetState();
+            _mainManager._oldKeyState = _mainManager._curKeyState;
+            _mainManager._curKeyState = Keyboard.GetState();
         }
 
-        public void InstanceUpdate(float deltaTime) {
-            _currentMouseState = Mouse.GetState();
+        public static Vector2 MouseWorldPosition {
+            get { return Program.SharedGame.MainCamera.screenPointToWorld(new Vector2(_mainManager._curMouseState.X, _mainManager._curMouseState.Y)); }
+        }
+
+        public static MouseState MouseState() {
+            return _mainManager._curMouseState;
         }
 
         public static bool IsKeyUp(Keys k) {
-            return _mainManager._curState.IsKeyUp(k);
+            return _mainManager._curKeyState.IsKeyUp(k);
         }
         public static bool IsKeyDown(Keys k) {
-            return _mainManager._curState.IsKeyDown(k);
+            return _mainManager._curKeyState.IsKeyDown(k);
         }
         public static bool IsKeyClicked(Keys k){
             //down this time, but not last
-            return _mainManager._curState.IsKeyDown(k) && !_mainManager._oldState.IsKeyDown(k);
+            return _mainManager._curKeyState.IsKeyDown(k) && !_mainManager._oldKeyState.IsKeyDown(k);
         }
     }
 }

@@ -61,6 +61,7 @@ namespace ChaoticMind {
         List<DrawableGameObject> _objects = new List<DrawableGameObject>();
 
         MapManager _mapManager;
+        ProjectileManager _projectileManager;
         
         //state of the game
         private GameState _gameState = GameState.NORMAL;
@@ -120,6 +121,9 @@ namespace ChaoticMind {
             _mapManager = new MapManager(MAP_SIZE, MAP_SIZE);
             _mapManager.Initialize(_world, _mainCamera);
 
+            _projectileManager = new ProjectileManager();
+            _projectileManager.Initilize(_world, _mainCamera);
+
             base.Initialize();
         }
 
@@ -172,6 +176,8 @@ namespace ChaoticMind {
                     obj.Update(deltaTime);
                 }
 
+                _projectileManager.Update(deltaTime);
+
                 _mainCamera.Update(deltaTime);
 
                 _mapManager.Update(deltaTime);
@@ -211,6 +217,8 @@ namespace ChaoticMind {
                 _mainCamera.Draw(obj);
                 _mainCamera.DrawMinimap(obj);
             }
+
+            _projectileManager.Draw();
 
             if (_gameState == GameState.PAUSED) {
                 //_spriteBatch.DrawString(_debugFont, "Game is paused", new Vector2(600.0f, 400.0f), Color.White);

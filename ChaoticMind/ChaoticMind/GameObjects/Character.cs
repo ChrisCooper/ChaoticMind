@@ -17,6 +17,12 @@ namespace ChaoticMind {
         private Vector2 _locationToFace;
         private Vector2 _locationToMoveToward;
 
+        protected World _world;
+
+        //weapon temp stuff (until a weapon class is made)
+        public float _weaponCooldown = 200;
+        private DateTimeOffset _lastShotTime = DateTimeOffset.Now;
+
         public Character(CharacterType characterType, World world, Vector2 startingPosition)
             : base(characterType.SpriteName, characterType.XFrames, characterType.YFrames, characterType.EntitySize, characterType.AnimationDuration, world, startingPosition) {
             _characterType = characterType;
@@ -37,6 +43,9 @@ namespace ChaoticMind {
             _body.Position = startingPosition;
 
             _locationToFace = new Vector2(0, 1);
+
+            //bandaid fix, can probably make this globally accessable since we only use one world
+            _world = world;
         }
 
         public override void Update(float deltaTime) {
@@ -62,6 +71,20 @@ namespace ChaoticMind {
             //I had no end of problems trying to get it to work by applying forces so it's set for now
             _body.Rotation = angle;
 
+        }
+
+        protected void Shoot() {
+            //will be based on current weapon in the future
+            if (ShootPercent() == 1) {
+                ProjectileManager.CreateProjectile(_body.Position + Vector2.Normalize(_locationToFace - _body.Position), _locationToFace - _body.Position, 1000, 0.1f, 20.0f, _world);
+                _lastShotTime = DateTimeOffset.Now;
+            }
+        }
+
+        protected float ShootPercent() {
+            //will be based on current weapon in the future
+            double temp = (DateTimeOffset.Now - _lastShotTime).TotalMilliseconds / _weaponCooldown;
+            return temp > 1 ? 1 : (float)temp;
         }
 
         //The location in global coordinates that this character will attempt to

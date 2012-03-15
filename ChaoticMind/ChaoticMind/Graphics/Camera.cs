@@ -116,7 +116,7 @@ namespace ChaoticMind
     }
 
     internal interface IMiniMapable {
-        AnimatedSprite MapSprite {get;}
+        AnimatedSprite MapSprite { get; }
 
         Vector2 MapPosition { get; }
 
