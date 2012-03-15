@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 
 namespace ChaoticMind {
-    class Player : Character, IMiniMapable {
+    class Player : Character {
 
         AnimatedSprite _minimapSprite;
 
@@ -24,14 +24,9 @@ namespace ChaoticMind {
             get { return _body; }
         }
 
-        public AnimatedSprite MapSprite{
+        //minimap stuff
+        public override AnimatedSprite MapSprite{
             get { return _minimapSprite; }
-        }
-        public Vector2 MapPosition {
-            get { return Position; }
-        }
-        public float MapRotation {
-            get { return 0; }
         }
 
         //Use input to decide what direction this character should try to face and move

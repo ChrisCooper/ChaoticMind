@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Factories;
 
 namespace ChaoticMind {
-    class Collectable : DrawableGameObject, IMiniMapable {
+    class Collectable : DrawableGameObject {
 
         const float ENTITY_SIZE = 2f;
 
@@ -26,14 +26,9 @@ namespace ChaoticMind {
             _minimapSprite = new StaticSprite("Minimap/CollectableMinimap", MapTile.TileSideLength / 2);   
         }
 
-        public AnimatedSprite MapSprite{
+        //minimap stuff
+        public override AnimatedSprite MapSprite{
             get { return _minimapSprite; }
-        }
-        public Vector2 MapPosition {
-            get { return Position; }
-        }
-        public float MapRotation {
-            get { return 0; }
         }
     }
 }

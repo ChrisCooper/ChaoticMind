@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 
 namespace ChaoticMind {
-    abstract class DrawableGameObject : GameObject {
+    abstract class DrawableGameObject : GameObject, IMiniMapable {
         protected AnimatedSprite _sprite;
 
         public DrawableGameObject(String spriteResource, int xFrames, int yFrames, float entitySize, float animationDuration, World world, Vector2 startingPosition)
@@ -48,6 +48,17 @@ namespace ChaoticMind {
             get {
                 return _sprite.PixelsPerMeter;
             }
+        }
+
+        //minimap stuff
+        public virtual AnimatedSprite MapSprite {
+            get { return null; }
+        }
+        public virtual Vector2 MapPosition {
+            get { return Position; }
+        }
+        public virtual float MapRotation {
+            get { return 0; }
         }
 
         //returns the index of the map array the object is currently in

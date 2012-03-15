@@ -203,15 +203,14 @@ namespace ChaoticMind {
             //Draw map tiles
             _mapManager.DrawTiles(_mainCamera);
 
-            //Draw all objects in our list
-            foreach (DrawableGameObject obj in _objects) {
-                _mainCamera.Draw(obj);
-            }
-
             //Draw minimap
             _mapManager.DrawMap(_mainCamera);
-            _mainCamera.DrawMinimap(_player);
-            _mainCamera.DrawMinimap(_currentCollectable);
+
+            //Draw all objects in our list (and their minimap representations)
+            foreach (DrawableGameObject obj in _objects) {
+                _mainCamera.Draw(obj);
+                _mainCamera.DrawMinimap(obj);
+            }
 
             if (_gameState == GameState.PAUSED) {
                 //_spriteBatch.DrawString(_debugFont, "Game is paused", new Vector2(600.0f, 400.0f), Color.White);
