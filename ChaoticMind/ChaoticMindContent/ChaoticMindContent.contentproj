@@ -56,13 +56,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Music\FieldsOfUtopiaCutDemoLoop.wav">
-      <Name>FieldsOfUtopiaCutDemoLoop</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="TileAppearance\TileAppearance_Bent.png">
       <Name>TileAppearance_Bent</Name>
       <Importer>TextureImporter</Importer>
@@ -167,6 +160,23 @@
       <Name>Box</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Music\testSound1.mp3">
+      <Name>testSound1</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Music\testSound2.mp3">
+      <Name>testSound2</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Music\testSound3.mp3">
+      <Name>testSound3</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>

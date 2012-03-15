@@ -100,7 +100,7 @@ namespace ChaoticMind {
             //check if the index is valid
             int gridLimit = dir == ShiftDirection.LEFT || dir == ShiftDirection.RIGHT ? _gridWidth : _gridHeight;
             if (index < 0 || index >= gridLimit) {
-                return;
+                throw new Exception("Invalid grid index passed to shiftTiles()");
             }
 
             _lastShiftTime = DateTimeOffset.Now;

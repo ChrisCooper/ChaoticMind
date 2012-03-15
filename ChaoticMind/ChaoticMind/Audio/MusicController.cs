@@ -7,9 +7,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Media;
+using System.IO;
 
-namespace ChaoticMind
-{
+namespace ChaoticMind {
 
     /// <summary>
     /// Plays music from the Music content folder by
@@ -21,34 +21,58 @@ namespace ChaoticMind
     /// Currently just very simple PoC
     /// 
     /// TODO:
-    /// -Queue/Looping of Queue
-    /// -Enumeration of Music
+    /// -Fix Looping of Queue (Event handler seems to be activated too often, check docs)
     /// </summary>
-    class MusicController
-    {
+    class MusicController {
         public static ContentManager SharedContentManager; //Set at execution in ChaoticMindGame init
 
-        internal bool _playing;
-        internal List<Song> _songs = new List<Song>(); //XNA provides no way of having your own playlist in the game
+        //Used in the event handler to know if we are still playing through the playlist
+        private bool _playing;
+        
+        //XNA provides no way of having your own playlist in the game, so we need to make our own.
+        private List<Song> _playlist;
+        private int _playlistIndex;
 
-        public MusicController()
-        {
-            String currSongName;
-            Song currSong;
+        //All songs in Music are loaded at execution
+        private Dictionary<String, Song> _songs = new Dictionary<String, Song>();
+        
 
-            //for each in Music ... TBI
-            currSongName = "Music/FieldsOfUtopiaCutDemoLoop"; //temp value
-            currSong = SharedContentManager.Load<Song>(currSongName);
-            _songs.Add(currSong);
+        public MusicController() {
+            _playlist = new List<Song>();
+            _playlistIndex = 0;
 
+            //Enumerate and load contents of Music resources folder
+            DirectoryInfo dir = new DirectoryInfo(SharedContentManager.RootDirectory + "/Music");
+            if (!dir.Exists)
+                throw new DirectoryNotFoundException();
 
-
-            MediaPlayer.Volume = 0.5f;
-            MediaPlayer.IsRepeating = true;
+            FileInfo[] files = dir.GetFiles("*.wma");
+            foreach (FileInfo file in files) {
+                string key = Path.GetFileNameWithoutExtension(file.Name);
+                _songs[key] = SharedContentManager.Load<Song>("Music/" + key);
+            }
+            
+            MediaPlayer.Volume = 0.5f; //Arbitrary, range 1 to 0 float
 
             //Register event handler on MediaStateChanged
             //Need to be able to play the next song after one finishes
             MediaPlayer.MediaStateChanged += new EventHandler<System.EventArgs>(HandleMediaStateChanged);
+        }
+
+
+        public List<Song> CurrentPlaylist {
+            get { return _playlist; }
+            set { }
+        }
+
+        public Song CurrentSong {
+            get { return _playlist[_playlistIndex]; }
+            set { }
+        }
+
+        public Dictionary<String, Song> LoadedSongs {
+            get { return _songs; }
+            set { }
         }
 
 
@@ -59,73 +83,79 @@ namespace ChaoticMind
         /// <summary>
         /// Starts playing through the queue of music
         /// </summary>
-        public void Play()
-        {
-            
-
-            Song nextSong = _songs[0];
-            
+        public void Play() {
+            Song currentSong = _playlist[_playlistIndex];
 
             _playing = true;
-            MediaPlayer.Play(nextSong);
+            MediaPlayer.Play(currentSong);
         }
+
 
         /// <summary>
         /// Stops playing through the queue of music
         /// </summary>
-        public void Stop()
-        {
+        public void Stop() {
             _playing = false;
             MediaPlayer.Stop();
-            
+        }
+
+        private void NextSong() {
+
+            if (_playlistIndex < _playlist.Count-1) {
+                _playlistIndex++;
+            }
+            else {
+                _playlistIndex = 0;
+            }
+
+            Song nextSong = _playlist[_playlistIndex];
+
+            _playing = false;
+            MediaPlayer.Stop();
+            MediaPlayer.Play(nextSong);
+            _playing = true;
         }
 
         /// <summary>
-        /// 
+        /// Used to play next song when a song ends
         /// </summary>
         /// <typeparam name="TEventArgs"></typeparam>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        internal void HandleMediaStateChanged<TEventArgs>(object sender, TEventArgs e)
-        {
-            //Am targeting events where song ends.
+        private void HandleMediaStateChanged<TEventArgs>(object sender, TEventArgs e) {
+            //Targeting events where song ends.
             //might also need to handle (ignore) events where this class has called stop/play
             //check _playing bool for this.
+            if (_playing) {
+                NextSong();
+            }
         }
 
-        
+
         /////////////////////////////////
-        //  _songList control methods  //
+        //  _playlist control methods  //
         /////////////////////////////////
 
         /// <summary>
-        /// 
+        /// Empties the playlist
         /// </summary>
-        public void ClearQueue()
-        {
-            _songs.Clear();
+        public void ClearQueue() {
+            _playlist.Clear();
+            _playlistIndex = -1; //Indicate that the playlist is/was clear
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>Status code: Not 0 is error.</returns>
-        public int Enqueue(int id)
-        {
-
-            return 0;
-        }
 
         /// <summary>
-        /// 
+        /// Appends an internally loaded song to the playlist
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns>Status code: Not 0 is error.</returns>
-        public int Enqueue(String id)
-        {
+        /// <param name="id">string name of song</param>
+        public void Enqueue(string id) {
+            _playlist.Add(_songs[id]);
 
-            return 0;
+            //If the playlist was clear before this Song was added
+            if (_playlistIndex == -1) {
+                _playlistIndex = 1;
+            }
         }
     }
 }
