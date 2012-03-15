@@ -112,9 +112,11 @@ namespace ChaoticMind {
             _currentCollectable = new Collectable("TestImages/Collectable", 5, 2, 2, _world, new Vector2(Utilities.randomInt(0, 2), Utilities.randomInt(0, 2)) * MapTile.TileSideLength);
             _objects.Add(_currentCollectable);
 
-            _backgroundMusic = new MusicController();
-            //_backgroundMusic.Enqueue(0);  //Load first wav from Music content to play
-            //_backgroundMusic.Play();    //Start playing the music from the current queue
+            //_backgroundMusic = new MusicController();
+            //_backgroundMusic.Enqueue("testSound1");
+            //_backgroundMusic.Enqueue("testSound2");
+            //_backgroundMusic.Enqueue("testSound3");
+            //_backgroundMusic.Play();
 
 
             _mapManager = new MapManager(MAP_SIZE, MAP_SIZE);
