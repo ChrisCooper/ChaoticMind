@@ -33,13 +33,18 @@ namespace ChaoticMind {
             _maxTime = maxTime;
             _startingPosition = startingPosition;
             _direction = Vector2.Normalize(direction);
+            _damage = damage;
 
             //set up the body
             _body = BodyFactory.CreateCircle(world, sprite.EntitySize, 1);
-            _body.BodyType = BodyType.Kinematic;
+            _body.BodyType = BodyType.Dynamic;
             _body.LinearDamping = 0;
             _body.LinearVelocity = _direction * speed;
             _body.Position = _startingPosition;
+            
+            //collide with everything but self
+            _body.CollisionCategories = Category.Cat2;
+            _body.CollidesWith = Category.All & ~Category.Cat2;
 
             _createTime = DateTimeOffset.Now;
         }

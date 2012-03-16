@@ -80,7 +80,7 @@ namespace ChaoticMind {
         }
         protected void Shoot() {
             if (_curWeapon != null) {
-                _curWeapon.Shoot(_body.Position + Vector2.Normalize(_locationToFace - _body.Position) * (_sprite.EntitySize / 1.7f), _locationToFace - _body.Position);
+                _curWeapon.Shoot(_body.Position + Vector2.Normalize(_locationToFace - _body.Position) * (_sprite.EntitySize / 1.5f), _locationToFace - _body.Position);
             }
         }
 

@@ -16,6 +16,7 @@ namespace ChaoticMind {
         int _firesPerRound;
         int _numProjectiles;
         float _spread;
+        Matrix _rotMat;
 
         //projectile properties
         AnimatedSprite _projectileSprite;
@@ -39,7 +40,9 @@ namespace ChaoticMind {
             _numRounds = _curRounds = numRounds;
             _firesPerRound = _curFires = firesPerRound;
             _numProjectiles = numProjectiles;
-            _spread = spread;
+            //convert to farseer-friendly radians and generate rotation matrix
+            _spread = MathHelper.ToRadians(spread);
+            _rotMat = Matrix.CreateRotationZ(_spread / _numProjectiles + (_numProjectiles % 2 == 0 ? 1 : -1));
 
             //projectile properties
             _projectileSprite = projectileSprite;
@@ -50,8 +53,24 @@ namespace ChaoticMind {
 
         public void Shoot(Vector2 location, Vector2 direction){
             if (_curFires > 0 && ReloadPercent() == 1 && ShootPercent() == 1) {
-                //TODO: Multiple and spread
-                ProjectileManager.CreateProjectile(location, direction, _projectileTTL, _projectileDamage, _projectileSpeed, _projectileSprite);
+
+                //TODO: Still has issues with spreading
+                //possible:
+                //non-zero origin (i think it is, but maybe not)
+                //degree/radian tomfoolery
+
+                Vector2 temp = Vector2.Transform(direction, Matrix.CreateRotationZ(-_spread/2.0f));
+
+                //initial rotation if an even number of projectiles
+                if (_numProjectiles % 2 == 0) {
+                    temp = Vector2.Transform(temp, _rotMat);
+                }
+
+                //spawn the projectiles
+                for (int i = 0; i < _numProjectiles; i++) {
+                    ProjectileManager.CreateProjectile(location, temp, _projectileTTL, _projectileDamage, _projectileSpeed, _projectileSprite);
+                    temp = Vector2.Transform(temp, _rotMat);
+                }
                 _curFires--;
                 _lastShotTime = DateTimeOffset.Now;
             }
