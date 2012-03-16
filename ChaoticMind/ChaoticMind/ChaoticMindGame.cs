@@ -274,5 +274,9 @@ namespace ChaoticMind {
 
             _projectileManager.Draw();
         }
+
+        internal void closeShiftInterface() {
+            _gameState = GameState.NORMAL;
+        }
     }
 }

@@ -93,7 +93,7 @@ namespace ChaoticMind {
         }
 
         //shift the row/col of tiles
-        private void shiftTiles(int index, ShiftDirection dir, DoorDirections newTileDoors) {
+        public void shiftTiles(int index, ShiftDirection dir, DoorDirections newTileDoors) {
 
             if (shiftTimePercent() < 1){
                 return;

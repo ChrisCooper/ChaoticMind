@@ -170,15 +170,15 @@ namespace ChaoticMind {
         }
 
 
-        public AnimatedSprite MapSprite {
+        public override AnimatedSprite MapSprite {
             get {
                 return MapTileUtilities.getMapSprite(_openDoors, _isVisible);
             }
         }
-        public Vector2 MapPosition {
+        public override Vector2 MapPosition {
             get { return Position; }
         }
-        public float MapRotation {
+        public override float MapRotation {
             get { return Rotation;  }
         }
 
