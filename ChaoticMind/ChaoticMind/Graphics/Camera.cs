@@ -8,10 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using FarseerPhysics.Dynamics;
 
-namespace ChaoticMind
-{
-    class Camera
-    {
+namespace ChaoticMind {
+    class Camera {
         const float FollowFaithfulness = 0.1f;
 
         //Position of the camera in game coordinates
@@ -20,7 +18,7 @@ namespace ChaoticMind
         float _zoom;
         SpriteBatch _spriteBatch;
         GraphicsDevice _graphicsDevice;
-        
+
         //A vector to the centre of the screen. Used to position drawing
         Vector2 _toCentre = Vector2.Zero;
 
@@ -30,8 +28,7 @@ namespace ChaoticMind
         float _shakeDecay = 0.95f;
         float _shakeIncreaseAmount = 1.0f;
 
-        public Camera(Vector2 startingPosition, float startingZoom, GraphicsDevice graphics, SpriteBatch spriteBatch)
-        {
+        public Camera(Vector2 startingPosition, float startingZoom, GraphicsDevice graphics, SpriteBatch spriteBatch) {
             _position = startingPosition;
             _zoom = startingZoom;
             _graphicsDevice = graphics;
@@ -42,23 +39,19 @@ namespace ChaoticMind
             _target = target;
         }
 
-        public Vector2 screenPointToWorld(Vector2 screenPoint)
-        {
+        public Vector2 screenPointToWorld(Vector2 screenPoint) {
             return ((screenPoint - _toCentre) / _zoom) + _position;
         }
 
-        private Vector2 WorldToScreenPos(Vector2 worldPoint)
-        {
+        private Vector2 WorldToScreenPos(Vector2 worldPoint) {
             return (worldPoint - _position) * _zoom + _toCentre;
         }
 
-        public void Draw(DrawableGameObject o)
-        {
+        public void Draw(DrawableGameObject o) {
             _spriteBatch.Draw(o.Texture, WorldToScreenPos(o.Position), o.CurrentTextureBounds, Color.White, o.Rotation, o.CurrentTextureOrigin, _zoom / o.PixelsPerMeter, SpriteEffects.None, 1.0f);
         }
 
-        public void DrawOverlay(MapTile tile, Color clr)
-        {
+        public void DrawOverlay(MapTile tile, Color clr) {
             if (tile.Overlay != null) {
                 _spriteBatch.Draw(tile.Overlay.Texture, WorldToScreenPos(tile.Position), tile.Overlay.CurrentTextureBounds, clr, tile.OverlayRotation, tile.Overlay.CurrentTextureOrigin, _zoom / tile.PixelsPerMeter, SpriteEffects.None, 1.0f);
             }
@@ -75,12 +68,13 @@ namespace ChaoticMind
         }
 
 
-        public void Update(float deltaTime){ 
+        public void Update(float deltaTime) {
             updateFromInput(deltaTime);
 
-            if (_target != null)
-            {
-                _position += FollowFaithfulness * (_target.Position - _position);
+            if (_target != null) {
+                //to make shooting work properly
+                _position = _target.Position;
+                //_position += FollowFaithfulness * (_target.Position - _position);
             }
 
             _position += _shakeMagnitude * Utilities.randomVector();
@@ -90,22 +84,18 @@ namespace ChaoticMind
             updateFrame();
         }
 
-        private void updateFrame()
-        {
+        private void updateFrame() {
             _toCentre.X = ((float)_graphicsDevice.Viewport.Width) / 2.0f;
             _toCentre.Y = ((float)_graphicsDevice.Viewport.Height) / 2.0f;
         }
 
         //Move the camera according to input. Should probably use
         //some sort of input manger in the future, but we need to make that first.
-        private void updateFromInput(float deltaTime)
-        {
-            if (InputManager.IsKeyDown(Keys.OemPlus))
-            {
+        private void updateFromInput(float deltaTime) {
+            if (InputManager.IsKeyDown(Keys.OemPlus)) {
                 _zoom *= 1 + (1f * deltaTime);
             }
-            if (InputManager.IsKeyDown(Keys.OemMinus))
-            {
+            if (InputManager.IsKeyDown(Keys.OemMinus)) {
                 _zoom *= 1 - (1f * deltaTime);
             }
         }

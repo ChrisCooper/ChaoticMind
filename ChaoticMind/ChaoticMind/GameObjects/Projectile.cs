@@ -10,24 +10,32 @@ namespace ChaoticMind {
     class Projectile : DrawableGameObject{
 
         float _maxTime;
+        int _damage;
         Vector2 _direction;
         Vector2 _startingPosition;
 
         private DateTimeOffset _createTime;
 
-        public Projectile(Vector2 startingPosition, Vector2 direction, float maxTime, float diameter, float speed, World world)
-            : this(startingPosition, direction, maxTime, diameter, speed, "TestImages/Projectile", 1, 1, 1.0f, world) {
+        //default projectile
+        public Projectile(Vector2 startingPosition, Vector2 direction, float maxTime, int damage, float speed, World world)
+            : this(startingPosition, direction, maxTime, damage, speed, new AnimatedSprite("TestImages/Projectile", 1, 1, 0.1f, 1.0f), world) {
         }
 
-        public Projectile(Vector2 startingPosition, Vector2 direction, float maxTime, float diameter, float speed, String spriteResource, int xFrames, int yFrames, float animationDuration, World world)
-            : base(spriteResource, xFrames, yFrames, diameter, animationDuration, world, startingPosition) {
+        //create a new sprite
+        public Projectile(Vector2 startingPosition, Vector2 direction, float maxTime, int damage, float speed, String spriteResource, int xFrames, int yFrames, float diameter, float animationDuration, World world)
+            : this(startingPosition, direction, maxTime, damage, speed, new AnimatedSprite(spriteResource, xFrames, yFrames, diameter, animationDuration), world) {
+        }
+
+        //use existing sprite
+        public Projectile(Vector2 startingPosition, Vector2 direction, float maxTime, int damage, float speed, AnimatedSprite sprite, World world)
+            : base (world, startingPosition, sprite){
             //set 
             _maxTime = maxTime;
             _startingPosition = startingPosition;
             _direction = Vector2.Normalize(direction);
 
             //set up the body
-            _body = BodyFactory.CreateCircle(world, diameter, 1);
+            _body = BodyFactory.CreateCircle(world, sprite.EntitySize, 1);
             _body.BodyType = BodyType.Kinematic;
             _body.LinearDamping = 0;
             _body.LinearVelocity = _direction * speed;

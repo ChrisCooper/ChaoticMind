@@ -19,9 +19,8 @@ namespace ChaoticMind {
 
         protected World _world;
 
-        //weapon temp stuff (until a weapon class is made)
-        public float _weaponCooldown = 200;
-        private DateTimeOffset _lastShotTime = DateTimeOffset.Now;
+        //current weapon
+        protected Weapon _curWeapon;
 
         public Character(CharacterType characterType, World world, Vector2 startingPosition)
             : base(characterType.SpriteName, characterType.XFrames, characterType.YFrames, characterType.EntitySize, characterType.AnimationDuration, world, startingPosition) {
@@ -73,18 +72,12 @@ namespace ChaoticMind {
 
         }
 
+        //hand off the shooting stuff to the currently equipped weapon
         protected void Shoot() {
-            //will be based on current weapon in the future
-            if (ShootPercent() == 1) {
-                ProjectileManager.CreateProjectile(_body.Position + Vector2.Normalize(_locationToFace - _body.Position), _locationToFace - _body.Position, 1000, 0.1f, 20.0f, _world);
-                _lastShotTime = DateTimeOffset.Now;
+            if (_curWeapon != null) {
+                _curWeapon.Shoot(_body.Position + Vector2.Normalize(_locationToFace - _body.Position) * _sprite.EntitySize, _locationToFace - _body.Position);
             }
-        }
-
-        protected float ShootPercent() {
-            //will be based on current weapon in the future
-            double temp = (DateTimeOffset.Now - _lastShotTime).TotalMilliseconds / _weaponCooldown;
-            return temp > 1 ? 1 : (float)temp;
+            //else melee?
         }
 
         //The location in global coordinates that this character will attempt to

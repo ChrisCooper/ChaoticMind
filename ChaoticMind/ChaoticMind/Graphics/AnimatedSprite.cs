@@ -26,9 +26,13 @@ namespace ChaoticMind {
         // Keeps track of what frame of the animation we are on
         int _currentFrameIndex = 0;
 
+        //stores the size of the sprite
+        float _entitySize;
+
         public AnimatedSprite(String spriteResource, int xFrames, int yFrames, float entitySize, float animationDuration) {
             _animationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence(spriteResource, xFrames, yFrames, entitySize);
             _animationDuration = animationDuration;
+            _entitySize = entitySize;
         }
 
         public void Update(float deltaTime) {
@@ -55,6 +59,10 @@ namespace ChaoticMind {
         }
         public Vector2 CurrentTextureOrigin {
             get { return new Vector2(CurrentTextureBounds.Width / 2, CurrentTextureBounds.Height / 2); }
+        }
+
+        public float EntitySize {
+            get { return _entitySize; }
         }
     }
 }

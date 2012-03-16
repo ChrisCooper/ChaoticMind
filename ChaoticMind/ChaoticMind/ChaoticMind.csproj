@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\MusicController.cs" />
+    <Compile Include="GameObjects\Weapon.cs" />
     <Compile Include="GameObjects\ProjectileManager.cs" />
     <Compile Include="GameObjects\Projectile.cs" />
     <Compile Include="GameObjects\Collectable.cs" />
