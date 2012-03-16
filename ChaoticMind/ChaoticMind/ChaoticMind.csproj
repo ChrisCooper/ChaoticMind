@@ -126,6 +126,7 @@
     <Compile Include="Map\MapManager.cs" />
     <Compile Include="Map\MapTile.cs" />
     <Compile Include="Map\MapTileUtilities.cs" />
+    <Compile Include="MouseDrawer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ChaoticMindGame.cs" />

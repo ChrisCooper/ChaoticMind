@@ -13,15 +13,19 @@ using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 
 namespace ChaoticMind {
+
+    enum GameState {
+        NORMAL,
+        PAUSED,
+        SHIFTING
+    }
+
     /// <summary>
     /// This is the main type for your game
     /// </summary>
+    /// 
     public class ChaoticMindGame : Microsoft.Xna.Framework.Game {
-        enum GameState {
-            NORMAL,
-            PAUSED,
-            SHIFTING
-        }
+        
         //screen size
         const int MAX_X = 1440;
         const int MAX_Y = 800;
@@ -44,10 +48,6 @@ namespace ChaoticMind {
         //Draws the objects
         Camera _mainCamera;
 
-        StaticSprite _retical;
-        StaticSprite _mouse;
-        StaticSprite _mouseClicked;
-
         internal Camera MainCamera {
             get { return _mainCamera; }
         }
@@ -60,6 +60,8 @@ namespace ChaoticMind {
 
         //Audio
         MusicController _backgroundMusic;
+
+        MouseDrawer _mouseDrawer = new MouseDrawer();
 
         //Any objects in this array will have Update called on them and be drawn by the _mainCamera object
         List<DrawableGameObject> _objects = new List<DrawableGameObject>();
@@ -130,9 +132,7 @@ namespace ChaoticMind {
             _projectileManager = new ProjectileManager();
             _projectileManager.Initilize(_world, _mainCamera);
 
-            _retical = new StaticSprite("Weapons/Retical", 1);
-            _mouse = new StaticSprite("Menus/Mouse", 1);
-            _mouseClicked = new StaticSprite("Menus/Mouse_Clicked", 1);
+            _mouseDrawer.Initialize();
 
             base.Initialize();
         }
@@ -168,7 +168,42 @@ namespace ChaoticMind {
 
             //must call once BEFORE any keyboard/mouse operations
             InputManager.Update(deltaTime);
-            
+
+            updateGameState();
+
+            if (_gameState == GameState.NORMAL) {
+                normalGameUpdate(deltaTime);
+            }
+            else if (_gameState == GameState.SHIFTING) {
+                //update stuff for the shifting overlay
+            }
+            else if (_gameState == GameState.PAUSED) {
+                //update stuff for the pause menu
+            }
+
+            _fpsCounter.Update(gameTime);
+
+            base.Update(gameTime);
+        }
+
+        private void normalGameUpdate(float deltaTime) {
+            //Update all objects in our list. This is not where physics is evaluated,
+            // it is only where object-specific actions are performed, like applying control forces
+            foreach (DrawableGameObject obj in _objects) {
+                obj.Update(deltaTime);
+            }
+
+            _projectileManager.Update(deltaTime);
+
+            _mainCamera.Update(deltaTime);
+
+            _mapManager.Update(deltaTime);
+
+            //Update the FarseerPhysics physics
+            _world.Step(deltaTime);
+        }
+
+        private void updateGameState() {
             //Allows the game to exit
             if (InputManager.IsKeyDown(Keys.Escape)) {
                 this.Exit();
@@ -181,33 +216,6 @@ namespace ChaoticMind {
             if (InputManager.IsKeyClicked(Keys.Tab)) {
                 _gameState = _gameState == GameState.SHIFTING ? GameState.NORMAL : GameState.SHIFTING;
             }
-
-            if (_gameState == GameState.NORMAL) {
-                //Update all objects in our list. This is not where physics is evaluated,
-                // it is only where object-specific actions are performed, like applying control forces
-                foreach (DrawableGameObject obj in _objects) {
-                    obj.Update(deltaTime);
-                }
-
-                _projectileManager.Update(deltaTime);
-
-                _mainCamera.Update(deltaTime);
-
-                _mapManager.Update(deltaTime);
-
-                //Update the FarseerPhysics physics
-                _world.Step(deltaTime);
-            }
-            else if (_gameState == GameState.SHIFTING) {
-                //update stuff for the shifting overlay
-            }
-            else if (_gameState == GameState.PAUSED) {
-                //update stuff for the pause menu
-            }
-
-            _fpsCounter.Update(gameTime);
-
-            base.Update(gameTime);
         }
 
         /// <summary>
@@ -233,7 +241,7 @@ namespace ChaoticMind {
 
             drawDebugInfo(gameTime);
 
-            drawMouse();
+            _mouseDrawer.drawMouse(_gameState, _spriteBatch);
 
             _spriteBatch.End();
 
@@ -254,21 +262,6 @@ namespace ChaoticMind {
             _fpsCounter.Draw(gameTime);
             _spriteBatch.DrawString(_debugFont, string.Format("Player: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
             _spriteBatch.DrawString(_debugFont, string.Format("In Tile: ({0:0}, {1:0})", _player.MapTileIndex.X, _player.MapTileIndex.Y), new Vector2(10.0f, 65.0f), Color.White);
-        }
-
-        private void drawMouse() {
-            Vector2 mouseLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-            if (_gameState == GameState.NORMAL) {
-                _spriteBatch.Draw(_retical.Texture, mouseLocation, _retical.CurrentTextureBounds, Color.White, 0.0f, _retical.CurrentTextureOrigin, 1, SpriteEffects.None, 0.0f);
-            }
-            else {
-                if (!InputManager.IsMouseDown()) {
-                    _spriteBatch.Draw(_mouse.Texture, mouseLocation, _mouse.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, 1, SpriteEffects.None, 0.0f);
-                }
-                else {
-                    _spriteBatch.Draw(_mouseClicked.Texture, mouseLocation, _mouseClicked.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, 1, SpriteEffects.None, 0.0f);
-                }
-            }
         }
 
         private void drawObjects() {
