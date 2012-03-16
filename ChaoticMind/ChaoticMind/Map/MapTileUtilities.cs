@@ -13,10 +13,12 @@ namespace ChaoticMind {
 
         static List<StaticSprite> _OverlaySprites;
         static List<StaticSprite> _MapSprites;
+        static List<StaticSprite> _ShiftSprites;
 
         static MapTileUtilities() {
             loadOverlays();
             loadMapSprites();
+            loadShiftSprites();
         }
 
         //load the overlay textures
@@ -35,6 +37,15 @@ namespace ChaoticMind {
             _MapSprites.Add(new StaticSprite("Minimap/TileMap_Straight", MapTile.TileSideLength));
             _MapSprites.Add(new StaticSprite("Minimap/TileMap_Bent", MapTile.TileSideLength));
             _MapSprites.Add(new StaticSprite("Minimap/TileMap_Hidden", MapTile.TileSideLength));
+        }
+
+        //load the shift interface textures
+        private static void loadShiftSprites() {
+            _ShiftSprites = new List<StaticSprite>(4);
+            _ShiftSprites.Add(new StaticSprite("Shifting/TileShift_Triple", MapTile.TileSideLength));
+            _ShiftSprites.Add(new StaticSprite("Shifting/TileShift_Straight", MapTile.TileSideLength));
+            _ShiftSprites.Add(new StaticSprite("Shifting/TileShift_Bent", MapTile.TileSideLength));
+            _ShiftSprites.Add(new StaticSprite("Shifting/TileShift_Hidden", MapTile.TileSideLength));
         }
 
         //attaches the physics fixtures to the map tile
@@ -121,6 +132,21 @@ namespace ChaoticMind {
             }
             else if (d.Type == ComboType.BENT) {
                 return _MapSprites[2];
+            }
+            return null;
+        }
+        public static StaticSprite getShiftSprite(DoorDirections d, bool visible) {
+            if (!visible) {
+                return _ShiftSprites[3];
+            }
+            if (d.Type == ComboType.TRIPLE) {
+                return _ShiftSprites[0];
+            }
+            else if (d.Type == ComboType.STRAIGHT) {
+                return _ShiftSprites[1];
+            }
+            else if (d.Type == ComboType.BENT) {
+                return _ShiftSprites[2];
             }
             return null;
         }

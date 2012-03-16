@@ -154,6 +154,13 @@ namespace ChaoticMind {
             }
         }
 
+        public StaticSprite ShiftTexture {
+
+            get {
+                return MapTileUtilities.getShiftSprite(_openDoors, _isVisible);
+            }
+        }
+
         internal void go() {
             _body.LinearVelocity = 5.0f * Vector2.UnitX;
         }

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace ChaoticMind {
     class Screen {
+
 
         internal static void Initialize(Microsoft.Xna.Framework.GraphicsDeviceManager graphics, bool goFullscreen) {
             Width = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
@@ -30,6 +32,12 @@ namespace ChaoticMind {
             set;
         }
 
-        
+
+
+        public static Vector2 Center {
+            get {
+                return new Vector2(Width / (float)2, Height / (float)2);
+            }
+   }
     }
 }

@@ -15,8 +15,7 @@ namespace ChaoticMind {
     }
 
     class MapManager {
-        int _gridWidth = 3;
-        int _gridHeight = 3;
+        int _gridDimension = 3;
 
         MapTile[,] _tiles;
 
@@ -30,18 +29,18 @@ namespace ChaoticMind {
 
         private MapTile _shiftedOutTile;
 
-        public MapManager(int mapWidth, int mapHeight) {
-            _gridWidth = mapWidth;
-            _gridHeight = mapHeight;
-            _tiles = new MapTile[_gridWidth, _gridHeight];
+        public MapManager(int gridDimension) {
+            _gridDimension = gridDimension;
+            _tiles = new MapTile[_gridDimension, _gridDimension];
         }
 
         //Make the tiles
         public void Initialize(World world, Camera camera) {
             _world = world;
-            for (int y = 0; y < _gridHeight; y++) {
-                for (int x = 0; x < _gridWidth; x++) {
-                    _tiles[x,y] = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors(), true); //TODO: visible = false on start
+            for (int y = 0; y < _gridDimension; y++) {
+                for (int x = 0; x < _gridDimension; x++) {
+                    //TODO: visible = false on start
+                    _tiles[x,y] = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors(), true);
                 }
             }
             //initially set the overlays
@@ -101,8 +100,7 @@ namespace ChaoticMind {
             }
 
             //check if the index is valid
-            int gridLimit = dir == ShiftDirection.LEFT || dir == ShiftDirection.RIGHT ? _gridWidth : _gridHeight;
-            if (index < 0 || index >= gridLimit) {
+            if (index < 0 || index >= _gridDimension) {
                 throw new Exception("Invalid grid index passed to shiftTiles()");
             }
 
@@ -112,14 +110,14 @@ namespace ChaoticMind {
 
             bool isPositiveShift = (dir == ShiftDirection.RIGHT || dir == ShiftDirection.DOWN);
 
-            int shiftStart = isPositiveShift ? gridLimit - 1 : 0;
-            int shiftEnd = isPositiveShift ? 0 : gridLimit - 1;
+            int shiftStart = isPositiveShift ? _gridDimension - 1 : 0;
+            int shiftEnd = isPositiveShift ? 0 : _gridDimension - 1;
             int shiftInc = isPositiveShift ? -1 : 1;
 
             if (dir == ShiftDirection.LEFT || dir == ShiftDirection.RIGHT) {
 
                 //Set all the tiles to start moving
-                for (int x = 0; x < gridLimit; x++) {
+                for (int x = 0; x < _gridDimension; x++) {
                     shiftTile(x, index, x - shiftInc, index);
                 }
 
@@ -139,7 +137,7 @@ namespace ChaoticMind {
             }
             else {
                 //Set all the tiles to start moving
-                for (int y = 0; y < gridLimit; y++) {
+                for (int y = 0; y < _gridDimension; y++) {
                     shiftTile(index, y, index, y - shiftInc);
                 }
 
@@ -174,8 +172,8 @@ namespace ChaoticMind {
         }
 
         public void DrawTiles(Camera camera) {
-            for (int y = 0; y < _gridHeight; y++) {
-                for (int x = 0; x < _gridWidth; x++) {
+            for (int y = 0; y < _gridDimension; y++) {
+                for (int x = 0; x < _gridDimension; x++) {
                     MapTile tile = _tiles[x,y];
                     camera.Draw(tile);
                     camera.DrawOverlay(tile, Color.White * 0.3f);
@@ -188,8 +186,8 @@ namespace ChaoticMind {
 
         //Minimap
         public void DrawMap(Camera camera) {
-            for (int y = 0; y < _gridHeight; y++) {
-                for (int x = 0; x < _gridWidth; x++) {
+            for (int y = 0; y < _gridDimension; y++) {
+                for (int x = 0; x < _gridDimension; x++) {
                     MapTile tile = _tiles[x, y];
                     camera.DrawMinimap(tile);
                 }
@@ -200,7 +198,7 @@ namespace ChaoticMind {
         }
 
         public DoorDirections getTileDoors(int x, int y) {
-            if (x >= 0 && x < _gridWidth && y >= 0 && y < _gridHeight) {
+            if (x >= 0 && x < _gridDimension && y >= 0 && y < _gridDimension) {
                 return _tiles[x, y].OpenDoors;
             }
             return null;
