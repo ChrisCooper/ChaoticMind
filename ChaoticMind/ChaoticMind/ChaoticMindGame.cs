@@ -25,10 +25,8 @@ namespace ChaoticMind {
     /// </summary>
     /// 
     public class ChaoticMindGame : Microsoft.Xna.Framework.Game {
-        
-        //screen size
-        const int MAX_X = 1440;
-        const int MAX_Y = 800;
+
+        bool _goFullscreen = false;
 
         //map dimension
         const int MAP_SIZE = 10;
@@ -38,7 +36,7 @@ namespace ChaoticMind {
         SpriteFont _debugFont;
 
         StaticSprite _pauseBackground;
-        Vector2 _pauseLocation = new Vector2(MAX_X / 2.0f, MAX_Y / 2.0f); //half width and height
+        Vector2 _pauseLocation;
 
         FrameRateCounter _fpsCounter;
 
@@ -78,9 +76,9 @@ namespace ChaoticMind {
 
             _graphics = new GraphicsDeviceManager(this);
 
-            _graphics.PreferredBackBufferWidth = MAX_X;
-            _graphics.PreferredBackBufferHeight = MAX_Y;
-            _graphics.IsFullScreen = false;
+            Screen.Initialize(_graphics, _goFullscreen);
+
+             _pauseLocation = new Vector2(Screen.Width / 2.0f, Screen.Height / 2.0f);
 
             Content.RootDirectory = "Content";
             SpriteAnimationSequence.SharedContentManager = Content;
@@ -137,7 +135,6 @@ namespace ChaoticMind {
             _shiftInterface.Initialize(_mapManager, _spriteBatch);
 
             _mouseDrawer.Initialize();
-
 
             base.Initialize();
         }
