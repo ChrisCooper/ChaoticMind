@@ -20,7 +20,7 @@ namespace ChaoticMind {
         protected World _world;
 
         //current weapon
-        protected Weapon _curWeapon;
+        protected Weapon _curWeapon = null;
 
         public Character(CharacterType characterType, World world, Vector2 startingPosition)
             : base(characterType.SpriteName, characterType.XFrames, characterType.YFrames, characterType.EntitySize, characterType.AnimationDuration, world, startingPosition) {
@@ -72,12 +72,16 @@ namespace ChaoticMind {
 
         }
 
-        //hand off the shooting stuff to the currently equipped weapon
+        //hand off the reloading/shooting stuff to the currently equipped weapon
+        protected void Reload() {
+            if (_curWeapon != null) {
+                _curWeapon.Reload();
+            }
+        }
         protected void Shoot() {
             if (_curWeapon != null) {
-                _curWeapon.Shoot(_body.Position + Vector2.Normalize(_locationToFace - _body.Position) * _sprite.EntitySize, _locationToFace - _body.Position);
+                _curWeapon.Shoot(_body.Position + Vector2.Normalize(_locationToFace - _body.Position) * (_sprite.EntitySize / 1.7f), _locationToFace - _body.Position);
             }
-            //else melee?
         }
 
         //The location in global coordinates that this character will attempt to

@@ -167,7 +167,7 @@ namespace ChaoticMind {
                 _gameState = _gameState == GameState.PAUSED ? GameState.NORMAL : GameState.PAUSED;
             }
             //shifting interface
-            if (InputManager.IsKeyClicked(Keys.E)) {
+            if (InputManager.IsKeyClicked(Keys.Tab)) {
                 _gameState = _gameState == GameState.SHIFTING ? GameState.NORMAL : GameState.SHIFTING;
             }
 

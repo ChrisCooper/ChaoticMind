@@ -32,8 +32,9 @@ namespace ChaoticMind {
 
         //Use input to decide what direction this character should try to face and move
         protected override void decideOnMovementTargets() {
-            LocationToMoveToward = _body.Position;
 
+            //movement
+            LocationToMoveToward = _body.Position;
             if (InputManager.IsKeyDown(Keys.A)) {
                 LocationToMoveToward -= Vector2.UnitX;
             }
@@ -48,11 +49,15 @@ namespace ChaoticMind {
             }
 
             //shooting
+            LocationToFace = InputManager.MouseWorldPosition;
             if (InputManager.MouseState().LeftButton == ButtonState.Pressed) {
                 Shoot();
             }
 
-            LocationToFace = InputManager.MouseWorldPosition;
+            //reload
+            if (InputManager.IsKeyClicked(Keys.E)){
+                Reload();
+            }
         }
     }
 }
