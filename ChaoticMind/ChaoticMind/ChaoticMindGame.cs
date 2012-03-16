@@ -68,6 +68,8 @@ namespace ChaoticMind {
 
         MapManager _mapManager;
         ProjectileManager _projectileManager;
+
+        ShiftInterface _shiftInterface = new ShiftInterface();
         
         //state of the game
         private GameState _gameState = GameState.NORMAL;
@@ -75,6 +77,7 @@ namespace ChaoticMind {
         public ChaoticMindGame() {
 
             _graphics = new GraphicsDeviceManager(this);
+
             _graphics.PreferredBackBufferWidth = MAX_X;
             _graphics.PreferredBackBufferHeight = MAX_Y;
             _graphics.IsFullScreen = false;
@@ -125,14 +128,16 @@ namespace ChaoticMind {
             //_backgroundMusic.Enqueue("testSound3");
             //_backgroundMusic.Play();
 
-
             _mapManager = new MapManager(MAP_SIZE, MAP_SIZE);
             _mapManager.Initialize(_world, _mainCamera);
 
             _projectileManager = new ProjectileManager();
             _projectileManager.Initilize(_world, _mainCamera);
 
+            _shiftInterface.Initialize(_mapManager, _spriteBatch);
+
             _mouseDrawer.Initialize();
+
 
             base.Initialize();
         }
@@ -175,7 +180,7 @@ namespace ChaoticMind {
                 normalGameUpdate(deltaTime);
             }
             else if (_gameState == GameState.SHIFTING) {
-                //update stuff for the shifting overlay
+                _shiftInterface.Update();
             }
             else if (_gameState == GameState.PAUSED) {
                 //update stuff for the pause menu
@@ -236,7 +241,7 @@ namespace ChaoticMind {
                 drawPauseOverlay();
             }
             else if (_gameState == GameState.SHIFTING) {
-                drawShiftingInterface();
+                _shiftInterface.DrawInterface();
             }
 
             drawDebugInfo(gameTime);
@@ -246,10 +251,6 @@ namespace ChaoticMind {
             _spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-
-        private void drawShiftingInterface() {
-            _spriteBatch.DrawString(_debugFont, "Shifting interface is enabled", new Vector2(600.0f, 400.0f), Color.White);
         }
 
         private void drawPauseOverlay() {

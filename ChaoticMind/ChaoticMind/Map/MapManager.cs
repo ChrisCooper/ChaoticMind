@@ -205,5 +205,10 @@ namespace ChaoticMind {
             }
             return null;
         }
+
+
+        public MapTile[,] Tiles {
+            get { return _tiles; }
+        }
     }
 }

@@ -133,6 +133,7 @@
     <Compile Include="GameObjects\SillyBox.cs" />
     <Compile Include="Graphics\SpriteAnimationSequence.cs" />
     <Compile Include="Graphics\StaticSprite.cs" />
+    <Compile Include="ShiftInterface.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
