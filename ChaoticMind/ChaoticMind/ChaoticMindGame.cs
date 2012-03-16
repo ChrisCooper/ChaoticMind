@@ -221,9 +221,9 @@ namespace ChaoticMind {
 
             drawObjects();
 
-            drawMouse();
+            //Draw minimap
+            _mapManager.DrawMap(_mainCamera);
 
-                      
             if (_gameState == GameState.PAUSED) {
                 drawPauseOverlay();
             }
@@ -232,6 +232,8 @@ namespace ChaoticMind {
             }
 
             drawDebugInfo(gameTime);
+
+            drawMouse();
 
             _spriteBatch.End();
 
@@ -272,9 +274,6 @@ namespace ChaoticMind {
         private void drawObjects() {
             //Draw map tiles
             _mapManager.DrawTiles(_mainCamera);
-
-            //Draw minimap
-            _mapManager.DrawMap(_mainCamera);
 
             //Draw all objects in our list (and their minimap representations)
             foreach (DrawableGameObject obj in _objects) {
