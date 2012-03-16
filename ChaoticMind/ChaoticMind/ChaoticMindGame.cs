@@ -44,6 +44,8 @@ namespace ChaoticMind {
         //Draws the objects
         Camera _mainCamera;
 
+        StaticSprite _retical;
+
         internal Camera MainCamera {
             get { return _mainCamera; }
         }
@@ -125,6 +127,8 @@ namespace ChaoticMind {
 
             _projectileManager = new ProjectileManager();
             _projectileManager.Initilize(_world, _mainCamera);
+
+            _retical = new StaticSprite("Weapons/Retical", 1);
 
             base.Initialize();
         }
@@ -222,6 +226,13 @@ namespace ChaoticMind {
 
             _projectileManager.Draw();
 
+            Vector2 mouseLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+            _spriteBatch.Draw(_retical.Texture, mouseLocation, _retical.CurrentTextureBounds, Color.White, 0.0f, _retical.CurrentTextureOrigin, 1, SpriteEffects.None, 0.0f);
+
+            //*************//
+            //DEBUG DRAWING//
+            //*************//
+
             if (_gameState == GameState.PAUSED) {
                 //_spriteBatch.DrawString(_debugFont, "Game is paused", new Vector2(600.0f, 400.0f), Color.White);
                 _spriteBatch.Draw(_pauseBackground.Texture, _pauseLocation, _pauseBackground.CurrentTextureBounds, Color.White, 0.0f, _pauseBackground.CurrentTextureOrigin, 3, SpriteEffects.None, 0.0f);
@@ -234,10 +245,6 @@ namespace ChaoticMind {
             _fpsCounter.Draw(gameTime);
             _spriteBatch.DrawString(_debugFont, string.Format("Player: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
             _spriteBatch.DrawString(_debugFont, string.Format("In Tile: ({0:0}, {1:0})", _player.MapTileIndex.X, _player.MapTileIndex.Y), new Vector2(10.0f, 65.0f), Color.White);
-
-            Vector2 mouseLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-            Vector2 worldMouseLocation = _mainCamera.screenPointToWorld(mouseLocation);
-            _spriteBatch.DrawString(_debugFont, string.Format(".({0:0}, {1:0})", worldMouseLocation.X, worldMouseLocation.Y), mouseLocation, Color.White);
 
             _spriteBatch.End();
 
