@@ -56,6 +56,9 @@ namespace ChaoticMind {
                     tile.Update(deltaTime);
                 }
             }
+            if (_shiftedOutTile != null) {
+                _shiftedOutTile.Update(deltaTime);
+            }
 
             //temp shifting logic
             if (InputManager.IsKeyClicked(Keys.Up)) {
@@ -106,10 +109,14 @@ namespace ChaoticMind {
             _lastShiftTime = DateTimeOffset.Now;
             _camera.shake();
 
+
+            bool isPositiveShift = (dir == ShiftDirection.RIGHT || dir == ShiftDirection.DOWN);
+
+            int shiftStart = isPositiveShift ? gridLimit - 1 : 0;
+            int shiftEnd = isPositiveShift ? 0 : gridLimit - 1;
+            int shiftInc = isPositiveShift ? -1 : 1;
+
             if (dir == ShiftDirection.LEFT || dir == ShiftDirection.RIGHT) {
-                int shiftStart = dir == ShiftDirection.RIGHT ? gridLimit - 1 : 0;
-                int shiftEnd = dir == ShiftDirection.RIGHT ? 0 : gridLimit - 1;
-                int shiftInc = dir == ShiftDirection.RIGHT ? -1 : 1;
 
                 //Set all the tiles to start moving
                 for (int x = 0; x < gridLimit; x++) {
@@ -131,10 +138,6 @@ namespace ChaoticMind {
                 pushingTile.shiftTo(shiftEnd, index);
             }
             else {
-                int shiftStart = dir == ShiftDirection.DOWN ? gridLimit - 1 : 0;
-                int shiftEnd = dir == ShiftDirection.DOWN ? 0 : gridLimit - 1;
-                int shiftInc = dir == ShiftDirection.DOWN ? -1 : 1;
-
                 //Set all the tiles to start moving
                 for (int y = 0; y < gridLimit; y++) {
                     shiftTile(index, y, index, y - shiftInc);
@@ -155,12 +158,15 @@ namespace ChaoticMind {
                 pushingTile.shiftTo(index, shiftEnd);
             }
 
-            //tell the shifted out tile not to collide with anything and mark it for deletion
-            _shiftedOutTile.EnableCollisions(false);
-            _shiftedOutTile = null;
+            _shiftedOutTile.flagForDestruction(tileFinishedShifting);
 
             //update the overlays
             UpdateOverlays();
+        }
+
+        internal void tileFinishedShifting(MapTile finishedTile) {
+            finishedTile.destroySelf(_world);
+            _shiftedOutTile = null;
         }
 
         private void shiftTile(int tileX, int tileY, int destX, int destY) {
@@ -175,6 +181,9 @@ namespace ChaoticMind {
                     camera.DrawOverlay(tile, Color.White * 0.3f);
                 }
             }
+            if (_shiftedOutTile != null) {
+                camera.Draw(_shiftedOutTile);
+            }
         }
 
         //Minimap
@@ -184,6 +193,9 @@ namespace ChaoticMind {
                     MapTile tile = _tiles[x, y];
                     camera.DrawMinimap(tile);
                 }
+            }
+            if (_shiftedOutTile != null) {
+                camera.DrawMinimap(_shiftedOutTile);
             }
         }
 

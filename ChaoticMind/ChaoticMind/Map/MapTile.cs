@@ -11,6 +11,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 
 namespace ChaoticMind {
+
+    delegate void ShiftFinishListener(MapTile finishedTile);
+
     class MapTile : DrawableGameObject, IMiniMapable {
 
         public const float TileSideLength = 24.0f;
@@ -18,6 +21,8 @@ namespace ChaoticMind {
         public const float TileWallPercent = 1 / 16.0f;
         private const float SnapThreshold = 0.99999f;
         private const float MovementSpeed = 35f;
+
+        private event ShiftFinishListener signalEndOfShift;
 
         DoorDirections _openDoors;
 
@@ -65,6 +70,10 @@ namespace ChaoticMind {
             _isMoving = true;
         }
 
+        internal void flagForDestruction(ShiftFinishListener listener) {
+            signalEndOfShift = listener;
+        }
+
         public override void Update(float deltaTime) {
 
             if (_isMoving) {
@@ -83,6 +92,14 @@ namespace ChaoticMind {
             _body.Position = _targetLocation;
             _body.LinearVelocity = Vector2.Zero;
             _isMoving = false;
+
+            finishShift();
+        }
+
+        private void finishShift() {
+            if (signalEndOfShift != null) {
+                signalEndOfShift(this);
+            }
         }
 
         private float movementFunction(float percent) {
@@ -171,6 +188,10 @@ namespace ChaoticMind {
             else{
                 _body.CollidesWith = Category.None;
             }
+        }
+
+        internal void destroySelf(World _world) {
+            _world.RemoveBody(_body);
         }
     }
 }
