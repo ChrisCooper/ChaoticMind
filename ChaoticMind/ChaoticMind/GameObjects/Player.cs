@@ -50,7 +50,7 @@ namespace ChaoticMind {
 
             //shooting
             LocationToFace = InputManager.MouseWorldPosition;
-            if (InputManager.MouseState().LeftButton == ButtonState.Pressed) {
+            if (InputManager.IsMouseDown()) {
                 Shoot();
             }
 

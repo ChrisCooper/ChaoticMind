@@ -45,6 +45,8 @@ namespace ChaoticMind {
         Camera _mainCamera;
 
         StaticSprite _retical;
+        StaticSprite _mouse;
+        StaticSprite _mouseClicked;
 
         internal Camera MainCamera {
             get { return _mainCamera; }
@@ -129,6 +131,8 @@ namespace ChaoticMind {
             _projectileManager.Initilize(_world, _mainCamera);
 
             _retical = new StaticSprite("Weapons/Retical", 1);
+            _mouse = new StaticSprite("Menus/Mouse", 1);
+            _mouseClicked = new StaticSprite("Menus/Mouse_Clicked", 1);
 
             base.Initialize();
         }
@@ -158,6 +162,9 @@ namespace ChaoticMind {
 
         protected override void Update(GameTime gameTime) {
             float deltaTime = ((float)gameTime.ElapsedGameTime.TotalMilliseconds) * 0.001f;
+
+            //BULLET TIME!!!! :DDDD (have to pass non-scaled time to player's update though... otherwise player gets slowed too.
+            //deltaTime *= 0.2f;
 
             //must call once BEFORE any keyboard/mouse operations
             InputManager.Update(deltaTime);
@@ -212,6 +219,57 @@ namespace ChaoticMind {
 
             _spriteBatch.Begin();
 
+            drawObjects();
+
+            drawMouse();
+
+                      
+            if (_gameState == GameState.PAUSED) {
+                drawPauseOverlay();
+            }
+            else if (_gameState == GameState.SHIFTING) {
+                drawShiftingInterface();
+            }
+
+            drawDebugInfo(gameTime);
+
+            _spriteBatch.End();
+
+            base.Draw(gameTime);
+        }
+
+        private void drawShiftingInterface() {
+            _spriteBatch.DrawString(_debugFont, "Shifting interface is enabled", new Vector2(600.0f, 400.0f), Color.White);
+        }
+
+        private void drawPauseOverlay() {
+            //_spriteBatch.DrawString(_debugFont, "Game is paused", new Vector2(600.0f, 400.0f), Color.White);
+            _spriteBatch.Draw(_pauseBackground.Texture, _pauseLocation, _pauseBackground.CurrentTextureBounds, Color.White, 0.0f, _pauseBackground.CurrentTextureOrigin, 3, SpriteEffects.None, 0.0f);
+
+        }
+
+        private void drawDebugInfo(GameTime gameTime) {
+            _fpsCounter.Draw(gameTime);
+            _spriteBatch.DrawString(_debugFont, string.Format("Player: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
+            _spriteBatch.DrawString(_debugFont, string.Format("In Tile: ({0:0}, {1:0})", _player.MapTileIndex.X, _player.MapTileIndex.Y), new Vector2(10.0f, 65.0f), Color.White);
+        }
+
+        private void drawMouse() {
+            Vector2 mouseLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+            if (_gameState == GameState.NORMAL) {
+                _spriteBatch.Draw(_retical.Texture, mouseLocation, _retical.CurrentTextureBounds, Color.White, 0.0f, _retical.CurrentTextureOrigin, 1, SpriteEffects.None, 0.0f);
+            }
+            else {
+                if (!InputManager.IsMouseDown()) {
+                    _spriteBatch.Draw(_mouse.Texture, mouseLocation, _mouse.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, 1, SpriteEffects.None, 0.0f);
+                }
+                else {
+                    _spriteBatch.Draw(_mouseClicked.Texture, mouseLocation, _mouseClicked.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, 1, SpriteEffects.None, 0.0f);
+                }
+            }
+        }
+
+        private void drawObjects() {
             //Draw map tiles
             _mapManager.DrawTiles(_mainCamera);
 
@@ -225,30 +283,6 @@ namespace ChaoticMind {
             }
 
             _projectileManager.Draw();
-
-            Vector2 mouseLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-            _spriteBatch.Draw(_retical.Texture, mouseLocation, _retical.CurrentTextureBounds, Color.White, 0.0f, _retical.CurrentTextureOrigin, 1, SpriteEffects.None, 0.0f);
-
-            //*************//
-            //DEBUG DRAWING//
-            //*************//
-
-            if (_gameState == GameState.PAUSED) {
-                //_spriteBatch.DrawString(_debugFont, "Game is paused", new Vector2(600.0f, 400.0f), Color.White);
-                _spriteBatch.Draw(_pauseBackground.Texture, _pauseLocation, _pauseBackground.CurrentTextureBounds, Color.White, 0.0f, _pauseBackground.CurrentTextureOrigin, 3, SpriteEffects.None, 0.0f);
-            }
-            else if (_gameState == GameState.SHIFTING) {
-                _spriteBatch.DrawString(_debugFont, "Shifting interface is enabled", new Vector2(600.0f, 400.0f), Color.White);
-            }
-
-            /*Debugging writing*/
-            _fpsCounter.Draw(gameTime);
-            _spriteBatch.DrawString(_debugFont, string.Format("Player: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
-            _spriteBatch.DrawString(_debugFont, string.Format("In Tile: ({0:0}, {1:0})", _player.MapTileIndex.X, _player.MapTileIndex.Y), new Vector2(10.0f, 65.0f), Color.White);
-
-            _spriteBatch.End();
-
-            base.Draw(gameTime);
         }
     }
 }

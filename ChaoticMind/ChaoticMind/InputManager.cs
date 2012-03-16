@@ -30,10 +30,6 @@ namespace ChaoticMind {
             get { return Program.SharedGame.MainCamera.screenPointToWorld(new Vector2(_mainManager._curMouseState.X, _mainManager._curMouseState.Y)); }
         }
 
-        public static MouseState MouseState() {
-            return _mainManager._curMouseState;
-        }
-
         public static bool IsKeyUp(Keys k) {
             return _mainManager._curKeyState.IsKeyUp(k);
         }
@@ -43,6 +39,14 @@ namespace ChaoticMind {
         public static bool IsKeyClicked(Keys k){
             //down this time, but not last
             return _mainManager._curKeyState.IsKeyDown(k) && !_mainManager._oldKeyState.IsKeyDown(k);
+        }
+
+        public static bool IsMouseDown() {
+            return _mainManager._curMouseState.LeftButton == ButtonState.Pressed;
+        }
+        public static bool IsMouseClicked() {
+            //up this time, but not last
+            return (!(_mainManager._curMouseState.LeftButton == ButtonState.Pressed)) && (_mainManager._oldMouseState.LeftButton == ButtonState.Pressed);
         }
     }
 }
