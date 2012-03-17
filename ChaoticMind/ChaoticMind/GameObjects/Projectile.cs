@@ -14,7 +14,7 @@ namespace ChaoticMind {
         Vector2 _direction;
         Vector2 _startingPosition;
 
-        private DateTimeOffset _createTime;
+        private int _timerId;
 
         //default projectile
         public Projectile(Vector2 startingPosition, Vector2 direction, float maxTime, int damage, float speed, World world)
@@ -46,14 +46,16 @@ namespace ChaoticMind {
             _body.CollisionCategories = Category.Cat2;
             _body.CollidesWith = Category.All & ~Category.Cat2;
 
-            _createTime = DateTimeOffset.Now;
+            //init the timer
+            _timerId = TimeDelayManager.InitTimer(_maxTime, 0);
         }
 
         public bool Timeout (){
-            return _createTime.AddMilliseconds(_maxTime) < DateTimeOffset.Now;
+            return TimeDelayManager.Finished(_timerId);
         }
 
-        public void DestroyBody() {
+        public void Destroy() {
+            TimeDelayManager.DeleteTimer(_timerId);
             _body.Dispose();
         }
 

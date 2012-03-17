@@ -187,18 +187,9 @@ namespace ChaoticMind {
             set { _isVisible = value; }
         }
 
-        //enable/diable the collisions of the object
-        public void EnableCollisions(bool b) {
-            if (b){
-                _body.CollidesWith = Category.All;
-            }
-            else{
-                _body.CollidesWith = Category.None;
-            }
-        }
-
-        internal void destroySelf(World _world) {
-            _world.RemoveBody(_body);
+        public void destroySelf() {
+            //destroys the body and removes it from the world
+            _body.Dispose();
         }
     }
 }

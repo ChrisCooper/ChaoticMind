@@ -18,7 +18,7 @@ namespace ChaoticMind {
 
             _minimapSprite = new StaticSprite("Minimap/PlayerMinimap", MapTile.TileSideLength / 2);
 
-            _curWeapon = new Weapon(new StaticSprite("Weapons/AssaultRife", 1), 2000, 150, 10, 80, 3, 30, new StaticSprite("TestImages/Projectile", 0.1f), 20, 1, 1000);
+            _curWeapon = new Weapon(new StaticSprite("Weapons/AssaultRife", 1), 2, 0.150f, 10, 80, 3, 30, new StaticSprite("TestImages/Projectile", 0.1f), 20, 1, 1);
         }
 
         public Body Body {

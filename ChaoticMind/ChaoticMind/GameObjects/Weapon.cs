@@ -29,8 +29,8 @@ namespace ChaoticMind {
         int _curFires;
 
         //timing
-        DateTimeOffset _lastShotTime;
-        DateTimeOffset _lastReloadTime;
+        private int _reloadTimerId;
+        private int _shootTimerId;
 
         public Weapon(AnimatedSprite weaponSprite, float reloadCooldown, float shootCooldown, int numRounds, int firesPerRound, int numProjectiles, float spread, AnimatedSprite projectileSprite, float projectileSpeed, int projectileDamage, float projectileTTL) {
             //weapon properties
@@ -49,10 +49,15 @@ namespace ChaoticMind {
             _projectileSpeed = projectileSpeed;
             _projectileDamage = projectileDamage;
             _projectileTTL = projectileTTL;
+
+            //timers
+            _reloadTimerId = TimeDelayManager.InitTimer(_reloadCooldown);
+            _shootTimerId = TimeDelayManager.InitTimer(_shootCooldown);
+            
         }
 
         public void Shoot(Vector2 location, Vector2 direction){
-            if (_curFires > 0 && ReloadPercent() == 1 && ShootPercent() == 1) {
+            if (_curFires > 0 && TimeDelayManager.Finished(_reloadTimerId) && TimeDelayManager.Finished(_shootTimerId)) {
 
                 //TODO: Still has issues with spreading
                 //possible:
@@ -72,28 +77,17 @@ namespace ChaoticMind {
                     temp = Vector2.Transform(temp, _rotMat);
                 }
                 _curFires--;
-                _lastShotTime = DateTimeOffset.Now;
+                TimeDelayManager.RestartTimer(_shootTimerId);
             }
         }
 
         public void Reload() {
-            if (ReloadPercent() == 1 && _curRounds > 0) {
+            if (TimeDelayManager.Finished(_reloadTimerId) && _curRounds > 0) {
                 _curRounds--;
                 _curFires = _firesPerRound;
-                _lastReloadTime = DateTimeOffset.Now;
+                TimeDelayManager.RestartTimer(_reloadTimerId);
             }
         }
-
-        //is the player waiting for a shoot/reload cooldown?
-        public float ShootPercent() {
-            double temp = (DateTimeOffset.Now - _lastShotTime).TotalMilliseconds / _shootCooldown;
-            return temp > 1 ? 1 : (float)temp;
-        }
-        public float ReloadPercent() {
-            double temp = (DateTimeOffset.Now - _lastReloadTime).TotalMilliseconds / _reloadCooldown;
-            return temp > 1 ? 1 : (float)temp;
-        }
-
 
         //get weapon info (may need in HUD)
         public AnimatedSprite WeaponSprite {

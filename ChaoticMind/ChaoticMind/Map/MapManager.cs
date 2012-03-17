@@ -19,10 +19,8 @@ namespace ChaoticMind {
 
         MapTile[,] _tiles;
 
-        //shift timing
-        //make sure to update if the shifting speed is altered
-        public const float MinShiftTime = 3000; //3 seconds
-        private DateTimeOffset _lastShiftTime = DateTimeOffset.Now.AddMilliseconds(-MinShiftTime);
+        //timing
+        private int _timerId;
 
         World _world;
         Camera _camera;
@@ -45,6 +43,9 @@ namespace ChaoticMind {
             }
             //initially set the overlays
             UpdateOverlays();
+
+            //set up the timer (make sure to update if the shift takes longer than 3 sec or it'll run into problems)
+            _timerId = TimeDelayManager.InitTimer(3);
 
             _camera = camera;
         }
@@ -86,16 +87,10 @@ namespace ChaoticMind {
             }
         }
 
-        //returns the percent of the shift time that has elapsed since the last shift
-        public float shiftTimePercent() {
-            double temp = (DateTimeOffset.Now - _lastShiftTime).TotalMilliseconds / MinShiftTime;
-            return temp > 1 ? 1 : (float)temp;
-        }
-
         //shift the row/col of tiles
         public void shiftTiles(int index, ShiftDirection dir, DoorDirections newTileDoors) {
 
-            if (shiftTimePercent() < 1){
+            if (!TimeDelayManager.Finished(_timerId)) {
                 return;
             }
 
@@ -104,9 +99,7 @@ namespace ChaoticMind {
                 throw new Exception("Invalid grid index passed to shiftTiles()");
             }
 
-            _lastShiftTime = DateTimeOffset.Now;
             _camera.shake();
-
 
             bool isPositiveShift = (dir == ShiftDirection.RIGHT || dir == ShiftDirection.DOWN);
 
@@ -115,7 +108,6 @@ namespace ChaoticMind {
             int shiftInc = isPositiveShift ? -1 : 1;
 
             if (dir == ShiftDirection.LEFT || dir == ShiftDirection.RIGHT) {
-
                 //Set all the tiles to start moving
                 for (int x = 0; x < _gridDimension; x++) {
                     shiftTile(x, index, x - shiftInc, index);
@@ -135,7 +127,7 @@ namespace ChaoticMind {
                 _tiles[shiftEnd, index] = pushingTile;
                 pushingTile.shiftTo(shiftEnd, index);
             }
-            else {
+            else { //UP or DOWN
                 //Set all the tiles to start moving
                 for (int y = 0; y < _gridDimension; y++) {
                     shiftTile(index, y, index, y - shiftInc);
@@ -160,10 +152,13 @@ namespace ChaoticMind {
 
             //update the overlays
             UpdateOverlays();
+
+            //reset the timer
+            TimeDelayManager.RestartTimer(_timerId);
         }
 
         internal void tileFinishedShifting(MapTile finishedTile) {
-            finishedTile.destroySelf(_world);
+            finishedTile.destroySelf();
             _shiftedOutTile = null;
         }
 

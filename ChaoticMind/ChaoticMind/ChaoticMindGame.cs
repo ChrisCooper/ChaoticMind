@@ -103,7 +103,9 @@ namespace ChaoticMind {
             _fpsCounter = new FrameRateCounter(_spriteBatch, _debugFont);
 
             _mainCamera = new Camera(Vector2.Zero, 50.0f, _graphics.GraphicsDevice, _spriteBatch);
+            
             InputManager.Initialize();
+            TimeDelayManager.Initilize();
 
             //Create a bunch of fun random game objects for now
             for (int i = 0; i < 100; i++) {
@@ -191,6 +193,10 @@ namespace ChaoticMind {
         private void normalGameUpdate(float deltaTime) {
             //Update all objects in our list. This is not where physics is evaluated,
             // it is only where object-specific actions are performed, like applying control forces
+
+            //let time-based objects work
+            TimeDelayManager.Update(deltaTime);
+
             foreach (DrawableGameObject obj in _objects) {
                 obj.Update(deltaTime);
             }

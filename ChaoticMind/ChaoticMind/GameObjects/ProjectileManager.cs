@@ -26,7 +26,7 @@ namespace ChaoticMind {
                 if (!_self._projectiles[i].Timeout())
                     _self._projectiles[i].Update(deltaTime);
                 else{
-                    _self._projectiles[i].DestroyBody();
+                    _self._projectiles[i].Destroy();
                     _self._projectiles.RemoveAt(i);
                 }
             }
