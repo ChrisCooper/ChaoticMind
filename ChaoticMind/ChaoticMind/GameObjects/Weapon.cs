@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using FarseerPhysics.Dynamics;
 
 namespace ChaoticMind {
 
@@ -22,7 +23,7 @@ namespace ChaoticMind {
         AnimatedSprite _projectileSprite;
         float _projectileSpeed;
         int _projectileDamage;
-        float _projectileTTL;
+        float _projectileRange;
 
         //ammo
         int _curRounds;
@@ -32,7 +33,7 @@ namespace ChaoticMind {
         private int _reloadTimerId;
         private int _shootTimerId;
 
-        public Weapon(AnimatedSprite weaponSprite, float reloadCooldown, float shootCooldown, int numRounds, int firesPerRound, int numProjectiles, float spread, AnimatedSprite projectileSprite, float projectileSpeed, int projectileDamage, float projectileTTL) {
+        public Weapon(AnimatedSprite weaponSprite, float reloadCooldown, float shootCooldown, int numRounds, int firesPerRound, int numProjectiles, float spread, AnimatedSprite projectileSprite, float projectileSpeed, int projectileDamage, float projectileRange) {
             //weapon properties
             _weaponSprite = weaponSprite;
             _reloadCooldown = reloadCooldown;
@@ -48,7 +49,7 @@ namespace ChaoticMind {
             _projectileSprite = projectileSprite;
             _projectileSpeed = projectileSpeed;
             _projectileDamage = projectileDamage;
-            _projectileTTL = projectileTTL;
+            _projectileRange = projectileRange;
 
             //timers
             _reloadTimerId = TimeDelayManager.InitTimer(_reloadCooldown);
@@ -71,9 +72,39 @@ namespace ChaoticMind {
                     temp = Vector2.Transform(temp, _rotMat);
                 }
 
-                //spawn the projectiles
                 for (int i = 0; i < _numProjectiles; i++) {
-                    ProjectileManager.CreateProjectile(location, temp, _projectileTTL, _projectileDamage, _projectileSpeed, _projectileSprite);
+                    //shoot the projectiles
+                    if (_projectileSpeed <= 0) { //use raycasting
+                        /*
+                        return -1: ignore this fixture and continue
+                        return 0: terminate the ray cast
+                        return fraction: clip the ray to this point
+                        return 1: don't clip the ray and continue
+                        */
+                        Fixture hit = null;
+                        Vector2 pt = Vector2.Zero;
+                        float minFrac = float.MaxValue;
+
+                        //BUG: the returns are probably not right (I guessed), but you can sometimes hit sillyboxes through the walls
+                        //also only goes to the mouse, but I'll refactor this into the weapons class with a range property at some point
+                        Program.SharedGame.MainWorld.RayCast((fixture, point, normal, fraction) => {
+                            if (fixture != null && fraction < minFrac) {
+                                hit = fixture;
+                                pt = point;
+                                minFrac = fraction;
+                                return 1;
+                            }
+                            return -1;
+                        }, location, temp * _projectileRange);
+
+                        //DOES NOTHING SO FAR, JUST PRINTS TO CONSOLE THE HIT OBJECT
+                        Console.WriteLine((hit != null ? hit.Body.UserData : "null") + " at " + pt);
+                    }
+                    else { //use projectiles
+                        ProjectileManager.CreateProjectile(location, temp, _projectileRange, _projectileDamage, _projectileSpeed, _projectileSprite);
+                    }
+
+                    //rotate the direction to shoot the next projectile in
                     temp = Vector2.Transform(temp, _rotMat);
                 }
                 _curFires--;
@@ -113,6 +144,9 @@ namespace ChaoticMind {
         }
         public int ProjectileDamage {
             get { return _projectileDamage; }
+        }
+        public float ProjectileRange {
+            get { return _projectileRange; }
         }
     }
 }

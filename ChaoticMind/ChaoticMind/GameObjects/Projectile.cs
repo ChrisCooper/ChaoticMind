@@ -9,7 +9,7 @@ using FarseerPhysics.Factories;
 namespace ChaoticMind {
     class Projectile : DrawableGameObject{
 
-        float _maxTime;
+        float _range;
         int _damage;
         Vector2 _direction;
         Vector2 _startingPosition;
@@ -17,20 +17,20 @@ namespace ChaoticMind {
         private int _timerId;
 
         //default projectile
-        public Projectile(Vector2 startingPosition, Vector2 direction, float maxTime, int damage, float speed)
-            : this(startingPosition, direction, maxTime, damage, speed, new AnimatedSprite("TestImages/Projectile", 1, 1, 0.1f, 1.0f)) {
+        public Projectile(Vector2 startingPosition, Vector2 direction, float range, int damage, float speed)
+            : this(startingPosition, direction, range, damage, speed, new AnimatedSprite("TestImages/Projectile", 1, 1, 0.1f, 1.0f)) {
         }
 
         //create a new sprite
-        public Projectile(Vector2 startingPosition, Vector2 direction, float maxTime, int damage, float speed, String spriteResource, int xFrames, int yFrames, float diameter, float animationDuration)
-            : this(startingPosition, direction, maxTime, damage, speed, new AnimatedSprite(spriteResource, xFrames, yFrames, diameter, animationDuration)) {
+        public Projectile(Vector2 startingPosition, Vector2 direction, float range, int damage, float speed, String spriteResource, int xFrames, int yFrames, float diameter, float animationDuration)
+            : this(startingPosition, direction, range, damage, speed, new AnimatedSprite(spriteResource, xFrames, yFrames, diameter, animationDuration)) {
         }
 
         //use existing sprite
-        public Projectile(Vector2 startingPosition, Vector2 direction, float maxTime, int damage, float speed, AnimatedSprite sprite)
+        public Projectile(Vector2 startingPosition, Vector2 direction, float range, int damage, float speed, AnimatedSprite sprite)
             : base (startingPosition, sprite){
             //set 
-            _maxTime = maxTime;
+            _range = range;
             _startingPosition = startingPosition;
             _direction = Vector2.Normalize(direction);
             _damage = damage;
@@ -47,7 +47,7 @@ namespace ChaoticMind {
             _body.CollidesWith = Category.All & ~Category.Cat2;
 
             //init the timer
-            _timerId = TimeDelayManager.InitTimer(_maxTime, 0);
+            _timerId = TimeDelayManager.InitTimer(_range / speed, 0);
         }
 
         public bool Timeout (){
