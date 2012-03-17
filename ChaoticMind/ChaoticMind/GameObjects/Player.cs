@@ -11,8 +11,8 @@ namespace ChaoticMind {
 
         AnimatedSprite _minimapSprite;
 
-        public Player(CharacterType characterType, World world, Vector2 startingPosition)
-            : base(characterType, world, startingPosition) {
+        public Player(CharacterType characterType, Vector2 startingPosition)
+            : base(characterType, startingPosition) {
             _body.LinearDamping = 30;
             _body.AngularDamping = 5;
             _body.UserData = Utilities.BodyTypes.PLAYER;

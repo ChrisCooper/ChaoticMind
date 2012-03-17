@@ -17,13 +17,11 @@ namespace ChaoticMind {
         private Vector2 _locationToFace;
         private Vector2 _locationToMoveToward;
 
-        protected World _world;
-
         //current weapon
         protected Weapon _curWeapon = null;
 
-        public Character(CharacterType characterType, World world, Vector2 startingPosition)
-            : base(characterType.SpriteName, characterType.XFrames, characterType.YFrames, characterType.EntitySize, characterType.AnimationDuration, world, startingPosition) {
+        public Character(CharacterType characterType, Vector2 startingPosition)
+            : base(characterType.SpriteName, characterType.XFrames, characterType.YFrames, characterType.EntitySize, characterType.AnimationDuration, startingPosition) {
             _characterType = characterType;
 
             switch (characterType.ObjectShape) {
@@ -31,10 +29,10 @@ namespace ChaoticMind {
                 // as well as a rectangular fixture, which is just a shape stapled to the body.
                 // The fixture is what collides with other objects and impacts how the body moves
                 case ObjectShapes.RECTANGLE:
-                    _body = BodyFactory.CreateRectangle(world, _characterType.EntitySize, _characterType.EntitySize, _characterType.Density);
+                    _body = BodyFactory.CreateRectangle(Program.SharedGame.MainWorld, _characterType.EntitySize, _characterType.EntitySize, _characterType.Density);
                     break;
                 case ObjectShapes.CIRCLE:
-                    _body = BodyFactory.CreateCircle(world, _characterType.EntitySize / 2, _characterType.Density);
+                    _body = BodyFactory.CreateCircle(Program.SharedGame.MainWorld, _characterType.EntitySize / 2, _characterType.Density);
                     break;
             }
 
@@ -42,9 +40,6 @@ namespace ChaoticMind {
             _body.Position = startingPosition;
 
             _locationToFace = new Vector2(0, 1);
-
-            //bandaid fix, can probably make this globally accessable since we only use one world
-            _world = world;
         }
 
         public override void Update(float deltaTime) {
@@ -84,14 +79,15 @@ namespace ChaoticMind {
             return 0: terminate the ray cast
             return fraction: clip the ray to this point
             return 1: don't clip the ray and continue
-            */ 
+            */
+            /*
             Fixture hit = null;
             Vector2 pt = Vector2.Zero;
             float minFrac = float.MaxValue;
 
             //BUG: the returns are probably not right (I guessed), but you can sometimes hit sillyboxes through the walls
             //also only goes to the mouse, but I'll refactor this into the weapons class with a range property at some point
-            _world.RayCast((fixture, point, normal, fraction) => {
+            Program.SharedGame.MainWorld.RayCast((fixture, point, normal, fraction) => {
                 if (fixture != null && fraction < minFrac){
                     hit = fixture;
                     pt = point;
@@ -101,8 +97,8 @@ namespace ChaoticMind {
                 return -1;
             }, _body.Position, _locationToFace);
             Console.WriteLine((hit != null ? hit.Body.UserData : "null") + " at " + pt);
-
-            /*
+            //*/
+            ///*
             if (_curWeapon != null) {
                 _curWeapon.Shoot(_body.Position + Vector2.Normalize(_locationToFace - _body.Position) * (_sprite.EntitySize / 1.5f), _locationToFace - _body.Position);
             }

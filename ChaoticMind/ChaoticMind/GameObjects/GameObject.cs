@@ -13,7 +13,7 @@ namespace ChaoticMind
     {
         protected Body _body;
 
-        public GameObject(World world, Vector2 startingPosition)
+        public GameObject(Vector2 startingPosition)
         {
         }
 

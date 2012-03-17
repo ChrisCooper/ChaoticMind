@@ -12,11 +12,9 @@ namespace ChaoticMind {
 
         List<Projectile> _projectiles;
         Camera _camera;
-        World _world;
 
-        public void Initilize(World world, Camera camera) {
+        public void Initilize(Camera camera) {
             _self = new ProjectileManager();
-            _self._world = world;
             _self._camera = camera;
             _self._projectiles = new List<Projectile>();
         }
@@ -40,15 +38,15 @@ namespace ChaoticMind {
 
         //default projectile
         public static void CreateProjectile(Vector2 startingPosition, Vector2 direction, float maxTime, int damage, float speed) {
-            _self._projectiles.Add(new Projectile(startingPosition, direction, maxTime, damage, speed, _self._world));
+            _self._projectiles.Add(new Projectile(startingPosition, direction, maxTime, damage, speed));
         }
         //new custom projectile
         public static void CreateProjectile(Vector2 startingPosition, Vector2 direction, float maxTime, int damage, float speed, String spriteResource, int xFrames, int yFrames, float diameter, float animationDuration) {
-            _self._projectiles.Add(new Projectile(startingPosition, direction, maxTime, damage, speed, spriteResource, xFrames, yFrames, diameter, animationDuration, _self._world));
+            _self._projectiles.Add(new Projectile(startingPosition, direction, maxTime, damage, speed, spriteResource, xFrames, yFrames, diameter, animationDuration));
         }
         //reuse a projectile
         public static void CreateProjectile(Vector2 startingPosition, Vector2 direction, float maxTime, int damage, float speed, AnimatedSprite sprite) {
-            _self._projectiles.Add(new Projectile(startingPosition, direction, maxTime, damage, speed, sprite, _self._world));
+            _self._projectiles.Add(new Projectile(startingPosition, direction, maxTime, damage, speed, sprite));
         }
     }
 }

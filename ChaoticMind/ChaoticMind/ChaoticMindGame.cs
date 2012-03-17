@@ -43,6 +43,10 @@ namespace ChaoticMind {
         //Farseer physics simulator
         World _world;
 
+        internal World MainWorld {
+            get { return _world; }
+        }
+
         //Draws the objects
         Camera _mainCamera;
 
@@ -109,17 +113,17 @@ namespace ChaoticMind {
 
             //Create a bunch of fun random game objects for now
             for (int i = 0; i < 100; i++) {
-                SillyBox obj = new SillyBox(CharacterType.SillyBox, _world, Utilities.randomVector() * 100.0f + 100.0f * Vector2.UnitX);
+                SillyBox obj = new SillyBox(CharacterType.SillyBox, Utilities.randomVector() * 100.0f + 100.0f * Vector2.UnitX);
                 _objects.Add(obj);
             }
 
             //set up player
-            _player = new Player(CharacterType.Player, _world, Vector2.Zero);
+            _player = new Player(CharacterType.Player, Vector2.Zero);
             _objects.Add(_player);
             _mainCamera.setTarget(_player.Body);
 
             //set up collectable
-            _currentCollectable = new Collectable("TestImages/Collectable", 5, 2, 2, _world, new Vector2(Utilities.randomInt(0, 2), Utilities.randomInt(0, 2)) * MapTile.TileSideLength);
+            _currentCollectable = new Collectable("TestImages/Collectable", 5, 2, 2, new Vector2(Utilities.randomInt(0, 2), Utilities.randomInt(0, 2)) * MapTile.TileSideLength);
             _objects.Add(_currentCollectable);
 
             //_backgroundMusic = new MusicController();
@@ -129,10 +133,10 @@ namespace ChaoticMind {
             //_backgroundMusic.Play();
 
             _mapManager = new MapManager(MAP_SIZE);
-            _mapManager.Initialize(_world, _mainCamera);
+            _mapManager.Initialize(_mainCamera);
 
             _projectileManager = new ProjectileManager();
-            _projectileManager.Initilize(_world, _mainCamera);
+            _projectileManager.Initilize(_mainCamera);
 
             _shiftInterface.Initialize(_mapManager, _spriteBatch);
 

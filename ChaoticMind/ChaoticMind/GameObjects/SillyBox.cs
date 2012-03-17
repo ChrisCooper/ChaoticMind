@@ -11,8 +11,8 @@ namespace ChaoticMind {
 
         private AnimatedSprite _minimapSprite;
 
-        public SillyBox(CharacterType characterType, World world, Vector2 startingPosition)
-            : base(characterType, world, startingPosition) {
+        public SillyBox(CharacterType characterType, Vector2 startingPosition)
+            : base(characterType, startingPosition) {
 
             _body.UserData = Utilities.BodyTypes.SILLY_BOX;
 

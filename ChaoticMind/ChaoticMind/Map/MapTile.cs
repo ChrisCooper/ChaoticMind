@@ -39,15 +39,15 @@ namespace ChaoticMind {
         bool _isMoving;
         bool _isVisible;
 
-        public MapTile(World world, Vector2 startingPosition, DoorDirections openDoors, bool visible)
-            : base(world, startingPosition) {
+        public MapTile(Vector2 startingPosition, DoorDirections openDoors, bool visible)
+            : base(startingPosition) {
             _openDoors = openDoors;
 
             _connectedDoors = new DoorDirections(false, false, false, false);
 
             _sprite = new StaticSprite(MapTileUtilities.appearanceStringFromDoorConfiguration(openDoors), TileSideLength);
 
-            _body = new Body(world);
+            _body = new Body(Program.SharedGame.MainWorld);
             _body.Position = startingPosition;
             _body.BodyType = BodyType.Kinematic;
             _body.UserData = Utilities.BodyTypes.WALL;

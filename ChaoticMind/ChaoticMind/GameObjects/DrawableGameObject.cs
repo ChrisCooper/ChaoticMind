@@ -11,18 +11,18 @@ namespace ChaoticMind {
     abstract class DrawableGameObject : GameObject, IMiniMapable {
         protected AnimatedSprite _sprite;
 
-        public DrawableGameObject(String spriteResource, int xFrames, int yFrames, float entitySize, float animationDuration, World world, Vector2 startingPosition)
-            : base(world, startingPosition) {
+        public DrawableGameObject(String spriteResource, int xFrames, int yFrames, float entitySize, float animationDuration, Vector2 startingPosition)
+            : base(startingPosition) {
             _sprite = new AnimatedSprite(spriteResource, xFrames, yFrames, entitySize, animationDuration);
         }
 
-        public DrawableGameObject (World world, Vector2 startingPosition, AnimatedSprite sprite)
-            : base(world, startingPosition) {
+        public DrawableGameObject (Vector2 startingPosition, AnimatedSprite sprite)
+            : base(startingPosition) {
             _sprite = sprite;
         }
 
-        public DrawableGameObject(World world, Vector2 startingPosition)
-            : base(world, startingPosition) {
+        public DrawableGameObject(Vector2 startingPosition)
+            : base(startingPosition) {
         }
 
         public override void Update(float deltaTime) {

@@ -22,7 +22,6 @@ namespace ChaoticMind {
         //timing
         private int _timerId;
 
-        World _world;
         Camera _camera;
 
         private MapTile _shiftedOutTile;
@@ -33,12 +32,11 @@ namespace ChaoticMind {
         }
 
         //Make the tiles
-        public void Initialize(World world, Camera camera) {
-            _world = world;
+        public void Initialize(Camera camera) {
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
                     //TODO: visible = false on start
-                    _tiles[x,y] = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors(), true);
+                    _tiles[x,y] = new MapTile(MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors(), true);
                 }
             }
             //initially set the overlays
@@ -123,7 +121,7 @@ namespace ChaoticMind {
 
                 //set the location of the tile that was pushed in a move it into place
                 //TODO: don't reassign this. pass it in.
-                MapTile pushingTile = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(shiftEnd + shiftInc, index), newTileDoors, true);
+                MapTile pushingTile = new MapTile(MapTile.WorldPositionForGridCoordinates(shiftEnd + shiftInc, index), newTileDoors, true);
                 _tiles[shiftEnd, index] = pushingTile;
                 pushingTile.shiftTo(shiftEnd, index);
             }
@@ -143,7 +141,7 @@ namespace ChaoticMind {
 
                 //set the location of the tile that was pushed in a move it into place
                 //TODO: don't reassign this. pass it in.
-                MapTile pushingTile = new MapTile(_world, MapTile.WorldPositionForGridCoordinates(index, shiftEnd + shiftInc), newTileDoors, true);
+                MapTile pushingTile = new MapTile(MapTile.WorldPositionForGridCoordinates(index, shiftEnd + shiftInc), newTileDoors, true);
                 _tiles[index, shiftEnd] = pushingTile;
                 pushingTile.shiftTo(index, shiftEnd);
             }
