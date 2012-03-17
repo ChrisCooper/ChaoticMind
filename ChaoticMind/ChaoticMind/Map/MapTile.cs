@@ -50,6 +50,7 @@ namespace ChaoticMind {
             _body = new Body(world);
             _body.Position = startingPosition;
             _body.BodyType = BodyType.Kinematic;
+            _body.UserData = Utilities.BodyTypes.WALL;
 
             MapTileUtilities.AttachFixtures(_body, _openDoors);
 

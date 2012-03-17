@@ -14,6 +14,8 @@ namespace ChaoticMind {
         public SillyBox(CharacterType characterType, World world, Vector2 startingPosition)
             : base(characterType, world, startingPosition) {
 
+            _body.UserData = Utilities.BodyTypes.SILLY_BOX;
+
             _minimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 5);
         }
 

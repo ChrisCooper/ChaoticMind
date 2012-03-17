@@ -22,6 +22,7 @@ namespace ChaoticMind {
             _body.AngularDamping = 0;
             _body.AngularVelocity = 5;
             _body.Position = startingPosition;
+            _body.UserData = Utilities.BodyTypes.COLLECTABLE;
 
             _minimapSprite = new StaticSprite("Minimap/CollectableMinimap", MapTile.TileSideLength / 2);   
         }

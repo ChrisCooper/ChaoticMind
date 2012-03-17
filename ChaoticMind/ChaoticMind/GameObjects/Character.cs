@@ -79,9 +79,32 @@ namespace ChaoticMind {
             }
         }
         protected void Shoot() {
+            /*
+            return -1: ignore this fixture and continue
+            return 0: terminate the ray cast
+            return fraction: clip the ray to this point
+            return 1: don't clip the ray and continue
+            */ 
+            Fixture hit = null;
+            Vector2 pt = Vector2.Zero;
+
+            //BUG: the returns are probably not right (I guessed), but you can sometimes hit sillyboxes through the walls
+            //also only goes to the mouse, but I'll refactor this into the weapons class with a range property at some point
+            _world.RayCast((fixture, point, normal, fraction) => {
+                if (fixture != null){
+                    hit = fixture;
+                    pt = point;
+                    return 0;
+                }
+                return -1;
+            }, _body.Position, _locationToFace);
+            Console.WriteLine((hit != null ? hit.Body.UserData : "null") + " at " + pt);
+
+            /*
             if (_curWeapon != null) {
                 _curWeapon.Shoot(_body.Position + Vector2.Normalize(_locationToFace - _body.Position) * (_sprite.EntitySize / 1.5f), _locationToFace - _body.Position);
             }
+            */
         }
 
         //The location in global coordinates that this character will attempt to
