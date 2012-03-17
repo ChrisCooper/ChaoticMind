@@ -16,8 +16,8 @@ namespace ChaoticMind {
             private float _delayTime;
             
             public TimerEvent(float delay, float elapsed) {
-                if (delay == 0)
-                    throw new Exception("Delay amount cannot be 0");
+                if (delay <= 0)
+                    throw new Exception("Delay amount must be positive");
                 _elapsed = elapsed;
                 _delayTime = delay;
             }
@@ -27,8 +27,8 @@ namespace ChaoticMind {
                 _elapsed = 0;
             }
             public void Reset(float delay) {
-                if (delay == 0)
-                    throw new Exception("Delay amount cannot be 0");
+                if (delay <= 0)
+                    throw new Exception("Delay amount must be positive");
                 _elapsed = 0;
                 _delayTime = delay;
             }

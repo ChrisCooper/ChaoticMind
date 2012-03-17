@@ -37,16 +37,16 @@ namespace ChaoticMind {
         }
 
         //default projectile
-        public static void CreateProjectile(Vector2 startingPosition, Vector2 direction, float maxTime, int damage, float speed) {
-            _self._projectiles.Add(new Projectile(startingPosition, direction, maxTime, damage, speed));
+        public static void CreateProjectile(Vector2 startingPosition, Vector2 direction, float range, int damage, float speed) {
+            _self._projectiles.Add(new Projectile(startingPosition, direction, range, damage, speed));
         }
         //new custom projectile
-        public static void CreateProjectile(Vector2 startingPosition, Vector2 direction, float maxTime, int damage, float speed, String spriteResource, int xFrames, int yFrames, float diameter, float animationDuration) {
-            _self._projectiles.Add(new Projectile(startingPosition, direction, maxTime, damage, speed, spriteResource, xFrames, yFrames, diameter, animationDuration));
+        public static void CreateProjectile(Vector2 startingPosition, Vector2 direction, float range, int damage, float speed, String spriteResource, int xFrames, int yFrames, float diameter, float animationDuration) {
+            _self._projectiles.Add(new Projectile(startingPosition, direction, range, damage, speed, spriteResource, xFrames, yFrames, diameter, animationDuration));
         }
         //reuse a projectile
-        public static void CreateProjectile(Vector2 startingPosition, Vector2 direction, float maxTime, int damage, float speed, AnimatedSprite sprite) {
-            _self._projectiles.Add(new Projectile(startingPosition, direction, maxTime, damage, speed, sprite));
+        public static void CreateProjectile(Vector2 startingPosition, Vector2 direction, float range, int damage, float speed, AnimatedSprite sprite) {
+            _self._projectiles.Add(new Projectile(startingPosition, direction, range, damage, speed, sprite));
         }
     }
 }

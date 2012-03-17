@@ -18,6 +18,7 @@ namespace ChaoticMind {
         int _numProjectiles;
         float _spread;
         Matrix _rotMat;
+        Matrix _halfRot;
 
         //projectile properties
         AnimatedSprite _projectileSprite;
@@ -43,7 +44,9 @@ namespace ChaoticMind {
             _numProjectiles = numProjectiles;
             //convert to farseer-friendly radians and generate rotation matrix
             _spread = MathHelper.ToRadians(spread);
-            _rotMat = Matrix.CreateRotationZ(_spread / _numProjectiles + (_numProjectiles % 2 == 0 ? 1 : -1));
+            //generate matricies for rotation
+            _rotMat = Matrix.CreateRotationZ(_spread / (_numProjectiles + (_numProjectiles % 2 == 0 ? 1 : -1)));
+            _halfRot = Matrix.CreateRotationZ(-_spread / 2.0f);
 
             //projectile properties
             _projectileSprite = projectileSprite;
@@ -60,16 +63,12 @@ namespace ChaoticMind {
         public void Shoot(Vector2 location, Vector2 direction){
             if (_curFires > 0 && TimeDelayManager.Finished(_reloadTimerId) && TimeDelayManager.Finished(_shootTimerId)) {
 
-                //TODO: Still has issues with spreading
-                //possible:
-                //non-zero origin (i think it is, but maybe not)
-                //degree/radian tomfoolery
-
-                Vector2 temp = Vector2.Transform(direction, Matrix.CreateRotationZ(-_spread/2.0f));
+                //start shooting the particles at the left side of the spread
+                Vector2 temp = Vector2.Transform(direction, _halfRot);
 
                 //initial rotation if an even number of projectiles
                 if (_numProjectiles % 2 == 0) {
-                    temp = Vector2.Transform(temp, _rotMat);
+                    Vector2.Transform(ref temp, ref _rotMat, out temp);
                 }
 
                 for (int i = 0; i < _numProjectiles; i++) {
@@ -99,13 +98,14 @@ namespace ChaoticMind {
 
                         //DOES NOTHING SO FAR, JUST PRINTS TO CONSOLE THE HIT OBJECT
                         Console.WriteLine((hit != null ? hit.Body.UserData : "null") + " at " + pt);
+                        ProjectileManager.CreateProjectile(pt, Vector2.Zero, 1, 0, 1);
                     }
                     else { //use projectiles
                         ProjectileManager.CreateProjectile(location, temp, _projectileRange, _projectileDamage, _projectileSpeed, _projectileSprite);
                     }
 
                     //rotate the direction to shoot the next projectile in
-                    temp = Vector2.Transform(temp, _rotMat);
+                    Vector2.Transform(ref temp, ref _rotMat, out temp);
                 }
                 _curFires--;
                 TimeDelayManager.RestartTimer(_shootTimerId);

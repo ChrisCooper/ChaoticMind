@@ -32,8 +32,11 @@ namespace ChaoticMind {
             //set 
             _range = range;
             _startingPosition = startingPosition;
-            _direction = Vector2.Normalize(direction);
             _damage = damage;
+
+            //for some reason, normalizing a Vector2.Zero gives a (NaN, NaN) vector
+            if (direction != Vector2.Zero) _direction = Vector2.Normalize(direction);
+            else _direction = direction;
 
             //set up the body
             _body = BodyFactory.CreateCircle(Program.SharedGame.MainWorld, sprite.EntitySize, 1);
@@ -47,6 +50,7 @@ namespace ChaoticMind {
             _body.CollidesWith = Category.All & ~Category.Cat2;
 
             //init the timer
+            if (speed <= 0) throw new Exception("Speed cannot be negative or 0 (but direction can, hint hint)");
             _timerId = TimeDelayManager.InitTimer(_range / speed, 0);
         }
 
