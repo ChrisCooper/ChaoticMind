@@ -87,14 +87,16 @@ namespace ChaoticMind {
             */ 
             Fixture hit = null;
             Vector2 pt = Vector2.Zero;
+            float minFrac = float.MaxValue;
 
             //BUG: the returns are probably not right (I guessed), but you can sometimes hit sillyboxes through the walls
             //also only goes to the mouse, but I'll refactor this into the weapons class with a range property at some point
             _world.RayCast((fixture, point, normal, fraction) => {
-                if (fixture != null){
+                if (fixture != null && fraction < minFrac){
                     hit = fixture;
                     pt = point;
-                    return 0;
+                    minFrac = fraction;
+                    return 1;
                 }
                 return -1;
             }, _body.Position, _locationToFace);
@@ -104,7 +106,8 @@ namespace ChaoticMind {
             if (_curWeapon != null) {
                 _curWeapon.Shoot(_body.Position + Vector2.Normalize(_locationToFace - _body.Position) * (_sprite.EntitySize / 1.5f), _locationToFace - _body.Position);
             }
-            */
+            //*/ 
+            
         }
 
         //The location in global coordinates that this character will attempt to
