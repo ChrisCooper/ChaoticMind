@@ -55,11 +55,14 @@ namespace ChaoticMind {
 
         //store the timer events
         List<TimerEvent> _timerEvents;
+        //keep track of deleted timer events to avoid searching overhead
+        Stack<int> _nullEvents;
 
         //init the static class
         public static void Initilize() {
             _self = new TimeDelayManager();
             _self._timerEvents = new List<TimerEvent>(50); //many projectiles
+            _self._nullEvents = new Stack<int>(5);
         }
 
         //update every event's timing
@@ -76,20 +79,22 @@ namespace ChaoticMind {
         }
         public static int InitTimer(float delay, float start) {
             //reuse a deleted timer
-            for (int i = 0; i < _self._timerEvents.Count; i++) {
-                if (_self._timerEvents[i] == null) {
-                    _self._timerEvents[i] = new TimerEvent(delay, start);
-                    return i;
-                }
+            if (_self._nullEvents.Count > 0) {
+                int i = _self._nullEvents.Pop();
+                _self._timerEvents[i] = new TimerEvent(delay, start);
+                return i;
             }
-            //no null timers, make a new one
-            _self._timerEvents.Add(new TimerEvent(delay, start));
-            return _self._timerEvents.Count - 1;
+            else {
+                //no null timers, make a new one
+                _self._timerEvents.Add(new TimerEvent(delay, start));
+                return _self._timerEvents.Count - 1;
+            }
         }
 
         //remove a timer
         public static void DeleteTimer(int eventId) {
             _self._timerEvents[eventId] = null;
+            _self._nullEvents.Push(eventId);
         }
 
         //modify/restart an existing timer
