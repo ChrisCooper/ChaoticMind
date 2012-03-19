@@ -15,7 +15,7 @@ namespace ChaoticMind {
         MapManager _mapManager;
         MapTile[,] _tiles;
         SpriteBatch _spriteBatch;
-        
+
         float _tileDimension;
         float _scalingFactor;
         List<ShiftButton> _buttons = new List<ShiftButton>();
@@ -73,28 +73,30 @@ namespace ChaoticMind {
             }
         }
 
-        internal void DrawInterface() {
-            drawTiles();
-            drawShiftButtons();
-        }
-
-        private void drawTiles() {
+        internal void DrawInterface(List<DrawableGameObject> minimapObjects) {
+            //setup constants
             float halfLength = (_tiles.GetLength(0) / (float)2) * _tileDimension;
-            float startingX = Screen.Center.X - halfLength;
-            Vector2 drawingLocation = new Vector2(startingX, Screen.Center.Y - halfLength);
+            Vector2 startCoord = new Vector2(Screen.Center.X - halfLength, Screen.Center.Y - halfLength);
 
+            //draw tiles
+            Vector2 drawingLocation = new Vector2(startCoord.X, startCoord.Y);
             for (int y = 0; y < _tiles.GetLength(0); y++) {
                 for (int x = 0; x < _tiles.GetLength(1); x++) {
                     MapTile tile = _tiles[x, y];
                     _spriteBatch.Draw(tile.ShiftTexture.Texture, drawingLocation, tile.ShiftTexture.CurrentTextureBounds, Color.White, tile.Rotation, tile.ShiftTexture.CurrentTextureOrigin, _scalingFactor, SpriteEffects.None, 1.0f);
-                    drawingLocation += new Vector2(_tileDimension, 0);
+                    drawingLocation.X += _tileDimension;
                 }
-                drawingLocation += new Vector2(0, _tileDimension);
-                drawingLocation.X = startingX;
+                drawingLocation.Y += _tileDimension;
+                drawingLocation.X = startCoord.X;
             }
-        }
 
-        private void drawShiftButtons() {
+            //draw minimap objects
+            foreach (DrawableGameObject mm in minimapObjects) {
+                //scale minimap representations to 2x their normal size
+                _spriteBatch.Draw(mm.MapSprite.Texture, mm.MapPosition / (float) MapTile.TileSideLength * _tileDimension + startCoord, mm.MapSprite.CurrentTextureBounds, Color.Wheat, mm.MapRotation, mm.MapSprite.CurrentTextureOrigin, 1 / mm.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, 1.0f);
+            }
+
+            //draw shift buttons
             foreach (ShiftButton button in _buttons) {
                 _spriteBatch.Draw(button.Sprite.Texture, button.Center, button.Sprite.CurrentTextureBounds, Color.White, button.Rotation, button.Sprite.CurrentTextureOrigin, button.ScalingFactor, SpriteEffects.None, 1.0f);
             }

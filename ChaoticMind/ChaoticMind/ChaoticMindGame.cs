@@ -42,14 +42,12 @@ namespace ChaoticMind {
 
         //Farseer physics simulator
         World _world;
-
         internal World MainWorld {
             get { return _world; }
         }
 
         //Draws the objects
         Camera _mainCamera;
-
         internal Camera MainCamera {
             get { return _mainCamera; }
         }
@@ -248,7 +246,7 @@ namespace ChaoticMind {
                 drawPauseOverlay();
             }
             else if (_gameState == GameState.SHIFTING) {
-                _shiftInterface.DrawInterface();
+                _shiftInterface.DrawInterface(_objects);
             }
 
             drawDebugInfo(gameTime);
