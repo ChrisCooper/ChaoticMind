@@ -66,6 +66,8 @@ namespace ChaoticMind {
             if (InputManager.IsKeyClicked(Keys.Enter)) {
                 if (_pressedButton != null) {
                     _mapManager.shiftTiles(_pressedButton.Index, _pressedButton.Direction, DoorDirections.RandomDoors());
+                    _pressedButton.reset();
+                    _pressedButton = null;
                     Program.SharedGame.closeShiftInterface();
                 }
             }
@@ -99,10 +101,8 @@ namespace ChaoticMind {
         }
 
         internal void ButtonWasPressed(ShiftButton pressedButton) {
-            foreach (ShiftButton button in _buttons) {
-                if (button != pressedButton) {
-                    button.reset();
-                }
+            if (_pressedButton != null){
+                _pressedButton.reset();
             }
             _pressedButton = pressedButton;
         }

@@ -60,7 +60,6 @@ namespace ChaoticMind {
                     else {
                         toggleOffButton();
                     }
-                    pressDownButton();
                 } else if (InputManager.IsMouseDown()) {
                     _state = ButtonState.HOVER;
                 }
