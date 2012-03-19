@@ -48,7 +48,9 @@ namespace ChaoticMind {
         }
 
         public void Draw(DrawableGameObject o) {
-            _spriteBatch.Draw(o.Texture, WorldToScreenPos(o.Position), o.CurrentTextureBounds, Color.White, o.Rotation, o.CurrentTextureOrigin, _zoom / o.PixelsPerMeter, SpriteEffects.None, 1.0f);
+            if (o.Texture != null) {
+                _spriteBatch.Draw(o.Texture, WorldToScreenPos(o.Position), o.CurrentTextureBounds, Color.White, o.Rotation, o.CurrentTextureOrigin, _zoom / o.PixelsPerMeter, SpriteEffects.None, 1.0f);
+            }
         }
 
         public void DrawOverlay(MapTile tile, Color clr) {

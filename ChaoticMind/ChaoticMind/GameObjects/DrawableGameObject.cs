@@ -27,8 +27,8 @@ namespace ChaoticMind {
 
         public override void Update(float deltaTime) {
             base.Update(deltaTime);
-
-            _sprite.Update(deltaTime);
+            if (_sprite != null)
+                _sprite.Update(deltaTime);
         }
 
         //called when the object is being shifted
@@ -38,25 +38,41 @@ namespace ChaoticMind {
 
         public Texture2D Texture {
             get {
-                return _sprite.Texture;
+                if (_sprite != null)
+                    return _sprite.Texture;
+                return null;
             }
         }
 
         public Rectangle CurrentTextureBounds {
             get {
-                return _sprite.CurrentTextureBounds;
+                if (_sprite != null)
+                    return _sprite.CurrentTextureBounds;
+                return Rectangle.Empty;
             }
         }
 
         public Vector2 CurrentTextureOrigin {
             get {
-                return _sprite.CurrentTextureOrigin;
+                if (_sprite != null)
+                    return _sprite.CurrentTextureOrigin;
+                return Vector2.Zero;
             }
         }
 
         public float PixelsPerMeter {
             get {
-                return _sprite.PixelsPerMeter;
+                if (_sprite != null)
+                    return _sprite.PixelsPerMeter;
+                return 1;
+            }
+        }
+
+        public float EntitySize {
+            get {
+                if (_sprite != null)
+                    return _sprite.EntitySize;
+                return 0.1f;
             }
         }
 

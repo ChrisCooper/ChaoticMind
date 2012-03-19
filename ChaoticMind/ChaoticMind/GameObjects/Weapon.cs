@@ -95,10 +95,8 @@ namespace ChaoticMind {
                             }
                             return -1;
                         }, location, temp * _projectileRange);
-
-                        //DOES NOTHING SO FAR, JUST PRINTS TO CONSOLE THE HIT OBJECT
-                        Console.WriteLine("Detected a hit at " + pt);
-                        ProjectileManager.CreateProjectile(pt, Vector2.Zero, 1, 0, 1);
+                        //create a projectile at the place where the ray was stopped
+                        ProjectileManager.CreateProjectile(pt, Vector2.Zero, 1, 0, 1, null);
                     }
                     else { //use projectiles
                         ProjectileManager.CreateProjectile(location, temp, _projectileRange, _projectileDamage, _projectileSpeed, _projectileSprite);

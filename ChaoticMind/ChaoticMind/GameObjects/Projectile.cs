@@ -39,7 +39,7 @@ namespace ChaoticMind {
             else _direction = direction;
 
             //set up the body
-            _body = BodyFactory.CreateCircle(Program.SharedGame.MainWorld, sprite.EntitySize, 1);
+            _body = BodyFactory.CreateCircle(Program.SharedGame.MainWorld, EntitySize, 1);
             _body.BodyType = BodyType.Dynamic;
             _body.LinearDamping = 0;
             _body.LinearVelocity = _direction * speed;
