@@ -97,7 +97,7 @@ namespace ChaoticMind {
                         }, location, temp * _projectileRange);
 
                         //DOES NOTHING SO FAR, JUST PRINTS TO CONSOLE THE HIT OBJECT
-                        Console.WriteLine((hit != null ? hit.Body.UserData : "null") + " at " + pt);
+                        Console.WriteLine("Detected a hit at " + pt);
                         ProjectileManager.CreateProjectile(pt, Vector2.Zero, 1, 0, 1);
                     }
                     else { //use projectiles

@@ -7,13 +7,6 @@ using Microsoft.Xna.Framework;
 namespace ChaoticMind {
     class Utilities {
 
-        public enum BodyTypes {
-            WALL = 1,
-            COLLECTABLE = 2,
-            PLAYER = 3,
-            SILLY_BOX = 4
-        }
-
         static Random rand = new Random();
 
         public static Microsoft.Xna.Framework.Vector2 randomVector() {
