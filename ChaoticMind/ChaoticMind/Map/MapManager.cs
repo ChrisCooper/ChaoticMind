@@ -14,10 +14,32 @@ namespace ChaoticMind {
         RIGHT
     }
 
+    //store shift data
+    struct Shift {
+        public Shift(int index, ShiftDirection dir, DoorDirections newDoors) {
+            _index = index;
+            _dir = dir;
+            _newDoors = newDoors;
+        }
+        int _index;
+        ShiftDirection _dir;
+        DoorDirections _newDoors;
+        public int Index {
+            get { return _index; }
+        }
+        public ShiftDirection Direction {
+            get { return _dir; }
+        }
+        public DoorDirections TileDoors {
+            get { return _newDoors; }
+        }
+    }
+
     class MapManager {
         int _gridDimension = 3;
 
         MapTile[,] _tiles;
+        LinkedList<Shift> _shiftQueue; //note: doubly linked
 
         //timing
         private int _timerId;
@@ -26,9 +48,11 @@ namespace ChaoticMind {
 
         private MapTile _shiftedOutTile;
 
+        //constructor
         public MapManager(int gridDimension) {
             _gridDimension = gridDimension;
             _tiles = new MapTile[_gridDimension, _gridDimension];
+            _shiftQueue = new LinkedList<Shift>();
         }
 
         //Make the tiles
@@ -58,18 +82,11 @@ namespace ChaoticMind {
                 _shiftedOutTile.Update(deltaTime);
             }
 
-            //temp shifting logic
-            if (InputManager.IsKeyClicked(Keys.Up)) {
-                shiftTiles(0, ShiftDirection.UP, DoorDirections.RandomDoors());
-            }
-            else if (InputManager.IsKeyClicked(Keys.Down)) {
-                shiftTiles(0, ShiftDirection.DOWN, DoorDirections.RandomDoors());
-            }
-            else if (InputManager.IsKeyClicked(Keys.Left)) {
-                shiftTiles(0, ShiftDirection.LEFT, DoorDirections.RandomDoors());
-            }
-            else if (InputManager.IsKeyClicked(Keys.Right)) {
-                shiftTiles(0, ShiftDirection.RIGHT, DoorDirections.RandomDoors());
+            //process queue
+            if (_shiftQueue.Count > 0 && TimeDelayManager.Finished(_timerId)) {
+                Shift temp = _shiftQueue.First.Value;
+                _shiftQueue.RemoveFirst();
+                shiftTiles(temp.Index, temp.Direction, temp.TileDoors);
             }
         }
 
@@ -85,10 +102,19 @@ namespace ChaoticMind {
             }
         }
 
+        //add a shift to the queue
+        public void queueShift(int index, ShiftDirection dir, DoorDirections tileDoors, bool pritority) {
+            if (pritority)
+                _shiftQueue.AddFirst(new Shift(index, dir, tileDoors));
+            else
+                _shiftQueue.AddLast(new Shift(index, dir, tileDoors));
+        }
+
         //shift the row/col of tiles
-        public void shiftTiles(int index, ShiftDirection dir, DoorDirections newTileDoors) {
+        private void shiftTiles(int index, ShiftDirection dir, DoorDirections newTileDoors) {
 
             if (!TimeDelayManager.Finished(_timerId)) {
+                //should never happen with the queueing now in place, but still check it to be safe
                 return;
             }
 

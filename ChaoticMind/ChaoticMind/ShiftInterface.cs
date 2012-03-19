@@ -65,10 +65,10 @@ namespace ChaoticMind {
 
             if (InputManager.IsKeyClicked(Keys.Enter)) {
                 if (_pressedButton != null) {
-                    _mapManager.shiftTiles(_pressedButton.Index, _pressedButton.Direction, DoorDirections.RandomDoors());
+                    _mapManager.queueShift(_pressedButton.Index, _pressedButton.Direction, DoorDirections.RandomDoors(), false);
                     _pressedButton.reset();
                     _pressedButton = null;
-                    Program.SharedGame.closeShiftInterface();
+                    //Program.SharedGame.closeShiftInterface();
                 }
             }
         }
