@@ -10,25 +10,36 @@ using FarseerPhysics.Dynamics;
 namespace ChaoticMind {
     abstract class DrawableGameObject : GameObject, IMiniMapable {
         protected AnimatedSprite _sprite;
+        private Vector2 _lastShiftVel;
 
         public DrawableGameObject(String spriteResource, int xFrames, int yFrames, float entitySize, float animationDuration, Vector2 startingPosition)
             : base(startingPosition) {
             _sprite = new AnimatedSprite(spriteResource, xFrames, yFrames, entitySize, animationDuration);
+            _lastShiftVel = Vector2.Zero;
         }
 
         public DrawableGameObject (Vector2 startingPosition, AnimatedSprite sprite)
             : base(startingPosition) {
             _sprite = sprite;
+            _lastShiftVel = Vector2.Zero;
         }
 
         public DrawableGameObject(Vector2 startingPosition)
             : base(startingPosition) {
+            _lastShiftVel = Vector2.Zero;
         }
 
         public override void Update(float deltaTime) {
             base.Update(deltaTime);
 
             _sprite.Update(deltaTime);
+        }
+
+        //called when the object is being shifted
+        public void Shift(Vector2 vel) {
+            _body.LinearVelocity -= _lastShiftVel;
+            _body.LinearVelocity += vel;
+            _lastShiftVel = vel;
         }
 
         public Texture2D Texture {

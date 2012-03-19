@@ -131,7 +131,7 @@ namespace ChaoticMind {
             //_backgroundMusic.Play();
 
             _mapManager = new MapManager(MAP_SIZE);
-            _mapManager.Initialize(_mainCamera);
+            _mapManager.Initialize(_mainCamera, ref _objects);
 
             _projectileManager = new ProjectileManager();
             _projectileManager.Initilize(_mainCamera);

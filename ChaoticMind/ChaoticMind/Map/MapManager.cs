@@ -44,6 +44,9 @@ namespace ChaoticMind {
         //timing
         private int _timerId;
 
+        //for keeping the objects relative to tiles as they shift
+        private List<DrawableGameObject> _objects;
+
         Camera _camera;
 
         private MapTile _shiftedOutTile;
@@ -56,7 +59,7 @@ namespace ChaoticMind {
         }
 
         //Make the tiles
-        public void Initialize(Camera camera) {
+        public void Initialize(Camera camera, ref List<DrawableGameObject> objects) {
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
                     //TODO: visible = false on start
@@ -69,6 +72,7 @@ namespace ChaoticMind {
             //set up the timer (make sure to update if the shift takes longer than 3 sec or it'll run into problems)
             _timerId = TimeDelayManager.InitTimer(3);
 
+            _objects = objects;
             _camera = camera;
         }
 
@@ -123,6 +127,17 @@ namespace ChaoticMind {
                 throw new Exception("Invalid grid index passed to shiftTiles()");
             }
 
+            //get all objects that are in the shifted row
+            List<DrawableGameObject> shiftingObjects = new List<DrawableGameObject>(20);
+            foreach (DrawableGameObject o in _objects) {
+                if (((dir == ShiftDirection.LEFT || dir == ShiftDirection.RIGHT) && o.MapTileIndex.Y == index) ||
+                    ((dir == ShiftDirection.UP || dir == ShiftDirection.DOWN) && o.MapTileIndex.X == index)){
+                    shiftingObjects.Add(o);
+                }
+            }
+
+            Console.WriteLine(shiftingObjects.Count);
+
             _camera.shake();
 
             bool isPositiveShift = (dir == ShiftDirection.RIGHT || dir == ShiftDirection.DOWN);
@@ -134,7 +149,7 @@ namespace ChaoticMind {
             if (dir == ShiftDirection.LEFT || dir == ShiftDirection.RIGHT) {
                 //Set all the tiles to start moving
                 for (int x = 0; x < _gridDimension; x++) {
-                    shiftTile(x, index, x - shiftInc, index);
+                    shiftTile(x, index, x - shiftInc, index, shiftingObjects);
                 }
 
                 //store the tile that is getting shifted out
@@ -149,12 +164,12 @@ namespace ChaoticMind {
                 //TODO: don't reassign this. pass it in.
                 MapTile pushingTile = new MapTile(MapTile.WorldPositionForGridCoordinates(shiftEnd + shiftInc, index), newTileDoors, true);
                 _tiles[shiftEnd, index] = pushingTile;
-                pushingTile.shiftTo(shiftEnd, index);
+                shiftTile(pushingTile, shiftEnd, index, shiftingObjects);
             }
             else { //UP or DOWN
                 //Set all the tiles to start moving
                 for (int y = 0; y < _gridDimension; y++) {
-                    shiftTile(index, y, index, y - shiftInc);
+                    shiftTile(index, y, index, y - shiftInc, shiftingObjects);
                 }
 
                 //store the tile that is getting shifted out
@@ -169,7 +184,7 @@ namespace ChaoticMind {
                 //TODO: don't reassign this. pass it in.
                 MapTile pushingTile = new MapTile(MapTile.WorldPositionForGridCoordinates(index, shiftEnd + shiftInc), newTileDoors, true);
                 _tiles[index, shiftEnd] = pushingTile;
-                pushingTile.shiftTo(index, shiftEnd);
+                shiftTile(pushingTile, index, shiftEnd, shiftingObjects);
             }
 
             _shiftedOutTile.flagForDestruction(tileFinishedShifting);
@@ -186,8 +201,11 @@ namespace ChaoticMind {
             _shiftedOutTile = null;
         }
 
-        private void shiftTile(int tileX, int tileY, int destX, int destY) {
-            _tiles[tileX, tileY].shiftTo(destX, destY);
+        private void shiftTile(int tileX, int tileY, int destX, int destY, List<DrawableGameObject> objects) {
+            shiftTile(_tiles[tileX, tileY], destX, destY, objects);
+        }
+        private void shiftTile(MapTile tile, int destX, int destY, List<DrawableGameObject> objects) {
+            tile.shiftTo(destX, destY, objects);
         }
 
         public void DrawTiles(Camera camera) {

@@ -36,6 +36,8 @@ namespace ChaoticMind {
 
         Vector2 _travelDirection;
 
+        List<DrawableGameObject> _shiftObjects;
+
         bool _isMoving;
         bool _isVisible;
 
@@ -44,6 +46,8 @@ namespace ChaoticMind {
             _openDoors = openDoors;
 
             _connectedDoors = new DoorDirections(false, false, false, false);
+
+            _shiftObjects = new List<DrawableGameObject>(5);
 
             _sprite = new StaticSprite(MapTileUtilities.appearanceStringFromDoorConfiguration(openDoors), TileSideLength);
 
@@ -79,8 +83,14 @@ namespace ChaoticMind {
 
             if (_isMoving) {
                 float percent = travelPercent();
+                Vector2 vel = (_travelDirection) * movementFunction(percent);
 
-                _body.LinearVelocity = (_travelDirection) * movementFunction(percent);
+                _body.LinearVelocity = vel;
+                
+                //apply velocity to all the objects within the tile
+                foreach (DrawableGameObject o in _shiftObjects) {
+                    o.Shift(vel);
+                }
 
                 //Are we there yet?
                 if (percent > SnapThreshold || Vector2.Dot(_travelDirection, _targetLocation - Position) < 0) {
@@ -94,6 +104,11 @@ namespace ChaoticMind {
             _body.LinearVelocity = Vector2.Zero;
             _isMoving = false;
 
+            //stop the movement of the objects in the tile
+            foreach (DrawableGameObject o in _shiftObjects) {
+                o.Shift(Vector2.Zero);
+            }
+
             finishShift();
         }
 
@@ -101,6 +116,7 @@ namespace ChaoticMind {
             if (signalEndOfShift != null) {
                 signalEndOfShift(this);
             }
+            _shiftObjects.Clear();
         }
 
         private float movementFunction(float percent) {
@@ -156,17 +172,19 @@ namespace ChaoticMind {
         }
 
         public StaticSprite ShiftTexture {
-
             get {
                 return MapTileUtilities.getShiftSprite(_openDoors, _isVisible);
             }
         }
 
-        internal void go() {
-            _body.LinearVelocity = 5.0f * Vector2.UnitX;
-        }
+        internal void shiftTo(int destX, int destY, List<DrawableGameObject> objects) {
+            //weed out the objects not in this tile
+            foreach (DrawableGameObject o in objects) {
+                if (o.MapTileIndex == MapTileIndex)
+                    _shiftObjects.Add(o);
+            }
 
-        internal void shiftTo(int destX, int destY) {
+            //go
             setTarget(MapTile.WorldPositionForGridCoordinates(destX, destY));
         }
 
