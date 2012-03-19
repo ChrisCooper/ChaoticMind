@@ -87,9 +87,9 @@ namespace ChaoticMind {
 
                 _body.LinearVelocity = vel;
                 
-                //apply velocity to all the objects within the tile
+                //apply velocity to all the objects within the tile (by setting position)
                 foreach (DrawableGameObject o in _shiftObjects) {
-                    o.Shift(vel);
+                    o.Shift(vel * deltaTime);
                 }
 
                 //Are we there yet?
@@ -104,10 +104,13 @@ namespace ChaoticMind {
             _body.LinearVelocity = Vector2.Zero;
             _isMoving = false;
 
-            //stop the movement of the objects in the tile
+            //snap all the objects to the target
+            /*
+            //Doesn't seem to make any difference
             foreach (DrawableGameObject o in _shiftObjects) {
-                o.Shift(Vector2.Zero);
+                o.Shift(_targetLocation - _body.Position);
             }
+            */ 
 
             finishShift();
         }

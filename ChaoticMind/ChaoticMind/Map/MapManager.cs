@@ -136,8 +136,6 @@ namespace ChaoticMind {
                 }
             }
 
-            Console.WriteLine(shiftingObjects.Count);
-
             _camera.shake();
 
             bool isPositiveShift = (dir == ShiftDirection.RIGHT || dir == ShiftDirection.DOWN);
