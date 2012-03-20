@@ -5,7 +5,16 @@ using System.Text;
 using Microsoft.Xna.Framework;
 
 namespace ChaoticMind {
+
     class Utilities {
+
+        //body types for collision stuff
+        public enum BodyTypes {
+            WALL = 1,
+            COLLECTABLE = 2,
+            PLAYER = 3,
+            SILLY_BOX = 4
+        }
 
         static Random rand = new Random();
 

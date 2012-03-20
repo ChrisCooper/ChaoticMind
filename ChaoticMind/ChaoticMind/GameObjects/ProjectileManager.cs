@@ -21,7 +21,7 @@ namespace ChaoticMind {
 
         public void Update(float deltaTime) {
             for (int i = 0 ; i < _self._projectiles.Count ; i++){
-                if (!_self._projectiles[i].Timeout())
+                if (!_self._projectiles[i].KillMe())
                     _self._projectiles[i].Update(deltaTime);
                 else{
                     _self._projectiles[i].Destroy();

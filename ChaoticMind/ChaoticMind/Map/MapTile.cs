@@ -54,6 +54,7 @@ namespace ChaoticMind {
             _body = new Body(Program.SharedGame.MainWorld);
             _body.Position = startingPosition;
             _body.BodyType = BodyType.Kinematic;
+            _body.UserData = Utilities.BodyTypes.WALL;
 
             MapTileUtilities.AttachFixtures(_body, _openDoors);
 
@@ -206,11 +207,6 @@ namespace ChaoticMind {
         public bool IsVisible {
             get { return _isVisible; }
             set { _isVisible = value; }
-        }
-
-        public void destroySelf() {
-            //destroys the body and removes it from the world
-            _body.Dispose();
         }
     }
 }

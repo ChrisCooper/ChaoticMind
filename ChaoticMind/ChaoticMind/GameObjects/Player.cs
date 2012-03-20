@@ -15,6 +15,7 @@ namespace ChaoticMind {
             : base(characterType, startingPosition) {
             _body.LinearDamping = 30;
             _body.AngularDamping = 5;
+            _body.UserData = Utilities.BodyTypes.PLAYER;
 
             _minimapSprite = new StaticSprite("Minimap/PlayerMinimap", MapTile.TileSideLength / 2);
 

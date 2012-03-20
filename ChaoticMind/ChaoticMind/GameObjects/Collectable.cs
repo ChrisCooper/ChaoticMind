@@ -10,6 +10,7 @@ namespace ChaoticMind {
     class Collectable : DrawableGameObject {
 
         const float ENTITY_SIZE = 2f;
+        bool _killMe;
 
         AnimatedSprite _minimapSprite;
 
@@ -17,18 +18,38 @@ namespace ChaoticMind {
             : base(resource, xFrames, yFrames, ENTITY_SIZE, animationDuration, startingPosition) {
 
             //set up the body
-                _body = BodyFactory.CreateRectangle(Program.SharedGame.MainWorld, ENTITY_SIZE, ENTITY_SIZE, 1);
+            _body = BodyFactory.CreateRectangle(Program.SharedGame.MainWorld, ENTITY_SIZE, ENTITY_SIZE, 1);
             _body.BodyType = BodyType.Kinematic;
             _body.AngularDamping = 0;
             _body.AngularVelocity = 5;
             _body.Position = startingPosition;
+            _body.UserData = Utilities.BodyTypes.COLLECTABLE;
+            _body.CollisionCategories = Category.Cat3;
+            _body.CollidesWith = Category.All & ~Category.Cat2;
+            _body.OnCollision += CollectableCollision;
 
-            _minimapSprite = new StaticSprite("Minimap/CollectableMinimap", MapTile.TileSideLength / 2);   
+            _minimapSprite = new StaticSprite("Minimap/CollectableMinimap", MapTile.TileSideLength / 2);
+
+            _killMe = false;
+        }
+
+        //collision stuff
+        private bool CollectableCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact){
+            if (fixtureB.Body.UserData.Equals (Utilities.BodyTypes.PLAYER)) {
+                //collect the thing
+                _killMe = true;
+                return false;
+            }
+            return false;
         }
 
         //minimap stuff
         public override AnimatedSprite MapSprite{
             get { return _minimapSprite; }
+        }
+
+        public override bool KillMe() {
+            return _killMe;
         }
     }
 }

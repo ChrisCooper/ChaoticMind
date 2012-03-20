@@ -199,8 +199,14 @@ namespace ChaoticMind {
             //let time-based objects work
             TimeDelayManager.Update(deltaTime);
 
-            foreach (DrawableGameObject obj in _objects) {
-                obj.Update(deltaTime);
+            for (int i = 0 ; i < _objects.Count ; i++){
+                if (_objects[i].KillMe()){
+                    _objects[i].Destroy();
+                    _objects.RemoveAt(i);
+                }
+                else{
+                    _objects[i].Update(deltaTime);
+                }
             }
 
             _projectileManager.Update(deltaTime);

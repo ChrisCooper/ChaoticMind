@@ -54,11 +54,11 @@ namespace ChaoticMind {
             _timerId = TimeDelayManager.InitTimer(_range / speed, 0);
         }
 
-        public bool Timeout (){
+        public override bool KillMe(){
             return TimeDelayManager.Finished(_timerId);
         }
 
-        public void Destroy() {
+        public override void Destroy() {
             TimeDelayManager.DeleteTimer(_timerId);
             _body.Dispose();
         }

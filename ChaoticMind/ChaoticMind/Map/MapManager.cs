@@ -195,7 +195,7 @@ namespace ChaoticMind {
         }
 
         internal void tileFinishedShifting(MapTile finishedTile) {
-            finishedTile.destroySelf();
+            finishedTile.Destroy();
             _shiftedOutTile = null;
         }
 
