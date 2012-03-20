@@ -110,6 +110,7 @@
   <ItemGroup>
     <Compile Include="Audio\MusicController.cs" />
     <Compile Include="Button.cs" />
+    <Compile Include="GameState.cs" />
     <Compile Include="TimeDelayManager.cs" />
     <Compile Include="GameObjects\Weapon.cs" />
     <Compile Include="GameObjects\ProjectileManager.cs" />

@@ -25,6 +25,10 @@ namespace ChaoticMind {
             get { return _body.Rotation; }
         }
 
+        public Body Body {
+            get { return _body; }
+        }
+
         //destroy flag
         public virtual bool KillMe() {
             return false;

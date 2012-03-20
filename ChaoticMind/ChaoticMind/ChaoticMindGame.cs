@@ -14,7 +14,7 @@ using FarseerPhysics.Dynamics;
 
 namespace ChaoticMind {
 
-    enum GameState {
+    enum GameMode {
         NORMAL,
         PAUSED,
         SHIFTING
@@ -72,7 +72,7 @@ namespace ChaoticMind {
         ShiftInterface _shiftInterface = new ShiftInterface();
         
         //state of the game
-        private GameState _gameState = GameState.NORMAL;
+        private GameMode _gameState = GameMode.NORMAL;
 
         public ChaoticMindGame() {
 
@@ -108,6 +108,7 @@ namespace ChaoticMind {
             
             InputManager.Initialize();
             TimeDelayManager.Initilize();
+            GameState.Initilize();
 
             //Create a bunch of fun random game objects for now
             for (int i = 0; i < 100; i++) {
@@ -177,13 +178,13 @@ namespace ChaoticMind {
 
             updateGameState();
 
-            if (_gameState == GameState.NORMAL) {
+            if (_gameState == GameMode.NORMAL) {
                 normalGameUpdate(deltaTime);
             }
-            else if (_gameState == GameState.SHIFTING) {
+            else if (_gameState == GameMode.SHIFTING) {
                 _shiftInterface.Update();
             }
-            else if (_gameState == GameState.PAUSED) {
+            else if (_gameState == GameMode.PAUSED) {
                 //update stuff for the pause menu
             }
 
@@ -226,11 +227,11 @@ namespace ChaoticMind {
             }
             //pause/unpause
             if (InputManager.IsKeyClicked(Keys.P)) {
-                _gameState = _gameState == GameState.PAUSED ? GameState.NORMAL : GameState.PAUSED;
+                _gameState = _gameState == GameMode.PAUSED ? GameMode.NORMAL : GameMode.PAUSED;
             }
             //shifting interface
             if (InputManager.IsKeyClicked(Keys.Tab)) {
-                _gameState = _gameState == GameState.SHIFTING ? GameState.NORMAL : GameState.SHIFTING;
+                _gameState = _gameState == GameMode.SHIFTING ? GameMode.NORMAL : GameMode.SHIFTING;
             }
         }
 
@@ -248,10 +249,10 @@ namespace ChaoticMind {
             //Draw minimap
             _mapManager.DrawMap(_mainCamera);
 
-            if (_gameState == GameState.PAUSED) {
+            if (_gameState == GameMode.PAUSED) {
                 drawPauseOverlay();
             }
-            else if (_gameState == GameState.SHIFTING) {
+            else if (_gameState == GameMode.SHIFTING) {
                 _shiftInterface.DrawInterface(_objects);
             }
 
@@ -290,7 +291,7 @@ namespace ChaoticMind {
         }
 
         internal void closeShiftInterface() {
-            _gameState = GameState.NORMAL;
+            _gameState = GameMode.NORMAL;
         }
     }
 }

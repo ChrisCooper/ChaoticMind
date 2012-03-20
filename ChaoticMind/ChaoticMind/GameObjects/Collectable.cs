@@ -26,7 +26,7 @@ namespace ChaoticMind {
             _body.UserData = Utilities.BodyTypes.COLLECTABLE;
             _body.CollisionCategories = Category.Cat3;
             _body.CollidesWith = Category.All & ~Category.Cat2;
-            _body.OnCollision += CollectableCollision;
+            //_body.OnCollision += CollectableCollision;
 
             _minimapSprite = new StaticSprite("Minimap/CollectableMinimap", MapTile.TileSideLength / 2);
 
@@ -36,7 +36,7 @@ namespace ChaoticMind {
         //collision stuff
         private bool CollectableCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact){
             if (fixtureB.Body.UserData.Equals (Utilities.BodyTypes.PLAYER)) {
-                //collect the thing
+                //player class collects the thing
                 _killMe = true;
                 return false;
             }

@@ -16,14 +16,21 @@ namespace ChaoticMind {
             _body.LinearDamping = 30;
             _body.AngularDamping = 5;
             _body.UserData = Utilities.BodyTypes.PLAYER;
+            _body.OnCollision += PlayerCollision;
 
             _minimapSprite = new StaticSprite("Minimap/PlayerMinimap", MapTile.TileSideLength / 2);
 
             _curWeapon = new Weapon(new StaticSprite("Weapons/AssaultRife", 1), 2, 0.150f, 10, 80, 3, 10, new StaticSprite("TestImages/Projectile", 0.1f), 20, 1, 30);
         }
 
-        public Body Body {
-            get { return _body; }
+        //collision stuff
+        private bool PlayerCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact) {
+            if (fixtureB.Body.UserData.Equals(Utilities.BodyTypes.COLLECTABLE)) {
+                //collect the thing
+                GameState.CollectObject();
+                return false;
+            }
+            return true;
         }
 
         //minimap stuff

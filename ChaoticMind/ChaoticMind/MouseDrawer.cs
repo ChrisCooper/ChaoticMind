@@ -19,9 +19,9 @@ namespace ChaoticMind {
             _mouseClicked = new StaticSprite("Menus/Mouse_Clicked", 1);
         }
 
-        internal void drawMouse(GameState state, SpriteBatch spriteBatch) {
+        internal void drawMouse(GameMode state, SpriteBatch spriteBatch) {
             Vector2 mouseLocation = InputManager.MouseScreenPosition;
-            if (state == GameState.NORMAL) {
+            if (state == GameMode.NORMAL) {
                 spriteBatch.Draw(_retical.Texture, mouseLocation, _retical.CurrentTextureBounds, Color.White, 0.0f, _retical.CurrentTextureOrigin, 1, SpriteEffects.None, 0.0f);
             }
             else {
