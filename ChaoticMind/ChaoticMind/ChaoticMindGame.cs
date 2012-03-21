@@ -125,11 +125,14 @@ namespace ChaoticMind {
             _currentCollectable = new Collectable("TestImages/Collectable", 5, 2, 2, new Vector2(Utilities.randomInt(0, 2), Utilities.randomInt(0, 2)) * MapTile.TileSideLength);
             _objects.Add(_currentCollectable);
 
-            //_backgroundMusic = new MusicController();
+            _backgroundMusic = new MusicController();
             //_backgroundMusic.Enqueue("testSound1");
             //_backgroundMusic.Enqueue("testSound2");
             //_backgroundMusic.Enqueue("testSound3");
-            //_backgroundMusic.Play();
+            _backgroundMusic.Enqueue("01 Cryogenic Dreams");
+            _backgroundMusic.Enqueue("05 Rapid Cognition");
+            _backgroundMusic.Enqueue("10 Disappear");
+            _backgroundMusic.Play();
 
             _mapManager = new MapManager(MAP_SIZE);
             _mapManager.Initialize(_mainCamera, ref _objects);

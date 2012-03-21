@@ -27,7 +27,8 @@ namespace ChaoticMind {
         public static ContentManager SharedContentManager; //Set at execution in ChaoticMindGame init
 
         //Used in the event handler to know if we are still playing through the playlist
-        private bool _playing;
+        //private bool _playing;
+        private int _ownMediaStateActionCount;
         
         //XNA provides no way of having your own playlist in the game, so we need to make our own.
         private List<Song> _playlist;
@@ -40,6 +41,8 @@ namespace ChaoticMind {
         public MusicController() {
             _playlist = new List<Song>();
             _playlistIndex = 0;
+
+            _ownMediaStateActionCount = 0;
 
             //Enumerate and load contents of Music resources folder
             DirectoryInfo dir = new DirectoryInfo(SharedContentManager.RootDirectory + "/Music");
@@ -86,8 +89,9 @@ namespace ChaoticMind {
         public void Play() {
             Song currentSong = _playlist[_playlistIndex];
 
-            _playing = true;
+            _ownMediaStateActionCount++;
             MediaPlayer.Play(currentSong);
+            //_playing = true;
         }
 
 
@@ -95,10 +99,14 @@ namespace ChaoticMind {
         /// Stops playing through the queue of music
         /// </summary>
         public void Stop() {
-            _playing = false;
+            //_playing = false;
+            _ownMediaStateActionCount++;
             MediaPlayer.Stop();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void NextSong() {
 
             if (_playlistIndex < _playlist.Count-1) {
@@ -110,10 +118,11 @@ namespace ChaoticMind {
 
             Song nextSong = _playlist[_playlistIndex];
 
-            _playing = false;
+            //_playing = false;
+            _ownMediaStateActionCount += 1;
             MediaPlayer.Stop();
             MediaPlayer.Play(nextSong);
-            _playing = true;
+            //_playing = true;
         }
 
         /// <summary>
@@ -126,7 +135,13 @@ namespace ChaoticMind {
             //Targeting events where song ends.
             //might also need to handle (ignore) events where this class has called stop/play
             //check _playing bool for this.
-            if (_playing) {
+            //if (_playing) {
+            //    NextSong();
+            //}
+
+            if (_ownMediaStateActionCount != 0) {
+                _ownMediaStateActionCount--;
+            } else {
                 NextSong();
             }
         }
