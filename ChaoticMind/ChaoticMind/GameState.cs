@@ -6,6 +6,12 @@ using System.Text;
 namespace ChaoticMind {
     class GameState {
 
+        public enum GameMode {
+            NORMAL,
+            PAUSED,
+            SHIFTING
+        }
+
         static GameState _self;
 
         int _level;
@@ -13,11 +19,13 @@ namespace ChaoticMind {
         int _numToCollect;
         bool _bossActive;
         bool _exitOpen;
+        GameMode _gameMode;
 
         Collectable _currCollectable;
 
         public static void Initilize() {
             _self = new GameState();
+            _self._gameMode = GameMode.NORMAL;
         }
 
         public static void StartLevel(int level, int numToCollect) {
@@ -42,6 +50,11 @@ namespace ChaoticMind {
         public static void KillBoss() {
             _self._bossActive = false;
             _self._exitOpen = true;
+        }
+
+        public static GameMode Mode {
+            get { return _self._gameMode; }
+            set { _self._gameMode = value; }
         }
     }
 }
