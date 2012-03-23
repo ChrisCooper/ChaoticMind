@@ -239,6 +239,9 @@ namespace ChaoticMind {
             return null;
         }
 
+        public int GridDimension {
+            get { return _gridDimension; }
+        }
 
         public MapTile[,] Tiles {
             get { return _tiles; }

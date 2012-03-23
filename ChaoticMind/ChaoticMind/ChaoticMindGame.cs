@@ -49,9 +49,6 @@ namespace ChaoticMind {
         //player
         Player _player;
 
-        //collectable objects
-        Collectable _currentCollectable;
-
         //Audio
         MusicController _backgroundMusic;
 
@@ -61,6 +58,10 @@ namespace ChaoticMind {
         List<DrawableGameObject> _objects = new List<DrawableGameObject>();
 
         MapManager _mapManager;
+        internal MapManager MapManager {
+            get { return _mapManager; }
+        }
+
         ProjectileManager _projectileManager;
 
         ShiftInterface _shiftInterface = new ShiftInterface();
@@ -112,10 +113,6 @@ namespace ChaoticMind {
             _objects.Add(_player);
             _mainCamera.setTarget(_player.Body);
 
-            //set up collectable
-            _currentCollectable = new Collectable("TestImages/Collectable", 5, 2, 2, new Vector2(Utilities.randomInt(0, 2), Utilities.randomInt(0, 2)) * MapTile.TileSideLength);
-            _objects.Add(_currentCollectable);
-
             //_backgroundMusic = new MusicController();
             //_backgroundMusic.Enqueue("testSound1");
             //_backgroundMusic.Enqueue("testSound2");
@@ -131,6 +128,11 @@ namespace ChaoticMind {
             _shiftInterface.Initialize(_mapManager, _spriteBatch);
 
             _mouseDrawer.Initialize();
+
+            //init the level
+            GameState.StartLevel(1, 3);
+            //set up collectable
+            _objects.Add(GameState.GetCurrCollectable());
 
             base.Initialize();
         }
@@ -200,6 +202,8 @@ namespace ChaoticMind {
                     _objects[i].Update(deltaTime);
                 }
             }
+
+            GameState.GetCurrCollectable();
 
             _projectileManager.Update(deltaTime);
 
