@@ -247,7 +247,7 @@ namespace ChaoticMind {
 
             _spriteBatch.Begin();
 
-            drawObjects();
+            drawObjects(gameTime);
 
             //Draw minimap
             _mapManager.DrawMap(_mainCamera);
@@ -280,9 +280,9 @@ namespace ChaoticMind {
             _spriteBatch.DrawString(_debugFont, string.Format("In Tile: ({0:0}, {1:0})", _player.MapTileIndex.X, _player.MapTileIndex.Y), new Vector2(10.0f, 65.0f), Color.White);
         }
 
-        private void drawObjects() {
+        private void drawObjects(GameTime gameTime) {
             //Draw map tiles
-            _mapManager.DrawTiles(_mainCamera);
+            _mapManager.DrawTiles(_mainCamera, (float)gameTime.TotalGameTime.TotalMilliseconds);
 
             //Draw all objects in our list (and their minimap representations)
             foreach (DrawableGameObject obj in _objects) {

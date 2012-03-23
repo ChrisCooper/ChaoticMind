@@ -44,6 +44,9 @@ namespace ChaoticMind {
         //timing
         private int _timerId;
 
+        float nerve_pulse_speed = 0.001f;
+        float nerve_pulse_alpha = 0.6f;
+
         //for keeping the objects relative to tiles as they shift
         private List<DrawableGameObject> _objects;
 
@@ -206,16 +209,17 @@ namespace ChaoticMind {
             tile.shiftTo(destX, destY, objects);
         }
 
-        public void DrawTiles(Camera camera) {
+        public void DrawTiles(Camera camera, float deltaTime) {
+            deltaTime *= nerve_pulse_speed;
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
                     MapTile tile = _tiles[x,y];
                     camera.Draw(tile);
-                    camera.DrawOverlay(tile, Color.White * 0.7f);
+                    camera.DrawOverlay(tile, Color.White * nerve_pulse_alpha * (float)Math.Abs((deltaTime - Math.Floor(deltaTime)) - 0.5f));
                 }
             }
             if (_shiftedOutTile != null) {
-                camera.Draw(_shiftedOutTile);
+                camera.Draw(_shiftedOutTile, 1.0f - _shiftedOutTile.travelPercent());
             }
         }
 
@@ -228,7 +232,7 @@ namespace ChaoticMind {
                 }
             }
             if (_shiftedOutTile != null) {
-                camera.DrawMinimap(_shiftedOutTile);
+                camera.DrawMinimap(_shiftedOutTile, 1.0f - _shiftedOutTile.travelPercent());
             }
         }
 

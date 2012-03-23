@@ -48,8 +48,12 @@ namespace ChaoticMind {
         }
 
         public void Draw(DrawableGameObject o) {
+            Draw(o, 1.0f);
+        }
+
+        public void Draw(DrawableGameObject o, float alpha) {
             if (o.Texture != null) {
-                _spriteBatch.Draw(o.Texture, WorldToScreenPos(o.Position), o.CurrentTextureBounds, Color.White, o.Rotation, o.CurrentTextureOrigin, _zoom / o.PixelsPerMeter, SpriteEffects.None, 1.0f);
+                _spriteBatch.Draw(o.Texture, WorldToScreenPos(o.Position), o.CurrentTextureBounds, Color.White * alpha, o.Rotation, o.CurrentTextureOrigin, _zoom / o.PixelsPerMeter, SpriteEffects.None, 1.0f);
             }
         }
 
@@ -60,8 +64,12 @@ namespace ChaoticMind {
         }
 
         public void DrawMinimap(IMiniMapable obj) {
+            DrawMinimap(obj, 1.0f);
+        }
+
+        public void DrawMinimap(IMiniMapable obj, float alpha) {
             if (obj.MapSprite != null) {
-                _spriteBatch.Draw(obj.MapSprite.Texture, WorldToMapPos(obj.MapPosition), obj.MapSprite.CurrentTextureBounds, Color.White, obj.MapRotation, obj.MapSprite.CurrentTextureOrigin, 1 / obj.MapSprite.PixelsPerMeter, SpriteEffects.None, 1.0f);
+                _spriteBatch.Draw(obj.MapSprite.Texture, WorldToMapPos(obj.MapPosition), obj.MapSprite.CurrentTextureBounds, Color.White * alpha, obj.MapRotation, obj.MapSprite.CurrentTextureOrigin, 1 / obj.MapSprite.PixelsPerMeter, SpriteEffects.None, 1.0f);
             }
         }
 

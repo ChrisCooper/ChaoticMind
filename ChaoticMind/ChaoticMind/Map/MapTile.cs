@@ -128,7 +128,7 @@ namespace ChaoticMind {
             //return ((-Math.Abs((percent - 0.5f) * 0.99f)) + 0.5f) * MovementSpeed;
         }
 
-        private float travelPercent() {
+        public float travelPercent() {
             return (_travelDistance - (_targetLocation - Position).Length()) / _travelDistance;
         }
 
