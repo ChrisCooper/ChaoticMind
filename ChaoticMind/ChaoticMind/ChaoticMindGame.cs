@@ -14,12 +14,6 @@ using FarseerPhysics.Dynamics;
 
 namespace ChaoticMind {
 
-    enum GameMode {
-        NORMAL,
-        PAUSED,
-        SHIFTING
-    }
-
     /// <summary>
     /// This is the main type for your game
     /// </summary>
@@ -55,9 +49,6 @@ namespace ChaoticMind {
         //player
         Player _player;
 
-        //collectable objects
-        Collectable _currentCollectable;
-
         //Audio
         MusicController _backgroundMusic;
 
@@ -67,12 +58,13 @@ namespace ChaoticMind {
         List<DrawableGameObject> _objects = new List<DrawableGameObject>();
 
         MapManager _mapManager;
+        internal MapManager MapManager {
+            get { return _mapManager; }
+        }
+
         ProjectileManager _projectileManager;
 
         ShiftInterface _shiftInterface = new ShiftInterface();
-        
-        //state of the game
-        private GameMode _gameState = GameMode.NORMAL;
 
         public ChaoticMindGame() {
 
@@ -121,10 +113,6 @@ namespace ChaoticMind {
             _objects.Add(_player);
             _mainCamera.setTarget(_player.Body);
 
-            //set up collectable
-            _currentCollectable = new Collectable("TestImages/Collectable", 5, 2, 2, new Vector2(Utilities.randomInt(0, 2), Utilities.randomInt(0, 2)) * MapTile.TileSideLength);
-            _objects.Add(_currentCollectable);
-
             _backgroundMusic = new MusicController();
             //_backgroundMusic.Enqueue("testSound1");
             //_backgroundMusic.Enqueue("testSound2");
@@ -143,6 +131,11 @@ namespace ChaoticMind {
             _shiftInterface.Initialize(_mapManager, _spriteBatch);
 
             _mouseDrawer.Initialize();
+
+            //init the level
+            GameState.StartLevel(1, 3);
+            //set up collectable
+            _objects.Add(GameState.GetCurrCollectable());
 
             base.Initialize();
         }
@@ -181,13 +174,13 @@ namespace ChaoticMind {
 
             updateGameState();
 
-            if (_gameState == GameMode.NORMAL) {
+            if (GameState.Mode == GameState.GameMode.NORMAL) {
                 normalGameUpdate(deltaTime);
             }
-            else if (_gameState == GameMode.SHIFTING) {
+            else if (GameState.Mode == GameState.GameMode.SHIFTING) {
                 _shiftInterface.Update();
             }
-            else if (_gameState == GameMode.PAUSED) {
+            else if (GameState.Mode == GameState.GameMode.PAUSED) {
                 //update stuff for the pause menu
             }
 
@@ -213,6 +206,8 @@ namespace ChaoticMind {
                 }
             }
 
+            GameState.GetCurrCollectable();
+
             _projectileManager.Update(deltaTime);
 
             _mainCamera.Update(deltaTime);
@@ -230,11 +225,11 @@ namespace ChaoticMind {
             }
             //pause/unpause
             if (InputManager.IsKeyClicked(Keys.P)) {
-                _gameState = _gameState == GameMode.PAUSED ? GameMode.NORMAL : GameMode.PAUSED;
+                GameState.Mode = GameState.Mode == GameState.GameMode.PAUSED ? GameState.GameMode.NORMAL : GameState.GameMode.PAUSED;
             }
             //shifting interface
             if (InputManager.IsKeyClicked(Keys.Tab)) {
-                _gameState = _gameState == GameMode.SHIFTING ? GameMode.NORMAL : GameMode.SHIFTING;
+                GameState.Mode = GameState.Mode == GameState.GameMode.SHIFTING ? GameState.GameMode.NORMAL : GameState.GameMode.SHIFTING;
             }
         }
 
@@ -252,16 +247,16 @@ namespace ChaoticMind {
             //Draw minimap
             _mapManager.DrawMap(_mainCamera);
 
-            if (_gameState == GameMode.PAUSED) {
+            if (GameState.Mode == GameState.GameMode.PAUSED) {
                 drawPauseOverlay();
             }
-            else if (_gameState == GameMode.SHIFTING) {
+            else if (GameState.Mode == GameState.GameMode.SHIFTING) {
                 _shiftInterface.DrawInterface(_objects);
             }
 
             drawDebugInfo(gameTime);
 
-            _mouseDrawer.drawMouse(_gameState, _spriteBatch);
+            _mouseDrawer.drawMouse(_spriteBatch);
 
             _spriteBatch.End();
 
@@ -294,7 +289,7 @@ namespace ChaoticMind {
         }
 
         internal void closeShiftInterface() {
-            _gameState = GameMode.NORMAL;
+            GameState.Mode = GameState.GameMode.NORMAL;
         }
     }
 }

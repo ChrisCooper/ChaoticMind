@@ -26,21 +26,18 @@ namespace ChaoticMind {
             _body.UserData = Utilities.BodyTypes.COLLECTABLE;
             _body.CollisionCategories = Category.Cat3;
             _body.CollidesWith = Category.All & ~Category.Cat2;
-            //_body.OnCollision += CollectableCollision;
 
             _minimapSprite = new StaticSprite("Minimap/CollectableMinimap", MapTile.TileSideLength / 2);
 
             _killMe = false;
         }
 
-        //collision stuff
-        private bool CollectableCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact){
-            if (fixtureB.Body.UserData.Equals (Utilities.BodyTypes.PLAYER)) {
-                //player class collects the thing
-                _killMe = true;
-                return false;
-            }
-            return false;
+        public void SetPosition(Vector2 startingPosition) {
+            _body.Position = startingPosition;
+        }
+
+        public void MarkForDeath() {
+            _killMe = true;
         }
 
         //minimap stuff
