@@ -113,10 +113,13 @@ namespace ChaoticMind {
             _objects.Add(_player);
             _mainCamera.setTarget(_player.Body);
 
-            //_backgroundMusic = new MusicController();
+            _backgroundMusic = new MusicController();
             //_backgroundMusic.Enqueue("testSound1");
             //_backgroundMusic.Enqueue("testSound2");
             //_backgroundMusic.Enqueue("testSound3");
+            _backgroundMusic.Enqueue("01 Cryogenic Dreams");
+            _backgroundMusic.Enqueue("05 Rapid Cognition");
+            _backgroundMusic.Enqueue("10 Disappear");
             //_backgroundMusic.Play();
 
             _mapManager = new MapManager(MAP_SIZE);
