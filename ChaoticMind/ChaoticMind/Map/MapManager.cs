@@ -211,7 +211,7 @@ namespace ChaoticMind {
                 for (int x = 0; x < _gridDimension; x++) {
                     MapTile tile = _tiles[x,y];
                     camera.Draw(tile);
-                    camera.DrawOverlay(tile, Color.White * 0.3f);
+                    camera.DrawOverlay(tile, Color.White * 0.7f);
                 }
             }
             if (_shiftedOutTile != null) {

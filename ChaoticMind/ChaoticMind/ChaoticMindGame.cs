@@ -132,7 +132,7 @@ namespace ChaoticMind {
             _backgroundMusic.Enqueue("01 Cryogenic Dreams");
             _backgroundMusic.Enqueue("05 Rapid Cognition");
             _backgroundMusic.Enqueue("10 Disappear");
-            _backgroundMusic.Play();
+            //_backgroundMusic.Play();
 
             _mapManager = new MapManager(MAP_SIZE);
             _mapManager.Initialize(_mainCamera, ref _objects);
