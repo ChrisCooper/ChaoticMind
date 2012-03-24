@@ -128,7 +128,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menus\PauseScreen.png">
+    <Compile Include="UI\PauseScreen.png">
       <Name>PauseScreen</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -194,21 +194,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Weapons\Retical.png">
-      <Name>Retical</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Menus\Mouse.png">
+    <Compile Include="UI\Mouse.png">
       <Name>Mouse</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menus\Mouse_Clicked.png">
+    <Compile Include="UI\Mouse_Clicked.png">
       <Name>Mouse_Clicked</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -301,8 +294,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enemies\Swarmer\Swarmer_Sprite_Sheet.png">
-      <Name>Swarmer_Sprite_Sheet</Name>
+    <Compile Include="Enemies\Swarmer.png">
+      <Name>Swarmer</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="UI\Retical.png">
+      <Name>Retical</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

@@ -14,9 +14,9 @@ namespace ChaoticMind {
         StaticSprite _mouseClicked;
 
         internal void Initialize() {
-            _retical = new StaticSprite("Weapons/Retical", 1);
-            _mouse = new StaticSprite("Menus/Mouse", 1);
-            _mouseClicked = new StaticSprite("Menus/Mouse_Clicked", 1);
+            _retical = new StaticSprite("UI/Retical", 1);
+            _mouse = new StaticSprite("UI/Mouse", 1);
+            _mouseClicked = new StaticSprite("UI/Mouse_Clicked", 1);
         }
 
         internal void drawMouse(SpriteBatch spriteBatch) {

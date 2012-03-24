@@ -153,7 +153,7 @@ namespace ChaoticMind {
         /// all of your content.
         /// </summary>
         protected override void LoadContent() {
-            _pauseBackground = new StaticSprite("Menus/PauseScreen", 1);
+            _pauseBackground = new StaticSprite("UI/PauseScreen", 1);
         }
 
 
