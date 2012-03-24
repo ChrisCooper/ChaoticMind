@@ -12,7 +12,8 @@ namespace ChaoticMind {
     class CharacterType {
 
         public static CharacterType SillyBox = new CharacterType("TestImages/Box", 17, 1, 1.0f, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 1.0f, 10.0f, 10);
-        public static CharacterType Swarmer = new CharacterType("Enemies/Swarmer", 7, 1, 1.5f, 0.75f, ObjectShapes.CIRCLE, 1.0f, 1.0f, 5.0f, 15);
+        //public static CharacterType Swarmer = new CharacterType("Enemies/Swarmer", 7, 1, 1.5f, 0.75f, ObjectShapes.CIRCLE, 1.0f, 1.0f, 5.0f, 15);
+        public static CharacterType Swarmer = new CharacterType("Enemies/Parasite", 12, 1, 1.0f, 0.75f, ObjectShapes.CIRCLE, 1.0f, 1.0f, 5.0f, 15);
         public static CharacterType Player = new CharacterType("TestImages/TestPlayer", 1, 1, 1.0f, 1.0f, ObjectShapes.CIRCLE, 5.0f, 1.0f, 2500.0f, 100);
 
         static CharacterType() {
