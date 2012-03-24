@@ -44,8 +44,9 @@ namespace ChaoticMind {
         //timing
         private int _timerId;
 
-        float nerve_pulse_speed = 0.001f;
-        float nerve_pulse_alpha = 0.6f;
+        private const float NERVE_PULSE_SPEED = 0.002f;
+        private const float NERVE_MAX_ALPHA = 0.8f;
+        private const float NERVE_MIN_ALPHA = 0.3f;
 
         //for keeping the objects relative to tiles as they shift
         private List<DrawableGameObject> _objects;
@@ -219,7 +220,7 @@ namespace ChaoticMind {
         }
 
         public void DrawTiles(Camera camera, float deltaTime) {
-            float alpha = nerve_pulse_alpha * (float)(Math.Sin(deltaTime * nerve_pulse_speed) + 1)/2.0f;
+            float alpha = NERVE_MIN_ALPHA + (NERVE_MAX_ALPHA - NERVE_MIN_ALPHA) * (float)(Math.Sin(deltaTime * NERVE_PULSE_SPEED) + 1) / 2.0f;
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
                     MapTile tile = _tiles[x,y];
