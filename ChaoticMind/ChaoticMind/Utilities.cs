@@ -14,7 +14,7 @@ namespace ChaoticMind {
             COLLECTABLE = 2,
             PLAYER = 3,
             PROJECTILE = 4,
-            SILLY_BOX = 5
+            ENEMY = 5
         }
 
         static Random rand = new Random();

@@ -11,6 +11,12 @@ namespace ChaoticMind {
 
         AnimatedSprite _minimapSprite;
 
+        static Player _instance;
+
+        public static Player Instance {
+            get { return _instance; }
+        }
+
         public Player(CharacterType characterType, Vector2 startingPosition)
             : base(characterType, startingPosition) {
             _body.LinearDamping = 30;
@@ -21,6 +27,8 @@ namespace ChaoticMind {
             _minimapSprite = new StaticSprite("Minimap/PlayerMinimap", MapTile.TileSideLength / 2);
 
             _curWeapon = new Weapon(new StaticSprite("Weapons/AssaultRife", 1), 2, 0.150f, 10, 80, 3, 10, new StaticSprite("TestImages/Projectile", 0.1f), 20, 1, 30);
+
+            _instance = this;
         }
 
         //collision stuff

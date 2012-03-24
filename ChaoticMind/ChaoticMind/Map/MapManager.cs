@@ -45,7 +45,7 @@ namespace ChaoticMind {
         private int _timerId;
 
         float nerve_pulse_speed = 0.001f;
-        float nerve_pulse_alpha = 0.6f;
+        float nerve_pulse_alpha = 0.8f;
 
         //for keeping the objects relative to tiles as they shift
         private List<DrawableGameObject> _objects;

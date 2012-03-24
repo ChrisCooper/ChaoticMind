@@ -110,6 +110,7 @@
   <ItemGroup>
     <Compile Include="Audio\MusicController.cs" />
     <Compile Include="Button.cs" />
+    <Compile Include="GameObjects\Emenies\Swarmer.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="TimeDelayManager.cs" />
     <Compile Include="GameObjects\Weapon.cs" />
@@ -133,7 +134,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ChaoticMindGame.cs" />
-    <Compile Include="GameObjects\SillyBox.cs" />
+    <Compile Include="GameObjects\Emenies\SillyBox.cs" />
     <Compile Include="Graphics\SpriteAnimationSequence.cs" />
     <Compile Include="Graphics\StaticSprite.cs" />
     <Compile Include="Screen.cs" />

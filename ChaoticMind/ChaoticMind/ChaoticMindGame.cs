@@ -101,12 +101,17 @@ namespace ChaoticMind {
             InputManager.Initialize();
             TimeDelayManager.Initilize();
             GameState.Initilize();
-
-            //Create a bunch of fun random game objects for now
-            for (int i = 0; i < 100; i++) {
-                SillyBox obj = new SillyBox(CharacterType.SillyBox, Utilities.randomVector() * 100.0f + 100.0f * Vector2.UnitX);
-                _objects.Add(obj);
+             
+            //Creat swarmers in the first 3x3 square
+            for (int x = 0; x < Math.Min(MAP_SIZE, 3); x++) {
+                for (int y = 0; y < Math.Min(MAP_SIZE, 3); y++) {
+                    for (int i = 0; i < 10; i++) {
+                        Swarmer obj = new Swarmer(CharacterType.Swarmer, MapTile.WorldPositionForGridCoordinates(x,y) + Utilities.randomVector() * 0.7f *MapTile.TileSideLength);
+                        _objects.Add(obj);
+                    }
+                }
             }
+            
 
             //set up player
             _player = new Player(CharacterType.Player, Vector2.Zero);
