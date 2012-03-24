@@ -9,13 +9,12 @@ namespace ChaoticMind {
         RECTANGLE,
     }
 
-    //Could this be a struct? Probably......... Dang.
-    //I will look into that and change it perhaps when I have an ineternet connection.
     class CharacterType {
 
         public static CharacterType SillyBox = new CharacterType("TestImages/Box", 17, 1, 1.0f, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 1.0f, 1.0f);
         public static CharacterType Swarmer = new CharacterType("Enemies/Swarmer/Swarmer_Sprite_sheet", 7, 1, 1.0f, 0.75f, ObjectShapes.CIRCLE, 1.0f, 1.0f, 3.0f);
         public static CharacterType Player = new CharacterType("TestImages/TestPlayer", 1, 1, 1.0f, 1.0f, ObjectShapes.CIRCLE, 5.0f, 1.0f, 2500.0f);
+
 
         static CharacterType() {
             Swarmer.LinearDampening = 10f;
@@ -31,8 +30,9 @@ namespace ChaoticMind {
         float _density;
         float _maxTurningTorque;
         float _maxMovementForce;
+        int _health;
 
-        CharacterType(String spriteName, int xFrames, int yFrames, float entitySize, float animationDuration, ObjectShapes shape, float density, float maxTurningTorque, float maxMovementForce) {
+        CharacterType(String spriteName, int xFrames, int yFrames, float entitySize, float animationDuration, ObjectShapes shape, float density, float maxTurningTorque, float maxMovementForce, int health) {
             _spriteName = spriteName;
             _xFrames = xFrames;
             _yFrames = yFrames;
@@ -42,6 +42,7 @@ namespace ChaoticMind {
             _density = density;
             _maxTurningTorque = maxTurningTorque;
             _maxMovementForce = maxMovementForce;
+            _health = health;
         }
 
         public String SpriteName {
@@ -80,10 +81,16 @@ namespace ChaoticMind {
             get { return _maxMovementForce; }
         }
 
-        public float LinearDampening {
+public float LinearDampening {
             get;
             set;
         }
+        public int Health {
+            get { return _health; }
+        }
+
+
+        
 
     }
 }

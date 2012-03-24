@@ -48,6 +48,9 @@ namespace ChaoticMind {
 
         //player
         Player _player;
+        internal Player MainPlayer {
+            get { return _player; }
+        }
 
         //Audio
         MusicController _backgroundMusic;
@@ -235,6 +238,11 @@ namespace ChaoticMind {
             //shifting interface
             if (InputManager.IsKeyClicked(Keys.Tab)) {
                 GameState.Mode = GameState.Mode == GameState.GameMode.SHIFTING ? GameState.GameMode.NORMAL : GameState.GameMode.SHIFTING;
+            }
+            //you died
+            if (_player.KillMe()) {
+                GameState.Mode = GameState.GameMode.GAMEOVER;
+                this.Exit(); //temp
             }
         }
 

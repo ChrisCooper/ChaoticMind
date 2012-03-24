@@ -44,8 +44,9 @@ namespace ChaoticMind {
         //timing
         private int _timerId;
 
-        float nerve_pulse_speed = 0.001f;
-        float nerve_pulse_alpha = 0.8f;
+        private const float NERVE_PULSE_SPEED = 0.002f;
+        private const float NERVE_MAX_ALPHA = 0.8f;
+        private const float NERVE_MIN_ALPHA = 0.3f;
 
         //for keeping the objects relative to tiles as they shift
         private List<DrawableGameObject> _objects;
@@ -65,8 +66,7 @@ namespace ChaoticMind {
         public void Initialize(Camera camera, ref List<DrawableGameObject> objects) {
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
-                    //TODO: visible = false on start
-                    _tiles[x,y] = new MapTile(MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors(), true);
+                    _tiles[x,y] = new MapTile(MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors(), false);
                 }
             }
             //initially set the overlays
@@ -80,6 +80,16 @@ namespace ChaoticMind {
         }
 
         public void Update(float deltaTime) {
+            //set visibility based on player position
+            Vector2 playerPos = Program.SharedGame.MainPlayer.MapTileIndex;
+            for (int x = (int)playerPos.X - 1; x < (int)playerPos.X + 2; x++) {
+                for (int y = (int)playerPos.Y - 1; y < (int)playerPos.Y + 2; y++) {
+                    if (x >= 0 && x < _gridDimension && y >= 0 && y < _gridDimension && !_tiles[x, y].IsVisible) {
+                        _tiles[x, y].IsVisible = true;
+                    }
+                }
+            }
+
             foreach (MapTile tile in _tiles) {
                 if (tile != null) {
                     tile.Update(deltaTime);
@@ -210,12 +220,14 @@ namespace ChaoticMind {
         }
 
         public void DrawTiles(Camera camera, float deltaTime) {
-            deltaTime *= nerve_pulse_speed;
+            float alpha = NERVE_MIN_ALPHA + (NERVE_MAX_ALPHA - NERVE_MIN_ALPHA) * (float)(Math.Sin(deltaTime * NERVE_PULSE_SPEED) + 1) / 2.0f;
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
                     MapTile tile = _tiles[x,y];
-                    camera.Draw(tile);
-                    camera.DrawOverlay(tile, Color.White * nerve_pulse_alpha * (float)Math.Abs((deltaTime - Math.Floor(deltaTime)) - 0.5f));
+                    if (tile.IsVisible) {
+                        camera.Draw(tile);
+                        camera.DrawOverlay(tile, Color.White * alpha);
+                    }
                 }
             }
             if (_shiftedOutTile != null) {
