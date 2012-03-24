@@ -234,6 +234,11 @@ namespace ChaoticMind {
             if (InputManager.IsKeyClicked(Keys.Tab)) {
                 GameState.Mode = GameState.Mode == GameState.GameMode.SHIFTING ? GameState.GameMode.NORMAL : GameState.GameMode.SHIFTING;
             }
+            //you died
+            if (_player.KillMe()) {
+                GameState.Mode = GameState.GameMode.GAMEOVER;
+                this.Exit(); //temp
+            }
         }
 
         /// <summary>

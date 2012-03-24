@@ -10,7 +10,8 @@ namespace ChaoticMind {
         public enum GameMode {
             NORMAL,
             PAUSED,
-            SHIFTING
+            SHIFTING,
+            GAMEOVER
         }
 
         static GameState _self;
