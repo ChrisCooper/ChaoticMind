@@ -219,12 +219,12 @@ namespace ChaoticMind {
         }
 
         public void DrawTiles(Camera camera, float deltaTime) {
-            deltaTime *= nerve_pulse_speed;
+            float alpha = nerve_pulse_alpha * (float)(Math.Sin(deltaTime * nerve_pulse_speed) + 1)/2.0f;
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
                     MapTile tile = _tiles[x,y];
                     camera.Draw(tile);
-                    camera.DrawOverlay(tile, Color.White * nerve_pulse_alpha * (float)Math.Abs((deltaTime - Math.Floor(deltaTime)) - 0.5f));
+                    camera.DrawOverlay(tile, Color.White * alpha);
                 }
             }
             if (_shiftedOutTile != null) {
