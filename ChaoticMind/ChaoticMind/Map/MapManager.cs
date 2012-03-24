@@ -65,8 +65,7 @@ namespace ChaoticMind {
         public void Initialize(Camera camera, ref List<DrawableGameObject> objects) {
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
-                    //TODO: visible = false on start
-                    _tiles[x,y] = new MapTile(MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors(), true);
+                    _tiles[x,y] = new MapTile(MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors(), false);
                 }
             }
             //initially set the overlays
@@ -80,6 +79,16 @@ namespace ChaoticMind {
         }
 
         public void Update(float deltaTime) {
+            //set visibility based on player position
+            Vector2 playerPos = Program.SharedGame.MainPlayer.MapTileIndex;
+            for (int x = (int)playerPos.X - 1; x < (int)playerPos.X + 2; x++) {
+                for (int y = (int)playerPos.Y - 1; y < (int)playerPos.Y + 2; y++) {
+                    if (x >= 0 && x < _gridDimension && y >= 0 && y < _gridDimension && !_tiles[x, y].IsVisible) {
+                        _tiles[x, y].IsVisible = true;
+                    }
+                }
+            }
+
             foreach (MapTile tile in _tiles) {
                 if (tile != null) {
                     tile.Update(deltaTime);

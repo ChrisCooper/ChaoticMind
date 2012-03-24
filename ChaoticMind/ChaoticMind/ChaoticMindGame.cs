@@ -48,6 +48,9 @@ namespace ChaoticMind {
 
         //player
         Player _player;
+        internal Player MainPlayer {
+            get { return _player; }
+        }
 
         //Audio
         MusicController _backgroundMusic;
