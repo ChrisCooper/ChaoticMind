@@ -17,17 +17,22 @@ namespace ChaoticMind {
         private Vector2 _locationToFace;
         private Vector2 _locationToMoveToward;
 
+        //OOB stuff
+        private const int OOBDamage = 10;
+        private int _OOBTimer;
+
         //current weapon
         protected Weapon _curWeapon = null;
+
+        //health stuff
+        protected int _maxHealth;
+        protected int _currHealth;
 
         public Character(CharacterType characterType, Vector2 startingPosition)
             : base(characterType.SpriteName, characterType.XFrames, characterType.YFrames, characterType.EntitySize, characterType.AnimationDuration, startingPosition) {
             _characterType = characterType;
 
             switch (characterType.ObjectShape) {
-                // This method creates a body (has mass, position, rotation),
-                // as well as a rectangular fixture, which is just a shape stapled to the body.
-                // The fixture is what collides with other objects and impacts how the body moves
                 case ObjectShapes.RECTANGLE:
                     _body = BodyFactory.CreateRectangle(Program.SharedGame.MainWorld, _characterType.EntitySize, _characterType.EntitySize, _characterType.Density);
                     break;
@@ -39,12 +44,25 @@ namespace ChaoticMind {
             _body.BodyType = BodyType.Dynamic;
             _body.Position = startingPosition;
 
+            _maxHealth = _currHealth = _characterType.Health;
+
             _locationToFace = new Vector2(0, 1);
+
+            //init OOB timer
+            _OOBTimer = TimeDelayManager.InitTimer(0.5f);
         }
 
         public override void Update(float deltaTime) {
             decideOnMovementTargets();
             performMovement(deltaTime);
+
+            //damage idiots who go outside the map
+            if (TimeDelayManager.Finished(_OOBTimer) &&
+                (MapTileIndex.X < 0 || MapTileIndex.X > Program.SharedGame.MapManager.GridDimension ||
+                MapTileIndex.Y < 0 || MapTileIndex.Y > Program.SharedGame.MapManager.GridDimension)) {
+                ModHealth(-OOBDamage, true);
+                TimeDelayManager.RestartTimer(_OOBTimer);
+            }
 
             base.Update(deltaTime);
         }
@@ -91,6 +109,20 @@ namespace ChaoticMind {
         protected Vector2 LocationToFace {
             get { return _locationToFace; }
             set { _locationToFace = value; }
+        }
+
+        //destroy the object when they die
+        public override bool KillMe() {
+            return _currHealth <= 0;
+        }
+
+        //hurt/heal character
+        public void ModHealth(int amt, bool rel) {
+            if (rel)
+                _currHealth += amt;
+            else
+                _currHealth = amt;
+            _currHealth = Math.Max(0, Math.Min(_currHealth, _maxHealth));
         }
     }
 }
