@@ -24,9 +24,9 @@ namespace ChaoticMind {
         // or an AI routine to decide what direction this character should try to face, and move
         protected override void decideOnMovementTargets() {
             LocationToMoveToward = Player.Instance.Position + Utilities.randomNormalizedVector() * 50.0f;
-
+           
             if (Utilities.randomDouble() < lunge_chance) {
-                lunge(LocationToMoveToward);
+                lunge(Player.Instance.Position);
             }
         }
 
