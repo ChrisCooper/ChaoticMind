@@ -223,8 +223,10 @@ namespace ChaoticMind {
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
                     MapTile tile = _tiles[x,y];
-                    camera.Draw(tile);
-                    camera.DrawOverlay(tile, Color.White * alpha);
+                    if (tile.IsVisible) {
+                        camera.Draw(tile);
+                        camera.DrawOverlay(tile, Color.White * alpha);
+                    }
                 }
             }
             if (_shiftedOutTile != null) {
