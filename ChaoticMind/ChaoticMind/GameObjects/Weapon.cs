@@ -80,21 +80,19 @@ namespace ChaoticMind {
                         return fraction: clip the ray to this point
                         return 1: don't clip the ray and continue
                         */
-                        Fixture hit = null;
                         Vector2 pt = Vector2.Zero;
                         float minFrac = float.MaxValue;
 
-                        //BUG: the returns are probably not right (I guessed), but you can sometimes hit sillyboxes through the walls
-                        //also only goes to the mouse, but I'll refactor this into the weapons class with a range property at some point
+                        //Gets the position of the closest fixture on the ray path.
                         Program.SharedGame.MainWorld.RayCast((fixture, point, normal, fraction) => {
                             if (fixture != null && fraction < minFrac) {
-                                hit = fixture;
                                 pt = point;
                                 minFrac = fraction;
                                 return 1;
                             }
                             return -1;
                         }, location, temp * _projectileRange);
+
                         //create a projectile at the place where the ray was stopped
                         ProjectileManager.CreateProjectile(pt, Vector2.Zero, 1, 0, 1, null);
                     }
