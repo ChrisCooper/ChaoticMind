@@ -173,7 +173,7 @@ namespace ChaoticMind {
 
                 //set the location of the tile that was pushed in a move it into place
                 //TODO: don't reassign this. pass it in.
-                MapTile pushingTile = new MapTile(MapTile.WorldPositionForGridCoordinates(shiftEnd + shiftInc, index), newTileDoors, true);
+                MapTile pushingTile = new MapTile(MapTile.WorldPositionForGridCoordinates(shiftEnd + shiftInc, index), newTileDoors, false);
                 _tiles[shiftEnd, index] = pushingTile;
                 shiftTile(pushingTile, shiftEnd, index, shiftingObjects);
             }
@@ -193,7 +193,7 @@ namespace ChaoticMind {
 
                 //set the location of the tile that was pushed in a move it into place
                 //TODO: don't reassign this. pass it in.
-                MapTile pushingTile = new MapTile(MapTile.WorldPositionForGridCoordinates(index, shiftEnd + shiftInc), newTileDoors, true);
+                MapTile pushingTile = new MapTile(MapTile.WorldPositionForGridCoordinates(index, shiftEnd + shiftInc), newTileDoors, false);
                 _tiles[index, shiftEnd] = pushingTile;
                 shiftTile(pushingTile, index, shiftEnd, shiftingObjects);
             }

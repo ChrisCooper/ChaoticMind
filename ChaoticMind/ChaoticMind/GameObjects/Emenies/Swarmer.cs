@@ -31,7 +31,9 @@ namespace ChaoticMind {
         }
 
         private void lunge(Vector2 LocationToMoveToward) {
-            _body.ApplyLinearImpulse(LocationToMoveToward/5.0f);
+            Vector2 direction = LocationToMoveToward - Position;
+            direction.Normalize();
+            _body.ApplyLinearImpulse(direction * _characterType.MaxMovementForce * 5.0f);
         }
 
         public override AnimatedSprite MapSprite {
