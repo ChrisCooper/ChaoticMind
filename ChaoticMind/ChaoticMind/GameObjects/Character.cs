@@ -19,15 +19,15 @@ namespace ChaoticMind {
         float _futurePositionInterval = 0.5f; //seconds in the future that the position is estimated
 
         //OOB stuff
-        private const int OOBDamage = 10;
-        private int _OOBTimer;
+        private const int OutsideBoardDamageAmount = 10;
+        private int _OutsideBoardDamageTimer;
 
         //current weapon
         protected Weapon _curWeapon = null;
 
         //health stuff
         protected int _maxHealth;
-        protected int _currHealth;
+        protected int _currentHealth;
 
         public Character(CharacterType characterType, Vector2 startingPosition)
             : base(characterType.SpriteName, characterType.XFrames, characterType.YFrames, characterType.EntitySize, characterType.AnimationDuration, startingPosition) {
@@ -45,12 +45,12 @@ namespace ChaoticMind {
             _body.BodyType = BodyType.Dynamic;
             _body.Position = startingPosition;
 
-            _maxHealth = _currHealth = _characterType.Health;
+            _maxHealth = _currentHealth = _characterType.Health;
 
             _locationToFace = new Vector2(0, 1);
 
             //init OOB timer
-            _OOBTimer = TimeDelayManager.InitTimer(0.5f);
+            _OutsideBoardDamageTimer = TimeDelayManager.InitTimer(0.5f);
         }
 
         public override void Update(float deltaTime) {
@@ -59,11 +59,11 @@ namespace ChaoticMind {
             performTypeUniqueMovements(deltaTime);
 
             //damage idiots who go outside the map 
-            if (TimeDelayManager.Finished(_OOBTimer) &&
+            if (TimeDelayManager.Finished(_OutsideBoardDamageTimer) &&
                 (GridCoordinate.X < 0 || GridCoordinate.X > Program.SharedGame.MapManager.GridDimension ||
                 GridCoordinate.Y < 0 || GridCoordinate.Y > Program.SharedGame.MapManager.GridDimension)) {
-                ModHealth(-OOBDamage, true);
-                TimeDelayManager.RestartTimer(_OOBTimer);
+                ApplyDamage(OutsideBoardDamageAmount);
+                TimeDelayManager.RestartTimer(_OutsideBoardDamageTimer);
             }
 
             base.Update(deltaTime);
@@ -127,16 +127,18 @@ namespace ChaoticMind {
 
         //destroy the object when they die
         public override bool ShouldDieNow() {
-            return _currHealth <= 0;
+            return _currentHealth <= 0;
         }
 
-        //hurt/heal character
-        public void ModHealth(int amt, bool rel) {
-            if (rel)
-                _currHealth += amt;
-            else
-                _currHealth = amt;
-            _currHealth = Math.Max(0, Math.Min(_currHealth, _maxHealth));
+        //
+        public void ApplyDamage(int amount) {
+            _currentHealth-= amount;
+            _currentHealth = Math.Max(0, Math.Min(_currentHealth, _maxHealth));
+        }
+
+        //returns the index of the map array the object is currently in
+        public virtual Vector2 GridCoordinate {
+            get { return new Vector2((float)Math.Floor((_body.Position.X + MapTile.TileSideLength / 2.0f) / MapTile.TileSideLength), (float)Math.Floor((_body.Position.Y + MapTile.TileSideLength / 2.0f) / MapTile.TileSideLength)); }
         }
     }
 }
