@@ -205,7 +205,7 @@ namespace ChaoticMind {
             TimeDelayManager.Update(deltaTime);
 
             for (int i = 0 ; i < _objects.Count ; i++){
-                if (_objects[i].KillMe()){
+                if (_objects[i].ShouldDieNow()){
                     _objects[i].Destroy();
                     _objects.RemoveAt(i);
                 }
@@ -240,7 +240,7 @@ namespace ChaoticMind {
                 GameState.Mode = GameState.Mode == GameState.GameMode.SHIFTING ? GameState.GameMode.NORMAL : GameState.GameMode.SHIFTING;
             }
             //you died
-            if (_player.KillMe()) {
+            if (_player.ShouldDieNow()) {
                 GameState.Mode = GameState.GameMode.GAMEOVER;
                 this.Exit(); //temp
             }

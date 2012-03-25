@@ -16,6 +16,7 @@ namespace ChaoticMind {
 
         private Vector2 _locationToFace;
         private Vector2 _locationToMoveToward;
+        float _futurePositionInterval = 0.5f; //seconds in the future that the position is estimated
 
         //OOB stuff
         private const int OOBDamage = 10;
@@ -55,6 +56,7 @@ namespace ChaoticMind {
         public override void Update(float deltaTime) {
             decideOnMovementTargets();
             performMovement(deltaTime);
+            performTypeUniqueMovements(deltaTime);
 
             //damage idiots who go outside the map
             if (TimeDelayManager.Finished(_OOBTimer) &&
@@ -65,6 +67,10 @@ namespace ChaoticMind {
             }
 
             base.Update(deltaTime);
+        }
+
+        //I.e. ranged units move back if too close, parasites lunge, etc.
+        protected virtual void performTypeUniqueMovements(float deltaTime) {
         }
 
         //Use input (in the case of a controllable character)
@@ -113,8 +119,14 @@ namespace ChaoticMind {
             set { _locationToFace = value; }
         }
 
+        public Vector2 FuturePosition {
+            get {
+                return _body.Position + _body.LinearVelocity * _futurePositionInterval;
+            }
+        }
+
         //destroy the object when they die
-        public override bool KillMe() {
+        public override bool ShouldDieNow() {
             return _currHealth <= 0;
         }
 

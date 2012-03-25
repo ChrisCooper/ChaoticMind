@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace ChaoticMind {
-    class Swarmer : Character {
+namespace ChaoticMind.GameObjects.Emenies {
+    class Enemy : Character {
 
         private float lunge_chance = 1.0f/60.0f/3f; //once every three seconds
 
         private AnimatedSprite _minimapSprite;
 
-        public Swarmer(CharacterType characterType, Vector2 startingPosition)
+        public Enemy(CharacterType characterType, Vector2 startingPosition)
             : base(characterType, startingPosition) {
 
                 _body.UserData = Utilities.BodyTypes.ENEMY;
@@ -24,10 +24,10 @@ namespace ChaoticMind {
         // or an AI routine to decide what direction this character should try to face, and move
         protected override void decideOnMovementTargets() {
             LocationToMoveToward = Player.Instance.FuturePosition + Utilities.randomNormalizedVector() * 50.0f;
-            LocationToFace = Player.Instance.FuturePosition;
-        }
+            LocationToFace = Player.Instance.Position;
+           
 
-        protected override void performTypeUniqueMovements(float deltaTime) {
+            //This should not be in the decision method. Need to decide on a way to add custom movement to character types
             if (Utilities.randomDouble() < lunge_chance) {
                 lunge(Player.Instance.Position);
             }

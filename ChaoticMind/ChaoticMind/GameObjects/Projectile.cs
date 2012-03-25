@@ -55,7 +55,7 @@ namespace ChaoticMind {
             _timerId = TimeDelayManager.InitTimer(_range / speed, 0);
         }
 
-        public override bool KillMe(){
+        public override bool ShouldDieNow(){
             return TimeDelayManager.Finished(_timerId);
         }
 

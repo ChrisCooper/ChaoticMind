@@ -45,7 +45,7 @@ namespace ChaoticMind {
             get { return _minimapSprite; }
         }
 
-        public override bool KillMe() {
+        public override bool ShouldDieNow() {
             return _killMe;
         }
     }

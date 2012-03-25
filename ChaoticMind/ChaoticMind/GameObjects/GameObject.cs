@@ -30,7 +30,7 @@ namespace ChaoticMind {
         }
 
         //destroy flag
-        public virtual bool KillMe() {
+        public virtual bool ShouldDieNow() {
             return false;
         }
 

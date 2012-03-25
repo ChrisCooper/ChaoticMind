@@ -100,17 +100,15 @@ namespace ChaoticMind {
         }
 
         private void snapToTarget() {
-            _body.Position = _targetLocation;
-            _body.LinearVelocity = Vector2.Zero;
-            _isMoving = false;
 
             //snap all the objects to the target
-            /*
-            //Doesn't seem to make any difference
             foreach (DrawableGameObject o in _shiftObjects) {
                 o.Shift(_targetLocation - _body.Position);
             }
-            */ 
+
+            _body.Position = _targetLocation;
+            _body.LinearVelocity = Vector2.Zero;
+            _isMoving = false;
 
             finishShift();
         }
