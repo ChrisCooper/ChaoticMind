@@ -33,7 +33,9 @@ namespace ChaoticMind {
 
         //called when the object is being shifted
         public void Shift(Vector2 deltaPos) {
-            _body.Position += deltaPos;
+            if (!_body.IsDisposed) {
+                _body.Position += deltaPos;
+            }
         }
 
         public Texture2D Texture {
