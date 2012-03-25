@@ -90,7 +90,7 @@ namespace ChaoticMind {
         }
 
         //returns the index of the map array the object is currently in
-        public virtual Vector2 MapTileIndex {
+        public virtual Vector2 GridCoordinate {
             get { return new Vector2((float)Math.Floor((_body.Position.X + MapTile.TileSideLength / 2.0f) / MapTile.TileSideLength), (float)Math.Floor((_body.Position.Y + MapTile.TileSideLength / 2.0f) / MapTile.TileSideLength)); }
         }
     }

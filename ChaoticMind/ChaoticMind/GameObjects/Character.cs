@@ -58,10 +58,10 @@ namespace ChaoticMind {
             performMovement(deltaTime);
             performTypeUniqueMovements(deltaTime);
 
-            //damage idiots who go outside the map
+            //damage idiots who go outside the map 
             if (TimeDelayManager.Finished(_OOBTimer) &&
-                (MapTileIndex.X < 0 || MapTileIndex.X > Program.SharedGame.MapManager.GridDimension ||
-                MapTileIndex.Y < 0 || MapTileIndex.Y > Program.SharedGame.MapManager.GridDimension)) {
+                (GridCoordinate.X < 0 || GridCoordinate.X > Program.SharedGame.MapManager.GridDimension ||
+                GridCoordinate.Y < 0 || GridCoordinate.Y > Program.SharedGame.MapManager.GridDimension)) {
                 ModHealth(-OOBDamage, true);
                 TimeDelayManager.RestartTimer(_OOBTimer);
             }

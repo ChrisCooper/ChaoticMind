@@ -144,7 +144,7 @@ namespace ChaoticMind {
 
         //override to deal with shifting
         //will get an int back every time even though it's floating point division
-        public override Vector2 MapTileIndex {
+        public override Vector2 GridCoordinate {
             get {
                 if (_isMoving) {
                     return _targetLocation / TileSideLength;
@@ -181,7 +181,7 @@ namespace ChaoticMind {
         internal void shiftTo(int destX, int destY, List<DrawableGameObject> objects) {
             //weed out the objects not in this tile
             foreach (DrawableGameObject o in objects) {
-                if (o.MapTileIndex == MapTileIndex)
+                if (o.GridCoordinate == GridCoordinate)
                     _shiftObjects.Add(o);
             }
 
