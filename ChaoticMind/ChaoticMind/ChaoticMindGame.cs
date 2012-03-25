@@ -54,6 +54,7 @@ namespace ChaoticMind {
 
         //Audio
         MusicController _backgroundMusic;
+        SoundEffects _soundEffects;
 
         MouseDrawer _mouseDrawer = new MouseDrawer();
 
@@ -69,6 +70,8 @@ namespace ChaoticMind {
 
         ShiftInterface _shiftInterface = new ShiftInterface();
 
+        //OutcomeScreen _outcomeScreen = new OutcomeScreen();
+
         public ChaoticMindGame() {
 
             _graphics = new GraphicsDeviceManager(this);
@@ -81,6 +84,7 @@ namespace ChaoticMind {
             SpriteAnimationSequence.SharedContentManager = Content;
 
             MusicController.SharedContentManager = Content;
+            SoundEffects.SharedContentManager = Content;
 
             //Create the physics simulator object, specifying that we want no gravity (since we're top-down)
             _world = new World(Vector2.Zero);
@@ -130,6 +134,8 @@ namespace ChaoticMind {
             _backgroundMusic.Enqueue("10 Disappear");
             //_backgroundMusic.Play();
 
+            //_soundEffects = new SoundEffects();
+
             _mapManager = new MapManager(MAP_SIZE);
             _mapManager.Initialize(_mainCamera, ref _objects);
 
@@ -137,6 +143,8 @@ namespace ChaoticMind {
             _projectileManager.Initilize(_mainCamera);
 
             _shiftInterface.Initialize(_mapManager, _spriteBatch);
+
+            //_outcomeScreen.Initialize();
 
             _mouseDrawer.Initialize();
 
@@ -191,6 +199,9 @@ namespace ChaoticMind {
             else if (GameState.Mode == GameState.GameMode.PAUSED) {
                 //update stuff for the pause menu
             }
+            //else if (GameState.Mode == GameState.GameMode.GAMEOVER) {
+            //    _outcomeScreen.Update();
+            //}
 
             _fpsCounter.Update(gameTime);
 
