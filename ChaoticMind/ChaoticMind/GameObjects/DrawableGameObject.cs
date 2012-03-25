@@ -88,5 +88,10 @@ namespace ChaoticMind {
         public virtual float MapRotation {
             get { return 0; }
         }
+
+        //returns the index of the map array the object is currently in
+        public virtual Vector2 GridCoordinate {
+            get {return MapTile.GridPositionForWorldCoordinates(Position);}
+        }
     }
 }

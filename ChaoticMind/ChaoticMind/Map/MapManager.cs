@@ -44,8 +44,8 @@ namespace ChaoticMind {
         //timing
         private int _timerId;
 
-        private const float NERVE_PULSE_SPEED = 0.002f;
-        private const float NERVE_MAX_ALPHA = 0.8f;
+        private const float NERVE_PULSE_SPEED = 0.003f;
+        private const float NERVE_MAX_ALPHA = 0.9f;
         private const float NERVE_MIN_ALPHA = 0.3f;
 
         //for keeping the objects relative to tiles as they shift

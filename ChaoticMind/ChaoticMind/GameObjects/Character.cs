@@ -135,10 +135,5 @@ namespace ChaoticMind {
             _currentHealth-= amount;
             _currentHealth = Math.Max(0, Math.Min(_currentHealth, _maxHealth));
         }
-
-        //returns the index of the map array the object is currently in
-        public virtual Vector2 GridCoordinate {
-            get { return new Vector2((float)Math.Floor((_body.Position.X + MapTile.TileSideLength / 2.0f) / MapTile.TileSideLength), (float)Math.Floor((_body.Position.Y + MapTile.TileSideLength / 2.0f) / MapTile.TileSideLength)); }
-        }
     }
 }
