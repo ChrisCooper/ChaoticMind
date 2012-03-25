@@ -17,11 +17,6 @@ namespace ChaoticMind {
     /// of music.
     /// Plays and stops through method access, looping if
     /// not stopped before the end of the queue is reached.
-    /// 
-    /// Currently just very simple PoC
-    /// 
-    /// TODO:
-    /// -Fix Looping of Queue (Event handler seems to be activated too often, check docs)
     /// </summary>
     class MusicController {
         public static ContentManager SharedContentManager; //Set at execution in ChaoticMindGame init
