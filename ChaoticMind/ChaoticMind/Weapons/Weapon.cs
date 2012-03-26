@@ -1,0 +1,109 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.Xna.Framework;
+using FarseerPhysics.Dynamics;
+
+namespace ChaoticMind {
+
+    class Weapon {
+
+        WeaponType _weaponType;
+        int _roundsLeftInClip;
+        int _spareClipsLeft;
+
+        //timing
+        private int _reloadTimerId;
+        private int _shootTimerId;
+
+        //Spread matrices
+        Matrix _spreadRotationStepMatrix;
+        Matrix _halfSpreadRotationMatrix;
+
+        public Weapon(WeaponType weaponType, int numberOfSpareClips) {
+
+            _weaponType = weaponType;
+
+            _roundsLeftInClip = _weaponType.RoundsPerClip;
+            _spareClipsLeft = numberOfSpareClips;
+
+            //timers
+            _reloadTimerId = TimeDelayManager.InitTimer(_weaponType.ReloadTime);
+            _shootTimerId = TimeDelayManager.InitTimer(_weaponType.FiringInterval);
+
+            _spreadRotationStepMatrix = _weaponType.SpreadRotationStepMatrix;
+            _halfSpreadRotationMatrix = _weaponType.HalfSpreadRotationMatrix;
+
+        }
+
+        public void Shoot(Vector2 location, Vector2 direction){
+            if (_roundsLeftInClip > 0 && TimeDelayManager.Finished(_reloadTimerId) && TimeDelayManager.Finished(_shootTimerId)) {
+
+                //start shooting the particles at the left side of the spread
+                Vector2 CurrentSpreadSweepDirection = Vector2.Transform(direction, _halfSpreadRotationMatrix);
+
+                //initial rotation if an even number of projectiles
+                if (_weaponType.FiresPerRound % 2 == 0) {
+                    Vector2.Transform(ref CurrentSpreadSweepDirection, ref _spreadRotationStepMatrix, out CurrentSpreadSweepDirection);
+                }
+
+                for (int i = 0; i < _weaponType.FiresPerRound; i++) {
+                    //shoot the projectiles
+
+                    if (_weaponType.IsRaycasted) { //use raycasting
+                        /*
+                        return -1: ignore this fixture and continue
+                        return 0: terminate the ray cast
+                        return fraction: clip the ray to this point
+                        return 1: don't clip the ray and continue
+                        */
+                        Vector2 pt = Vector2.Zero;
+                        float minFrac = float.MaxValue;
+
+                        //Gets the position of the closest fixture on the ray path.
+                        Program.SharedGame.MainWorld.RayCast((fixture, point, normal, fraction) => {
+                            if (fixture != null && fraction < minFrac) {
+                                pt = point;
+                                minFrac = fraction;
+                                return 1;
+                            }
+                            return -1;
+                        }, location, CurrentSpreadSweepDirection * _weaponType.Range);
+
+                        //create a projectile at the place where the ray was stopped
+                        ProjectileManager.CreateProjectile(pt, direction, _weaponType.ProjectileType);
+                    }
+                    else { //use projectiles
+                        ProjectileManager.CreateProjectile(location, CurrentSpreadSweepDirection, _weaponType.ProjectileType);
+                    }
+
+                    //rotate the direction to shoot the next projectile in
+                    Vector2.Transform(ref CurrentSpreadSweepDirection, ref _spreadRotationStepMatrix, out CurrentSpreadSweepDirection);
+                }
+                _roundsLeftInClip--;
+                TimeDelayManager.RestartTimer(_shootTimerId);
+            }
+        }
+
+        public void Reload() {
+            if (TimeDelayManager.Finished(_reloadTimerId) && _spareClipsLeft > 0) {
+                _spareClipsLeft--;
+                _roundsLeftInClip = _weaponType.RoundsPerClip;
+                TimeDelayManager.RestartTimer(_reloadTimerId);
+            }
+        }
+
+        public WeaponType WeaponType {
+            get { return _weaponType; }
+        }
+
+        public int RoundsLeftInClip {
+            get { return _roundsLeftInClip; }
+        }
+
+        public int SpareClipsLeft {
+            get { return _spareClipsLeft; }
+        }
+    }
+}

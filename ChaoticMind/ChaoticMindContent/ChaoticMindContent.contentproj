@@ -187,8 +187,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Weapons\AssaultRife.png">
-      <Name>AssaultRife</Name>
+    <Compile Include="Weapons\AssaultRifle.png">
+      <Name>AssaultRifle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -310,6 +310,14 @@
   <ItemGroup>
     <Compile Include="Enemies\Parasite.png">
       <Name>Parasite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Projectiles\AssaultRifleBullet.png">
+      <Name>AssaultRifleBullet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

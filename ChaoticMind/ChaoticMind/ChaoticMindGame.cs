@@ -139,8 +139,7 @@ namespace ChaoticMind {
             _mapManager = new MapManager(MAP_SIZE);
             _mapManager.Initialize(_mainCamera, ref _objects);
 
-            _projectileManager = new ProjectileManager();
-            _projectileManager.Initilize(_mainCamera);
+            _projectileManager = ProjectileManager.mainInstance();
 
             _shiftInterface.Initialize(_mapManager, _spriteBatch);
 
@@ -253,7 +252,7 @@ namespace ChaoticMind {
             //you died
             if (_player.ShouldDieNow()) {
                 GameState.Mode = GameState.GameMode.GAMEOVER;
-                this.Exit(); //temp
+                this.Exit(); //CurrentSpreadSweepDirection
             }
         }
 
@@ -309,7 +308,7 @@ namespace ChaoticMind {
                 _mainCamera.DrawMinimap(obj);
             }
 
-            _projectileManager.Draw();
+            _projectileManager.Draw(_mainCamera);
         }
 
         internal void closeShiftInterface() {
