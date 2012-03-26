@@ -11,6 +11,7 @@ namespace ChaoticMind {
         float _speed;
         float _range;
         float _radius;
+        float _density;
         AnimatedSprite _animation;
 
         public static ProjectileType AssaultRifleBullet = new ProjectileType();
@@ -21,6 +22,7 @@ namespace ChaoticMind {
             AssaultRifleBullet._speed = 20.0f;
             AssaultRifleBullet._range = 50.0f;
             AssaultRifleBullet._radius = 0.075f;
+            AssaultRifleBullet._density = 5.0f;
             AssaultRifleBullet._animation = new AnimatedSprite("Projectiles/AssaultRifleBullet", 1, 1, AssaultRifleBullet._radius * 2, 1.0f);
         }
 
@@ -42,6 +44,10 @@ namespace ChaoticMind {
 
         public float Radius {
             get { return _radius; }
+        }
+
+        public float Density {
+            get { return _density; }
         }
 
         internal AnimatedSprite Animation {

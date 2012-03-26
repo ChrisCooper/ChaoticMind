@@ -11,54 +11,67 @@ namespace ChaoticMind {
 
     class CharacterType {
 
-        public static CharacterType SillyBox = new CharacterType("TestImages/Box", 17, 1, 1.0f, 1.0f, ObjectShapes.RECTANGLE, 1.0f, 1.0f, 10.0f, 10);
-        //public static CharacterType Swarmer = new CharacterType("Enemies/Swarmer", 7, 1, 1.5f, 0.75f, ObjectShapes.CIRCLE, 1.0f, 1.0f, 5.0f, 15);
-        public static CharacterType Swarmer = new CharacterType("Enemies/Parasite", 12, 1, 1.0f, 0.75f, ObjectShapes.CIRCLE, 1.0f, 1.0f, 5.0f, 15);
-        public static CharacterType Player = new CharacterType("TestImages/TestPlayer", 1, 1, 1.0f, 1.0f, ObjectShapes.CIRCLE, 5.0f, 1.0f, 2500.0f, 100);
+        public static CharacterType SillyBox = new CharacterType();
+        public static CharacterType Swarmer = new CharacterType();
+        public static CharacterType Parasite = new CharacterType();
+        public static CharacterType Player = new CharacterType();
 
         static CharacterType() {
-            Swarmer.LinearDampening = 10f;
 
+            //Player
+            Player._entitySize = 1.0f;
+            Player._sprite = new AnimatedSprite("TestImages/TestPlayer", 1, 1, Player._entitySize, 1.0f);
+            Player._objectShape = ObjectShapes.CIRCLE;
+            Player._density = 5.0f;
+            Player._maxTurningTorque = 1.0f;
+            Player._maxMovementForce = 2500.0f;
+            Player._health = 100;
+            Player._linearDampening = 30f;
+            Player.MinimapSprite = new StaticSprite("Minimap/PlayerMinimap", MapTile.TileSideLength / 2);
+
+            //SillyBox
+            SillyBox._entitySize = 1.0f;
+            SillyBox._sprite = new AnimatedSprite("TestImages/Box", 17, 1, SillyBox._entitySize, 1.0f);
+            SillyBox._objectShape = ObjectShapes.RECTANGLE;
+            SillyBox._density = 1.0f;
+            SillyBox._maxTurningTorque = 1.0f;
+            SillyBox._maxMovementForce = 10.0f;
+            SillyBox._health = 10;
+
+            //Parasite
+            Parasite._entitySize = 0.8f;
+            Parasite._sprite = new AnimatedSprite("Enemies/Parasite", 12, 1, Parasite._entitySize * 6f / 4f, 15.0f);
+            Parasite._objectShape = ObjectShapes.CIRCLE;
+            Parasite._density = 1.0f;
+            Parasite._maxTurningTorque = 1.0f;
+            Parasite._maxMovementForce = 3.0f;
+            Parasite._health = 15;
+            Parasite._linearDampening = 10f;
+            Parasite.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 7);
+
+            //Swarmer
+            Swarmer._entitySize = 1.3f;
+            Swarmer._sprite = new AnimatedSprite("Enemies/Swarmer", 7, 1, Swarmer._entitySize * 5.0f / 4.0f, 15f);
+            Swarmer._objectShape = ObjectShapes.CIRCLE;
+            Swarmer._density = 1.0f;
+            Swarmer._maxTurningTorque = 1.0f;
+            Swarmer._maxMovementForce = 2.0f;
+            Swarmer._health = 15;
+            Swarmer._linearDampening = 10f;
+            Swarmer.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 5);
         }
 
-        String _spriteName;
-        int _xFrames;
-        int _yFrames;
+        AnimatedSprite _sprite;
         float _entitySize;
-        float _animationDuration;
         ObjectShapes _objectShape;
         float _density;
         float _maxTurningTorque;
         float _maxMovementForce;
+        float _linearDampening;
         int _health;
 
-        CharacterType(String spriteName, int xFrames, int yFrames, float entitySize, float animationDuration, ObjectShapes shape, float density, float maxTurningTorque, float maxMovementForce, int health) {
-            _spriteName = spriteName;
-            _xFrames = xFrames;
-            _yFrames = yFrames;
-            _entitySize = entitySize;
-            _animationDuration = animationDuration;
-            _objectShape = shape;
-            _density = density;
-            _maxTurningTorque = maxTurningTorque;
-            _maxMovementForce = maxMovementForce;
-            _health = health;
-        }
-
-        public String SpriteName {
-            get { return _spriteName; }
-        }
-
-        public int XFrames {
-            get { return _xFrames; }
-        }
-
-        public int YFrames {
-            get { return _yFrames; }
-        }
-
-        public float AnimationDuration {
-            get { return _animationDuration; }
+        public AnimatedSprite Sprite {
+            get { return _sprite; }
         }
 
         public float EntitySize {
@@ -81,16 +94,14 @@ namespace ChaoticMind {
             get { return _maxMovementForce; }
         }
 
-public float LinearDampening {
-            get;
-            set;
+        public float LinearDampening {
+            get { return _linearDampening; }
+
         }
         public int Health {
             get { return _health; }
         }
 
-
-        
-
+        public StaticSprite MinimapSprite { get; set; }
     }
 }

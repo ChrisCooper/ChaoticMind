@@ -111,16 +111,21 @@ namespace ChaoticMind {
             //Creat swarmers in the first 3x3 square
             for (int x = 0; x < Math.Min(MAP_SIZE, 3); x++) {
                 for (int y = 0; y < Math.Min(MAP_SIZE, 3); y++) {
-                    for (int i = 0; i < 10; i++) {
-                        //Swarmer obj = new Swarmer(CharacterType.Swarmer, MapTile.WorldPositionForGridCoordinates(x,y) + Utilities.randomVector() * 0.7f *MapTile.TileSideLength);
-                        //_objects.Add(obj);
+                    for (int i = 0; i < 5; i++) {
+                        Parasite parasite = new Parasite(MapTile.RandomPositionInTile(x, y));
+                        _objects.Add(parasite);
+                        
+                        if (i % 2 == 0) {
+                            Swarmer swarmer = new Swarmer(MapTile.RandomPositionInTile(x, y));
+                            _objects.Add(swarmer);
+                        }
                     }
                 }
             }
             
 
             //set up player
-            _player = new Player(CharacterType.Player, Vector2.Zero);
+            _player = new Player(Vector2.Zero);
             _objects.Add(_player);
             _mainCamera.setTarget(_player.Body);
 

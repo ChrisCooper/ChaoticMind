@@ -30,8 +30,10 @@ namespace ChaoticMind {
         protected int _maxHealth;
         protected int _currentHealth;
 
+        protected AnimatedSprite _minimapSprite;
+
         public Character(CharacterType characterType, Vector2 startingPosition)
-            : base(characterType.SpriteName, characterType.XFrames, characterType.YFrames, characterType.EntitySize, characterType.AnimationDuration, startingPosition) {
+            : base(startingPosition, characterType.Sprite) {
             _characterType = characterType;
 
             switch (characterType.ObjectShape) {
@@ -44,12 +46,16 @@ namespace ChaoticMind {
             }
 
             _body.BodyType = BodyType.Dynamic;
+            _body.LinearDamping = characterType.LinearDampening;
+            _body.Friction = 0.0f;
             _body.Position = startingPosition;
             _body.UserData = this;
 
             _maxHealth = _currentHealth = _characterType.Health;
 
             _locationToFace = new Vector2(0, 1);
+
+            _minimapSprite = characterType.MinimapSprite;
 
             //init OOB timer
             _OutsideBoardDamageTimer = new Timer(_outsideBoardDamageInterval);
@@ -58,8 +64,9 @@ namespace ChaoticMind {
         public override void Update(float deltaTime) {
             _OutsideBoardDamageTimer.Update(deltaTime);
             decideOnMovementTargets();
-            performMovement(deltaTime);
             performTypeUniqueMovements(deltaTime);
+            performMovement(deltaTime);
+            
 
             if (_curWeapon != null) {
                 _curWeapon.update(deltaTime);
@@ -133,6 +140,10 @@ namespace ChaoticMind {
             get {
                 return _body.Position + _body.LinearVelocity * _futurePositionInterval;
             }
+        }
+
+        public override AnimatedSprite MapSprite {
+            get { return _minimapSprite; }
         }
 
         //destroy the object when they die

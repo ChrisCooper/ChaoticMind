@@ -209,5 +209,9 @@ namespace ChaoticMind {
             get { return _isVisible; }
             set { _isVisible = value; }
         }
+
+        internal static Vector2 RandomPositionInTile(int x, int y) {
+            return MapTile.WorldPositionForGridCoordinates(x, y) + Utilities.randomVector() * 0.7f * MapTile.TileSideLength;
+        }
     }
 }
