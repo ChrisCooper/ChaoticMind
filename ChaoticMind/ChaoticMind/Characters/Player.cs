@@ -9,22 +9,16 @@ using FarseerPhysics.Dynamics;
 namespace ChaoticMind {
     class Player : Character {
 
-        AnimatedSprite _minimapSprite;
-
         static Player _instance;
 
         public static Player Instance {
             get { return _instance; }
         }
 
-        public Player(CharacterType characterType, Vector2 startingPosition)
-            : base(characterType, startingPosition) {
-            _body.LinearDamping = 30;
-            _body.AngularDamping = 5;
-            _body.UserData = this;
-            _body.OnCollision += PlayerCollision;
+        public Player(Vector2 startingPosition)
+            : base(CharacterType.Player, startingPosition) {
 
-            _minimapSprite = new StaticSprite("Minimap/PlayerMinimap", MapTile.TileSideLength / 2);
+            _body.OnCollision += PlayerCollision;
 
             _curWeapon = new Weapon(WeaponType.AssaultRifle, 5);
 
@@ -39,11 +33,6 @@ namespace ChaoticMind {
                 return false;
             }
             return true;
-        }
-
-        //minimap stuff
-        public override AnimatedSprite MapSprite{
-            get { return _minimapSprite; }
         }
 
         //Use input to decide what direction this character should try to face and move
