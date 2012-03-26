@@ -31,7 +31,7 @@ namespace ChaoticMind {
             _body.LinearDamping = 0;
             _body.LinearVelocity = _direction * _projectileType.Speed;
             _body.Position = _startingPosition;
-            _body.UserData = Utilities.BodyTypes.PROJECTILE;
+            _body.UserData = this;
             
             //collide with everything but self
             _body.CollisionCategories = Category.Cat2;

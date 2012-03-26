@@ -45,6 +45,7 @@ namespace ChaoticMind {
 
             _body.BodyType = BodyType.Dynamic;
             _body.Position = startingPosition;
+            _body.UserData = this;
 
             _maxHealth = _currentHealth = _characterType.Health;
 

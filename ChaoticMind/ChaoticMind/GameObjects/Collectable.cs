@@ -23,9 +23,9 @@ namespace ChaoticMind {
             _body.AngularDamping = 0;
             _body.AngularVelocity = 5;
             _body.Position = startingPosition;
-            _body.UserData = Utilities.BodyTypes.COLLECTABLE;
             _body.CollisionCategories = Category.Cat3;
             _body.CollidesWith = Category.All & ~Category.Cat2;
+            _body.UserData = this;
 
             _minimapSprite = new StaticSprite("Minimap/CollectableMinimap", MapTile.TileSideLength / 2);
 

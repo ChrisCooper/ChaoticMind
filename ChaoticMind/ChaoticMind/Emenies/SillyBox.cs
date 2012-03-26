@@ -14,7 +14,7 @@ namespace ChaoticMind {
         public SillyBox(CharacterType characterType, Vector2 startingPosition)
             : base(characterType, startingPosition) {
 
-                _body.UserData = Utilities.BodyTypes.ENEMY;
+                _body.UserData = this;
                 _body.LinearDamping = characterType.LinearDampening;
 
             _minimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 5);
