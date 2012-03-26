@@ -108,6 +108,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio\SoundEffects.cs" />
     <Compile Include="Audio\MusicController.cs" />
     <Compile Include="Audio\SoundEffects.cs" />
     <Compile Include="ShiftButton.cs" />
@@ -119,6 +120,8 @@
     <Compile Include="Weapons\ProjectileType.cs" />
     <Compile Include="Weapons\WeaponType.cs" />
     <Compile Include="GameState.cs" />
+    <Compile Include="MenuUI\NavScreens.cs" />
+    <Compile Include="MenuUI\NavMenuUI.cs" />
     <Compile Include="Weapons\Weapon.cs" />
     <Compile Include="Weapons\ProjectileManager.cs" />
     <Compile Include="Weapons\Projectile.cs" />
