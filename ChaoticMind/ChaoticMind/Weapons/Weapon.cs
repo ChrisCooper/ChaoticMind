@@ -41,11 +41,16 @@ namespace ChaoticMind {
             if (_roundsLeftInClip > 0 && _reloadTimer.isFinished && _shootTimer.isFinished) {
 
                 //start shooting the particles at the left side of the spread
-                Vector2 CurrentSpreadSweepDirection = Vector2.Transform(direction, _halfSpreadRotationMatrix);
+                Vector2 currentSpreadSweepDirection = Vector2.Transform(direction, _halfSpreadRotationMatrix);
 
                 //initial rotation if an even number of projectiles
                 if (_weaponType.FiresPerRound % 2 == 0) {
-                    Vector2.Transform(ref CurrentSpreadSweepDirection, ref _spreadRotationStepMatrix, out CurrentSpreadSweepDirection);
+                    Vector2.Transform(ref currentSpreadSweepDirection, ref _spreadRotationStepMatrix, out currentSpreadSweepDirection);
+                }
+
+                //Special case of one projectile
+                if (_weaponType.FiresPerRound == 1) {
+                    currentSpreadSweepDirection = direction;
                 }
 
                 for (int i = 0; i < _weaponType.FiresPerRound; i++) {
@@ -69,17 +74,17 @@ namespace ChaoticMind {
                                 return 1;
                             }
                             return -1;
-                        }, location, CurrentSpreadSweepDirection * _weaponType.Range);
+                        }, location, currentSpreadSweepDirection * _weaponType.Range);
 
                         //create a projectile at the place where the ray was stopped
-                        ProjectileManager.CreateProjectile(pt, direction, _weaponType.ProjectileType);
+                        ProjectileManager.CreateProjectile(pt, Vector2.Zero, _weaponType.ProjectileType);
                     }
                     else { //use projectiles
-                        ProjectileManager.CreateProjectile(location, CurrentSpreadSweepDirection, _weaponType.ProjectileType);
+                        ProjectileManager.CreateProjectile(location, currentSpreadSweepDirection, _weaponType.ProjectileType);
                     }
 
                     //rotate the direction to shoot the next projectile in
-                    Vector2.Transform(ref CurrentSpreadSweepDirection, ref _spreadRotationStepMatrix, out CurrentSpreadSweepDirection);
+                    Vector2.Transform(ref currentSpreadSweepDirection, ref _spreadRotationStepMatrix, out currentSpreadSweepDirection);
                 }
                 _roundsLeftInClip--;
                 _shootTimer.Reset();

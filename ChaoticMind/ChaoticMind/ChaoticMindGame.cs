@@ -112,8 +112,8 @@ namespace ChaoticMind {
             for (int x = 0; x < Math.Min(MAP_SIZE, 3); x++) {
                 for (int y = 0; y < Math.Min(MAP_SIZE, 3); y++) {
                     for (int i = 0; i < 10; i++) {
-                        Swarmer obj = new Swarmer(CharacterType.Swarmer, MapTile.WorldPositionForGridCoordinates(x,y) + Utilities.randomVector() * 0.7f *MapTile.TileSideLength);
-                        _objects.Add(obj);
+                        //Swarmer obj = new Swarmer(CharacterType.Swarmer, MapTile.WorldPositionForGridCoordinates(x,y) + Utilities.randomVector() * 0.7f *MapTile.TileSideLength);
+                        //_objects.Add(obj);
                     }
                 }
             }
@@ -249,7 +249,7 @@ namespace ChaoticMind {
             //you died
             if (_player.ShouldDieNow()) {
                 GameState.Mode = GameState.GameMode.GAMEOVER;
-                this.Exit(); //CurrentSpreadSweepDirection
+                this.Exit(); //currentSpreadSweepDirection
             }
         }
 

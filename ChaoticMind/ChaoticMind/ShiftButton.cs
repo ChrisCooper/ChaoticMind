@@ -31,23 +31,25 @@ namespace ChaoticMind {
         public ShiftButton(ShiftInterface inter, Vector2 center, float sideLength, int index, ShiftDirection direction) {
             _frame = new Rectangle((int)(center.X - sideLength/2.0f), (int)(center.Y - sideLength/2.0f), (int)sideLength, (int)sideLength);
             _direction = direction;
-            switch (_direction) {
-                case ShiftDirection.UP:
-                    _rotation = 0.0f;
-                    break;
-                case ShiftDirection.DOWN:
-                    _rotation = (float)Math.PI;
-                    break;
-                case ShiftDirection.LEFT:
-                    _rotation = -(float)Math.PI/2.0f;
-                    break;
-                case ShiftDirection.RIGHT:
-                    _rotation = (float)Math.PI/2.0f;
-                    break;
-            }
+            _rotation = rotationForShiftDirection(_direction);
             _scalingFactor = sideLength/(float)arrowButton.CurrentTextureBounds.Width;
             _index = index;
             _interface = inter;
+        }
+
+        private float rotationForShiftDirection(ShiftDirection shiftDirection) {
+            switch (_direction) {
+                case ShiftDirection.UP:
+                    return 0.0f;
+                case ShiftDirection.DOWN:
+                    return (float)Math.PI;
+                case ShiftDirection.LEFT:
+                    return -(float)Math.PI / 2.0f;
+                case ShiftDirection.RIGHT:
+                    return (float)Math.PI / 2.0f;
+                default:
+                    throw new Exception("Invalid ShiftDirection passed to rotationForShiftDirection");
+            }
         }
 
         internal void Update() {
