@@ -48,13 +48,13 @@ namespace ChaoticMind {
             float startY = Screen.Center.Y - shortLength;
             for (int i = 0; i < _tiles.GetLength(0); i++) {
                 //Top buttons
-                _buttons.Add(new ShiftButton(this, new Vector2(startX + _tileDimension * i, Screen.Center.Y - longLength), _tileDimension, (float)Math.PI, i, ShiftDirection.DOWN));
+                _buttons.Add(new ShiftButton(this, new Vector2(startX + _tileDimension * i, Screen.Center.Y - longLength), _tileDimension, i, ShiftDirection.UP));
                 //Bottom buttons
-                _buttons.Add(new ShiftButton(this, new Vector2(startX + _tileDimension * i, Screen.Center.Y + longLength - _tileDimension), _tileDimension, 0.0f, i, ShiftDirection.UP));
+                _buttons.Add(new ShiftButton(this, new Vector2(startX + _tileDimension * i, Screen.Center.Y + longLength - _tileDimension), _tileDimension, i, ShiftDirection.DOWN));
                 //Left buttons
-                _buttons.Add(new ShiftButton(this, new Vector2(Screen.Center.X - longLength, startY + _tileDimension * i), _tileDimension, (float)Math.PI / 2, i, ShiftDirection.RIGHT));
+                _buttons.Add(new ShiftButton(this, new Vector2(Screen.Center.X - longLength, startY + _tileDimension * i), _tileDimension, i, ShiftDirection.LEFT));
                 //Right buttons
-                _buttons.Add(new ShiftButton(this, new Vector2(Screen.Center.X + longLength - _tileDimension, startY + _tileDimension * i), _tileDimension, -(float)Math.PI / 2, i, ShiftDirection.LEFT));
+                _buttons.Add(new ShiftButton(this, new Vector2(Screen.Center.X + longLength - _tileDimension, startY + _tileDimension * i), _tileDimension, i, ShiftDirection.RIGHT));
             }
         }
 

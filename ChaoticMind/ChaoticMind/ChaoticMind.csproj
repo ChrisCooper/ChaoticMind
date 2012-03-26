@@ -110,7 +110,7 @@
   <ItemGroup>
     <Compile Include="Audio\MusicController.cs" />
     <Compile Include="Audio\SoundEffects.cs" />
-    <Compile Include="Button.cs" />
+    <Compile Include="ShiftButton.cs" />
     <Compile Include="Emenies\Enemy.cs" />
     <Compile Include="Emenies\Swarmer.cs" />
     <Compile Include="MenuUI\NavMenuUI.cs" />

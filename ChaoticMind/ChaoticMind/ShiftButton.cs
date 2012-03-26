@@ -28,7 +28,7 @@ namespace ChaoticMind {
         int _index;
         ShiftDirection _direction;
 
-        public ShiftButton(ShiftInterface inter, Vector2 center, float sideLength, float rotation, int index, ShiftDirection direction) {
+        public ShiftButton(ShiftInterface inter, Vector2 center, float sideLength, int index, ShiftDirection direction) {
             _frame = new Rectangle((int)(center.X - sideLength/2.0f), (int)(center.Y - sideLength/2.0f), (int)sideLength, (int)sideLength);
             _direction = direction;
             switch (_direction) {
@@ -39,13 +39,12 @@ namespace ChaoticMind {
                     _rotation = (float)Math.PI;
                     break;
                 case ShiftDirection.LEFT:
-                    _rotation = (float)Math.PI/2.0f;
-                    break;
-                case ShiftDirection.RIGHT:
                     _rotation = -(float)Math.PI/2.0f;
                     break;
+                case ShiftDirection.RIGHT:
+                    _rotation = (float)Math.PI/2.0f;
+                    break;
             }
-            _rotation = rotation;
             _scalingFactor = sideLength/(float)arrowButton.CurrentTextureBounds.Width;
             _index = index;
             _interface = inter;
