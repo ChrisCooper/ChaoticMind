@@ -18,21 +18,9 @@ namespace ChaoticMind {
         public Player(Vector2 startingPosition)
             : base(CharacterType.Player, startingPosition) {
 
-            _body.OnCollision += PlayerCollision;
-
             _curWeapon = new Weapon(WeaponType.AssaultRifle, 5);
 
             _instance = this;
-        }
-
-        //collision stuff
-        private bool PlayerCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact) {
-            if (fixtureB.Body.UserData.Equals(GameState.GetCurrCollectable())) {
-                //collect the thing
-                GameState.CollectObject();
-                return false;
-            }
-            return true;
         }
 
         //Use input to decide what direction this character should try to face and move

@@ -9,10 +9,13 @@ using FarseerPhysics.Factories;
 namespace ChaoticMind {
     class Collectable : DrawableGameObject {
 
+        CollectibleType _collectibleType;
         bool _shouldBeRemoved = false;
 
         public Collectable(CollectibleType collectibleType, Vector2 startingPosition)
             : base(startingPosition, collectibleType.Sprite) {
+
+                _collectibleType = collectibleType;
 
             //set up the body
             _body = BodyFactory.CreateCircle(Program.SharedGame.MainWorld, collectibleType.Radius, 0.5f);
@@ -24,7 +27,24 @@ namespace ChaoticMind {
             _body.CollidesWith = Category.All & ~Category.Cat2;
             _body.UserData = this;
 
+            _body.OnCollision += new OnCollisionEventHandler(_body_OnCollision);
+
             _minimapSprite = collectibleType.MiniMapSprite;
+        }
+
+        bool _body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact) {
+            if (fixtureB.Body.UserData == Player.Instance) {
+                removeFromGame();
+                if (_collectibleType == CollectibleType.ObjectiveType) {
+                    GameState.ObjectiveWasCollected();
+                }
+            }
+            return false;
+        }
+
+        private void removeFromGame() {
+             _body.Dispose();
+             CollectibleManager.removeCollectible(this);
         }
 
         public void SetPosition(Vector2 startingPosition) {

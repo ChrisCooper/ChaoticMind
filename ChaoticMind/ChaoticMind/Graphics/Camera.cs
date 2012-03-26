@@ -10,7 +10,7 @@ using FarseerPhysics.Dynamics;
 
 namespace ChaoticMind {
     class Camera {
-        const float FollowFaithfulness = 0.1f;
+        const float FollowFaithfulness = 0.4f;
 
         //Position of the camera in game coordinates
         Vector2 _position;
@@ -83,8 +83,8 @@ namespace ChaoticMind {
 
             if (_target != null) {
                 //to make shooting work properly
-                _position = _target.Position;
-                //_position += FollowFaithfulness * (_target.Position - _position);
+                //_position = _target.Position;
+                _position += FollowFaithfulness * (_target.Position - _position);
             }
 
             _position += _shakeMagnitude * Utilities.randomVector();

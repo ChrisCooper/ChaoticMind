@@ -153,10 +153,6 @@ namespace ChaoticMind {
             //init the level
             GameState.StartLevel(1, 3);
 
-
-            //set up collectable
-            _objects.Add(GameState.GetCurrCollectable());
-
             base.Initialize();
         }
 
@@ -226,10 +222,8 @@ namespace ChaoticMind {
                 }
             }
 
-            GameState.GetCurrCollectable();
-            GameState.Update(deltaTime);
-
             _projectileManager.Update(deltaTime);
+            _collectibleManager.Update(deltaTime);
 
             _mainCamera.Update(deltaTime);
 
@@ -312,6 +306,8 @@ namespace ChaoticMind {
             }
 
             _projectileManager.Draw(_mainCamera);
+            _collectibleManager.Draw(_mainCamera);
+            _collectibleManager.DrawOnMinimap(_mainCamera);
         }
 
         internal void closeShiftInterface() {

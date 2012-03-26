@@ -23,8 +23,6 @@ namespace ChaoticMind {
         bool _exitOpen;
         GameMode _gameMode;
 
-        Timer _collectTimer;
-
         Collectable _currCollectable;
 
         public static void Initilize() {
@@ -40,28 +38,11 @@ namespace ChaoticMind {
             _mainInstance._exitOpen = false;
 
             //create the first collectable
-            _mainInstance._currCollectable = new Collectable(CollectibleType.ObjectiveType, MapTile.RandomPositionInTile(Utilities.randomInt(0, Program.SharedGame.MapManager.GridDimension), Utilities.randomInt(0, Program.SharedGame.MapManager.GridDimension)));
-            
-            _mainInstance._collectTimer = new Timer(0.5f);
+            spawnNewObjective();
         }
 
-        public static void CollectObject() {
-            if (_mainInstance._collectTimer.isFinished){
-                _mainInstance._numObjectsCollected++;
-                if (_mainInstance._numObjectsCollected >= _mainInstance._numToCollect) {
-                    _mainInstance._bossActive = true;
-                    _mainInstance._currCollectable.MarkForDeath();
-                }
-                else {
-                    _mainInstance._currCollectable.SetPosition(new Vector2(Utilities.randomInt(0, Program.SharedGame.MapManager.GridDimension), Utilities.randomInt(0, Program.SharedGame.MapManager.GridDimension)) * MapTile.TileSideLength);
-                }
-                _mainInstance._collectTimer.Reset();
-            }
-        }
-
-        //SHOULD NOT BE HERE. This is just to get around the collectable bug for now
-        public static void Update(float deltaTime) {
-            _mainInstance._collectTimer.Update(deltaTime);
+        private static void spawnNewObjective() {
+            _mainInstance._currCollectable = CollectibleManager.CreateCollectible(MapTile.RandomPositionInTile(Utilities.randomInt(0, Program.SharedGame.MapManager.GridDimension), Utilities.randomInt(0, Program.SharedGame.MapManager.GridDimension)), CollectibleType.ObjectiveType);
         }
 
         public static void KillBoss() {
@@ -69,13 +50,19 @@ namespace ChaoticMind {
             _mainInstance._exitOpen = true;
         }
 
-        public static Collectable GetCurrCollectable() {
-            return _mainInstance._currCollectable;
-        }
-
         public static GameMode Mode {
             get { return _mainInstance._gameMode; }
             set { _mainInstance._gameMode = value; }
+        }
+
+        internal static void ObjectiveWasCollected() {
+            _mainInstance._numObjectsCollected++;
+            if (_mainInstance._numObjectsCollected >= _mainInstance._numToCollect) {
+                _mainInstance._bossActive = true;
+            }
+            else {
+                spawnNewObjective();
+            }
         }
     }
 }

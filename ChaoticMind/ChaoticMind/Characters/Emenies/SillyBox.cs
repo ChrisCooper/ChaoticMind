@@ -9,15 +9,8 @@ using FarseerPhysics.Factories;
 namespace ChaoticMind {
     class SillyBox : Character {
 
-        private AnimatedSprite _minimapSprite;
-
         public SillyBox(CharacterType characterType, Vector2 startingPosition)
             : base(characterType, startingPosition) {
-
-                _body.UserData = this;
-                _body.LinearDamping = characterType.LinearDampening;
-
-            _minimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 5);
         }
 
         //Use input (in the case of a controllable character)
@@ -25,10 +18,6 @@ namespace ChaoticMind {
         protected override void decideOnMovementTargets() {
             LocationToMoveToward = _body.Position + Utilities.randomNormalizedVector();
             LocationToMoveToward += -1 * _body.Position * _characterType.MaxMovementForce / 5000.0f;
-        }
-
-        public override AnimatedSprite MapSprite {
-            get { return _minimapSprite; }
         }
     }
 }
