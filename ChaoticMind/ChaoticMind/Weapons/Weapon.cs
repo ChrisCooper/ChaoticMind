@@ -14,8 +14,8 @@ namespace ChaoticMind {
         int _spareClipsLeft;
 
         //timing
-        private int _reloadTimerId;
-        private int _shootTimerId;
+        Timer _reloadTimer;
+        Timer _shootTimer;
 
         //Spread matrices
         Matrix _spreadRotationStepMatrix;
@@ -29,8 +29,8 @@ namespace ChaoticMind {
             _spareClipsLeft = numberOfSpareClips;
 
             //timers
-            _reloadTimerId = TimeDelayManager.InitTimer(_weaponType.ReloadTime);
-            _shootTimerId = TimeDelayManager.InitTimer(_weaponType.FiringInterval);
+            _reloadTimer = new Timer(_weaponType.ReloadTime);
+            _shootTimer = new Timer(_weaponType.FiringInterval);
 
             _spreadRotationStepMatrix = _weaponType.SpreadRotationStepMatrix;
             _halfSpreadRotationMatrix = _weaponType.HalfSpreadRotationMatrix;
@@ -38,7 +38,7 @@ namespace ChaoticMind {
         }
 
         public void Shoot(Vector2 location, Vector2 direction){
-            if (_roundsLeftInClip > 0 && TimeDelayManager.Finished(_reloadTimerId) && TimeDelayManager.Finished(_shootTimerId)) {
+            if (_roundsLeftInClip > 0 && _reloadTimer.isFinished && _shootTimer.isFinished) {
 
                 //start shooting the particles at the left side of the spread
                 Vector2 CurrentSpreadSweepDirection = Vector2.Transform(direction, _halfSpreadRotationMatrix);
@@ -82,15 +82,20 @@ namespace ChaoticMind {
                     Vector2.Transform(ref CurrentSpreadSweepDirection, ref _spreadRotationStepMatrix, out CurrentSpreadSweepDirection);
                 }
                 _roundsLeftInClip--;
-                TimeDelayManager.RestartTimer(_shootTimerId);
+                _shootTimer.Reset();
             }
         }
 
+        public void update(float deltaTime) {
+            _reloadTimer.Update(deltaTime);
+            _shootTimer.Update(deltaTime);
+        }
+
         public void Reload() {
-            if (TimeDelayManager.Finished(_reloadTimerId) && _spareClipsLeft > 0) {
+            if (_reloadTimer.isFinished && _spareClipsLeft > 0) {
                 _spareClipsLeft--;
                 _roundsLeftInClip = _weaponType.RoundsPerClip;
-                TimeDelayManager.RestartTimer(_reloadTimerId);
+                _reloadTimer.Reset();
             }
         }
 

@@ -14,16 +14,17 @@ namespace ChaoticMind {
 
         protected CharacterType _characterType;
 
-        private Vector2 _locationToFace;
-        private Vector2 _locationToMoveToward;
+        Vector2 _locationToFace;
+        Vector2 _locationToMoveToward;
         float _futurePositionInterval = 0.5f; //seconds in the future that the position is estimated
 
-        //OOB stuff
-        private const int OutsideBoardDamageAmount = 10;
-        private int _OutsideBoardDamageTimer;
+        //Outside board stuff
+        const int OutsideBoardDamageAmount = 10;
+        Timer _OutsideBoardDamageTimer;
+        float _outsideBoardDamageInterval = 0.5f;
 
         //current weapon
-        protected Weapon _curWeapon = null;
+        protected Weapon _curWeapon;
 
         //health stuff
         protected int _maxHealth;
@@ -50,26 +51,34 @@ namespace ChaoticMind {
             _locationToFace = new Vector2(0, 1);
 
             //init OOB timer
-            _OutsideBoardDamageTimer = TimeDelayManager.InitTimer(0.5f);
+            _OutsideBoardDamageTimer = new Timer(_outsideBoardDamageInterval);
         }
 
         public override void Update(float deltaTime) {
+            _OutsideBoardDamageTimer.Update(deltaTime);
             decideOnMovementTargets();
             performMovement(deltaTime);
             performTypeUniqueMovements(deltaTime);
 
+            if (_curWeapon != null) {
+                _curWeapon.update(deltaTime);
+            }
+
             //damage idiots who go outside the map 
-            if (TimeDelayManager.Finished(_OutsideBoardDamageTimer) &&
-                (GridCoordinate.X < 0 || GridCoordinate.X > Program.SharedGame.MapManager.GridDimension ||
-                GridCoordinate.Y < 0 || GridCoordinate.Y > Program.SharedGame.MapManager.GridDimension)) {
+            if (_OutsideBoardDamageTimer.isFinished && isOutsideBoard()) {
                 ApplyDamage(OutsideBoardDamageAmount);
-                TimeDelayManager.RestartTimer(_OutsideBoardDamageTimer);
+                _OutsideBoardDamageTimer.Reset();
             }
 
             base.Update(deltaTime);
         }
 
-        //I.e. ranged units move back if too close, parasites lunge, etc.
+        private bool isOutsideBoard() {
+            return (GridCoordinate.X < 0 || GridCoordinate.X > Program.SharedGame.MapManager.GridDimension ||
+                            GridCoordinate.Y < 0 || GridCoordinate.Y > Program.SharedGame.MapManager.GridDimension);
+        }
+
+        //for e.g. ranged units move back if too close, parasites who lunge, etc.
         protected virtual void performTypeUniqueMovements(float deltaTime) {
         }
 

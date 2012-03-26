@@ -41,9 +41,6 @@ namespace ChaoticMind {
         MapTile[,] _tiles;
         LinkedList<Shift> _shiftQueue; //note: doubly linked
 
-        //timing
-        private int _timerId;
-
         private const float NERVE_PULSE_SPEED = 0.003f;
         private const float NERVE_MAX_ALPHA = 0.9f;
         private const float NERVE_MIN_ALPHA = 0.3f;
@@ -54,6 +51,8 @@ namespace ChaoticMind {
         Camera _camera;
 
         private MapTile _shiftedOutTile;
+
+        bool _isShifting = false;
 
         //constructor
         public MapManager(int gridDimension) {
@@ -71,9 +70,6 @@ namespace ChaoticMind {
             }
             //initially set the overlays
             UpdateOverlays();
-
-            //set up the timer (make sure to update if the shift takes longer than 3 sec or it'll run into problems)
-            _timerId = TimeDelayManager.InitTimer(3);
 
             _objects = objects;
             _camera = camera;
@@ -100,7 +96,7 @@ namespace ChaoticMind {
             }
 
             //process queue
-            if (_shiftQueue.Count > 0 && TimeDelayManager.Finished(_timerId)) {
+            if (_shiftQueue.Count > 0 && !_isShifting) {
                 Shift temp = _shiftQueue.First.Value;
                 _shiftQueue.RemoveFirst();
                 shiftTiles(temp.Index, temp.Direction, temp.TileDoors);
@@ -130,7 +126,7 @@ namespace ChaoticMind {
         //shift the row/col of tiles
         private void shiftTiles(int index, ShiftDirection dir, DoorDirections newTileDoors) {
 
-            if (!TimeDelayManager.Finished(_timerId)) {
+            if (_isShifting) {
                 //should never happen with the queueing now in place, but still check it to be safe
                 return;
             }
@@ -203,13 +199,13 @@ namespace ChaoticMind {
             //update the overlays
             UpdateOverlays();
 
-            //reset the timer
-            TimeDelayManager.RestartTimer(_timerId);
+            _isShifting = true;
         }
 
         internal void tileFinishedShifting(MapTile finishedTile) {
             _shiftedOutTile.Destroy();
             _shiftedOutTile = null;
+            _isShifting = false;
         }
 
         private void shiftTile(int tileX, int tileY, int destX, int destY, List<DrawableGameObject> objects) {

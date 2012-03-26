@@ -106,7 +106,6 @@ namespace ChaoticMind {
             _mainCamera = new Camera(Vector2.Zero, 50.0f, _graphics.GraphicsDevice, _spriteBatch);
             
             InputManager.Initialize();
-            TimeDelayManager.Initilize();
             GameState.Initilize();
              
             //Creat swarmers in the first 3x3 square
@@ -211,9 +210,6 @@ namespace ChaoticMind {
             //Update all objects in our list. This is not where physics is evaluated,
             // it is only where object-specific actions are performed, like applying control forces
 
-            //let time-based objects work
-            TimeDelayManager.Update(deltaTime);
-
             for (int i = 0 ; i < _objects.Count ; i++){
                 if (_objects[i].ShouldDieNow()){
                     _objects[i].Destroy();
@@ -225,6 +221,7 @@ namespace ChaoticMind {
             }
 
             GameState.GetCurrCollectable();
+            GameState.Update(deltaTime);
 
             _projectileManager.Update(deltaTime);
 

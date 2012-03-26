@@ -14,7 +14,7 @@ namespace ChaoticMind {
             GAMEOVER
         }
 
-        static GameState _self;
+        static GameState _mainInstance;
 
         int _level;
         int _numObjectsCollected;
@@ -23,58 +23,63 @@ namespace ChaoticMind {
         bool _exitOpen;
         GameMode _gameMode;
 
-        int _collectTimer;
+        Timer _collectTimer;
 
         int _mapDimensions;
 
         Collectable _currCollectable;
 
         public static void Initilize() {
-            _self = new GameState();
-            _self._gameMode = GameMode.NORMAL;
+            _mainInstance = new GameState();
+            _mainInstance._gameMode = GameMode.NORMAL;
         }
 
         public static void StartLevel(int level, int numToCollect) {
-            _self._level = level;
-            _self._numObjectsCollected = 0;
-            _self._numToCollect = numToCollect;
-            _self._bossActive = false;
-            _self._exitOpen = false;
+            _mainInstance._level = level;
+            _mainInstance._numObjectsCollected = 0;
+            _mainInstance._numToCollect = numToCollect;
+            _mainInstance._bossActive = false;
+            _mainInstance._exitOpen = false;
 
-            _self._mapDimensions = Program.SharedGame.MapManager.GridDimension;
+            _mainInstance._mapDimensions = Program.SharedGame.MapManager.GridDimension;
 
             //create the first collectable
-            _self._currCollectable = new Collectable("TestImages/Collectable", 5, 2, 2, new Vector2(Utilities.randomInt(0, _self._mapDimensions), Utilities.randomInt(0, _self._mapDimensions)) * MapTile.TileSideLength);
+            _mainInstance._currCollectable = new Collectable("TestImages/Collectable", 5, 2, 2, new Vector2(Utilities.randomInt(0, _mainInstance._mapDimensions), Utilities.randomInt(0, _mainInstance._mapDimensions)) * MapTile.TileSideLength);
             
-            _self._collectTimer = TimeDelayManager.InitTimer(0.5f);
+            _mainInstance._collectTimer = new Timer(0.5f);
         }
 
         public static void CollectObject() {
-            if (TimeDelayManager.Finished(_self._collectTimer)){
-                _self._numObjectsCollected++;
-                if (_self._numObjectsCollected >= _self._numToCollect) {
-                    _self._bossActive = true;
-                    _self._currCollectable.MarkForDeath();
+            if (_mainInstance._collectTimer.isFinished){
+                _mainInstance._numObjectsCollected++;
+                if (_mainInstance._numObjectsCollected >= _mainInstance._numToCollect) {
+                    _mainInstance._bossActive = true;
+                    _mainInstance._currCollectable.MarkForDeath();
                 }
                 else {
-                    _self._currCollectable.SetPosition(new Vector2(Utilities.randomInt(0, _self._mapDimensions), Utilities.randomInt(0, _self._mapDimensions)) * MapTile.TileSideLength);
+                    _mainInstance._currCollectable.SetPosition(new Vector2(Utilities.randomInt(0, _mainInstance._mapDimensions), Utilities.randomInt(0, _mainInstance._mapDimensions)) * MapTile.TileSideLength);
                 }
-                TimeDelayManager.RestartTimer(_self._collectTimer);
+                _mainInstance._collectTimer.Reset();
             }
         }
 
+        //SHOULD NOT BE HERE. This is just to get around the collectable bug for now
+        public static void Update(float deltaTime) {
+            _mainInstance._collectTimer.Update(deltaTime);
+        }
+
         public static void KillBoss() {
-            _self._bossActive = false;
-            _self._exitOpen = true;
+            _mainInstance._bossActive = false;
+            _mainInstance._exitOpen = true;
         }
 
         public static Collectable GetCurrCollectable() {
-            return _self._currCollectable;
+            return _mainInstance._currCollectable;
         }
 
         public static GameMode Mode {
-            get { return _self._gameMode; }
-            set { _self._gameMode = value; }
+            get { return _mainInstance._gameMode; }
+            set { _mainInstance._gameMode = value; }
         }
     }
 }

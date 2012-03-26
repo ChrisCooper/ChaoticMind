@@ -13,7 +13,7 @@ namespace ChaoticMind {
         Vector2 _direction;
         Vector2 _startingPosition;
 
-        private int _timerId;
+        Timer _lifetimeTimer;
 
         public Projectile(Vector2 startingPosition, Vector2 direction, ProjectileType projectileType)
             : base(startingPosition, projectileType.Animation) {
@@ -38,19 +38,19 @@ namespace ChaoticMind {
             _body.CollidesWith = Category.All & ~Category.Cat2;
 
             //init the timer
-            _timerId = TimeDelayManager.InitTimer(_projectileType.Lifetime, 0);
+            _lifetimeTimer = new Timer(_projectileType.Lifetime);
         }
 
         public override bool ShouldDieNow(){
-            return TimeDelayManager.Finished(_timerId);
+            return _lifetimeTimer.isFinished;
         }
 
         public override void Destroy() {
-            TimeDelayManager.DeleteTimer(_timerId);
             _body.Dispose();
         }
 
         public override void Update(float deltaTime) {
+            _lifetimeTimer.Update(deltaTime);
             base.Update(deltaTime);
         }
     }

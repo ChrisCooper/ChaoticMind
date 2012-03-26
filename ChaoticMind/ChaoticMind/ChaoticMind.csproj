@@ -115,10 +115,10 @@
     <Compile Include="Emenies\Swarmer.cs" />
     <Compile Include="MenuUI\NavMenuUI.cs" />
     <Compile Include="MenuUI\NavScreens.cs" />
+    <Compile Include="Timer.cs" />
     <Compile Include="Weapons\ProjectileType.cs" />
     <Compile Include="Weapons\WeaponType.cs" />
     <Compile Include="GameState.cs" />
-    <Compile Include="TimeDelayManager.cs" />
     <Compile Include="Weapons\Weapon.cs" />
     <Compile Include="Weapons\ProjectileManager.cs" />
     <Compile Include="Weapons\Projectile.cs" />
