@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\MusicController.cs" />
+    <Compile Include="Audio\SoundEffects.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="GameObjects\Emenies\Enemy.cs" />
     <Compile Include="GameObjects\Emenies\Swarmer.cs" />
