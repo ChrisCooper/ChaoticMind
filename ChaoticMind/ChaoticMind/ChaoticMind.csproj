@@ -113,12 +113,12 @@
     <Compile Include="ShiftButton.cs" />
     <Compile Include="Emenies\Enemy.cs" />
     <Compile Include="Emenies\Swarmer.cs" />
-    <Compile Include="MenuUI\NavMenuUI.cs" />
-    <Compile Include="MenuUI\NavScreens.cs" />
     <Compile Include="Timer.cs" />
     <Compile Include="Weapons\ProjectileType.cs" />
     <Compile Include="Weapons\WeaponType.cs" />
     <Compile Include="GameState.cs" />
+    <Compile Include="MenuUI\NavScreens.cs" />
+    <Compile Include="MenuUI\NavMenuUI.cs" />
     <Compile Include="Weapons\Weapon.cs" />
     <Compile Include="Weapons\ProjectileManager.cs" />
     <Compile Include="Weapons\Projectile.cs" />
@@ -196,7 +196,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--
-      To modify your build process, add your task inside one of the targets below and uncomment it. 
+      To modify your build process, add your task inside one of the targets below and uncomment it.
       Other similar extension points exist, see Microsoft.Common.targets.
       <Target Name="BeforeBuild">
       </Target>
