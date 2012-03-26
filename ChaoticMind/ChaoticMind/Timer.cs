@@ -9,12 +9,16 @@ namespace ChaoticMind {
             private float _elapsedSeconds;
             private float _secondsToCountTo;
 
-            public Timer(float secondsToCountTo) {
+            public Timer(float secondsToCountTo) : this(secondsToCountTo, false) {
+            }
+
+            public Timer(float secondsToCountTo, bool shouldBeginAtCompletion) {
                 if (secondsToCountTo <= 0) {
                     throw new Exception("Timer secondsToCountTo must be positive");
                 }
-                _elapsedSeconds = 0.0f;
+
                 _secondsToCountTo = secondsToCountTo;
+                _elapsedSeconds = shouldBeginAtCompletion ? _secondsToCountTo : 0.0f;
             }
 
             public void Reset() {

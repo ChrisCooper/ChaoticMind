@@ -29,8 +29,8 @@ namespace ChaoticMind {
             _spareClipsLeft = numberOfSpareClips;
 
             //timers
-            _reloadTimer = new Timer(_weaponType.ReloadTime);
-            _shootTimer = new Timer(_weaponType.FiringInterval);
+            _reloadTimer = new Timer(_weaponType.ReloadTime, true);
+            _shootTimer = new Timer(_weaponType.FiringInterval, true);
 
             _spreadRotationStepMatrix = _weaponType.SpreadRotationStepMatrix;
             _halfSpreadRotationMatrix = _weaponType.HalfSpreadRotationMatrix;
