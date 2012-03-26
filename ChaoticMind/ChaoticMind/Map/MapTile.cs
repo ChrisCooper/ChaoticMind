@@ -198,9 +198,11 @@ namespace ChaoticMind {
                 return MapTileUtilities.getMapSprite(_openDoors, _isVisible);
             }
         }
+
         public override Vector2 MapPosition {
             get { return Position; }
         }
+
         public override float MapRotation {
             get { return Rotation;  }
         }

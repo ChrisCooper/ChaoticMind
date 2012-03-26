@@ -115,7 +115,8 @@
     <Compile Include="Characters\Emenies\Enemy.cs" />
     <Compile Include="Characters\Emenies\Swarmer.cs" />
     <Compile Include="Timer.cs" />
-    <Compile Include="CollectibleType.cs" />
+    <Compile Include="GameObjects\CollectibleType.cs" />
+    <Compile Include="GameObjects\CollectibleManager.cs" />
     <Compile Include="Weapons\ProjectileType.cs" />
     <Compile Include="Weapons\WeaponType.cs" />
     <Compile Include="GameState.cs" />

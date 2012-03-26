@@ -25,8 +25,6 @@ namespace ChaoticMind {
 
         Timer _collectTimer;
 
-        int _mapDimensions;
-
         Collectable _currCollectable;
 
         public static void Initilize() {
@@ -41,10 +39,8 @@ namespace ChaoticMind {
             _mainInstance._bossActive = false;
             _mainInstance._exitOpen = false;
 
-            _mainInstance._mapDimensions = Program.SharedGame.MapManager.GridDimension;
-
             //create the first collectable
-            _mainInstance._currCollectable = new Collectable("TestImages/Collectable", 5, 2, 2, new Vector2(Utilities.randomInt(0, _mainInstance._mapDimensions), Utilities.randomInt(0, _mainInstance._mapDimensions)) * MapTile.TileSideLength);
+            _mainInstance._currCollectable = new Collectable(CollectibleType.ObjectiveType, MapTile.RandomPositionInTile(Utilities.randomInt(0, Program.SharedGame.MapManager.GridDimension), Utilities.randomInt(0, Program.SharedGame.MapManager.GridDimension)));
             
             _mainInstance._collectTimer = new Timer(0.5f);
         }
@@ -57,7 +53,7 @@ namespace ChaoticMind {
                     _mainInstance._currCollectable.MarkForDeath();
                 }
                 else {
-                    _mainInstance._currCollectable.SetPosition(new Vector2(Utilities.randomInt(0, _mainInstance._mapDimensions), Utilities.randomInt(0, _mainInstance._mapDimensions)) * MapTile.TileSideLength);
+                    _mainInstance._currCollectable.SetPosition(new Vector2(Utilities.randomInt(0, Program.SharedGame.MapManager.GridDimension), Utilities.randomInt(0, Program.SharedGame.MapManager.GridDimension)) * MapTile.TileSideLength);
                 }
                 _mainInstance._collectTimer.Reset();
             }

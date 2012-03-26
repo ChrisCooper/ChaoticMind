@@ -30,8 +30,6 @@ namespace ChaoticMind {
         protected int _maxHealth;
         protected int _currentHealth;
 
-        protected AnimatedSprite _minimapSprite;
-
         public Character(CharacterType characterType, Vector2 startingPosition)
             : base(startingPosition, characterType.Sprite) {
             _characterType = characterType;
@@ -140,10 +138,6 @@ namespace ChaoticMind {
             get {
                 return _body.Position + _body.LinearVelocity * _futurePositionInterval;
             }
-        }
-
-        public override AnimatedSprite MapSprite {
-            get { return _minimapSprite; }
         }
 
         //destroy the object when they die

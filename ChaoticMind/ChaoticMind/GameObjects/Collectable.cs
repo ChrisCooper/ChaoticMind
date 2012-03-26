@@ -9,17 +9,14 @@ using FarseerPhysics.Factories;
 namespace ChaoticMind {
     class Collectable : DrawableGameObject {
 
-        const float ENTITY_SIZE = 2f;
-        bool _killMe;
+        bool _shouldBeRemoved = false;
 
-        AnimatedSprite _minimapSprite;
-
-        public Collectable(String resource, int xFrames, int yFrames, float animationDuration, Vector2 startingPosition)
-            : base(resource, xFrames, yFrames, ENTITY_SIZE, animationDuration, startingPosition) {
+        public Collectable(CollectibleType collectibleType, Vector2 startingPosition)
+            : base(startingPosition, collectibleType.Sprite) {
 
             //set up the body
-            _body = BodyFactory.CreateRectangle(Program.SharedGame.MainWorld, ENTITY_SIZE, ENTITY_SIZE, 1);
-            _body.BodyType = BodyType.Kinematic;
+            _body = BodyFactory.CreateCircle(Program.SharedGame.MainWorld, collectibleType.Radius, 0.5f);
+            _body.BodyType = BodyType.Dynamic;
             _body.AngularDamping = 0;
             _body.AngularVelocity = 5;
             _body.Position = startingPosition;
@@ -27,9 +24,7 @@ namespace ChaoticMind {
             _body.CollidesWith = Category.All & ~Category.Cat2;
             _body.UserData = this;
 
-            _minimapSprite = new StaticSprite("Minimap/CollectableMinimap", MapTile.TileSideLength / 2);
-
-            _killMe = false;
+            _minimapSprite = collectibleType.MiniMapSprite;
         }
 
         public void SetPosition(Vector2 startingPosition) {
@@ -37,16 +32,11 @@ namespace ChaoticMind {
         }
 
         public void MarkForDeath() {
-            _killMe = true;
-        }
-
-        //minimap stuff
-        public override AnimatedSprite MapSprite{
-            get { return _minimapSprite; }
+            _shouldBeRemoved = true;
         }
 
         public override bool ShouldDieNow() {
-            return _killMe;
+            return _shouldBeRemoved;
         }
     }
 }

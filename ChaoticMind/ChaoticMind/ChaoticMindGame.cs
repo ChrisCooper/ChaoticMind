@@ -23,7 +23,7 @@ namespace ChaoticMind {
         bool _goFullscreen = false;
 
         //map dimension
-        const int MAP_SIZE = 10;
+        const int MAP_SIZE = 3;
         
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
@@ -66,7 +66,8 @@ namespace ChaoticMind {
             get { return _mapManager; }
         }
 
-        ProjectileManager _projectileManager;
+        ProjectileManager _projectileManager = ProjectileManager.mainInstance();
+        CollectibleManager _collectibleManager = CollectibleManager.mainInstance();
 
         ShiftInterface _shiftInterface = new ShiftInterface();
 
@@ -143,8 +144,6 @@ namespace ChaoticMind {
             _mapManager = new MapManager(MAP_SIZE);
             _mapManager.Initialize(_mainCamera, ref _objects);
 
-            _projectileManager = ProjectileManager.mainInstance();
-
             _shiftInterface.Initialize(_mapManager, _spriteBatch);
 
             //_outcomeScreen.Initialize();
@@ -153,6 +152,8 @@ namespace ChaoticMind {
 
             //init the level
             GameState.StartLevel(1, 3);
+
+
             //set up collectable
             _objects.Add(GameState.GetCurrCollectable());
 

@@ -27,7 +27,7 @@ namespace ChaoticMind {
 
         //collision stuff
         private bool PlayerCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact) {
-            if (fixtureB.Body.UserData.Equals(Utilities.BodyTypes.COLLECTABLE)) {
+            if (fixtureB.Body.UserData.Equals(GameState.GetCurrCollectable())) {
                 //collect the thing
                 GameState.CollectObject();
                 return false;

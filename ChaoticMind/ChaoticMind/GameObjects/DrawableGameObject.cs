@@ -10,6 +10,7 @@ using FarseerPhysics.Dynamics;
 namespace ChaoticMind {
     abstract class DrawableGameObject : GameObject, IMiniMapable {
         protected AnimatedSprite _sprite;
+        protected AnimatedSprite _minimapSprite;
 
         public DrawableGameObject(String spriteResource, int xFrames, int yFrames, float entitySize, float animationDuration, Vector2 startingPosition)
             : base(startingPosition) {
@@ -36,6 +37,11 @@ namespace ChaoticMind {
             if (!_body.IsDisposed) {
                 _body.Position += deltaPos;
             }
+        }
+
+        //minimap stuff
+        public virtual AnimatedSprite MapSprite {
+            get { return _minimapSprite; }
         }
 
         public Texture2D Texture {
@@ -78,10 +84,6 @@ namespace ChaoticMind {
             }
         }
 
-        //minimap stuff
-        public virtual AnimatedSprite MapSprite {
-            get { return null; }
-        }
         public virtual Vector2 MapPosition {
             get { return Position; }
         }
