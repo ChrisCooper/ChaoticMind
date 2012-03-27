@@ -23,7 +23,7 @@ namespace ChaoticMind {
 
         //Maps resource names to actual existing animation sequence objects.
         //This is because duplicate sequences don't make sense to have.
-        static Dictionary<String, SpriteAnimationSequence> ExisitingSequences = new Dictionary<string, SpriteAnimationSequence>();
+        static Dictionary<string, SpriteAnimationSequence> ExisitingSequences = new Dictionary<string, SpriteAnimationSequence>();
 
         public static SpriteAnimationSequence newOrExistingSpriteAnimationSequence(String spriteResource, int xFrames, int yFrames, float entitySize) {
             SpriteAnimationSequence sequence;
