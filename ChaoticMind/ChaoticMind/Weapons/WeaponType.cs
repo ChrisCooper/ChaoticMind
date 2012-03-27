@@ -34,7 +34,7 @@ namespace ChaoticMind {
                 AssaultRifle._firingInterval = 0.1f;
                 AssaultRifle._roundsPerClip = 40;
                 AssaultRifle._reloadTime = 2.5f;
-                AssaultRifle.setSpread(10.0f);
+                AssaultRifle.setSpread(15.0f);
                 AssaultRifle._HUD_Image = new StaticSprite("Weapons/AssaultRifle", 1);
                 AssaultRifle._projectileType = ProjectileType.AssaultRifleBullet;
                 AssaultRifle._isRayCasted = false;

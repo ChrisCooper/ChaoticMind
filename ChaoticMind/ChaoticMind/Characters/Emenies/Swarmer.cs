@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 namespace ChaoticMind {
     class Swarmer : Enemy {
 
+        private float jitteriness = 25.0f;
+
         public Swarmer(Vector2 startingPosition)
             : base(CharacterType.Swarmer, startingPosition) {
         }
@@ -14,7 +16,7 @@ namespace ChaoticMind {
         //Use input (in the case of a controllable character)
         // or an AI routine to decide what direction this character should try to face, and move
         protected override void decideOnMovementTargets() {
-            LocationToMoveToward = Player.Instance.FuturePosition + Utilities.randomNormalizedVector() * 50.0f;
+            LocationToMoveToward = Player.Instance.FuturePosition + Utilities.randomNormalizedVector() * jitteriness;
 
             //Don't rotate. Just face up.
             LocationToFace = _body.Position + Vector2.UnitY;

@@ -45,7 +45,7 @@ namespace ChaoticMind {
             Parasite._density = 1.0f;
             Parasite._maxTurningTorque = 1.0f;
             Parasite._maxMovementForce = 3.0f;
-            Parasite._health = 15;
+            Parasite._health = 10;
             Parasite._linearDampening = 10f;
             Parasite.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 7);
 
@@ -55,8 +55,8 @@ namespace ChaoticMind {
             Swarmer._objectShape = ObjectShapes.CIRCLE;
             Swarmer._density = 1.0f;
             Swarmer._maxTurningTorque = 1.0f;
-            Swarmer._maxMovementForce = 2.0f;
-            Swarmer._health = 15;
+            Swarmer._maxMovementForce = 3.0f;
+            Swarmer._health = 25;
             Swarmer._linearDampening = 10f;
             Swarmer.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 5);
         }
