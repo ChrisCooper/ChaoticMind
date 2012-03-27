@@ -92,14 +92,23 @@ namespace ChaoticMind {
 
             //draw minimap objects
             foreach (DrawableGameObject mm in minimapObjects) {
-                //scale minimap representations to 2x their normal size
-                _spriteBatch.Draw(mm.MapSprite.Texture, mm.MapPosition / (float) MapTile.TileSideLength * _tileDimension + startCoord, mm.MapSprite.CurrentTextureBounds, Color.Wheat, mm.MapRotation, mm.MapSprite.CurrentTextureOrigin, 1 / mm.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, 1.0f);
+                drawOnOverlay(startCoord, mm);
             }
+
+            foreach(Collectable c in CollectibleManager.Collectables) {
+                startCoord = drawOnOverlay(startCoord, c);
+            }
+
 
             //draw shift buttons
             foreach (ShiftButton button in _buttons) {
                 _spriteBatch.Draw(button.Sprite.Texture, button.Center, button.Sprite.CurrentTextureBounds, Color.White, button.Rotation, button.Sprite.CurrentTextureOrigin, button.ScalingFactor, SpriteEffects.None, 1.0f);
             }
+        }
+
+        private Vector2 drawOnOverlay(Vector2 startCoord, IMiniMapable c) {
+            _spriteBatch.Draw(c.MapSprite.Texture, c.MapPosition / (float)MapTile.TileSideLength * _tileDimension + startCoord, c.MapSprite.CurrentTextureBounds, Color.Wheat, c.MapRotation, c.MapSprite.CurrentTextureOrigin, 1 / c.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, 1.0f);
+            return startCoord;
         }
 
         internal void ButtonWasPressed(ShiftButton pressedButton) {
