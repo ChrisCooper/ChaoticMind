@@ -48,7 +48,7 @@ namespace ChaoticMind {
                     Vector2.Transform(ref currentSpreadSweepDirection, ref _spreadRotationStepMatrix, out currentSpreadSweepDirection);
                 }
 
-                //Special case of one projectile
+                //Special case of one particle
                 if (_weaponType.FiresPerRound == 1) {
                     currentSpreadSweepDirection = direction;
                 }
@@ -76,14 +76,14 @@ namespace ChaoticMind {
                             return -1;
                         }, location, currentSpreadSweepDirection * _weaponType.Range);
 
-                        //create a projectile at the place where the ray was stopped
+                        //create a particle at the place where the ray was stopped
                         ProjectileManager.CreateProjectile(pt, Vector2.Zero, _weaponType.ProjectileType);
                     }
                     else { //use projectiles
                         ProjectileManager.CreateProjectile(location, currentSpreadSweepDirection, _weaponType.ProjectileType);
                     }
 
-                    //rotate the direction to shoot the next projectile in
+                    //rotate the direction to shoot the next particle in
                     Vector2.Transform(ref currentSpreadSweepDirection, ref _spreadRotationStepMatrix, out currentSpreadSweepDirection);
                 }
                 _roundsLeftInClip--;

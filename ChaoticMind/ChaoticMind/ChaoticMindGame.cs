@@ -70,6 +70,7 @@ namespace ChaoticMind {
 
         ProjectileManager _projectileManager = ProjectileManager.mainInstance();
         CollectibleManager _collectibleManager = CollectibleManager.mainInstance();
+        ParticleManager _particleManager = ParticleManager.mainInstance();
 
         ShiftInterface _shiftInterface = new ShiftInterface();
 
@@ -154,6 +155,8 @@ namespace ChaoticMind {
 
             _mouseDrawer.Initialize();
 
+            ParticleType.Initialize();
+
             //init the level
             GameState.StartLevel(1, 3);
 
@@ -219,6 +222,7 @@ namespace ChaoticMind {
                 if (_objects[i].ShouldDieNow()){
                     _objects[i].Destroy();
                     _objects.RemoveAt(i);
+                    i--;
                 }
                 else{
                     _objects[i].Update(deltaTime);
@@ -227,6 +231,7 @@ namespace ChaoticMind {
 
             _projectileManager.Update(deltaTime);
             _collectibleManager.Update(deltaTime);
+            _particleManager.Update(deltaTime);
 
             _mainCamera.Update(deltaTime);
 
@@ -310,13 +315,14 @@ namespace ChaoticMind {
 
             //Draw all objects in our list (and their minimap representations)
             foreach (DrawableGameObject obj in _objects) {
-                _mainCamera.Draw(obj);
-                _mainCamera.DrawMinimap(obj);
+                _mainCamera.Draw((IDrawable)obj);
+                _mainCamera.DrawMinimap((IMiniMapable) obj);
             }
 
             _projectileManager.Draw(_mainCamera);
             _collectibleManager.Draw(_mainCamera);
             _collectibleManager.DrawOnMinimap(_mainCamera);
+            _particleManager.Draw(_mainCamera);
         }
 
         private void drawObjectsOnMinimap(GameTime gameTime) {

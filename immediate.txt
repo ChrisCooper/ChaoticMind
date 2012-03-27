@@ -1,5 +1,4 @@
-
-HUD
+Fix enemy animations to be independent
 
 AI pathfinding/ sleep when far away
 

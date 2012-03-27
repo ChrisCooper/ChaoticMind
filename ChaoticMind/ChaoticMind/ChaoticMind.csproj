@@ -111,6 +111,9 @@
     <Compile Include="Audio\MusicController.cs" />
     <Compile Include="Audio\SoundEffects.cs" />
     <Compile Include="Characters\Emenies\Parasite.cs" />
+    <Compile Include="Graphics\Particles\Particle.cs" />
+    <Compile Include="Graphics\Particles\ParticleManager.cs" />
+    <Compile Include="Graphics\Particles\ParticleType.cs" />
     <Compile Include="HUDManager.cs" />
     <Compile Include="ShiftButton.cs" />
     <Compile Include="Characters\Emenies\Enemy.cs" />

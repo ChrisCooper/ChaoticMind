@@ -29,17 +29,36 @@ namespace ChaoticMind {
         //stores the size of the sprite
         float _entitySize;
 
+        private bool _shouldRepeat;
+
         public AnimatedSprite(String spriteResource, int xFrames, int yFrames, float entitySize, float animationDuration) {
             _animationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence(spriteResource, xFrames, yFrames, entitySize);
             _animationDuration = animationDuration;
             _entitySize = entitySize;
+            _shouldRepeat = true;
+        }
+
+        public AnimatedSprite(SpriteAnimationSequence spriteAnimationSequence, float entitySize, float animationDuration)
+        : this(spriteAnimationSequence, entitySize, animationDuration, true) {
+        }
+
+        public AnimatedSprite(SpriteAnimationSequence spriteAnimationSequence, float entitySize, float animationDuration, bool shouldRepeat) {
+            _animationSequence = spriteAnimationSequence;
+            this._entitySize = entitySize;
+            _animationDuration = animationDuration;
+            _shouldRepeat = shouldRepeat;
         }
 
         public void Update(float deltaTime) {
             //Update the elapsed time, and set the _currentFrameIndex accordingly
             _elapsedTime += deltaTime;
 
-            _currentFrameIndex = (int)((_elapsedTime / _animationDuration) * _animationSequence.NumFrames) % _animationSequence.NumFrames;
+            if (_shouldRepeat) {
+                _currentFrameIndex = (int)((_elapsedTime / _animationDuration) * _animationSequence.NumFrames) % _animationSequence.NumFrames;
+            }
+            else {
+                _currentFrameIndex = (int)Math.Min(((_elapsedTime / _animationDuration) * _animationSequence.NumFrames), _animationSequence.NumFrames - 1);
+            }
         }
 
         public float PixelsPerMeter {

@@ -54,11 +54,11 @@ namespace ChaoticMind {
             return (worldPoint - _position) * _zoom + _toCentre;
         }
 
-        public void Draw(DrawableGameObject o) {
-            Draw(o, 1.0f);
+        public void Draw(IDrawable o) {
+            Draw(o, o.Alpha);
         }
 
-        public void Draw(DrawableGameObject o, float alpha) {
+        public void Draw(IDrawable o, float alpha) {
             if (o.Texture != null) {
                 _spriteBatch.Draw(o.Texture, WorldToScreenPos(o.Position), o.CurrentTextureBounds, Color.White * alpha, o.Rotation, o.CurrentTextureOrigin, _zoom / o.PixelsPerMeter, SpriteEffects.None, 1.0f);
             }
@@ -126,6 +126,23 @@ namespace ChaoticMind {
         internal void shake() {
             _shakeMagnitude += _shakeIncreaseAmount;
         }
+    }
+
+    internal interface IDrawable {
+
+        Texture2D Texture { get; }
+
+        Rectangle CurrentTextureBounds { get; }
+
+        Vector2 CurrentTextureOrigin { get; }
+
+        float PixelsPerMeter { get; }
+
+        Vector2 Position { get; }
+
+        float Rotation { get; }
+
+        float Alpha { get; }
     }
 
     internal interface IMiniMapable {

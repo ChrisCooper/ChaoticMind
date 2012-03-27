@@ -48,6 +48,7 @@ namespace ChaoticMind {
             Parasite._health = 10;
             Parasite._linearDampening = 10f;
             Parasite.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 5);
+            Parasite.DeathParticle = ParticleType.ParasiteDeath;
 
             //Swarmer
             Swarmer._entitySize = 1.3f;
@@ -103,5 +104,7 @@ namespace ChaoticMind {
         }
 
         public StaticSprite MinimapSprite { get; set; }
+
+        public ParticleType DeathParticle { get; set; }
     }
 }

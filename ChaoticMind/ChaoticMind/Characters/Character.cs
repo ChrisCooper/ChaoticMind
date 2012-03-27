@@ -79,6 +79,13 @@ namespace ChaoticMind {
             base.Update(deltaTime);
         }
 
+        public override void Destroy() {
+            if (_characterType.DeathParticle != null) {
+                ParticleManager.CreateParticle(Position, Rotation, _characterType.DeathParticle);
+            }
+            base.Destroy();
+        }
+
         private bool isOutsideBoard() {
             return (GridCoordinate.X < 0 || GridCoordinate.X >= Program.SharedGame.MapManager.GridDimension ||
                             GridCoordinate.Y < 0 || GridCoordinate.Y >= Program.SharedGame.MapManager.GridDimension);
