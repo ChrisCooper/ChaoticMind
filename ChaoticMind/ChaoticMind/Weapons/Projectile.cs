@@ -16,7 +16,7 @@ namespace ChaoticMind {
         Timer _lifetimeTimer;
 
         public Projectile(Vector2 startingPosition, Vector2 direction, ProjectileType projectileType)
-            : base(startingPosition, projectileType.Animation) {
+            : base(startingPosition, projectileType.AnimationSequence, projectileType.VisibleEntitySize, projectileType.AnimationDuration) {
 
             _projectileType = projectileType;
 
@@ -49,7 +49,7 @@ namespace ChaoticMind {
             Destroy();
 
             //Check if the object is even an IDamageable
-            if (hitObject == null) {
+            if (hitObject == null || hitObject == Player.Instance) {
                 return true;
             }
 

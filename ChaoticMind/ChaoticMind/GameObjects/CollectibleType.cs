@@ -8,7 +8,7 @@ namespace ChaoticMind {
     class CollectibleType {
 
         float _radius;
-        AnimatedSprite _sprite;
+        
         AnimatedSprite _miniMapSprite;
 
         public static CollectibleType ObjectiveType = new CollectibleType();
@@ -16,7 +16,9 @@ namespace ChaoticMind {
         static CollectibleType() {
             //ObjectiveType
             ObjectiveType._radius = 2f;
-            ObjectiveType._sprite = new AnimatedSprite("TestImages/Box", 17, 1, ObjectiveType._radius, 3.0f);
+            ObjectiveType.VisibleEntitySize = ObjectiveType._radius;
+            ObjectiveType.AnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("TestImages/Box", 17, 1, ObjectiveType.VisibleEntitySize);
+            ObjectiveType.AnimationDuration = 3.0f;
             ObjectiveType._miniMapSprite = new AnimatedSprite("Minimap/CollectableMinimap", 1,1, MapTile.TileSideLength / 2, 1.0f);
         }
 
@@ -24,12 +26,12 @@ namespace ChaoticMind {
             get { return _radius; }
         }
 
-        internal AnimatedSprite Sprite {
-            get { return _sprite; }
-        }
+        internal SpriteAnimationSequence AnimationSequence { get; set; }
 
-        internal AnimatedSprite MiniMapSprite {
-            get { return _miniMapSprite; }
-        }
+        public float AnimationDuration { get; set; }
+
+        public float VisibleEntitySize { get; set; }
+
+        public AnimatedSprite MiniMapSprite { get { return _miniMapSprite; } }
     }
 }

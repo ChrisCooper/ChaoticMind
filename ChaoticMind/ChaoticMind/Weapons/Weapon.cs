@@ -10,6 +10,8 @@ namespace ChaoticMind {
     class Weapon {
 
         WeaponType _weaponType;
+        Character _weaponOwner;
+
         int _roundsLeftInClip;
         int _spareClipsLeft;
 
@@ -21,7 +23,8 @@ namespace ChaoticMind {
         Matrix _spreadRotationStepMatrix;
         Matrix _halfSpreadRotationMatrix;
 
-        public Weapon(WeaponType weaponType, int numberOfSpareClips) {
+        public Weapon(WeaponType weaponType, int numberOfSpareClips, Character weaponOwner) {
+            _weaponOwner = weaponOwner;
 
             _weaponType = weaponType;
 
@@ -41,6 +44,8 @@ namespace ChaoticMind {
             if (_roundsLeftInClip > 0 && _reloadTimer.isFinished && _shootTimer.isFinished) {
 
                 direction += Utilities.randomNormalizedVector() * _weaponType.Inaccuracy;
+
+                direction.Normalize();
 
                 //start shooting the particles at the left side of the spread
                 Vector2 currentSpreadSweepDirection = Vector2.Transform(direction, _halfSpreadRotationMatrix);
@@ -82,7 +87,7 @@ namespace ChaoticMind {
                         ProjectileManager.CreateProjectile(pt, Vector2.Zero, _weaponType.ProjectileType);
                     }
                     else { //use projectiles
-                        ProjectileManager.CreateProjectile(location, currentSpreadSweepDirection, _weaponType.ProjectileType);
+                        ProjectileManager.CreateProjectile(location + direction * (_weaponOwner.PhysicalEntitySize/1.8f + _weaponType.ProjectileType.Radius), currentSpreadSweepDirection, _weaponType.ProjectileType);
                     }
 
                     //rotate the direction to shoot the next particle in

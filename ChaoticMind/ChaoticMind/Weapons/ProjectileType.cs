@@ -22,8 +22,10 @@ namespace ChaoticMind {
             AssaultRifleBullet._speed = 20.0f;
             AssaultRifleBullet._range = 50.0f;
             AssaultRifleBullet._radius = 0.075f;
+            AssaultRifleBullet.VisibleEntitySize = AssaultRifleBullet._radius * 2;
             AssaultRifleBullet._density = 10.0f;
-            AssaultRifleBullet._animation = new AnimatedSprite("Projectiles/AssaultRifleBullet", 1, 1, AssaultRifleBullet._radius * 2, 1.0f);
+            AssaultRifleBullet.AnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/AssaultRifleBullet", 1, 1, AssaultRifleBullet.VisibleEntitySize);
+            AssaultRifleBullet.AnimationDuration = 1.0f;
             AssaultRifleBullet.DeathParticle = ParticleType.AssaultRifleButtleDeath;
         }
 
@@ -51,9 +53,11 @@ namespace ChaoticMind {
             get { return _density; }
         }
 
-        internal AnimatedSprite Animation {
-            get { return _animation; }
-        }
+        public SpriteAnimationSequence AnimationSequence { get; set; }
+
+        public float AnimationDuration { get; set; }
+
+        public float VisibleEntitySize { get; set; }
 
         public ParticleType DeathParticle { get; set; }
     }

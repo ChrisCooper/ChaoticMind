@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 namespace ChaoticMind {
     /// <summary>
     /// This serves to provide actual instances of an animations to be tied to specific instances of game objects.
-    /// It does not contain image data, but rather, it references a specific set of images stored in a SpriteAnimationSequence.
+    /// It does not contain image data, but rather, it references a specific set of images stored in a AnimationSequence.
     /// This class keeps track of its own framerate, current frame, and uses this info to request the correct image
-    /// from the SpriteAnimationSequence.
+    /// from the AnimationSequence.
     /// </summary>
     class AnimatedSprite {
         // contains the actual image data 

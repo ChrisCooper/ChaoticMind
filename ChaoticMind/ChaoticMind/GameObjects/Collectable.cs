@@ -13,7 +13,7 @@ namespace ChaoticMind {
         bool _shouldBeRemoved = false;
 
         public Collectable(CollectibleType collectibleType, Vector2 startingPosition)
-            : base(startingPosition, collectibleType.Sprite) {
+            : base(startingPosition, collectibleType.AnimationSequence, collectibleType.VisibleEntitySize, collectibleType.AnimationDuration) {
 
                 _collectibleType = collectibleType;
 

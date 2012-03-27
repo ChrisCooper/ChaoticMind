@@ -17,9 +17,9 @@ namespace ChaoticMind {
             _sprite = new AnimatedSprite(spriteResource, xFrames, yFrames, entitySize, animationDuration);
         }
 
-        public DrawableGameObject(Vector2 startingPosition, AnimatedSprite sprite)
+        public DrawableGameObject(Vector2 startingPosition, SpriteAnimationSequence spriteSequence, float entitySize, float animationDuration)
             : base(startingPosition) {
-            _sprite = sprite;
+            _sprite = new AnimatedSprite(spriteSequence, entitySize, animationDuration);
         }
 
         public DrawableGameObject(Vector2 startingPosition)

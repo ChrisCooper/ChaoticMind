@@ -31,15 +31,15 @@ namespace ChaoticMind {
         protected float _currentHealth;
 
         public Character(CharacterType characterType, Vector2 startingPosition)
-            : base(startingPosition, characterType.Sprite) {
+            : base(startingPosition, characterType.SpriteAnimationSequence, characterType.VisibleEntitySize, characterType.AnimationDuration) {
             _characterType = characterType;
 
             switch (characterType.ObjectShape) {
                 case ObjectShapes.RECTANGLE:
-                    _body = BodyFactory.CreateRectangle(Program.SharedGame.MainWorld, _characterType.EntitySize, _characterType.EntitySize, _characterType.Density);
+                    _body = BodyFactory.CreateRectangle(Program.SharedGame.MainWorld, _characterType.PhysicalEntitySize, _characterType.PhysicalEntitySize, _characterType.Density);
                     break;
                 case ObjectShapes.CIRCLE:
-                    _body = BodyFactory.CreateCircle(Program.SharedGame.MainWorld, _characterType.EntitySize / 2, _characterType.Density);
+                    _body = BodyFactory.CreateCircle(Program.SharedGame.MainWorld, _characterType.PhysicalEntitySize / 2, _characterType.Density);
                     break;
             }
 
@@ -167,6 +167,8 @@ namespace ChaoticMind {
         public float PercentHealth {
             get { return _currentHealth / _maxHealth; }
         }
+
+        public float PhysicalEntitySize { get { return _characterType.PhysicalEntitySize; } }
     }
 
     internal interface IDamageable {

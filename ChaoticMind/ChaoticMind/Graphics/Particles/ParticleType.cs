@@ -16,19 +16,19 @@ namespace ChaoticMind {
 
         public static void Initialize() {
             //Parasite Death
-            ParasiteDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/ParasiteDeath", 12, 1, CharacterType.Parasite.Sprite.EntitySize);
+            ParasiteDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/ParasiteDeath", 12, 1, CharacterType.Parasite.VisibleEntitySize);
             ParasiteDeath._animationDuration = 1.0f;
-            ParasiteDeath._entitySize = CharacterType.Parasite.Sprite.EntitySize;
+            ParasiteDeath._entitySize = CharacterType.Parasite.VisibleEntitySize;
             ParasiteDeath.Lifespan = 4.0f;
 
             //Parasite Death
-            SwarmerDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/SwarmerDeath", 4, 1, CharacterType.Swarmer.Sprite.EntitySize);
+            SwarmerDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/SwarmerDeath", 4, 1, CharacterType.Swarmer.VisibleEntitySize);
             SwarmerDeath._animationDuration = 0.5f;
-            SwarmerDeath._entitySize = CharacterType.Swarmer.Sprite.EntitySize;
+            SwarmerDeath._entitySize = CharacterType.Swarmer.VisibleEntitySize;
             SwarmerDeath.Lifespan = 4.0f;
 
             //Assault Rifle Bullet Death
-            AssaultRifleButtleDeath._entitySize = ProjectileType.AssaultRifleBullet.Animation.EntitySize*1.5f;
+            AssaultRifleButtleDeath._entitySize = ProjectileType.AssaultRifleBullet.VisibleEntitySize *1.5f;
             AssaultRifleButtleDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/AssaultRifleBulletDeath", 3, 1, AssaultRifleButtleDeath._entitySize);
             AssaultRifleButtleDeath._animationDuration = 0.5f;
             AssaultRifleButtleDeath.Lifespan = AssaultRifleButtleDeath._animationDuration;
