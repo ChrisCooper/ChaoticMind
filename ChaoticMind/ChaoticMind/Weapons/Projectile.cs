@@ -37,8 +37,24 @@ namespace ChaoticMind {
             _body.CollisionCategories = Category.Cat2;
             _body.CollidesWith = Category.All & ~Category.Cat2;
 
+            _body.OnCollision += new OnCollisionEventHandler(_body_OnCollision);
+
             //init the timer
             _lifetimeTimer = new Timer(_projectileType.Lifetime);
+        }
+
+        bool _body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact) {
+            IDamageable hitObject = fixtureB.Body.UserData as IDamageable;
+
+            Destroy();
+
+            //Check if the object is even an IDamageable
+            if (hitObject == null) {
+                return true;
+            }
+
+            hitObject.ApplyDamage(_projectileType.Damage);
+            return true;
         }
 
         public override bool ShouldDieNow(){
@@ -47,6 +63,7 @@ namespace ChaoticMind {
 
         public override void Destroy() {
             _body.Dispose();
+            ProjectileManager.Remove(this);
         }
 
         public override void Update(float deltaTime) {

@@ -25,13 +25,8 @@ namespace ChaoticMind {
         }
 
         public void Update(float deltaTime) {
-            for (int i = 0 ; i < _projectiles.Count ; i++){
-                if (!_projectiles[i].ShouldDieNow())
-                    _projectiles[i].Update(deltaTime);
-                else{
-                    _projectiles[i].Destroy();
-                    _projectiles.RemoveAt(i);
-                }
+            foreach (Projectile p in _projectiles){
+                    p.Update(deltaTime);
             }
         }
 
@@ -43,6 +38,10 @@ namespace ChaoticMind {
 
         public static void CreateProjectile(Vector2 startingPosition, Vector2 gunDirection, ProjectileType projectileType) {
             _mainInstance._projectiles.Add(new Projectile(startingPosition, gunDirection, projectileType));
+        }
+
+        internal static void Remove(Projectile projectile) {
+            _mainInstance._projectiles.Remove(projectile);
         }
     }
 }

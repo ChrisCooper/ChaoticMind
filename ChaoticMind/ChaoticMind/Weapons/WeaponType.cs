@@ -30,7 +30,7 @@ namespace ChaoticMind {
             static WeaponType() {
                 //AssaultRifle
                 AssaultRifle._weaponName = "Assault Rifle";
-                AssaultRifle._firesPerRound = 1;
+                AssaultRifle._firesPerRound = 3;
                 AssaultRifle._firingInterval = 0.1f;
                 AssaultRifle._roundsPerClip = 40;
                 AssaultRifle._reloadTime = 2.5f;

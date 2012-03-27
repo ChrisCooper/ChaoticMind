@@ -10,7 +10,7 @@ namespace ChaoticMind {
     //This class is for all intelligent actors in the game, such as 
     // the main player character, and enemies.
     // (Enemies are coming at a later stage of development)
-    class Character : DrawableGameObject {
+    class Character : DrawableGameObject, IDamageable {
 
         protected CharacterType _characterType;
 
@@ -27,8 +27,8 @@ namespace ChaoticMind {
         protected Weapon _curWeapon;
 
         //health stuff
-        protected int _maxHealth;
-        protected int _currentHealth;
+        protected float _maxHealth;
+        protected float _currentHealth;
 
         public Character(CharacterType characterType, Vector2 startingPosition)
             : base(startingPosition, characterType.Sprite) {
@@ -64,7 +64,7 @@ namespace ChaoticMind {
             decideOnMovementTargets();
             performTypeUniqueMovements(deltaTime);
             performMovement(deltaTime);
-            
+
 
             if (_curWeapon != null) {
                 _curWeapon.update(deltaTime);
@@ -80,8 +80,8 @@ namespace ChaoticMind {
         }
 
         private bool isOutsideBoard() {
-            return (GridCoordinate.X < 0 || GridCoordinate.X > Program.SharedGame.MapManager.GridDimension ||
-                            GridCoordinate.Y < 0 || GridCoordinate.Y > Program.SharedGame.MapManager.GridDimension);
+            return (GridCoordinate.X < 0 || GridCoordinate.X >= Program.SharedGame.MapManager.GridDimension ||
+                            GridCoordinate.Y < 0 || GridCoordinate.Y >= Program.SharedGame.MapManager.GridDimension);
         }
 
         //for e.g. ranged units move back if too close, parasites who lunge, etc.
@@ -146,9 +146,32 @@ namespace ChaoticMind {
         }
 
         //
-        public void ApplyDamage(int amount) {
-            _currentHealth-= amount;
+        public void ApplyDamage(float amount) {
+            _currentHealth -= amount;
             _currentHealth = Math.Max(0, Math.Min(_currentHealth, _maxHealth));
+        }
+
+        public float CurrentHealth {
+            get { return _currentHealth; }
+        }
+        public float MaxHealth {
+            get { return _maxHealth; }
+        }
+        public float PercentHealth {
+            get { return _currentHealth / _maxHealth; }
+        }
+    }
+
+    internal interface IDamageable {
+        void ApplyDamage(float damage);
+        float CurrentHealth {
+            get;
+        }
+        float MaxHealth {
+            get;
+        }
+        float PercentHealth {
+            get;
         }
     }
 }
