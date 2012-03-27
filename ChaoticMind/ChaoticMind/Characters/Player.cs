@@ -19,7 +19,7 @@ namespace ChaoticMind {
             : base(CharacterType.Player, startingPosition) {
 
             _curWeapon = new Weapon(WeaponType.AssaultRifle, 5, this);
-
+            _body.UserData = this;
             _instance = this;
         }
 

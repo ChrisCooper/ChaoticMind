@@ -117,7 +117,7 @@ namespace ChaoticMind {
             InputManager.Initialize();
             GameState.Initilize();
              
-            //Creat swarmers in the first 3x3 square
+            //Create swarmers in the first 3x3 square
             for (int x = 0; x < Math.Min(MAP_SIZE, 3); x++) {
                 for (int y = 0; y < Math.Min(MAP_SIZE, 3); y++) {
                     for (int i = 0; i < 5; i++) {

@@ -51,6 +51,7 @@ namespace ChaoticMind {
             Parasite._maxTurningTorque = 1.0f;
             Parasite._maxMovementForce = 3.0f;
             Parasite._health = 10;
+            Parasite.MainAttackDamage = 3.0f;
             Parasite._linearDampening = 10f;
             Parasite.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 5);
             Parasite.DeathParticle = ParticleType.ParasiteDeath;
@@ -65,6 +66,7 @@ namespace ChaoticMind {
             Swarmer._maxTurningTorque = 1.0f;
             Swarmer._maxMovementForce = 3.0f;
             Swarmer._health = 25;
+            Parasite.MainAttackDamage = 5.0f;
             Swarmer._linearDampening = 10f;
             Swarmer.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 4);
             Swarmer.DeathParticle = ParticleType.SwarmerDeath;
@@ -77,7 +79,7 @@ namespace ChaoticMind {
         float _maxTurningTorque;
         float _maxMovementForce;
         float _linearDampening;
-        int _health;
+        float _health;
 
         public float PhysicalEntitySize {
             get { return _physicalEntitySize; }
@@ -103,7 +105,7 @@ namespace ChaoticMind {
             get { return _linearDampening; }
 
         }
-        public int Health {
+        public float Health {
             get { return _health; }
         }
 
@@ -116,5 +118,7 @@ namespace ChaoticMind {
         public float AnimationDuration { get; set; }
 
         public float VisibleEntitySize { get; set; }
+
+        public float MainAttackDamage { get; set; }
     }
 }

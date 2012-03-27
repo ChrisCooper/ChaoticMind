@@ -10,8 +10,26 @@ namespace ChaoticMind {
         private float lunge_chance = 1.0f / 60.0f / 3f; //once every three seconds
         private float jitteriness = 25.0f;
 
+        bool _isLunging = false;
+
         public Parasite(Vector2 startingPosition)
             : base(CharacterType.Parasite, startingPosition) {
+                _body.OnCollision += new FarseerPhysics.Dynamics.OnCollisionEventHandler(_body_OnCollision);
+        }
+
+        bool _body_OnCollision(FarseerPhysics.Dynamics.Fixture fixtureA, FarseerPhysics.Dynamics.Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact) {
+            Player player = fixtureB.Body.UserData as Player;
+
+            if (player == null) {
+                return true;
+            }
+
+            if (_isLunging) {
+                _isLunging = false;
+                player.ApplyDamage(_characterType.MainAttackDamage);
+            }
+
+            return true;
         }
 
         //Use input (in the case of a controllable character)
@@ -29,6 +47,7 @@ namespace ChaoticMind {
         }
 
         private void lunge(Vector2 LocationToMoveToward) {
+            _isLunging = true;
             Vector2 direction = LocationToMoveToward - Position;
             direction.Normalize();
             _body.ApplyLinearImpulse(direction * _characterType.MaxMovementForce * 5.0f);
