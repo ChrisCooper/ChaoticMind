@@ -313,6 +313,8 @@ namespace ChaoticMind {
             //Draw map tiles
             _mapManager.DrawTiles(_mainCamera, (float)gameTime.TotalGameTime.TotalMilliseconds);
 
+            _particleManager.Draw(_mainCamera);
+
             //Draw all objects in our list (and their minimap representations)
             foreach (DrawableGameObject obj in _objects) {
                 _mainCamera.Draw((IDrawable)obj);
@@ -322,7 +324,7 @@ namespace ChaoticMind {
             _projectileManager.Draw(_mainCamera);
             _collectibleManager.Draw(_mainCamera);
             _collectibleManager.DrawOnMinimap(_mainCamera);
-            _particleManager.Draw(_mainCamera);
+            
         }
 
         private void drawObjectsOnMinimap(GameTime gameTime) {

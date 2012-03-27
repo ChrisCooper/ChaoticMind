@@ -60,6 +60,7 @@ namespace ChaoticMind {
             Swarmer._health = 25;
             Swarmer._linearDampening = 10f;
             Swarmer.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 4);
+            Swarmer.DeathParticle = ParticleType.SwarmerDeath;
         }
 
         AnimatedSprite _sprite;
