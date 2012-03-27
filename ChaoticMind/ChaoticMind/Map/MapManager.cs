@@ -36,7 +36,8 @@ namespace ChaoticMind {
     }
 
     class MapManager {
-        int _gridDimension = 3;
+        int _gridDimension;
+        float _edgeOfMapdimesion;
 
         MapTile[,] _tiles;
         LinkedList<Shift> _shiftQueue; //note: doubly linked
@@ -48,21 +49,23 @@ namespace ChaoticMind {
         //for keeping the objects relative to tiles as they shift
         private List<DrawableGameObject> _objects;
 
-        Camera _camera;
-
         private MapTile _shiftedOutTile;
 
         bool _isShifting = false;
 
+        static  MapManager _mainInstance;
+
         //constructor
         public MapManager(int gridDimension) {
+            _mainInstance = this;
             _gridDimension = gridDimension;
+            _edgeOfMapdimesion = _gridDimension * MapTile.TileSideLength;
             _tiles = new MapTile[_gridDimension, _gridDimension];
             _shiftQueue = new LinkedList<Shift>();
         }
 
         //Make the tiles
-        public void Initialize(Camera camera, ref List<DrawableGameObject> objects) {
+        public void Initialize(ref List<DrawableGameObject> objects) {
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
                     _tiles[x,y] = new MapTile(MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors(), false);
@@ -72,7 +75,6 @@ namespace ChaoticMind {
             UpdateOverlays();
 
             _objects = objects;
-            _camera = camera;
         }
 
         public void Update(float deltaTime) {
@@ -145,7 +147,7 @@ namespace ChaoticMind {
                 }
             }
 
-            _camera.shake();
+            Program.SharedGame.MainCamera.shake();
 
             bool isPositiveShift = (dir == ShiftDirection.RIGHT || dir == ShiftDirection.DOWN);
 
@@ -257,6 +259,15 @@ namespace ChaoticMind {
 
         public MapTile[,] Tiles {
             get { return _tiles; }
+        }
+
+        public static MapManager MainInstance {
+            get { return _mainInstance; }
+        }
+
+        //The farthers point still on the map
+        public float EdgeOfMapdimesion {
+            get { return _edgeOfMapdimesion; }
         }
     }
 }

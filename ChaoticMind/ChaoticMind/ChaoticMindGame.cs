@@ -23,7 +23,7 @@ namespace ChaoticMind {
         bool _goFullscreen = false;
 
         //map dimension
-        const int MAP_SIZE = 3;
+        const int MAP_SIZE = 4;
         
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
@@ -55,6 +55,8 @@ namespace ChaoticMind {
         //Audio
         MusicController _backgroundMusic;
         SoundEffects _soundEffects;
+
+        HUDManager _hudManager = new HUDManager();
 
         MouseDrawer _mouseDrawer = new MouseDrawer();
 
@@ -104,8 +106,13 @@ namespace ChaoticMind {
             _debugFont = Content.Load<SpriteFont>("DebugFont");
             _fpsCounter = new FrameRateCounter(_spriteBatch, _debugFont);
 
+            _hudManager.Initialize();
+
+            _mapManager = new MapManager(MAP_SIZE);
+            _mapManager.Initialize(ref _objects);
+
             _mainCamera = new Camera(Vector2.Zero, 50.0f, _graphics.GraphicsDevice, _spriteBatch);
-            
+
             InputManager.Initialize();
             GameState.Initilize();
              
@@ -140,9 +147,6 @@ namespace ChaoticMind {
             //_backgroundMusic.Play();
 
             //_soundEffects = new SoundEffects();
-
-            _mapManager = new MapManager(MAP_SIZE);
-            _mapManager.Initialize(_mainCamera, ref _objects);
 
             _shiftInterface.Initialize(_mapManager, _spriteBatch);
 
@@ -261,10 +265,16 @@ namespace ChaoticMind {
 
             _spriteBatch.Begin();
 
+            //Draw real game
             drawObjects(gameTime);
 
-            //Draw minimap
+            //Draw HUD
+            _hudManager.Draw_HUD(_spriteBatch);
+
+            //Draw Minimap
             _mapManager.DrawMap(_mainCamera);
+            drawObjectsOnMinimap(gameTime);
+            
 
             if (GameState.Mode == GameState.GameMode.PAUSED) {
                 drawPauseOverlay();
@@ -306,6 +316,15 @@ namespace ChaoticMind {
 
             _projectileManager.Draw(_mainCamera);
             _collectibleManager.Draw(_mainCamera);
+            _collectibleManager.DrawOnMinimap(_mainCamera);
+        }
+
+        private void drawObjectsOnMinimap(GameTime gameTime) {
+
+            //Draw all objects in our list (and their minimap representations)
+            foreach (DrawableGameObject obj in _objects) {
+                _mainCamera.DrawMinimap(obj);
+            }
             _collectibleManager.DrawOnMinimap(_mainCamera);
         }
 

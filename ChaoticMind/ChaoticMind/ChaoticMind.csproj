@@ -111,6 +111,7 @@
     <Compile Include="Audio\MusicController.cs" />
     <Compile Include="Audio\SoundEffects.cs" />
     <Compile Include="Characters\Emenies\Parasite.cs" />
+    <Compile Include="HUDManager.cs" />
     <Compile Include="ShiftButton.cs" />
     <Compile Include="Characters\Emenies\Enemy.cs" />
     <Compile Include="Characters\Emenies\Swarmer.cs" />
@@ -146,7 +147,7 @@
     <Compile Include="Characters\Emenies\SillyBox.cs" />
     <Compile Include="Graphics\SpriteAnimationSequence.cs" />
     <Compile Include="Graphics\StaticSprite.cs" />
-    <Compile Include="Screen.cs" />
+    <Compile Include="Graphics\Screen.cs" />
     <Compile Include="ShiftInterface.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>

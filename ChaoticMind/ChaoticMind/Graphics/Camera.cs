@@ -28,11 +28,18 @@ namespace ChaoticMind {
         float _shakeDecay = 0.95f;
         float _shakeIncreaseAmount = 1.0f;
 
+        Rectangle _minimapRect;
+        private float _mapWidthScale;
+        private float _mapHeightScale;
+
         public Camera(Vector2 startingPosition, float startingZoom, GraphicsDevice graphics, SpriteBatch spriteBatch) {
             _position = startingPosition;
             _zoom = startingZoom;
             _graphicsDevice = graphics;
             _spriteBatch = spriteBatch;
+            _minimapRect = HUDManager.MinimapRect;
+            _mapWidthScale = _minimapRect.Width / MapManager.MainInstance.EdgeOfMapdimesion;
+            _mapHeightScale = _minimapRect.Height / MapManager.MainInstance.EdgeOfMapdimesion;
         }
 
         public void setTarget(Body target) {
@@ -69,14 +76,20 @@ namespace ChaoticMind {
 
         public void DrawMinimap(IMiniMapable obj, float alpha) {
             if (obj.MapSprite != null) {
-                _spriteBatch.Draw(obj.MapSprite.Texture, WorldToMapPos(obj.MapPosition), obj.MapSprite.CurrentTextureBounds, Color.White * alpha, obj.MapRotation, obj.MapSprite.CurrentTextureOrigin, 1 / obj.MapSprite.PixelsPerMeter, SpriteEffects.None, 1.0f);
+                _spriteBatch.Draw(obj.MapSprite.Texture, WorldToMapPos(obj.MapPosition), obj.MapSprite.CurrentTextureBounds, Color.White * alpha, obj.MapRotation, obj.MapSprite.CurrentTextureOrigin, WorldToMapScale(1 / obj.MapSprite.PixelsPerMeter), SpriteEffects.None, 1.0f);
             }
         }
 
-        private Vector2 WorldToMapPos(Vector2 worldPoint) {
-            return (worldPoint) + new Vector2(50, 150);
+        private float WorldToMapScale(float worldScale) {
+            return worldScale * _mapWidthScale;
         }
 
+        private Vector2 WorldToMapPos(Vector2 worldPoint) {
+
+            float x = _minimapRect.Left + (worldPoint.X * _mapWidthScale) + MapTile.TileSideLength / 2 * _mapWidthScale;
+            float y = _minimapRect.Top + (worldPoint.Y * _mapHeightScale) + MapTile.TileSideLength / 2 * _mapHeightScale;
+            return new Vector2(x, y);
+        }
 
         public void Update(float deltaTime) {
             updateFromInput(deltaTime);

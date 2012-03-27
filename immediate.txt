@@ -1,0 +1,25 @@
+
+HUD
+
+AI pathfinding/ sleep when far away
+
+refactor collision categories (see projectile constructor)
+
+make objects turn gracefully
+
+
+
+
+
+http://www.google.ca/imgres?um=1&hl=en&biw=1440&bih=799&tbm=isch&tbnid=4rf4JvqqW_q6wM:&imgrefurl=http://www.bit-tech.net/gaming/pc/2010/03/09/starcraft-2-beta-first-impressions/comments/3&docid=IJUfe9OEBQbobM&imgurl=http://images.bit-tech.net/content_images/2010/03/starcraft-2-beta-first-impressions/starcraft2_2010_32.jpg&w=2560&h=1600&ei=p4NxT8vnBISRgweKhKQo&zoom=1&iact=hc&vpx=365&vpy=169&dur=183&hovh=122&hovw=194&tx=102&ty=65&sig=117684977323023585515&page=1&tbnh=118&tbnw=188&start=0&ndsp=24&ved=1t:429,r:1,s:0
+
+http://www.wfh.cz/obraz/blbustky/diablo1.jpg
+
+
+http://imageshack.us/photo/my-images/843/hudbug.jpg/
+
+http://www.gamesradar.com/alien-swarm-review/
+
+http://www.google.ca/imgres?um=1&hl=en&biw=1440&bih=799&tbm=isch&tbnid=43pj_DCEOkyLTM:&imgrefurl=http://gamerant.com/ghost-recon-4-future-soldier-robk-5135/&docid=z5C_zJQMji1rfM&imgurl=http://cdn.gamerant.com/wp-content/uploads/ghost-recon-4-future-soldier-hud.jpg&w=570&h=368&ei=zw1xT6nvLLS00AGg-IzgBg&zoom=1&iact=rc&dur=432&sig=117684977323023585515&page=3&tbnh=119&tbnw=185&start=54&ndsp=30&ved=1t:429,r:11,s:54&tx=57&ty=58
+
+http://www.google.ca/imgres?um=1&hl=en&biw=1440&bih=799&tbm=isch&tbnid=S8ARLSkIiv74GM:&imgrefurl=http://jahzel.com/design/&docid=maZnaYljk7vlFM&imgurl=http://www.jahzel.com/portfolio/design/warhammer/hud_elements.jpg&w=527&h=453&ei=zw1xT6nvLLS00AGg-IzgBg&zoom=1&iact=rc&dur=544&sig=117684977323023585515&page=2&tbnh=139&tbnw=168&start=24&ndsp=30&ved=1t:429,r:23,s:24&tx=25&ty=105

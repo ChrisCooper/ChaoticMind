@@ -314,7 +314,13 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="HUD\Minimap_Frame.png">
+      <Name>Minimap_Frame</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Projectiles\AssaultRifleBullet.png">
       <Name>AssaultRifleBullet</Name>

@@ -22,7 +22,7 @@ namespace ChaoticMind {
             AssaultRifleBullet._speed = 20.0f;
             AssaultRifleBullet._range = 50.0f;
             AssaultRifleBullet._radius = 0.075f;
-            AssaultRifleBullet._density = 5.0f;
+            AssaultRifleBullet._density = 10.0f;
             AssaultRifleBullet._animation = new AnimatedSprite("Projectiles/AssaultRifleBullet", 1, 1, AssaultRifleBullet._radius * 2, 1.0f);
         }
 
