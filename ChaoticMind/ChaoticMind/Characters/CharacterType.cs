@@ -22,11 +22,11 @@ namespace ChaoticMind {
             Player._entitySize = 1.0f;
             Player._sprite = new AnimatedSprite("TestImages/TestPlayer", 1, 1, Player._entitySize, 1.0f);
             Player._objectShape = ObjectShapes.CIRCLE;
-            Player._density = 5.0f;
+            Player._density = 1.0f;
             Player._maxTurningTorque = 1.0f;
-            Player._maxMovementForce = 2500.0f;
+            Player._maxMovementForce = 3.0f;
             Player._health = 100;
-            Player._linearDampening = 30f;
+            Player._linearDampening = 15f;
             Player.MinimapSprite = new StaticSprite("Minimap/PlayerMinimap", MapTile.TileSideLength / 2);
 
             //SillyBox
@@ -36,6 +36,7 @@ namespace ChaoticMind {
             SillyBox._density = 1.0f;
             SillyBox._maxTurningTorque = 1.0f;
             SillyBox._maxMovementForce = 10.0f;
+            Parasite._linearDampening = 0.0f;
             SillyBox._health = 10;
 
             //Parasite

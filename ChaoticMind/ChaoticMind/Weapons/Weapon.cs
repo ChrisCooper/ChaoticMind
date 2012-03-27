@@ -40,6 +40,8 @@ namespace ChaoticMind {
         public void Shoot(Vector2 location, Vector2 direction){
             if (_roundsLeftInClip > 0 && _reloadTimer.isFinished && _shootTimer.isFinished) {
 
+                direction += Utilities.randomNormalizedVector() * _weaponType.Inaccuracy;
+
                 //start shooting the particles at the left side of the spread
                 Vector2 currentSpreadSweepDirection = Vector2.Transform(direction, _halfSpreadRotationMatrix);
 

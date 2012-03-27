@@ -25,30 +25,45 @@ namespace ChaoticMind {
 
         //Use input to decide what direction this character should try to face and move
         protected override void decideOnMovementTargets() {
-
             //movement
             LocationToMoveToward = _body.Position;
+            LocationToFace = InputManager.MouseWorldPosition;
+        }
+
+
+
+        //for e.g. ranged units move back if too close, parasites who lunge, etc.
+        protected override void performTypeUniqueMovements(float deltaTime) {
+
+            Vector2 movementVector = Vector2.Zero;
+
             if (InputManager.IsKeyDown(Keys.A)) {
-                LocationToMoveToward -= Vector2.UnitX;
+                movementVector -= Vector2.UnitX;
             }
             if (InputManager.IsKeyDown(Keys.D)) {
-                LocationToMoveToward += Vector2.UnitX;
+                movementVector += Vector2.UnitX;
             }
             if (InputManager.IsKeyDown(Keys.W)) {
-                LocationToMoveToward -= Vector2.UnitY;
+                movementVector -= Vector2.UnitY;
             }
             if (InputManager.IsKeyDown(Keys.S)) {
-                LocationToMoveToward += Vector2.UnitY;
+                movementVector += Vector2.UnitY;
             }
 
+            if (movementVector != Vector2.Zero) {
+                movementVector.Normalize();
+            }
+
+            movementVector *= _characterType.MaxMovementForce;
+            _body.ApplyLinearImpulse(movementVector);
+
             //shooting
-            LocationToFace = InputManager.MouseWorldPosition;
             if (InputManager.IsMouseDown()) {
                 Shoot();
             }
 
             //reload
-            if (InputManager.IsKeyClicked(Keys.E)){
+            if (InputManager.IsKeyClicked(Keys.E)) {
                 Reload();
             }
         }

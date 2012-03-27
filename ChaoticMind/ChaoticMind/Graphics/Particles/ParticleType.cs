@@ -28,7 +28,7 @@ namespace ChaoticMind {
             SwarmerDeath.Lifespan = 4.0f;
 
             //Assault Rifle Bullet Death
-            AssaultRifleButtleDeath._entitySize = ProjectileType.AssaultRifleBullet.Animation.EntitySize;
+            AssaultRifleButtleDeath._entitySize = ProjectileType.AssaultRifleBullet.Animation.EntitySize*1.5f;
             AssaultRifleButtleDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/AssaultRifleBulletDeath", 3, 1, AssaultRifleButtleDeath._entitySize);
             AssaultRifleButtleDeath._animationDuration = 0.5f;
             AssaultRifleButtleDeath.Lifespan = AssaultRifleButtleDeath._animationDuration;
