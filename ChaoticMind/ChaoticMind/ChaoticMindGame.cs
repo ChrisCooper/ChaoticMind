@@ -121,6 +121,10 @@ namespace ChaoticMind {
             for (int x = 0; x < Math.Min(MAP_SIZE, 3); x++) {
                 for (int y = 0; y < Math.Min(MAP_SIZE, 3); y++) {
                     for (int i = 0; i < 5; i++) {
+                        if (x == 0 && y == 0) {
+                            //Skip the starting square for fairness
+                            continue;
+                        }
                         Parasite parasite = new Parasite(MapTile.RandomPositionInTile(x, y));
                         _objects.Add(parasite);
                         
