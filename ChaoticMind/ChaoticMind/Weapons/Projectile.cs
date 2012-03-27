@@ -64,6 +64,9 @@ namespace ChaoticMind {
         public override void Destroy() {
             _body.Dispose();
             ProjectileManager.Remove(this);
+            if (_projectileType.DeathParticle != null) {
+                ParticleManager.CreateParticle(Position, (float)Utilities.randomDouble(), _projectileType.DeathParticle);
+            }
         }
 
         public override void Update(float deltaTime) {

@@ -24,6 +24,7 @@ namespace ChaoticMind {
             AssaultRifleBullet._radius = 0.075f;
             AssaultRifleBullet._density = 10.0f;
             AssaultRifleBullet._animation = new AnimatedSprite("Projectiles/AssaultRifleBullet", 1, 1, AssaultRifleBullet._radius * 2, 1.0f);
+            AssaultRifleBullet.DeathParticle = ParticleType.AssaultRifleButtleDeath;
         }
 
         public float Lifetime {
@@ -53,5 +54,7 @@ namespace ChaoticMind {
         internal AnimatedSprite Animation {
             get { return _animation; }
         }
+
+        public ParticleType DeathParticle { get; set; }
     }
 }

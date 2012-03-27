@@ -8,6 +8,7 @@ namespace ChaoticMind {
 
         public static ParticleType ParasiteDeath = new ParticleType();
         public static ParticleType SwarmerDeath = new ParticleType();
+        public static ParticleType AssaultRifleButtleDeath = new ParticleType();
 
         SpriteAnimationSequence _spriteAnimationSequence;
         float _animationDuration;
@@ -25,6 +26,12 @@ namespace ChaoticMind {
             SwarmerDeath._animationDuration = 0.5f;
             SwarmerDeath._entitySize = CharacterType.Swarmer.Sprite.EntitySize;
             SwarmerDeath.Lifespan = 4.0f;
+
+            //Assault Rifle Bullet Death
+            AssaultRifleButtleDeath._entitySize = ProjectileType.AssaultRifleBullet.Animation.EntitySize;
+            AssaultRifleButtleDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/AssaultRifleBulletDeath", 3, 1, AssaultRifleButtleDeath._entitySize);
+            AssaultRifleButtleDeath._animationDuration = 0.5f;
+            AssaultRifleButtleDeath.Lifespan = AssaultRifleButtleDeath._animationDuration;
         }
 
         public SpriteAnimationSequence SpriteAnimationSequence {
