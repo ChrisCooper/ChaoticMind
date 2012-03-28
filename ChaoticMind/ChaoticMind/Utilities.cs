@@ -39,5 +39,9 @@ namespace ChaoticMind {
         public static int randomInt(int low, int high) {
             return rand.Next(low, high);
         }
+
+        public static float AngleTowards(Vector2 startingPosition, Vector2 positionToFace) {
+            return (float)(Math.Atan2(-(startingPosition.X - positionToFace.X), startingPosition.Y - positionToFace.Y));
+        }
     }
 }

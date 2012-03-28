@@ -1,4 +1,18 @@
-Fix enemy animations to be independent
+continuum
+
+
+
+swarmer attack
+
+path finding
+
+
+correct collectible appearance
+
+
+
+
+make camer take animated prite, not individual attributes
 
 AI pathfinding/ sleep when far away
 
@@ -7,7 +21,7 @@ refactor collision categories (see projectile constructor)
 make objects turn gracefully
 
 
-
+refactor appearanceType out of various Types
 
 
 http://www.google.ca/imgres?um=1&hl=en&biw=1440&bih=799&tbm=isch&tbnid=4rf4JvqqW_q6wM:&imgrefurl=http://www.bit-tech.net/gaming/pc/2010/03/09/starcraft-2-beta-first-impressions/comments/3&docid=IJUfe9OEBQbobM&imgurl=http://images.bit-tech.net/content_images/2010/03/starcraft-2-beta-first-impressions/starcraft2_2010_32.jpg&w=2560&h=1600&ei=p4NxT8vnBISRgweKhKQo&zoom=1&iact=hc&vpx=365&vpy=169&dur=183&hovh=122&hovw=194&tx=102&ty=65&sig=117684977323023585515&page=1&tbnh=118&tbnw=188&start=0&ndsp=24&ved=1t:429,r:1,s:0

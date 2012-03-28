@@ -51,7 +51,7 @@ namespace ChaoticMind {
             Parasite._maxTurningTorque = 1.0f;
             Parasite._maxMovementForce = 3.0f;
             Parasite._health = 10;
-            Parasite.MainAttackDamage = 3.0f;
+            Parasite.MainAttackDamage = 5.0f;
             Parasite._linearDampening = 10f;
             Parasite.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 5);
             Parasite.DeathParticle = ParticleType.ParasiteDeath;
@@ -66,7 +66,7 @@ namespace ChaoticMind {
             Swarmer._maxTurningTorque = 1.0f;
             Swarmer._maxMovementForce = 3.0f;
             Swarmer._health = 25;
-            Parasite.MainAttackDamage = 5.0f;
+            Swarmer.MainAttackDamage = 8.0f;
             Swarmer._linearDampening = 10f;
             Swarmer.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 4);
             Swarmer.DeathParticle = ParticleType.SwarmerDeath;

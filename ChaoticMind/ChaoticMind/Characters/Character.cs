@@ -7,9 +7,9 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Factories;
 
 namespace ChaoticMind {
+
     //This class is for all intelligent actors in the game, such as 
     // the main player character, and enemies.
-    // (Enemies are coming at a later stage of development)
     class Character : DrawableGameObject, IDamageable {
 
         protected CharacterType _characterType;
@@ -108,7 +108,7 @@ namespace ChaoticMind {
             _body.ApplyLinearImpulse(_characterType.MaxMovementForce * movement * deltaTime);
 
             //face the correct location
-            float angle = (float)(Math.Atan2(-(Position.X - _locationToFace.X), Position.Y - _locationToFace.Y));
+            float angle = Utilities.AngleTowards(Position, _locationToFace);
 
             //I had no end of problems trying to get it to work by applying forces so it's set for now
             _body.Rotation = angle;
