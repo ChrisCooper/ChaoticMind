@@ -97,7 +97,7 @@ namespace ChaoticMind {
 
             foreach(Collectable c in CollectibleManager.Collectables) {
                 startCoord = drawOnOverlay(startCoord, c);
-            }
+            }   
 
 
             //draw shift buttons

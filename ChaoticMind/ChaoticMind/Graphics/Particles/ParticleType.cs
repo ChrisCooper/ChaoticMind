@@ -38,9 +38,9 @@ namespace ChaoticMind {
             AssaultRifleButtleDeath.Lifespan = AssaultRifleButtleDeath._animationDuration;
 
             //Swarmer Attack
-            SwarmerAttack._entitySize = Swarmer.AttackRange/7.0f;
-            SwarmerAttack._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/SwarmerBolt", 1, 1, SwarmerAttack._entitySize);
-            SwarmerAttack._animationDuration = 0.1f;
+            SwarmerAttack._entitySize = Swarmer.AttackRange/7f;
+            SwarmerAttack._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/SwarmerBolt", 4, 1, SwarmerAttack._entitySize);
+            SwarmerAttack._animationDuration = 0.3f;
             SwarmerAttack.DrawLayer = DrawLayers.UpperParticles;
             SwarmerAttack.Lifespan = 0.3f;
         }
