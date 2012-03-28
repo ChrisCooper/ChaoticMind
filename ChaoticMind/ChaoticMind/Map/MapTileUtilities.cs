@@ -24,28 +24,28 @@ namespace ChaoticMind {
         //load the overlay textures
         private static void loadOverlays() {
             _OverlaySprites = new List<StaticSprite>(4);
-            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Triple", MapTile.TileSideLength));
-            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Straight", MapTile.TileSideLength));
-            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Bent", MapTile.TileSideLength));
-            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Single", MapTile.TileSideLength));
+            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Triple", MapTile.TileSideLength, DrawLayers.MapOverlay));
+            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Straight", MapTile.TileSideLength, DrawLayers.MapOverlay));
+            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Bent", MapTile.TileSideLength, DrawLayers.MapOverlay));
+            _OverlaySprites.Add(new StaticSprite("TileAppearance/TileOverlay_Single", MapTile.TileSideLength, DrawLayers.MapOverlay));
         }
 
         //load the overlay textures
         private static void loadMapSprites() {
             _MapSprites = new List<StaticSprite>(4);
-            _MapSprites.Add(new StaticSprite("Minimap/TileMap_Triple", MapTile.TileSideLength));
-            _MapSprites.Add(new StaticSprite("Minimap/TileMap_Straight", MapTile.TileSideLength));
-            _MapSprites.Add(new StaticSprite("Minimap/TileMap_Bent", MapTile.TileSideLength));
-            _MapSprites.Add(new StaticSprite("Minimap/TileMap_Hidden", MapTile.TileSideLength));
+            _MapSprites.Add(new StaticSprite("Minimap/TileMap_Triple", MapTile.TileSideLength, DrawLayers.HUD_Minimap_Maze));
+            _MapSprites.Add(new StaticSprite("Minimap/TileMap_Straight", MapTile.TileSideLength, DrawLayers.HUD_Minimap_Maze));
+            _MapSprites.Add(new StaticSprite("Minimap/TileMap_Bent", MapTile.TileSideLength, DrawLayers.HUD_Minimap_Maze));
+            _MapSprites.Add(new StaticSprite("Minimap/TileMap_Hidden", MapTile.TileSideLength, DrawLayers.HUD_Minimap_Maze));
         }
 
         //load the shift interface textures
         private static void loadShiftSprites() {
             _ShiftSprites = new List<StaticSprite>(4);
-            _ShiftSprites.Add(new StaticSprite("Shifting/TileShift_Triple", MapTile.TileSideLength));
-            _ShiftSprites.Add(new StaticSprite("Shifting/TileShift_Straight", MapTile.TileSideLength));
-            _ShiftSprites.Add(new StaticSprite("Shifting/TileShift_Bent", MapTile.TileSideLength));
-            _ShiftSprites.Add(new StaticSprite("Shifting/TileShift_Hidden", MapTile.TileSideLength));
+            _ShiftSprites.Add(new StaticSprite("Shifting/TileShift_Triple", MapTile.TileSideLength, DrawLayers.MenuElements));
+            _ShiftSprites.Add(new StaticSprite("Shifting/TileShift_Straight", MapTile.TileSideLength, DrawLayers.MenuElements));
+            _ShiftSprites.Add(new StaticSprite("Shifting/TileShift_Bent", MapTile.TileSideLength, DrawLayers.MenuElements));
+            _ShiftSprites.Add(new StaticSprite("Shifting/TileShift_Hidden", MapTile.TileSideLength, DrawLayers.MenuElements));
         }
 
         //attaches the physics fixtures to the map tile

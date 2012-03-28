@@ -19,7 +19,7 @@ namespace ChaoticMind {
             _position = startingPosition;
             _rotation = rotation;
             _particleType = particleType;
-            _sprite = new AnimatedSprite(particleType.SpriteAnimationSequence, particleType.EntitySize, particleType.AnimationDuration, false);
+            _sprite = new AnimatedSprite(particleType.SpriteAnimationSequence, particleType.EntitySize, particleType.AnimationDuration, particleType.DrawLayer, false);
             _fadeOutTimer = new Timer(particleType.Lifespan);
         }
         internal void Update(float deltaTime) {
@@ -46,5 +46,7 @@ namespace ChaoticMind {
         }
 
         public bool isDead { get { return _fadeOutTimer.isFinished; } }
+
+        public float DrawLayer { get { return _sprite.DrawLayer; } }
     }
 }

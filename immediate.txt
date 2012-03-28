@@ -1,18 +1,11 @@
 continuum
 
 
-
-swarmer attack
-
 path finding
-
 
 correct collectible appearance
 
-
-
-
-make camer take animated prite, not individual attributes
+make camer take animated sprite, not individual attributes
 
 AI pathfinding/ sleep when far away
 

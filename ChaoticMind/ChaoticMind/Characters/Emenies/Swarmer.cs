@@ -9,7 +9,7 @@ namespace ChaoticMind {
 
         const float movementJitteriness = 25.0f;
         const float attackInterval = 1.0f;
-        static float _range = 3.0f;
+        static float _range = 5.0f;
 
         Timer _attackTimer;
 

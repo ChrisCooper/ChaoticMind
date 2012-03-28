@@ -16,7 +16,7 @@ namespace ChaoticMind {
         Timer _lifetimeTimer;
 
         public Projectile(Vector2 startingPosition, Vector2 direction, ProjectileType projectileType)
-            : base(startingPosition, projectileType.AnimationSequence, projectileType.VisibleEntitySize, projectileType.AnimationDuration) {
+            : base(startingPosition, projectileType.AnimationSequence, projectileType.VisibleEntitySize, projectileType.AnimationDuration, projectileType.DrawLayer) {
 
             _projectileType = projectileType;
 

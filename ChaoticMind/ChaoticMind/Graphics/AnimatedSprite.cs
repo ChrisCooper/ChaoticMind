@@ -31,22 +31,24 @@ namespace ChaoticMind {
 
         private bool _shouldRepeat;
 
-        public AnimatedSprite(String spriteResource, int xFrames, int yFrames, float entitySize, float animationDuration) {
+        public AnimatedSprite(String spriteResource, int xFrames, int yFrames, float entitySize, float animationDuration, float drawLayer) {
             _animationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence(spriteResource, xFrames, yFrames, entitySize);
             _animationDuration = animationDuration;
             _entitySize = entitySize;
             _shouldRepeat = true;
+            DrawLayer = drawLayer;
         }
 
-        public AnimatedSprite(SpriteAnimationSequence spriteAnimationSequence, float entitySize, float animationDuration)
-        : this(spriteAnimationSequence, entitySize, animationDuration, true) {
+        public AnimatedSprite(SpriteAnimationSequence spriteAnimationSequence, float entitySize, float animationDuration, float drawLayer)
+        : this(spriteAnimationSequence, entitySize, animationDuration, drawLayer, true) {
         }
 
-        public AnimatedSprite(SpriteAnimationSequence spriteAnimationSequence, float entitySize, float animationDuration, bool shouldRepeat) {
+        public AnimatedSprite(SpriteAnimationSequence spriteAnimationSequence, float entitySize, float animationDuration, float drawLayer, bool shouldRepeat) {
             _animationSequence = spriteAnimationSequence;
             this._entitySize = entitySize;
             _animationDuration = animationDuration;
             _shouldRepeat = shouldRepeat;
+            DrawLayer = drawLayer;
         }
 
         public void Update(float deltaTime) {
@@ -83,5 +85,7 @@ namespace ChaoticMind {
         public float EntitySize {
             get { return _entitySize; }
         }
+
+        public float DrawLayer { get; set; }
     }
 }

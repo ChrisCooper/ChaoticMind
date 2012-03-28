@@ -7,8 +7,8 @@ using Microsoft.Xna.Framework;
 namespace ChaoticMind {
     class StaticSprite : AnimatedSprite {
 
-        public StaticSprite(String resourcePrefix, float entitySize)
-            : base(resourcePrefix, 1, 1, entitySize, 1) {
+        public StaticSprite(String resourcePrefix, float entitySize, float drawLayer)
+            : base(resourcePrefix, 1, 1, entitySize, 1, drawLayer) {
         }
     }
 }

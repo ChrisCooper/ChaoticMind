@@ -83,7 +83,7 @@ namespace ChaoticMind {
             for (int y = 0; y < _tiles.GetLength(0); y++) {
                 for (int x = 0; x < _tiles.GetLength(1); x++) {
                     MapTile tile = _tiles[x, y];
-                    _spriteBatch.Draw(tile.ShiftTexture.Texture, drawingLocation, tile.ShiftTexture.CurrentTextureBounds, Color.White, tile.Rotation, tile.ShiftTexture.CurrentTextureOrigin, _scalingFactor, SpriteEffects.None, 1.0f);
+                    _spriteBatch.Draw(tile.ShiftTexture.Texture, drawingLocation, tile.ShiftTexture.CurrentTextureBounds, Color.White, tile.Rotation, tile.ShiftTexture.CurrentTextureOrigin, _scalingFactor, SpriteEffects.None, DrawLayers.MenuElements);
                     drawingLocation.X += _tileDimension;
                 }
                 drawingLocation.Y += _tileDimension;
@@ -102,12 +102,12 @@ namespace ChaoticMind {
 
             //draw shift buttons
             foreach (ShiftButton button in _buttons) {
-                _spriteBatch.Draw(button.Sprite.Texture, button.Center, button.Sprite.CurrentTextureBounds, Color.White, button.Rotation, button.Sprite.CurrentTextureOrigin, button.ScalingFactor, SpriteEffects.None, 1.0f);
+                _spriteBatch.Draw(button.Sprite.Texture, button.Center, button.Sprite.CurrentTextureBounds, Color.White, button.Rotation, button.Sprite.CurrentTextureOrigin, button.ScalingFactor, SpriteEffects.None, DrawLayers.MenuElements);
             }
         }
 
         private Vector2 drawOnOverlay(Vector2 startCoord, IMiniMapable c) {
-            _spriteBatch.Draw(c.MapSprite.Texture, c.MapPosition / (float)MapTile.TileSideLength * _tileDimension + startCoord, c.MapSprite.CurrentTextureBounds, Color.Wheat, c.MapRotation, c.MapSprite.CurrentTextureOrigin, 1 / c.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, 1.0f);
+            _spriteBatch.Draw(c.MapSprite.Texture, c.MapPosition / (float)MapTile.TileSideLength * _tileDimension + startCoord, c.MapSprite.CurrentTextureBounds, Color.White, c.MapRotation, c.MapSprite.CurrentTextureOrigin, 1 / c.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, DrawLayers.MenuHighlightElements);
             return startCoord;
         }
 

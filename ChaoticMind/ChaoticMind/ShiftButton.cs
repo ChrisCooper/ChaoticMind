@@ -13,8 +13,8 @@ namespace ChaoticMind {
             PRESSED,
         }
 
-        static StaticSprite arrowButton = new StaticSprite("Shifting/ShiftArrow", 1);
-        static StaticSprite arrowButtonPressed = new StaticSprite("Shifting/ShiftArrowPressed", 1);
+        static StaticSprite arrowButton = new StaticSprite("Shifting/ShiftArrow", 1, DrawLayers.MenuElements);
+        static StaticSprite arrowButtonPressed = new StaticSprite("Shifting/ShiftArrowPressed", 1, DrawLayers.MenuElements);
 
         ShiftInterface _interface;
 

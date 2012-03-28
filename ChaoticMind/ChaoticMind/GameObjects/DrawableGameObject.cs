@@ -12,14 +12,14 @@ namespace ChaoticMind {
         protected AnimatedSprite _sprite;
         protected AnimatedSprite _minimapSprite;
 
-        public DrawableGameObject(String spriteResource, int xFrames, int yFrames, float entitySize, float animationDuration, Vector2 startingPosition)
+        public DrawableGameObject(String spriteResource, int xFrames, int yFrames, float entitySize, float animationDuration, float drawLayer, Vector2 startingPosition)
             : base(startingPosition) {
-            _sprite = new AnimatedSprite(spriteResource, xFrames, yFrames, entitySize, animationDuration);
+            _sprite = new AnimatedSprite(spriteResource, xFrames, yFrames, entitySize, animationDuration, drawLayer);
         }
 
-        public DrawableGameObject(Vector2 startingPosition, SpriteAnimationSequence spriteSequence, float entitySize, float animationDuration)
+        public DrawableGameObject(Vector2 startingPosition, SpriteAnimationSequence spriteSequence, float entitySize, float animationDuration, float drawLayer)
             : base(startingPosition) {
-            _sprite = new AnimatedSprite(spriteSequence, entitySize, animationDuration);
+            _sprite = new AnimatedSprite(spriteSequence, entitySize, animationDuration, drawLayer);
         }
 
         public DrawableGameObject(Vector2 startingPosition)
@@ -94,6 +94,14 @@ namespace ChaoticMind {
         }
         public virtual float MapRotation {
             get { return 0; }
+        }
+
+        public virtual float MapDrawLayer {
+            get { return this._minimapSprite.DrawLayer; }
+        }
+
+        public float DrawLayer {
+            get { return _sprite.DrawLayer; }
         }
 
         //returns the index of the map array the object is currently in

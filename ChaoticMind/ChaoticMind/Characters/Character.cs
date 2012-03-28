@@ -31,7 +31,7 @@ namespace ChaoticMind {
         protected float _currentHealth;
 
         public Character(CharacterType characterType, Vector2 startingPosition)
-            : base(startingPosition, characterType.SpriteAnimationSequence, characterType.VisibleEntitySize, characterType.AnimationDuration) {
+            : base(startingPosition, characterType.SpriteAnimationSequence, characterType.VisibleEntitySize, characterType.AnimationDuration, characterType.DrawLayer) {
             _characterType = characterType;
 
             switch (characterType.ObjectShape) {

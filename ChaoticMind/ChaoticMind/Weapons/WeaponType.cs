@@ -36,7 +36,7 @@ namespace ChaoticMind {
                 AssaultRifle._reloadTime = 2.5f;
                 AssaultRifle.setSpread(15.0f);
                 AssaultRifle.Inaccuracy = 0.4f;
-                AssaultRifle._HUD_Image = new StaticSprite("Weapons/AssaultRifle", 1);
+                AssaultRifle._HUD_Image = new StaticSprite("Weapons/AssaultRifle", 1, DrawLayers.HUD_Dynamic_Info);
                 AssaultRifle._projectileType = ProjectileType.AssaultRifleBullet;
                 AssaultRifle._isRayCasted = false;
             }

@@ -26,6 +26,7 @@ namespace ChaoticMind {
             AssaultRifleBullet._density = 10.0f;
             AssaultRifleBullet.AnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/AssaultRifleBullet", 1, 1, AssaultRifleBullet.VisibleEntitySize);
             AssaultRifleBullet.AnimationDuration = 1.0f;
+            AssaultRifleBullet.DrawLayer = DrawLayers.UpperParticles;
             AssaultRifleBullet.DeathParticle = ParticleType.AssaultRifleButtleDeath;
         }
 
@@ -60,5 +61,7 @@ namespace ChaoticMind {
         public float VisibleEntitySize { get; set; }
 
         public ParticleType DeathParticle { get; set; }
+
+        public float DrawLayer { get; set; }
     }
 }

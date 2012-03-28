@@ -22,23 +22,25 @@ namespace ChaoticMind {
             Player._physicalEntitySize = 1.0f;
             Player.SpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("TestImages/TestPlayer", 1, 1, Player._physicalEntitySize);
             Player.AnimationDuration = 1.0f;
+            Player.DrawLayer = DrawLayers.Characters;
             Player._objectShape = ObjectShapes.CIRCLE;
             Player._density = 1.0f;
             Player._maxTurningTorque = 1.0f;
             Player._maxMovementForce = 3.0f;
             Player._health = 100;
             Player._linearDampening = 15f;
-            Player.MinimapSprite = new StaticSprite("Minimap/PlayerMinimap", MapTile.TileSideLength / 2);
+            Player.MinimapSprite = new StaticSprite("Minimap/PlayerMinimap", MapTile.TileSideLength / 2, DrawLayers.HUD_Minimap_important_elements);
 
             //SillyBox
             SillyBox._physicalEntitySize = 1.0f;
             SillyBox.SpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("TestImages/Box", 17, 1, SillyBox._physicalEntitySize);
             SillyBox.AnimationDuration = 1.0f;
+            SillyBox.DrawLayer = DrawLayers.Characters;
             SillyBox._objectShape = ObjectShapes.RECTANGLE;
             SillyBox._density = 1.0f;
             SillyBox._maxTurningTorque = 1.0f;
             SillyBox._maxMovementForce = 10.0f;
-            Parasite._linearDampening = 0.0f;
+            SillyBox._linearDampening = 0.0f;
             SillyBox._health = 10;
 
             //Parasite
@@ -46,6 +48,7 @@ namespace ChaoticMind {
             Parasite.VisibleEntitySize = Parasite._physicalEntitySize * 6f / 4f;
             Parasite.SpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/Parasite", 12, 1, Parasite._physicalEntitySize * 6f / 4f);
             Parasite.AnimationDuration = 0.5f;
+            Parasite.DrawLayer = DrawLayers.Characters;
             Parasite._objectShape = ObjectShapes.CIRCLE;
             Parasite._density = 1.0f;
             Parasite._maxTurningTorque = 1.0f;
@@ -53,7 +56,7 @@ namespace ChaoticMind {
             Parasite._health = 10;
             Parasite.MainAttackDamage = 5.0f;
             Parasite._linearDampening = 10f;
-            Parasite.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 5);
+            Parasite.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 5, DrawLayers.HUD_Minimap_normal_elements);
             Parasite.DeathParticle = ParticleType.ParasiteDeath;
 
             //Swarmer
@@ -61,6 +64,7 @@ namespace ChaoticMind {
             Swarmer.VisibleEntitySize = Swarmer._physicalEntitySize * 5.0f / 4.0f;
             Swarmer.SpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/Swarmer", 7, 1, Swarmer.VisibleEntitySize);
             Swarmer.AnimationDuration = 0.5f;
+            Swarmer.DrawLayer = DrawLayers.Characters;
             Swarmer._objectShape = ObjectShapes.CIRCLE;
             Swarmer._density = 1.0f;
             Swarmer._maxTurningTorque = 1.0f;
@@ -68,7 +72,7 @@ namespace ChaoticMind {
             Swarmer._health = 25;
             Swarmer.MainAttackDamage = 8.0f;
             Swarmer._linearDampening = 10f;
-            Swarmer.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 4);
+            Swarmer.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 4, DrawLayers.HUD_Minimap_normal_elements);
             Swarmer.DeathParticle = ParticleType.SwarmerDeath;
             
         }
@@ -120,5 +124,7 @@ namespace ChaoticMind {
         public float VisibleEntitySize { get; set; }
 
         public float MainAttackDamage { get; set; }
+
+        public float DrawLayer { get; set; }
     }
 }

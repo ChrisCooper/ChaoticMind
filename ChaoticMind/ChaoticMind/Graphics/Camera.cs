@@ -60,13 +60,13 @@ namespace ChaoticMind {
 
         public void Draw(IDrawable o, float alpha) {
             if (o.Texture != null) {
-                _spriteBatch.Draw(o.Texture, WorldToScreenPos(o.Position), o.CurrentTextureBounds, Color.White * alpha, o.Rotation, o.CurrentTextureOrigin, _zoom / o.PixelsPerMeter, SpriteEffects.None, 1.0f);
+                _spriteBatch.Draw(o.Texture, WorldToScreenPos(o.Position), o.CurrentTextureBounds, Color.White * alpha, o.Rotation, o.CurrentTextureOrigin, _zoom / o.PixelsPerMeter, SpriteEffects.None, o.DrawLayer);
             }
         }
 
         public void DrawOverlay(MapTile tile, Color clr) {
             if (tile.Overlay != null) {
-                _spriteBatch.Draw(tile.Overlay.Texture, WorldToScreenPos(tile.Position), tile.Overlay.CurrentTextureBounds, clr, tile.OverlayRotation, tile.Overlay.CurrentTextureOrigin, _zoom / tile.PixelsPerMeter, SpriteEffects.None, 1.0f);
+                _spriteBatch.Draw(tile.Overlay.Texture, WorldToScreenPos(tile.Position), tile.Overlay.CurrentTextureBounds, clr, tile.OverlayRotation, tile.Overlay.CurrentTextureOrigin, _zoom / tile.PixelsPerMeter, SpriteEffects.None, tile.OverlayDrawLayer);
             }
         }
 
@@ -76,7 +76,7 @@ namespace ChaoticMind {
 
         public void DrawMinimap(IMiniMapable obj, float alpha) {
             if (obj.MapSprite != null) {
-                _spriteBatch.Draw(obj.MapSprite.Texture, WorldToMapPos(obj.MapPosition), obj.MapSprite.CurrentTextureBounds, Color.White * alpha, obj.MapRotation, obj.MapSprite.CurrentTextureOrigin, WorldToMapScale(1 / obj.MapSprite.PixelsPerMeter), SpriteEffects.None, 1.0f);
+                _spriteBatch.Draw(obj.MapSprite.Texture, WorldToMapPos(obj.MapPosition), obj.MapSprite.CurrentTextureBounds, Color.White * alpha, obj.MapRotation, obj.MapSprite.CurrentTextureOrigin, WorldToMapScale(1 / obj.MapSprite.PixelsPerMeter), SpriteEffects.None, obj.MapDrawLayer);
             }
         }
 
@@ -143,6 +143,8 @@ namespace ChaoticMind {
         float Rotation { get; }
 
         float Alpha { get; }
+
+        float DrawLayer { get; }
     }
 
     internal interface IMiniMapable {
@@ -151,5 +153,7 @@ namespace ChaoticMind {
         Vector2 MapPosition { get; }
 
         float MapRotation { get; }
+
+        float MapDrawLayer { get; }
     }
 }

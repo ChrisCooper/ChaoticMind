@@ -19,12 +19,14 @@ namespace ChaoticMind {
             //Parasite Death
             ParasiteDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/ParasiteDeath", 5, 1, CharacterType.Parasite.VisibleEntitySize);
             ParasiteDeath._animationDuration = 0.4f;
+            ParasiteDeath.DrawLayer = DrawLayers.LowerParticles;
             ParasiteDeath._entitySize = CharacterType.Parasite.VisibleEntitySize;
             ParasiteDeath.Lifespan = 4.0f;
 
             //Swarmer Death
             SwarmerDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/SwarmerDeath", 4, 1, CharacterType.Swarmer.VisibleEntitySize);
             SwarmerDeath._animationDuration = 0.5f;
+            SwarmerDeath.DrawLayer = DrawLayers.LowerParticles;
             SwarmerDeath._entitySize = CharacterType.Swarmer.VisibleEntitySize;
             SwarmerDeath.Lifespan = 4.0f;
 
@@ -32,13 +34,15 @@ namespace ChaoticMind {
             AssaultRifleButtleDeath._entitySize = ProjectileType.AssaultRifleBullet.VisibleEntitySize *1.5f;
             AssaultRifleButtleDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/AssaultRifleBulletDeath", 3, 1, AssaultRifleButtleDeath._entitySize);
             AssaultRifleButtleDeath._animationDuration = 0.25f;
+            AssaultRifleButtleDeath.DrawLayer = DrawLayers.UpperParticles;
             AssaultRifleButtleDeath.Lifespan = AssaultRifleButtleDeath._animationDuration;
 
             //Swarmer Attack
-            SwarmerAttack._entitySize = Swarmer.AttackRange/10.0f;
+            SwarmerAttack._entitySize = Swarmer.AttackRange/7.0f;
             SwarmerAttack._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/SwarmerBolt", 1, 1, SwarmerAttack._entitySize);
-            SwarmerAttack._animationDuration = 0.5f;
-            SwarmerAttack.Lifespan = 1.0f;
+            SwarmerAttack._animationDuration = 0.1f;
+            SwarmerAttack.DrawLayer = DrawLayers.UpperParticles;
+            SwarmerAttack.Lifespan = 0.3f;
         }
 
         public SpriteAnimationSequence SpriteAnimationSequence {
@@ -52,5 +56,7 @@ namespace ChaoticMind {
         public float EntitySize { get { return _entitySize; }}
 
         public float Lifespan { get; set; }
+
+        public float DrawLayer { get; set; }
     }
 }

@@ -172,7 +172,7 @@ namespace ChaoticMind {
         /// all of your content.
         /// </summary>
         protected override void LoadContent() {
-            _pauseBackground = new StaticSprite("UI/PauseScreen", 1);
+            _pauseBackground = new StaticSprite("UI/PauseScreen", 1, DrawLayers.MenuBackgrounds);
         }
 
 
@@ -272,7 +272,7 @@ namespace ChaoticMind {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             //Draw real game
             drawObjects(gameTime);
@@ -303,7 +303,7 @@ namespace ChaoticMind {
 
         private void drawPauseOverlay() {
             //_spriteBatch.DrawString(_debugFont, "Game is paused", new Vector2(600.0f, 400.0f), Color.White);
-            _spriteBatch.Draw(_pauseBackground.Texture, _pauseLocation, _pauseBackground.CurrentTextureBounds, Color.White, 0.0f, _pauseBackground.CurrentTextureOrigin, 3, SpriteEffects.None, 0.0f);
+            _spriteBatch.Draw(_pauseBackground.Texture, _pauseLocation, _pauseBackground.CurrentTextureBounds, Color.White, 0.0f, _pauseBackground.CurrentTextureOrigin, 3, SpriteEffects.None, DrawLayers.MenuBackgrounds);
 
         }
 

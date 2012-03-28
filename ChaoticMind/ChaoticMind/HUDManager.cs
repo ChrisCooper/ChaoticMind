@@ -34,7 +34,7 @@ namespace ChaoticMind {
         }
 
         private void setupMinimapInfo() {
-            _minimapFrame = new StaticSprite("HUD/Minimap_Frame", 1.0f);
+            _minimapFrame = new StaticSprite("HUD/Minimap_Frame", 1.0f, DrawLayers.HUD_Backgrounds);
 
             float mapFrameSideLength = Math.Min(Screen.Width / 4.0f, Screen.Height / 3.0f);
             _mapFrameScale = mapFrameSideLength / _minimapFrame.Texture.Bounds.Width;
@@ -45,8 +45,8 @@ namespace ChaoticMind {
         }
 
         private void setupHealthInfo() {
-            _healthSprite = new StaticSprite("HUD/HealthBar", 1.0f);
-            _healthFrameSprite = new StaticSprite("HUD/Health_Frame", 1.0f);
+            _healthSprite = new StaticSprite("HUD/HealthBar", 1.0f, DrawLayers.HUD_Dynamic_Info);
+            _healthFrameSprite = new StaticSprite("HUD/Health_Frame", 1.0f, DrawLayers.HUD_Backgrounds);
 
             float healthFrameSpriteWidth = Screen.Width / 2.0f;
             float healthFrameSpriteHeight = _healthFrameSprite.Texture.Height / 3;
@@ -64,13 +64,13 @@ namespace ChaoticMind {
 
         internal void Draw_HUD(SpriteBatch spriteBatch) {
             //Minimap frame
-            spriteBatch.Draw(_minimapFrame.Texture, _mapFrameRect, Color.White);
+            spriteBatch.Draw(_minimapFrame.Texture, _mapFrameRect, _minimapFrame.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _minimapFrame.DrawLayer);
 
 
             //Health frame
-            spriteBatch.Draw(_healthFrameSprite.Texture, _healthFrameRect, Color.White);
+            spriteBatch.Draw(_healthFrameSprite.Texture, _healthFrameRect, _healthFrameSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _healthFrameSprite.DrawLayer);
             //Health bar
-            spriteBatch.Draw(_healthSprite.Texture, new Rectangle(_healthRect.Left, _healthRect.Top, (int)(Player.Instance.PercentHealth * _healthRect.Width), _healthRect.Height), Color.White);
+            spriteBatch.Draw(_healthSprite.Texture, new Rectangle(_healthRect.Left, _healthRect.Top, (int)(Player.Instance.PercentHealth * _healthRect.Width), _healthRect.Height), _healthSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _healthSprite.DrawLayer);
         }
 
         internal static Rectangle MinimapRect {
