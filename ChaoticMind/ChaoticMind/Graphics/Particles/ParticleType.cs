@@ -26,7 +26,7 @@ namespace ChaoticMind {
 
             //Swarmer Death
             SwarmerDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/SwarmerDeath", 4, 1, CharacterType.Swarmer.VisibleEntitySize);
-            SwarmerDeath._animationDuration = 0.5f;
+            SwarmerDeath._animationDuration = 0.3f;
             SwarmerDeath.DrawLayer = DrawLayers.LowerParticles;
             SwarmerDeath._entitySize = CharacterType.Swarmer.VisibleEntitySize;
             SwarmerDeath.Lifespan = 4.0f;

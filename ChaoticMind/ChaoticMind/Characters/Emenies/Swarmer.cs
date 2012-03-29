@@ -38,6 +38,10 @@ namespace ChaoticMind {
             }
         }
 
+        protected override void DropDeathParticle() {
+            ParticleManager.CreateParticle(Position, (float)(Utilities.randomDouble() * Math.PI * 2), _characterType.DeathParticle);
+        }
+
         public static float AttackRange { get { return _range; } }
     }
 }

@@ -82,9 +82,13 @@ namespace ChaoticMind {
 
         public override void Destroy() {
             if (_characterType.DeathParticle != null) {
-                ParticleManager.CreateParticle(Position, Rotation, _characterType.DeathParticle);
+                DropDeathParticle();
             }
             base.Destroy();
+        }
+
+        protected virtual void DropDeathParticle() {
+            ParticleManager.CreateParticle(Position, Rotation, _characterType.DeathParticle);
         }
 
         private bool isOutsideBoard() {
