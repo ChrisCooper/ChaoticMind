@@ -20,7 +20,7 @@ namespace ChaoticMind {
 
             //Player
             Player._physicalEntitySize = 1.0f;
-            Player.SpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("TestImages/TestPlayer", 1, 1, Player._physicalEntitySize);
+            Player.SpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Player", 1, 1, Player._physicalEntitySize * 1.3f);
             Player.AnimationDuration = 1.0f;
             Player.DrawLayer = DrawLayers.Characters;
             Player._objectShape = ObjectShapes.CIRCLE;

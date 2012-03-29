@@ -20,7 +20,7 @@ namespace ChaoticMind {
     /// 
     public class ChaoticMindGame : Microsoft.Xna.Framework.Game {
 
-        bool _goFullscreen = false;
+        bool _goFullscreen = true;
 
         //map dimension
         const int MAP_SIZE = 4;
@@ -307,9 +307,9 @@ namespace ChaoticMind {
         }
 
         private void drawDebugInfo(GameTime gameTime) {
-            _fpsCounter.Draw(gameTime);
-            _spriteBatch.DrawString(FontManager.DebugFont, string.Format("Player: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
-            _spriteBatch.DrawString(FontManager.DebugFont, string.Format("In Tile: ({0:0}, {1:0})", _player.GridCoordinate.X, _player.GridCoordinate.Y), new Vector2(10.0f, 65.0f), Color.White);
+            //_fpsCounter.Draw(gameTime);
+            //_spriteBatch.DrawString(FontManager.DebugFont, string.Format("Player: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
+            //_spriteBatch.DrawString(FontManager.DebugFont, string.Format("In Tile: ({0:0}, {1:0})", _player.GridCoordinate.X, _player.GridCoordinate.Y), new Vector2(10.0f, 65.0f), Color.White);
         }
 
         private void drawObjects(GameTime gameTime) {
