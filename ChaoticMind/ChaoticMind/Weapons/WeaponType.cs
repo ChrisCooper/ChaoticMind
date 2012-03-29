@@ -49,7 +49,7 @@ namespace ChaoticMind {
                 EnergyRifle._reloadTime = 2.5f;
                 EnergyRifle.setSpread(0.0f);
                 EnergyRifle.Inaccuracy = 0.1f;
-                EnergyRifle._HUD_Image = new StaticSprite("Weapons/AssaultRifle", 1, DrawLayers.HUD_Dynamic_Info);
+                EnergyRifle._HUD_Image = new StaticSprite("Weapons/EnergyRifle", 1, DrawLayers.HUD_Dynamic_Info);
                 EnergyRifle._projectileType = ProjectileType.EnergyShot;
                 EnergyRifle._isRayCasted = false;
             }
