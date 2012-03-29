@@ -118,6 +118,7 @@
     <Compile Include="Graphics\Particles\ParticleType.cs" />
     <Compile Include="HUD\HealthDisplay.cs" />
     <Compile Include="HUD\HUDManager.cs" />
+    <Compile Include="HUD\MinimapDisplay.cs" />
     <Compile Include="HUD\WeaponDisplay.cs" />
     <Compile Include="ShiftButton.cs" />
     <Compile Include="Characters\Emenies\Enemy.cs" />
