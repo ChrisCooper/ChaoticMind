@@ -24,7 +24,8 @@ namespace ChaoticMind {
         float _outsideBoardDamageInterval = 0.5f;
 
         //current weapon
-        protected Weapon _curWeapon;
+        protected List<Weapon> _weapons;
+        int _currentWeaponIndex;
 
         //health stuff
         protected float _maxHealth;
@@ -66,8 +67,8 @@ namespace ChaoticMind {
             performMovement(deltaTime);
 
 
-            if (_curWeapon != null) {
-                _curWeapon.update(deltaTime);
+            if (HasWeapons) {
+                CurrentWeapon.update(deltaTime);
             }
 
             //damage idiots who go outside the map 
@@ -117,14 +118,27 @@ namespace ChaoticMind {
 
         //hand off the reloading/shooting stuff to the currently equipped weapon
         protected void Reload() {
-            if (_curWeapon != null) {
-                _curWeapon.Reload();
+            if (HasWeapons) {
+                CurrentWeapon.Reload();
             }
         }
         protected void Shoot() {
-            if (_curWeapon != null) {
-                _curWeapon.Shoot(_body.Position + Vector2.Normalize(_locationToFace - _body.Position) * (EntitySize / 1.5f), _locationToFace - _body.Position);
+            if (HasWeapons) {
+                CurrentWeapon.Shoot(_body.Position + Vector2.Normalize(_locationToFace - _body.Position) * (EntitySize / 1.5f), _locationToFace - _body.Position);
             }
+        }
+
+        public bool HasWeapons {
+            get { return _weapons != null; }
+        }
+
+        public Weapon CurrentWeapon {
+            get { return _weapons[_currentWeaponIndex]; }
+        }
+
+
+        protected void GoToNextWeapon() {
+            _currentWeaponIndex = (_currentWeaponIndex + 1) % _weapons.Count;
         }
 
         //The location in global coordinates that this character will attempt to

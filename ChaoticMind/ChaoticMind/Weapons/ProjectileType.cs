@@ -18,7 +18,7 @@ namespace ChaoticMind {
 
         static ProjectileType() {
             //AssaultRifle
-            AssaultRifleBullet._damage = 3.0f;
+            AssaultRifleBullet._damage = 2.0f;
             AssaultRifleBullet._speed = 20.0f;
             AssaultRifleBullet._range = 50.0f;
             AssaultRifleBullet._radius = 0.075f;

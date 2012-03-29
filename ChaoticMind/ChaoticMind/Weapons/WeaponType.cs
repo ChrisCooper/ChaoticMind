@@ -33,7 +33,7 @@ namespace ChaoticMind {
                 AssaultRifle._weaponName = "Assault Rifle";
                 AssaultRifle._firesPerRound = 3;
                 AssaultRifle._firingInterval = 0.1f;
-                AssaultRifle._roundsPerClip = 40;
+                AssaultRifle._roundsPerClip = 50;
                 AssaultRifle._reloadTime = 2.5f;
                 AssaultRifle.setSpread(15.0f);
                 AssaultRifle.Inaccuracy = 0.4f;

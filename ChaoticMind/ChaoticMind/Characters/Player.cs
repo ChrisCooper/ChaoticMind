@@ -18,8 +18,10 @@ namespace ChaoticMind {
         public Player(Vector2 startingPosition)
             : base(CharacterType.Player, startingPosition) {
 
-            //_curWeapon = new Weapon(WeaponType.AssaultRifle, 5, this);
-                _curWeapon = new Weapon(WeaponType.EnergyRifle, 50, this);
+                _weapons = new List<Weapon>();
+            _weapons.Add(new Weapon(WeaponType.AssaultRifle, 5, this));
+            _weapons.Add(new Weapon(WeaponType.EnergyRifle, 5, this));
+
             _body.UserData = this;
             _instance = this;
         }
@@ -64,8 +66,13 @@ namespace ChaoticMind {
             }
 
             //reload
-            if (InputManager.IsKeyClicked(Keys.E)) {
+            if (InputManager.IsKeyClicked(Keys.R)) {
                 Reload();
+            }
+
+            //Switch weapon
+            if (InputManager.IsKeyClicked(Keys.E)) {
+                GoToNextWeapon();
             }
         }
     }
