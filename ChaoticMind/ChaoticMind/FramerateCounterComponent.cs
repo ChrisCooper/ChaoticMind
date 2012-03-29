@@ -39,7 +39,6 @@ namespace ChaoticMind
 
             string fps = string.Format("{0} fps", _frameRate);
 
-            _spriteBatch.DrawString(_font, fps, _position + Vector2.One, Color.Black);
             _spriteBatch.DrawString(_font, fps, _position, Color.White);
         }
     }

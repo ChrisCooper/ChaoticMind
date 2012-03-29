@@ -5,10 +5,13 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace ChaoticMind {
+namespace ChaoticMind.HUD {
     class HUDManager {
 
         static HUDManager _mainInstance;
+
+
+        WeaponDisplay _weaponDisplay = new WeaponDisplay();
 
         //MINIMAP
         StaticSprite _minimapFrame;
@@ -31,6 +34,7 @@ namespace ChaoticMind {
             _mainInstance = this;
             setupMinimapInfo();
             setupHealthInfo();
+            _weaponDisplay.Initialize();
         }
 
         private void setupMinimapInfo() {
@@ -71,7 +75,11 @@ namespace ChaoticMind {
             spriteBatch.Draw(_healthFrameSprite.Texture, _healthFrameRect, _healthFrameSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _healthFrameSprite.DrawLayer);
             //Health bar
             spriteBatch.Draw(_healthSprite.Texture, new Rectangle(_healthRect.Left, _healthRect.Top, (int)(Player.Instance.PercentHealth * _healthRect.Width), _healthRect.Height), _healthSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _healthSprite.DrawLayer);
-        }
+
+
+            _weaponDisplay.DrawDisplay(spriteBatch);
+
+            }
 
         internal static Rectangle MinimapRect {
             get { return _mainInstance._mapRect; }

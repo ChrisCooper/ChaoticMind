@@ -27,7 +27,6 @@ namespace ChaoticMind {
         
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
-        SpriteFont _debugFont;
 
         StaticSprite _pauseBackground;
         Vector2 _pauseLocation;
@@ -56,7 +55,7 @@ namespace ChaoticMind {
         MusicController _backgroundMusic;
         SoundEffects _soundEffects;
 
-        HUDManager _hudManager = new HUDManager();
+        HUD.HUDManager _hudManager = new HUD.HUDManager();
 
         MouseDrawer _mouseDrawer = new MouseDrawer();
 
@@ -104,8 +103,8 @@ namespace ChaoticMind {
 
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _debugFont = Content.Load<SpriteFont>("DebugFont");
-            _fpsCounter = new FrameRateCounter(_spriteBatch, _debugFont);
+            
+            _fpsCounter = new FrameRateCounter(_spriteBatch, FontManager.DebugFont);
 
             _hudManager.Initialize();
 
@@ -309,8 +308,8 @@ namespace ChaoticMind {
 
         private void drawDebugInfo(GameTime gameTime) {
             _fpsCounter.Draw(gameTime);
-            _spriteBatch.DrawString(_debugFont, string.Format("Player: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
-            _spriteBatch.DrawString(_debugFont, string.Format("In Tile: ({0:0}, {1:0})", _player.GridCoordinate.X, _player.GridCoordinate.Y), new Vector2(10.0f, 65.0f), Color.White);
+            _spriteBatch.DrawString(FontManager.DebugFont, string.Format("Player: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
+            _spriteBatch.DrawString(FontManager.DebugFont, string.Format("In Tile: ({0:0}, {1:0})", _player.GridCoordinate.X, _player.GridCoordinate.Y), new Vector2(10.0f, 65.0f), Color.White);
         }
 
         private void drawObjects(GameTime gameTime) {

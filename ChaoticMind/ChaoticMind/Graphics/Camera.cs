@@ -37,7 +37,7 @@ namespace ChaoticMind {
             _zoom = startingZoom;
             _graphicsDevice = graphics;
             _spriteBatch = spriteBatch;
-            _minimapRect = HUDManager.MinimapRect;
+            _minimapRect = HUD.HUDManager.MinimapRect;
             _mapWidthScale = _minimapRect.Width / MapManager.MainInstance.EdgeOfMapdimesion;
             _mapHeightScale = _minimapRect.Height / MapManager.MainInstance.EdgeOfMapdimesion;
         }

@@ -111,11 +111,13 @@
     <Compile Include="Audio\MusicController.cs" />
     <Compile Include="Audio\SoundEffects.cs" />
     <Compile Include="Characters\Emenies\Parasite.cs" />
+    <Compile Include="FontManager.cs" />
     <Compile Include="Graphics\DrawLayer.cs" />
     <Compile Include="Graphics\Particles\Particle.cs" />
     <Compile Include="Graphics\Particles\ParticleManager.cs" />
     <Compile Include="Graphics\Particles\ParticleType.cs" />
-    <Compile Include="HUDManager.cs" />
+    <Compile Include="HUD\HUDManager.cs" />
+    <Compile Include="HUD\WeaponDisplay.cs" />
     <Compile Include="ShiftButton.cs" />
     <Compile Include="Characters\Emenies\Enemy.cs" />
     <Compile Include="Characters\Emenies\Swarmer.cs" />
