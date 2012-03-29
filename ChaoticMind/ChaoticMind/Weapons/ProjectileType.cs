@@ -12,9 +12,9 @@ namespace ChaoticMind {
         float _range;
         float _radius;
         float _density;
-        AnimatedSprite _animation;
 
         public static ProjectileType AssaultRifleBullet = new ProjectileType();
+        public static ProjectileType EnergyShot = new ProjectileType();
 
         static ProjectileType() {
             //AssaultRifle
@@ -27,7 +27,19 @@ namespace ChaoticMind {
             AssaultRifleBullet.AnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/AssaultRifleBullet", 1, 1, AssaultRifleBullet.VisibleEntitySize);
             AssaultRifleBullet.AnimationDuration = 1.0f;
             AssaultRifleBullet.DrawLayer = DrawLayers.UpperParticles;
-            AssaultRifleBullet.DeathParticle = ParticleType.AssaultRifleButtleDeath;
+            AssaultRifleBullet.DeathParticle = ParticleType.AssaultRifleBulletDeath;
+
+            //EnergyShot
+            EnergyShot._damage = 10.0f;
+            EnergyShot._speed = 10.0f;
+            EnergyShot._range = 25.0f;
+            EnergyShot._radius = 0.5f;
+            EnergyShot.VisibleEntitySize = EnergyShot._radius * 2;
+            EnergyShot._density = 100.0f;
+            EnergyShot.AnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/EnergyBall", 4, 1, EnergyShot.VisibleEntitySize);
+            EnergyShot.AnimationDuration = 0.15f;
+            EnergyShot.DrawLayer = DrawLayers.UpperParticles;
+            EnergyShot.DeathParticle = ParticleType.EnergyRifleBulletDeath;
         }
 
         public float Lifetime {

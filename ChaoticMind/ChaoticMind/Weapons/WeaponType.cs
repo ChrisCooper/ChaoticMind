@@ -26,9 +26,10 @@ namespace ChaoticMind {
 
 
             public static WeaponType AssaultRifle = new WeaponType();
+            public static WeaponType EnergyRifle = new WeaponType();
 
             static WeaponType() {
-                //AssaultRifle
+                //Assault Rifle
                 AssaultRifle._weaponName = "Assault Rifle";
                 AssaultRifle._firesPerRound = 3;
                 AssaultRifle._firingInterval = 0.1f;
@@ -39,6 +40,18 @@ namespace ChaoticMind {
                 AssaultRifle._HUD_Image = new StaticSprite("Weapons/AssaultRifle", 1, DrawLayers.HUD_Dynamic_Info);
                 AssaultRifle._projectileType = ProjectileType.AssaultRifleBullet;
                 AssaultRifle._isRayCasted = false;
+
+                //Energy Rifle
+                EnergyRifle._weaponName = "Energy Rifle";
+                EnergyRifle._firesPerRound = 1;
+                EnergyRifle._firingInterval = 0.5f;
+                EnergyRifle._roundsPerClip = 20;
+                EnergyRifle._reloadTime = 2.5f;
+                EnergyRifle.setSpread(0.0f);
+                EnergyRifle.Inaccuracy = 0.1f;
+                EnergyRifle._HUD_Image = new StaticSprite("Weapons/AssaultRifle", 1, DrawLayers.HUD_Dynamic_Info);
+                EnergyRifle._projectileType = ProjectileType.EnergyShot;
+                EnergyRifle._isRayCasted = false;
             }
 
             private void setSpread(float spread_degrees) {

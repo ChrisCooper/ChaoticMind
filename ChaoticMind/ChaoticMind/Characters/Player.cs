@@ -18,7 +18,8 @@ namespace ChaoticMind {
         public Player(Vector2 startingPosition)
             : base(CharacterType.Player, startingPosition) {
 
-            _curWeapon = new Weapon(WeaponType.AssaultRifle, 5, this);
+            //_curWeapon = new Weapon(WeaponType.AssaultRifle, 5, this);
+                _curWeapon = new Weapon(WeaponType.EnergyRifle, 50, this);
             _body.UserData = this;
             _instance = this;
         }
