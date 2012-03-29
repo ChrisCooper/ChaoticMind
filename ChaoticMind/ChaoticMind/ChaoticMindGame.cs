@@ -23,7 +23,7 @@ namespace ChaoticMind {
         bool _goFullscreen = true;
 
         //map dimension
-        const int MAP_SIZE = 4;
+        const int MAP_SIZE = 7;
         
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;

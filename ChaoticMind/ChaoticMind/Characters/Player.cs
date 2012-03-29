@@ -58,7 +58,7 @@ namespace ChaoticMind {
             }
 
             movementVector *= _characterType.MaxMovementForce;
-            _body.ApplyLinearImpulse(movementVector);
+            _body.ApplyLinearImpulse(movementVector * deltaTime);
 
             //shooting
             if (InputManager.IsMouseDown()) {

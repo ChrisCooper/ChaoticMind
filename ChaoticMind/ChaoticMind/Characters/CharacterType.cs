@@ -26,9 +26,9 @@ namespace ChaoticMind {
             Player._objectShape = ObjectShapes.CIRCLE;
             Player._density = 1.0f;
             Player._maxTurningTorque = 1.0f;
-            Player._maxMovementForce = 3.0f;
-            Player._health = 100;
-            Player._linearDampening = 15f;
+            Player._maxMovementForce = 80.0f;
+            Player._health = 150;
+            Player._linearDampening = 10f;
             Player.MinimapSprite = new StaticSprite("Minimap/PlayerMinimap", MapTile.TileSideLength / 2, DrawLayers.HUD_Minimap_important_elements);
 
             //SillyBox
@@ -39,7 +39,7 @@ namespace ChaoticMind {
             SillyBox._objectShape = ObjectShapes.RECTANGLE;
             SillyBox._density = 1.0f;
             SillyBox._maxTurningTorque = 1.0f;
-            SillyBox._maxMovementForce = 10.0f;
+            SillyBox._maxMovementForce = 300.0f;
             SillyBox._linearDampening = 0.0f;
             SillyBox._health = 10;
 
@@ -52,7 +52,7 @@ namespace ChaoticMind {
             Parasite._objectShape = ObjectShapes.CIRCLE;
             Parasite._density = 1.0f;
             Parasite._maxTurningTorque = 1.0f;
-            Parasite._maxMovementForce = 3.0f;
+            Parasite._maxMovementForce = 100.0f;
             Parasite._health = 20;
             Parasite.MainAttackDamage = 5.0f;
             Parasite._linearDampening = 10f;
@@ -68,7 +68,7 @@ namespace ChaoticMind {
             Swarmer._objectShape = ObjectShapes.CIRCLE;
             Swarmer._density = 1.0f;
             Swarmer._maxTurningTorque = 1.0f;
-            Swarmer._maxMovementForce = 3.0f;
+            Swarmer._maxMovementForce = 100.0f;
             Swarmer._health = 35;
             Swarmer.MainAttackDamage = 8.0f;
             Swarmer._linearDampening = 10f;

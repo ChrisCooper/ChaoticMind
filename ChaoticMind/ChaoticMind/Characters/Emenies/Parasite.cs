@@ -9,7 +9,8 @@ namespace ChaoticMind {
 
          float lunge_chance = 1.0f / 60.0f / 2f; //once every three seconds
          float lungeDuration = 0.5f;
-         float movement_jitteriness = 25.0f;
+         float movement_jitteriness = 20.0f;
+        float lunge_strength = 10.0f;
 
         bool _isLunging = false;
         Timer _lungeDurationTimer;
@@ -50,15 +51,16 @@ namespace ChaoticMind {
             }
 
             if (Utilities.randomDouble() < lunge_chance) {
-                lunge(Player.Instance.Position);
+                lunge(Player.Instance.Position, deltaTime);
             }
         }
 
-        private void lunge(Vector2 LocationToMoveToward) {
+        private void lunge(Vector2 LocationToMoveToward, float deltaTime) {
             _isLunging = true;
             Vector2 direction = LocationToMoveToward - Position;
             direction.Normalize();
-            _body.ApplyLinearImpulse(direction * _characterType.MaxMovementForce * 5.0f);
+            //We use a constant here instead of deltaTime because this force is only applied once and should be independent of framerate (ironic, isn't it?)
+            _body.ApplyLinearImpulse(direction * _characterType.MaxMovementForce * lunge_strength * 1/60f);
             _lungeDurationTimer.Reset();
         }
     }

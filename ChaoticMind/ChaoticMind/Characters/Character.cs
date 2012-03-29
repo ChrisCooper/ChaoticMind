@@ -108,7 +108,9 @@ namespace ChaoticMind {
         private void performMovement(float deltaTime) {
             Vector2 movement = (_locationToMoveToward - _body.Position);
             //Kills game? wtf??
-            //movement.Normalize();
+            if (movement != Vector2.Zero) {
+                movement.Normalize();
+            }
 
             _body.ApplyLinearImpulse(_characterType.MaxMovementForce * movement * deltaTime);
 
