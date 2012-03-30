@@ -45,7 +45,7 @@ namespace ChaoticMind {
                 EnergyRifle._weaponName = "Energy Rifle";
                 EnergyRifle._firesPerRound = 1;
                 EnergyRifle._firingInterval = 0.5f;
-                EnergyRifle._roundsPerClip = 20;
+                EnergyRifle._roundsPerClip = 40;
                 EnergyRifle._reloadTime = 2.5f;
                 EnergyRifle.setSpread(0.0f);
                 EnergyRifle.Inaccuracy = 0.1f;
