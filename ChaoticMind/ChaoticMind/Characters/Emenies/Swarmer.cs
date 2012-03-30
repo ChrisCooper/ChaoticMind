@@ -31,7 +31,7 @@ namespace ChaoticMind {
         protected override void performTypeUniqueMovements(float deltaTime) {
             _attackTimer.Update(deltaTime);
 
-            if (_attackTimer.isFinished && Vector2.Distance(Player.Instance.Position, Position) <= _range){
+            if (_attackTimer.isFinished && Vector2.Distance(Player.Instance.Position, Position) <= _range && Player.Instance.GridCoordinate == GridCoordinatewwwwwwwwwwww){
                 Player.Instance.ApplyDamage(_characterType.MainAttackDamage);
                 _attackTimer.Reset();
                 ParticleManager.CreateParticle(Position, Utilities.AngleTowards(Position, Player.Instance.Position), ParticleType.SwarmerAttack);
