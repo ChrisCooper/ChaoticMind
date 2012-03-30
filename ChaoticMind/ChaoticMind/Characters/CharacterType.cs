@@ -68,8 +68,8 @@ namespace ChaoticMind {
             Swarmer._objectShape = ObjectShapes.CIRCLE;
             Swarmer._density = 1.0f;
             Swarmer._maxTurningTorque = 1.0f;
-            Swarmer._maxMovementForce = 100.0f;
-            Swarmer._health = 35;
+            Swarmer._maxMovementForce = 140.0f;
+            Swarmer._health = 29;
             Swarmer.MainAttackDamage = 8.0f;
             Swarmer._linearDampening = 10f;
             Swarmer.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 4, DrawLayers.HUD_Minimap_normal_elements);

@@ -78,6 +78,7 @@ namespace ChaoticMind {
                 return _animationSequence.getFrameRect(_currentFrameIndex);
             }
         }
+
         public Vector2 CurrentTextureOrigin {
             get { return new Vector2(CurrentTextureBounds.Width / 2, CurrentTextureBounds.Height / 2); }
         }
@@ -87,5 +88,9 @@ namespace ChaoticMind {
         }
 
         public float DrawLayer { get; set; }
+
+        internal void RandomizeFrame() {
+            _elapsedTime += (float)Utilities.randomDouble() * 1000f;
+        }
     }
 }

@@ -1,3 +1,4 @@
+ghost enemy
 
 collectible appearance
 

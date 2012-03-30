@@ -15,11 +15,15 @@ namespace ChaoticMind {
         public DrawableGameObject(String spriteResource, int xFrames, int yFrames, float entitySize, float animationDuration, float drawLayer, Vector2 startingPosition)
             : base(startingPosition) {
             _sprite = new AnimatedSprite(spriteResource, xFrames, yFrames, entitySize, animationDuration, drawLayer);
+            _sprite.RandomizeFrame();
         }
 
         public DrawableGameObject(Vector2 startingPosition, SpriteAnimationSequence spriteSequence, float entitySize, float animationDuration, float drawLayer)
             : base(startingPosition) {
-            _sprite = new AnimatedSprite(spriteSequence, entitySize, animationDuration, drawLayer);
+                if (spriteSequence != null) {
+                    _sprite = new AnimatedSprite(spriteSequence, entitySize, animationDuration, drawLayer);
+                    _sprite.RandomizeFrame();
+                }
         }
 
         public DrawableGameObject(Vector2 startingPosition)
