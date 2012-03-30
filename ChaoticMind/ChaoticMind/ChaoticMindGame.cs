@@ -20,7 +20,7 @@ namespace ChaoticMind {
     /// 
     public class ChaoticMindGame : Microsoft.Xna.Framework.Game {
 
-        bool _goFullscreen = true;
+        bool _goFullscreen = false;
 
         //map dimension
         const int MAP_SIZE = 7;
@@ -270,19 +270,40 @@ namespace ChaoticMind {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
+            
 
+            /**** Draw Game Objects ****/
             _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             //Draw real game
             drawObjects(gameTime);
 
-            //Draw HUD
+            _spriteBatch.End();
+
+
+            /**** Draw Glow Effects ****/
+            //Using BlendState.Additive will make things drawn in this section only brighten, never darken.
+            //This means colors will be intensified, and look like glow
+            _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.Additive);
+
+            //Draw real game
+            drawGlows(gameTime);
+
+            _spriteBatch.End();
+
+
+            _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+
+
+            /**** Draw HUD ****/
             _hudManager.Draw_HUD(_spriteBatch);
 
             //Draw Minimap
             _mapManager.DrawMap(_mainCamera);
             drawObjectsOnMinimap(gameTime);
-            
+
+
+            /**** Draw Special State Objects ****/
 
             if (GameState.Mode == GameState.GameMode.PAUSED) {
                 drawPauseOverlay();
@@ -300,16 +321,10 @@ namespace ChaoticMind {
             base.Draw(gameTime);
         }
 
-        private void drawPauseOverlay() {
-            //_spriteBatch.DrawString(_debugFont, "Game is paused", new Vector2(600.0f, 400.0f), Color.White);
-            _spriteBatch.Draw(_pauseBackground.Texture, _pauseLocation, _pauseBackground.CurrentTextureBounds, Color.White, 0.0f, _pauseBackground.CurrentTextureOrigin, 3, SpriteEffects.None, DrawLayers.MenuBackgrounds);
-
-        }
-
-        private void drawDebugInfo(GameTime gameTime) {
-            //_fpsCounter.Draw(gameTime);
-            //_spriteBatch.DrawString(FontManager.DebugFont, string.Format("Player: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
-            //_spriteBatch.DrawString(FontManager.DebugFont, string.Format("In Tile: ({0:0}, {1:0})", _player.GridCoordinate.X, _player.GridCoordinate.Y), new Vector2(10.0f, 65.0f), Color.White);
+        private void drawGlows(GameTime gameTime) {
+            _particleManager.DrawGlows(_mainCamera);
+            //_projectileManager.DrawGlows(_mainCamera);
+            //_collectibleManager.DrawGlows(_mainCamera);
         }
 
         private void drawObjects(GameTime gameTime) {
@@ -327,7 +342,6 @@ namespace ChaoticMind {
             _projectileManager.Draw(_mainCamera);
             _collectibleManager.Draw(_mainCamera);
             _collectibleManager.DrawOnMinimap(_mainCamera);
-            
         }
 
         private void drawObjectsOnMinimap(GameTime gameTime) {
@@ -337,6 +351,18 @@ namespace ChaoticMind {
                 _mainCamera.DrawMinimap(obj);
             }
             _collectibleManager.DrawOnMinimap(_mainCamera);
+        }
+
+        private void drawPauseOverlay() {
+            //_spriteBatch.DrawString(_debugFont, "Game is paused", new Vector2(600.0f, 400.0f), Color.White);
+            _spriteBatch.Draw(_pauseBackground.Texture, _pauseLocation, _pauseBackground.CurrentTextureBounds, Color.White, 0.0f, _pauseBackground.CurrentTextureOrigin, 3, SpriteEffects.None, DrawLayers.MenuBackgrounds);
+
+        }
+
+        private void drawDebugInfo(GameTime gameTime) {
+            //_fpsCounter.Draw(gameTime);
+            //_spriteBatch.DrawString(FontManager.DebugFont, string.Format("Player: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
+            //_spriteBatch.DrawString(FontManager.DebugFont, string.Format("In Tile: ({0:0}, {1:0})", _player.GridCoordinate.X, _player.GridCoordinate.Y), new Vector2(10.0f, 65.0f), Color.White);
         }
 
         internal void closeShiftInterface() {

@@ -42,12 +42,14 @@ namespace ChaoticMind {
             EnergyRifleBulletDeath._entitySize = ProjectileType.EnergyShot.VisibleEntitySize * 2f;
             EnergyRifleBulletDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/EnergyBallDeath", 4, 1, EnergyRifleBulletDeath._entitySize);
             EnergyRifleBulletDeath._animationDuration = 0.15f;
+            EnergyRifleBulletDeath.GlowSpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/EnergyBallDeathGlow", 4, 1, EnergyRifleBulletDeath._entitySize);
             EnergyRifleBulletDeath.DrawLayer = DrawLayers.UpperParticles;
             EnergyRifleBulletDeath.Lifespan = EnergyRifleBulletDeath._animationDuration;
 
             //Swarmer Attack
             SwarmerAttack._entitySize = Swarmer.AttackRange/7f;
             SwarmerAttack._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/SwarmerBolt", 4, 1, SwarmerAttack._entitySize);
+            SwarmerAttack.GlowSpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/SwarmerBoltGlow", 4, 1, SwarmerAttack._entitySize);
             SwarmerAttack._animationDuration = 0.3f;
             SwarmerAttack.DrawLayer = DrawLayers.UpperParticles;
             SwarmerAttack.Lifespan = 0.3f;
@@ -66,5 +68,7 @@ namespace ChaoticMind {
         public float Lifespan { get; set; }
 
         public float DrawLayer { get; set; }
+
+        public ChaoticMind.SpriteAnimationSequence GlowSpriteAnimationSequence { get; set; }
     }
 }

@@ -41,6 +41,12 @@ namespace ChaoticMind {
             }
         }
 
+        internal void DrawGlows(Camera camera) {
+            foreach (Particle p in _particles) {
+                camera.DrawGlow(p);
+            }
+        }
+
         public static void CreateParticle(Vector2 startingPosition, float rotation, ParticleType particleType) {
             _mainInstance._particles.Add(new Particle(startingPosition, rotation, particleType));
         }

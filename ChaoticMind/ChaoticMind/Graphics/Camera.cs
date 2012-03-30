@@ -58,15 +58,21 @@ namespace ChaoticMind {
             Draw(o, o.Alpha);
         }
 
+        internal void DrawGlow(IGlowDrawable o) {
+            if (o.GlowSprite != null) {
+                _spriteBatch.Draw(o.GlowSprite.Texture, WorldToScreenPos(o.Position), o.GlowSprite.CurrentTextureBounds, Color.White * o.Alpha, o.Rotation, o.GlowSprite.CurrentTextureOrigin, _zoom / o.GlowSprite.PixelsPerMeter, SpriteEffects.None, 1.0f);
+            }
+        }
+
         public void Draw(IDrawable o, float alpha) {
-            if (o.Texture != null) {
-                _spriteBatch.Draw(o.Texture, WorldToScreenPos(o.Position), o.CurrentTextureBounds, Color.White * alpha, o.Rotation, o.CurrentTextureOrigin, _zoom / o.PixelsPerMeter, SpriteEffects.None, o.DrawLayer);
+            if (o.Sprite != null) {
+                _spriteBatch.Draw(o.Sprite.Texture, WorldToScreenPos(o.Position), o.Sprite.CurrentTextureBounds, Color.White * alpha, o.Rotation, o.Sprite.CurrentTextureOrigin, _zoom / o.Sprite.PixelsPerMeter, SpriteEffects.None, o.DrawLayer);
             }
         }
 
         public void DrawOverlay(MapTile tile, Color clr) {
             if (tile.Overlay != null) {
-                _spriteBatch.Draw(tile.Overlay.Texture, WorldToScreenPos(tile.Position), tile.Overlay.CurrentTextureBounds, clr, tile.OverlayRotation, tile.Overlay.CurrentTextureOrigin, _zoom / tile.PixelsPerMeter, SpriteEffects.None, tile.OverlayDrawLayer);
+                _spriteBatch.Draw(tile.Overlay.Texture, WorldToScreenPos(tile.Position), tile.Overlay.CurrentTextureBounds, clr, tile.OverlayRotation, tile.Overlay.CurrentTextureOrigin, _zoom / tile.Overlay.PixelsPerMeter, SpriteEffects.None, tile.OverlayDrawLayer);
             }
         }
 
@@ -130,13 +136,7 @@ namespace ChaoticMind {
 
     internal interface IDrawable {
 
-        Texture2D Texture { get; }
-
-        Rectangle CurrentTextureBounds { get; }
-
-        Vector2 CurrentTextureOrigin { get; }
-
-        float PixelsPerMeter { get; }
+        AnimatedSprite Sprite { get; }
 
         Vector2 Position { get; }
 
@@ -145,6 +145,16 @@ namespace ChaoticMind {
         float Alpha { get; }
 
         float DrawLayer { get; }
+    }
+
+    internal interface IGlowDrawable {
+        AnimatedSprite GlowSprite { get; }
+
+        Vector2 Position { get; }
+
+        float Rotation { get; }
+
+        float Alpha { get; }
     }
 
     internal interface IMiniMapable {

@@ -44,36 +44,8 @@ namespace ChaoticMind {
             get { return _minimapSprite; }
         }
 
-        public Texture2D Texture {
-            get {
-                if (_sprite != null)
-                    return _sprite.Texture;
-                return null;
-            }
-        }
-
-        public Rectangle CurrentTextureBounds {
-            get {
-                if (_sprite != null)
-                    return _sprite.CurrentTextureBounds;
-                return Rectangle.Empty;
-            }
-        }
-
-        public Vector2 CurrentTextureOrigin {
-            get {
-                if (_sprite != null)
-                    return _sprite.CurrentTextureOrigin;
-                return Vector2.Zero;
-            }
-        }
-
-        public float PixelsPerMeter {
-            get {
-                if (_sprite != null)
-                    return _sprite.PixelsPerMeter;
-                return 1;
-            }
+        public AnimatedSprite Sprite {
+            get { return _sprite; }
         }
 
         public float EntitySize {

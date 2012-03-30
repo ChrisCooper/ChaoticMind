@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ChaoticMind {
-    class Particle : IDrawable {
+    class Particle : IDrawable, IGlowDrawable {
 
         private Vector2 _position;
         private float _rotation;
@@ -19,21 +19,27 @@ namespace ChaoticMind {
             _position = startingPosition;
             _rotation = rotation;
             _particleType = particleType;
-            _sprite = new AnimatedSprite(particleType.SpriteAnimationSequence, particleType.EntitySize, particleType.AnimationDuration, particleType.DrawLayer, false);
             _fadeOutTimer = new Timer(particleType.Lifespan);
+
+            if (particleType.SpriteAnimationSequence != null) {
+                _sprite = new AnimatedSprite(particleType.SpriteAnimationSequence, particleType.EntitySize, particleType.AnimationDuration, particleType.DrawLayer, false);
+            }
+
+            if (particleType.GlowSpriteAnimationSequence != null) {
+                GlowSprite = new AnimatedSprite(particleType.GlowSpriteAnimationSequence, particleType.EntitySize, particleType.AnimationDuration, particleType.DrawLayer, false);
+            }
         }
         internal void Update(float deltaTime) {
-            _sprite.Update(deltaTime);
+            if (_sprite != null) {
+                _sprite.Update(deltaTime);
+            }
+            if (GlowSprite != null) {
+                GlowSprite.Update(deltaTime);
+            }
             _fadeOutTimer.Update(deltaTime);
         }
 
-        public Texture2D Texture { get { return _sprite.Texture; } }
-
-        public Rectangle CurrentTextureBounds { get { return _sprite.CurrentTextureBounds; } }
-
-        public Vector2 CurrentTextureOrigin { get { return _sprite.CurrentTextureOrigin; } }
-
-        public float PixelsPerMeter { get { return _sprite.PixelsPerMeter; } }
+        public AnimatedSprite Sprite { get { return _sprite; } }
 
         public Vector2 Position { get { return _position; } }
 
@@ -44,6 +50,8 @@ namespace ChaoticMind {
                 return 1 - _fadeOutTimer.percentComplete;
             }
         }
+
+        public AnimatedSprite GlowSprite { get; set; }
 
         public bool isDead { get { return _fadeOutTimer.isFinished; } }
 
