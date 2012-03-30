@@ -18,7 +18,7 @@ namespace ChaoticMind {
 
         public static void Initialize() {
             //Parasite Death
-            ParasiteDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/ParasiteDeath", 5, 1, CharacterType.Parasite.VisibleEntitySize);
+            ParasiteDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/ParasiteDeath", 4, 1, CharacterType.Parasite.VisibleEntitySize);
             ParasiteDeath._animationDuration = 0.4f;
             ParasiteDeath.DrawLayer = DrawLayers.LowerParticles;
             ParasiteDeath._entitySize = CharacterType.Parasite.VisibleEntitySize;

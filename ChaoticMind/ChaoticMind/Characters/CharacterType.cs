@@ -46,8 +46,8 @@ namespace ChaoticMind {
             //Parasite
             Parasite._physicalEntitySize = 0.8f;
             Parasite.VisibleEntitySize = Parasite._physicalEntitySize * 6f / 4f;
-            Parasite.SpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/Parasite", 12, 1, Parasite._physicalEntitySize * 6f / 4f);
-            Parasite.AnimationDuration = 0.5f;
+            Parasite.SpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/Parasite", 5, 1, Parasite._physicalEntitySize * 6f / 4f);
+            Parasite.AnimationDuration = 0.23f;
             Parasite.DrawLayer = DrawLayers.Characters;
             Parasite._objectShape = ObjectShapes.CIRCLE;
             Parasite._density = 1.0f;
