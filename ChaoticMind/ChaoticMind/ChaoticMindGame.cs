@@ -281,10 +281,12 @@ namespace ChaoticMind {
             _spriteBatch.End();
 
 
+
             /**** Draw Glow Effects ****/
             //Using BlendState.Additive will make things drawn in this section only brighten, never darken.
             //This means colors will be intensified, and look like glow
-            _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.Additive);
+
+            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
 
             //Draw real game
             drawGlows(gameTime);
@@ -292,8 +294,8 @@ namespace ChaoticMind {
             _spriteBatch.End();
 
 
-            _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
+            _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             /**** Draw HUD ****/
             _hudManager.Draw_HUD(_spriteBatch);
@@ -323,7 +325,7 @@ namespace ChaoticMind {
 
         private void drawGlows(GameTime gameTime) {
             _particleManager.DrawGlows(_mainCamera);
-            //_projectileManager.DrawGlows(_mainCamera);
+            _projectileManager.DrawGlows(_mainCamera);
             //_collectibleManager.DrawGlows(_mainCamera);
         }
 

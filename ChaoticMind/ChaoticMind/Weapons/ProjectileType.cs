@@ -38,6 +38,8 @@ namespace ChaoticMind {
             EnergyShot._density = 100.0f;
             EnergyShot.AnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/EnergyBall", 4, 1, EnergyShot.VisibleEntitySize);
             EnergyShot.AnimationDuration = 0.15f;
+            EnergyShot.GlowEntitySize = EnergyShot.VisibleEntitySize * 2;
+            EnergyShot.GlowSpriteSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/EnergyBallGlow", 4, 1, EnergyShot.GlowEntitySize);
             EnergyShot.DrawLayer = DrawLayers.UpperParticles;
             EnergyShot.DeathParticle = ParticleType.EnergyRifleBulletDeath;
         }
@@ -75,5 +77,9 @@ namespace ChaoticMind {
         public ParticleType DeathParticle { get; set; }
 
         public float DrawLayer { get; set; }
+
+        public SpriteAnimationSequence GlowSpriteSequence { get; set; }
+
+        public float GlowEntitySize { get; set; }
     }
 }

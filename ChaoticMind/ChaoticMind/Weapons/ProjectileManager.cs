@@ -36,6 +36,12 @@ namespace ChaoticMind {
             }
         }
 
+        internal void DrawGlows(Camera camera) {
+            foreach (Projectile p in _projectiles) {
+                camera.DrawGlow(p);
+            }
+        }
+
         public static void CreateProjectile(Vector2 startingPosition, Vector2 gunDirection, ProjectileType projectileType) {
             _mainInstance._projectiles.Add(new Projectile(startingPosition, gunDirection, projectileType));
         }
@@ -43,5 +49,7 @@ namespace ChaoticMind {
         internal static void Remove(Projectile projectile) {
             _mainInstance._projectiles.Remove(projectile);
         }
+
+
     }
 }

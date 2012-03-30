@@ -7,7 +7,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 
 namespace ChaoticMind {
-    class Projectile : DrawableGameObject{
+    class Projectile : DrawableGameObject, IGlowDrawable {
 
         ProjectileType _projectileType;
         Vector2 _direction;
@@ -41,6 +41,10 @@ namespace ChaoticMind {
 
             //init the timer
             _lifetimeTimer = new Timer(_projectileType.Lifetime);
+
+            if (projectileType.GlowSpriteSequence != null) {
+                GlowSprite = new AnimatedSprite(projectileType.GlowSpriteSequence, projectileType.GlowEntitySize, projectileType.AnimationDuration, projectileType.DrawLayer);
+            }
         }
 
         bool _body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact) {
@@ -48,7 +52,7 @@ namespace ChaoticMind {
 
             Destroy();
 
-            //Check if the object is even an IDamageable
+            //Check if the object is even an IDamageable, and not the player
             if (hitObject == null || hitObject == Player.Instance) {
                 return true;
             }
@@ -61,6 +65,8 @@ namespace ChaoticMind {
             return _lifetimeTimer.isFinished;
         }
 
+        public AnimatedSprite GlowSprite { get; set; }
+
         public override void Destroy() {
             _body.Dispose();
             ProjectileManager.Remove(this);
@@ -71,6 +77,9 @@ namespace ChaoticMind {
 
         public override void Update(float deltaTime) {
             _lifetimeTimer.Update(deltaTime);
+            if (GlowSprite != null) {
+                GlowSprite.Update(deltaTime);
+            }
             base.Update(deltaTime);
         }
     }
