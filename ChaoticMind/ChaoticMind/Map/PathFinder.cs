@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace ChaoticMind.Characters {
+namespace ChaoticMind {
     class PathFinder {
 
         static MapManager _mapManager;
@@ -13,15 +13,20 @@ namespace ChaoticMind.Characters {
             _mapManager = mapManager;
         }
 
-        public PathFindingResult LocationForPathTo(Vector2 worldFromLocation, Vector2 worldToLocation) {
+        public static PathFindingResult NextLocationForPathTo(Vector2 worldFromLocation, Vector2 worldToLocation) {
 
             //Find Path, and fill a result.
 
-            return new PathFindingResult();
+            return new PathFindingResult(worldToLocation, true);
         }
     }
 
     public class PathFindingResult {
+        public PathFindingResult(Vector2 immediateDestination, bool isActualDestination) {
+            ImmediateDestination = immediateDestination;
+            IsActualDestination = isActualDestination;
+        }
+
         public Vector2 ImmediateDestination { get; set; }
 
         /// <summary>

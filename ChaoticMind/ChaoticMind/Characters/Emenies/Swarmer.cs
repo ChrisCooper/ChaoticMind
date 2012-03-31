@@ -22,7 +22,8 @@ namespace ChaoticMind {
         //Use input (in the case of a controllable character)
         // or an AI routine to decide what direction this character should try to face, and move
         protected override void decideOnMovementTargets() {
-            LocationToMoveToward = Player.Instance.FuturePosition + Utilities.randomNormalizedVector() * movementJitteriness;
+            LocationToMoveToward = PathFinder.NextLocationForPathTo(Position, Player.Instance.FuturePosition).ImmediateDestination;
+            LocationToMoveToward += Utilities.randomNormalizedVector() * movementJitteriness;
 
             //Don't rotate. Just face up.
             LocationToFace = _body.Position + Vector2.UnitY;
@@ -31,7 +32,7 @@ namespace ChaoticMind {
         protected override void performTypeUniqueMovements(float deltaTime) {
             _attackTimer.Update(deltaTime);
 
-            if (_attackTimer.isFinished && Vector2.Distance(Player.Instance.Position, Position) <= _range && Player.Instance.GridCoordinate == GridCoordinatewwwwwwwwwwww){
+            if (_attackTimer.isFinished && Vector2.Distance(Player.Instance.Position, Position) <= _range && Player.Instance.GridCoordinate == GridCoordinate){
                 Player.Instance.ApplyDamage(_characterType.MainAttackDamage);
                 _attackTimer.Reset();
                 ParticleManager.CreateParticle(Position, Utilities.AngleTowards(Position, Player.Instance.Position), ParticleType.SwarmerAttack);
