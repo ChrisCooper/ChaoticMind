@@ -35,7 +35,7 @@ namespace ChaoticMind {
         }
 
         //destroy method
-        public virtual void Destroy(){
+        public virtual void DestroySelf(){
             _body.Dispose();
         }
     }

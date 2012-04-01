@@ -1,3 +1,5 @@
+health overlay indication
+
 ghost enemy
 
 collectible appearance

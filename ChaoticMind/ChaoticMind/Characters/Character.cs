@@ -80,11 +80,11 @@ namespace ChaoticMind {
             base.Update(deltaTime);
         }
 
-        public override void Destroy() {
+        public override void DestroySelf() {
             if (_characterType.DeathParticle != null) {
                 DropDeathParticle();
             }
-            base.Destroy();
+            base.DestroySelf();
         }
 
         protected virtual void DropDeathParticle() {

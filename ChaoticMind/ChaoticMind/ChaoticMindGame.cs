@@ -20,16 +20,18 @@ namespace ChaoticMind {
     /// 
     public class ChaoticMindGame : Microsoft.Xna.Framework.Game {
 
-        bool _goFullscreen = true;
+        bool _goFullscreen = false;
 
         //map dimension
-        const int MAP_SIZE = 7;
+        const int MAP_SIZE = 4;
         
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
 
         StaticSprite _pauseBackground;
-        Vector2 _pauseLocation;
+        Vector2 _centreLocation;
+
+        StaticSprite _deathScreen;
 
         FrameRateCounter _fpsCounter;
 
@@ -81,7 +83,7 @@ namespace ChaoticMind {
 
             Screen.Initialize(_graphics, _goFullscreen);
 
-             _pauseLocation = new Vector2(Screen.Width / 2.0f, Screen.Height / 2.0f);
+             _centreLocation = new Vector2(Screen.Width / 2.0f, Screen.Height / 2.0f);
 
             Content.RootDirectory = "Content";
             SpriteAnimationSequence.SharedContentManager = Content;
@@ -172,6 +174,7 @@ namespace ChaoticMind {
         /// </summary>
         protected override void LoadContent() {
             _pauseBackground = new StaticSprite("UI/PauseScreen", 1, DrawLayers.MenuBackgrounds);
+            _deathScreen = new StaticSprite("Screens/DeathScreen", 1, DrawLayers.MenuBackgrounds);
         }
 
 
@@ -223,7 +226,7 @@ namespace ChaoticMind {
 
             for (int i = 0 ; i < _objects.Count ; i++){
                 if (_objects[i].ShouldDieNow()){
-                    _objects[i].Destroy();
+                    _objects[i].DestroySelf();
                     _objects.RemoveAt(i);
                     i--;
                 }
@@ -259,8 +262,7 @@ namespace ChaoticMind {
             }
             //you died
             if (_player.ShouldDieNow()) {
-                GameState.Mode = GameState.GameMode.GAMEOVER;
-                this.Exit(); //currentSpreadSweepDirection
+                GameState.Mode = GameState.GameMode.GAMEOVERLOSE;
             }
         }
 
@@ -270,6 +272,11 @@ namespace ChaoticMind {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
+
+            if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
+                drawDeathScreen();
+                //base.Draw(gameTime);
+            }
             
 
             /**** Draw Game Objects ****/
@@ -323,6 +330,11 @@ namespace ChaoticMind {
             base.Draw(gameTime);
         }
 
+        private void drawDeathScreen() {
+            //_spriteBatch.Draw(_deathScreen.Texture, _centreLocation, _deathScreen.CurrentTextureBounds, Color.White, 0.0f, _deathScreen.CurrentTextureOrigin, , SpriteEffects.None, DrawLayers.MenuBackgrounds);
+
+        }
+
         private void drawGlows(GameTime gameTime) {
             _particleManager.DrawGlows(_mainCamera);
             _projectileManager.DrawGlows(_mainCamera);
@@ -357,7 +369,7 @@ namespace ChaoticMind {
 
         private void drawPauseOverlay() {
             //_spriteBatch.DrawString(_debugFont, "Game is paused", new Vector2(600.0f, 400.0f), Color.White);
-            _spriteBatch.Draw(_pauseBackground.Texture, _pauseLocation, _pauseBackground.CurrentTextureBounds, Color.White, 0.0f, _pauseBackground.CurrentTextureOrigin, 3, SpriteEffects.None, DrawLayers.MenuBackgrounds);
+            _spriteBatch.Draw(_pauseBackground.Texture, _centreLocation, _pauseBackground.CurrentTextureBounds, Color.White, 0.0f, _pauseBackground.CurrentTextureOrigin, 3, SpriteEffects.None, DrawLayers.MenuBackgrounds);
 
         }
 

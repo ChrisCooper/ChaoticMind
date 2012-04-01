@@ -75,5 +75,9 @@ namespace ChaoticMind {
                 GoToNextWeapon();
             }
         }
+
+        internal void GoToFullHealth() {
+            _currentHealth = _maxHealth;
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace ChaoticMind {
                 if (!_collectibles[i].ShouldDieNow())
                     _collectibles[i].Update(deltaTime);
                 else {
-                    _collectibles[i].Destroy();
+                    _collectibles[i].DestroySelf();
                     _collectibles.RemoveAt(i);
                 }
             }

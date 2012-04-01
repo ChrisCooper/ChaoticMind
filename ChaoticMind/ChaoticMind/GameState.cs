@@ -11,7 +11,8 @@ namespace ChaoticMind {
             NORMAL,
             PAUSED,
             SHIFTING,
-            GAMEOVER
+            GAMEOVERWIN,
+            GAMEOVERLOSE
         }
 
         static GameState _mainInstance;
@@ -57,6 +58,7 @@ namespace ChaoticMind {
 
         internal static void ObjectiveWasCollected() {
             _mainInstance._numObjectsCollected++;
+            Player.Instance.GoToFullHealth();
             if (_mainInstance._numObjectsCollected >= _mainInstance._numToCollect) {
                 _mainInstance._bossActive = true;
             }

@@ -50,7 +50,7 @@ namespace ChaoticMind {
         bool _body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact) {
             IDamageable hitObject = fixtureB.Body.UserData as IDamageable;
 
-            Destroy();
+            DestroySelf();
 
             //Check if the object is even an IDamageable, and not the player
             if (hitObject == null || hitObject == Player.Instance) {
@@ -67,7 +67,7 @@ namespace ChaoticMind {
 
         public AnimatedSprite GlowSprite { get; set; }
 
-        public override void Destroy() {
+        public override void DestroySelf() {
             _body.Dispose();
             ProjectileManager.Remove(this);
             if (_projectileType.DeathParticle != null) {
