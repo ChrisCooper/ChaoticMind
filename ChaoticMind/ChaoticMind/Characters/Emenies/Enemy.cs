@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 namespace ChaoticMind {
     class Enemy : Character {
 
-        const int distanceLimitToPlayer = 1;
+        const int distanceLimitToPlayer = 3;
 
         public Enemy(CharacterType characterType, Vector2 startingPosition)
             : base(characterType, startingPosition) {

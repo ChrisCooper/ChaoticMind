@@ -156,6 +156,8 @@ namespace ChaoticMind {
 
             _shiftInterface.Initialize(_mapManager, _spriteBatch);
 
+            PainStaticMaker.Initialize();
+
             //_outcomeScreen.Initialize();
 
             _mouseDrawer.Initialize();
@@ -243,6 +245,8 @@ namespace ChaoticMind {
 
             _mapManager.Update(deltaTime);
 
+            PainStaticMaker.Update(deltaTime);
+
             //Update the FarseerPhysics physics
             _world.Step(deltaTime);
         }
@@ -297,6 +301,8 @@ namespace ChaoticMind {
 
             //Draw real game
             drawGlows(gameTime);
+
+            PainStaticMaker.DrawStatic(_spriteBatch);
 
             _spriteBatch.End();
 

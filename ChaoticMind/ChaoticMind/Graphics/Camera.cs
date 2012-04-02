@@ -25,7 +25,7 @@ namespace ChaoticMind {
         Body _target;
 
         float _shakeMagnitude = 0.0f;
-        float _shakeDecay = 0.95f;
+        float _shakeDecay = 0.97f;
         float _shakeIncreaseAmount = 1.0f;
 
         Rectangle _minimapRect;

@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework;
 namespace ChaoticMind {
     class Screen {
 
-
         internal static void Initialize(Microsoft.Xna.Framework.GraphicsDeviceManager graphics, bool goFullscreen) {
             Width = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             Height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
@@ -21,6 +20,8 @@ namespace ChaoticMind {
             graphics.PreferredBackBufferWidth = Width;
             graphics.PreferredBackBufferHeight = Height;
             graphics.IsFullScreen = goFullscreen;
+
+            ScreenRect = new Rectangle(0, 0, Width, Height);
         }
 
         internal static int Width {
@@ -39,5 +40,7 @@ namespace ChaoticMind {
                 return new Vector2(Width / (float)2, Height / (float)2);
             }
    }
+
+        public static Rectangle ScreenRect { get; set; }
     }
 }

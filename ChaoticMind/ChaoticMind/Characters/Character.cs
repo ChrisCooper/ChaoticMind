@@ -173,7 +173,7 @@ namespace ChaoticMind {
         }
 
         //
-        public void ApplyDamage(float amount) {
+        public virtual void ApplyDamage(float amount) {
             _currentHealth -= amount;
             _currentHealth = Math.Max(0, Math.Min(_currentHealth, _maxHealth));
         }

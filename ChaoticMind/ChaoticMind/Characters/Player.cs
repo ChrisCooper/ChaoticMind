@@ -33,6 +33,11 @@ namespace ChaoticMind {
             LocationToFace = InputManager.MouseWorldPosition;
         }
 
+        public virtual void ApplyDamage(float amount) {
+            PainStaticMaker.AddDamage(amount);
+
+            base.ApplyDamage(amount);
+        }
 
 
         //for e.g. ranged units move back if too close, parasites who lunge, etc.

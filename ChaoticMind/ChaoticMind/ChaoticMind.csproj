@@ -111,6 +111,7 @@
     <Compile Include="Audio\MusicController.cs" />
     <Compile Include="Audio\SoundEffects.cs" />
     <Compile Include="Characters\Emenies\Parasite.cs" />
+    <Compile Include="PainStaticMaker.cs" />
     <Compile Include="Map\PathFinder.cs" />
     <Compile Include="FontManager.cs" />
     <Compile Include="Graphics\DrawLayer.cs" />
