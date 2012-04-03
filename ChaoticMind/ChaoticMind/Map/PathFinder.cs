@@ -13,11 +13,11 @@ namespace ChaoticMind {
             _mapManager = mapManager;
         }
 
-        public static PathFindingResult NextLocationForPathTo(Vector2 worldFromLocation, Vector2 worldToLocation) {
+        public static PathFindingResult NextLocationForPathToPlayer(Vector2 worldFromLocation, bool searchToFutureLocation) {
 
             //Find Path, and fill a result.
 
-            return new PathFindingResult(worldToLocation, true);
+            return new PathFindingResult(searchToFutureLocation ? Player.Instance.FuturePosition : Player.Instance.Position, true);
         }
     }
 

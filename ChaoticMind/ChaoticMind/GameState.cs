@@ -12,7 +12,8 @@ namespace ChaoticMind {
             PAUSED,
             SHIFTING,
             GAMEOVERWIN,
-            GAMEOVERLOSE
+            GAMEOVERLOSE,
+            EXITED
         }
 
         static GameState _mainInstance;
@@ -31,7 +32,7 @@ namespace ChaoticMind {
             _mainInstance._gameMode = GameMode.NORMAL;
         }
 
-        public static void StartLevel(int level, int numToCollect) {
+        public static void StartNewGame(int level, int numToCollect) {
             _mainInstance._level = level;
             _mainInstance._numObjectsCollected = 0;
             _mainInstance._numToCollect = numToCollect;

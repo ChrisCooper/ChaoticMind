@@ -24,7 +24,7 @@ namespace ChaoticMind {
 
         //map dimension
         const int MAP_SIZE = 4;
-        
+
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
 
@@ -83,7 +83,7 @@ namespace ChaoticMind {
 
             Screen.Initialize(_graphics, _goFullscreen);
 
-             _centreLocation = new Vector2(Screen.Width / 2.0f, Screen.Height / 2.0f);
+            _centreLocation = new Vector2(Screen.Width / 2.0f, Screen.Height / 2.0f);
 
             Content.RootDirectory = "Content";
             SpriteAnimationSequence.SharedContentManager = Content;
@@ -98,56 +98,30 @@ namespace ChaoticMind {
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
+        /// related content.  Calling base.StartNewGame will enumerate through any components
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize() {
 
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+
             _fpsCounter = new FrameRateCounter(_spriteBatch, FontManager.DebugFont);
 
             _hudManager.Initialize();
 
-            _mapManager = new MapManager(MAP_SIZE);
-            _mapManager.Initialize(ref _objects);
+            _mapManager = new MapManager();
 
             _mainCamera = new Camera(Vector2.Zero, 50.0f, _graphics.GraphicsDevice, _spriteBatch);
 
             InputManager.Initialize();
             GameState.Initilize();
-             
-            //Create swarmers in the first 3x3 square
-            for (int x = 0; x < Math.Min(MAP_SIZE, 3); x++) {
-                for (int y = 0; y < Math.Min(MAP_SIZE, 3); y++) {
-                    for (int i = 0; i < 5; i++) {
-                        if (x == 0 && y == 0) {
-                            //Skip the starting square for fairness
-                            continue;
-                        }
-                        Parasite parasite = new Parasite(MapTile.RandomPositionInTile(x, y));
-                        _objects.Add(parasite);
-                        
-                        if (i % 2 == 0) {
-                            Swarmer swarmer = new Swarmer(MapTile.RandomPositionInTile(x, y));
-                            _objects.Add(swarmer);
-                        }
-                    }
-                }
-            }
-            
-
-            //set up player
-            _player = new Player(Vector2.Zero);
-            _objects.Add(_player);
-            _mainCamera.setTarget(_player.Body);
 
             _backgroundMusic = new MusicController();
             //_backgroundMusic.Enqueue("testSound1");
             //_backgroundMusic.Enqueue("testSound2");
             //_backgroundMusic.Enqueue("testSound3");
-            _backgroundMusic.Enqueue("01 Cryogenic Dreams");
+            //_backgroundMusic.Enqueue("01 Cryogenic Dreams");
             _backgroundMusic.Enqueue("05 Rapid Cognition");
             _backgroundMusic.Enqueue("10 Disappear");
             //_backgroundMusic.Play();
@@ -158,16 +132,81 @@ namespace ChaoticMind {
 
             PainStaticMaker.Initialize();
 
-            //_outcomeScreen.Initialize();
+            //_outcomeScreen.StartNewGame();
 
             _mouseDrawer.Initialize();
 
             ParticleType.Initialize();
 
-            //init the level
-            GameState.StartLevel(1, 3);
+            StartNewGame();
 
             base.Initialize();
+        }
+
+        /// <summary>
+        /// Anything that will have to be undone or redone to start a new game without restarting the program should be done in here.
+        /// This includes pretty much everything except loading of resources and basic non-map-specific initialization.
+        /// </summary>
+        private void StartNewGame() {
+
+            _mapManager.StartNewGame(MAP_SIZE, ref _objects);
+
+            _shiftInterface.StartNewGame();
+
+            _mainCamera.StartNewGame();
+
+            //init the level
+            GameState.StartNewGame(1, 3);
+
+            //Create swarmers in the first 3x3 square
+            for (int x = 0; x < Math.Min(MAP_SIZE, 3); x++) {
+                for (int y = 0; y < Math.Min(MAP_SIZE, 3); y++) {
+                    for (int i = 0; i < 5; i++) {
+                        if (x == 0 && y == 0) {
+                            //Skip the starting square for fairness
+                            continue;
+                        }
+                        Parasite parasite = new Parasite(MapTile.RandomPositionInTile(x, y));
+                        _objects.Add(parasite);
+
+                        if (i % 2 == 0) {
+                            Swarmer swarmer = new Swarmer(MapTile.RandomPositionInTile(x, y));
+                            _objects.Add(swarmer);
+                        }
+                    }
+                }
+            }
+
+            _player = new Player(Vector2.Zero);
+            _objects.Add(_player);
+            _mainCamera.setTarget(_player.Body);
+
+        }
+
+        /// <summary>
+        /// Undoes StartNewGame() so that a new game can be created.
+        /// </summary>
+        private void ClearGame() {
+
+            _mapManager.ClearGame();
+
+            //Remove all objects
+            for (int i = 0; i < _objects.Count; i++) {
+                _objects[i].DestroySelf();
+                _objects.RemoveAt(i);
+                i--;
+            }
+        }
+
+        /// <summary>
+        /// This method puts the game back to a beginning state.
+        /// </summary>
+        private void ResetGame() {
+
+            ClearGame();
+
+            StartNewGame();
+
         }
 
         /// <summary>
@@ -204,7 +243,10 @@ namespace ChaoticMind {
 
             updateGameState();
 
-            if (GameState.Mode == GameState.GameMode.NORMAL) {
+            if (GameState.Mode == GameState.GameMode.EXITED) {
+                return;
+            }
+            else if (GameState.Mode == GameState.GameMode.NORMAL) {
                 normalGameUpdate(deltaTime);
             }
             else if (GameState.Mode == GameState.GameMode.SHIFTING) {
@@ -213,9 +255,11 @@ namespace ChaoticMind {
             else if (GameState.Mode == GameState.GameMode.PAUSED) {
                 //update stuff for the pause menu
             }
-            //else if (GameState.Mode == GameState.GameMode.GAMEOVER) {
-            //    _outcomeScreen.Update();
-            //}
+            else if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
+                //    _outcomeScreen.Update();
+                _mainCamera.Update(deltaTime);
+                PainStaticMaker.Update(deltaTime);
+            }
 
             _fpsCounter.Update(gameTime);
 
@@ -226,13 +270,13 @@ namespace ChaoticMind {
             //Update all objects in our list. This is not where physics is evaluated,
             // it is only where object-specific actions are performed, like applying control forces
 
-            for (int i = 0 ; i < _objects.Count ; i++){
-                if (_objects[i].ShouldDieNow()){
+            for (int i = 0; i < _objects.Count; i++) {
+                if (_objects[i].ShouldDieNow()) {
                     _objects[i].DestroySelf();
                     _objects.RemoveAt(i);
                     i--;
                 }
-                else{
+                else {
                     _objects[i].Update(deltaTime);
                 }
             }
@@ -254,7 +298,13 @@ namespace ChaoticMind {
         private void updateGameState() {
             //Allows the game to exit
             if (InputManager.IsKeyDown(Keys.Escape)) {
+                ClearGame();
+                GameState.Mode = GameState.GameMode.EXITED;
                 this.Exit();
+
+            }
+            if (InputManager.IsKeyDown(Keys.Y)) {
+                ResetGame();
             }
             //pause/unpause
             if (InputManager.IsKeyClicked(Keys.P)) {
@@ -278,10 +328,11 @@ namespace ChaoticMind {
             GraphicsDevice.Clear(Color.Black);
 
             if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
-                drawDeathScreen();
+                //drawDeathScreen();
                 //base.Draw(gameTime);
+                //return;
             }
-            
+
 
             /**** Draw Game Objects ****/
             _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
@@ -356,7 +407,7 @@ namespace ChaoticMind {
             //Draw all objects in our list (and their minimap representations)
             foreach (DrawableGameObject obj in _objects) {
                 _mainCamera.Draw((IDrawable)obj);
-                _mainCamera.DrawMinimap((IMiniMapable) obj);
+                _mainCamera.DrawMinimap((IMiniMapable)obj);
             }
 
             _projectileManager.Draw(_mainCamera);

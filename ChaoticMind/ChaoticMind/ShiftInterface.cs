@@ -25,6 +25,10 @@ namespace ChaoticMind {
             _mapManager = mapManager;
             _spriteBatch = spriteBatch;
 
+        }
+
+        internal void StartNewGame() {
+
             _tiles = _mapManager.Tiles;
 
             //Calculate the size of our interface

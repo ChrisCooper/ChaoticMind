@@ -33,7 +33,7 @@ namespace ChaoticMind {
             LocationToFace = InputManager.MouseWorldPosition;
         }
 
-        public virtual void ApplyDamage(float amount) {
+        public override void ApplyDamage(float amount) {
             PainStaticMaker.AddDamage(amount);
 
             base.ApplyDamage(amount);

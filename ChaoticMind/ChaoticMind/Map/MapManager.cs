@@ -56,16 +56,19 @@ namespace ChaoticMind {
         static  MapManager _mainInstance;
 
         //constructor
-        public MapManager(int gridDimension) {
-            _mainInstance = this;
-            _gridDimension = gridDimension;
-            _edgeOfMapdimesion = _gridDimension * MapTile.TileSideLength;
-            _tiles = new MapTile[_gridDimension, _gridDimension];
+        public MapManager() {
+            _mainInstance = this;        
             _shiftQueue = new LinkedList<Shift>();
         }
 
         //Make the tiles
-        public void Initialize(ref List<DrawableGameObject> objects) {
+        public void StartNewGame(int gridDimension, ref List<DrawableGameObject> objects) {
+            _gridDimension = gridDimension;
+
+            _edgeOfMapdimesion = _gridDimension * MapTile.TileSideLength;
+
+            _tiles = new MapTile[_gridDimension, _gridDimension];
+
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
                     _tiles[x,y] = new MapTile(MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors(), false);
@@ -75,6 +78,21 @@ namespace ChaoticMind {
             UpdateOverlays();
 
             _objects = objects;
+        }
+
+        internal void ClearGame() {
+
+            for (int y = 0; y < _gridDimension; y++) {
+                for (int x = 0; x < _gridDimension; x++) {
+                    _tiles[x, y].DestroySelf();
+                    _tiles[x, y] = null;
+                }
+            }
+
+            _tiles = null;
+            _gridDimension = 0;
+            _edgeOfMapdimesion = 0;
+
         }
 
         public void Update(float deltaTime) {

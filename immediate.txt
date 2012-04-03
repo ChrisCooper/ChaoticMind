@@ -1,4 +1,18 @@
-health overlay indication
+Make game restartable
+
+AI Director
+
+Start Menu/Game over screens
+
+Return to start menu after dying
+
+Winning condition
+
+Collectable sprite
+
+
+Document methods and classes in code with ///
+
 
 ghost enemy
 
@@ -15,10 +29,6 @@ continuum
 path finding
 
 correct collectible appearance
-
-make camer take animated sprite, not individual attributes
-
-AI pathfinding/ sleep when far away
 
 refactor collision categories (see projectile constructor)
 

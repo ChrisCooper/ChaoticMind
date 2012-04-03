@@ -38,6 +38,10 @@ namespace ChaoticMind {
             _graphicsDevice = graphics;
             _spriteBatch = spriteBatch;
             _minimapRect = HUD.HUDManager.MinimapRect;
+            
+        }
+
+        public void StartNewGame() {
             _mapWidthScale = _minimapRect.Width / MapManager.MainInstance.EdgeOfMapdimesion;
             _mapHeightScale = _minimapRect.Height / MapManager.MainInstance.EdgeOfMapdimesion;
         }
@@ -98,7 +102,9 @@ namespace ChaoticMind {
         }
 
         public void Update(float deltaTime) {
-            updateFromInput(deltaTime);
+            if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
+                _zoom *= 0.99f;
+            }
 
             if (_target != null) {
                 //to make shooting work properly
@@ -118,16 +124,6 @@ namespace ChaoticMind {
             _toCentre.Y = ((float)_graphicsDevice.Viewport.Height) / 2.0f;
         }
 
-        //Move the camera according to input. Should probably use
-        //some sort of input manger in the future, but we need to make that first.
-        private void updateFromInput(float deltaTime) {
-            if (InputManager.IsKeyDown(Keys.OemPlus)) {
-                _zoom *= 1 + (1f * deltaTime);
-            }
-            if (InputManager.IsKeyDown(Keys.OemMinus)) {
-                _zoom *= 1 - (1f * deltaTime);
-            }
-        }
 
         internal void shake() {
             _shakeMagnitude += _shakeIncreaseAmount;
