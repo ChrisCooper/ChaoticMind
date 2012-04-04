@@ -20,7 +20,7 @@ namespace ChaoticMind {
     /// 
     public class ChaoticMindGame : Microsoft.Xna.Framework.Game {
 
-        bool _goFullscreen = false;
+        bool _goFullscreen = true;
 
         //map dimension
         const int MAP_SIZE = 4;
