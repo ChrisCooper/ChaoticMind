@@ -12,6 +12,8 @@ namespace ChaoticMind {
         //The space around the shift interface on each of the tightest sides
         const int interfacePixelPadding = 50;
 
+        const int addShiftButtonXDist = 50;
+
         MapManager _mapManager;
         MapTile[,] _tiles;
         SpriteBatch _spriteBatch;
@@ -21,6 +23,8 @@ namespace ChaoticMind {
         List<ShiftButton> _buttons = new List<ShiftButton>();
         private ShiftButton _pressedButton;
         private Vector2 _topLeftCorner;
+
+        UIButton _shiftButton;
 
         internal void Initialize(MapManager mapManager, SpriteBatch spriteBatch) {
             _mapManager = mapManager;
@@ -61,6 +65,20 @@ namespace ChaoticMind {
 
             float halfLength = (_tiles.GetLength(0) / (float)2) * _tileDimension;
             _topLeftCorner = new Vector2(Screen.Center.X - halfLength, Screen.Center.Y - halfLength);
+
+
+            //Create the shift button
+            Rectangle shiftButtonRect = new Rectangle((int)(Screen.ScreenRect.Right - _tileDimension * 2.5), (int)(Screen.Center.Y + shortLength), (int)_tileDimension * 2, (int)_tileDimension);
+            StaticSprite normalSprite = new StaticSprite("Shifting/AddShiftButton", 1.0f, DrawLayers.MenuElements);
+            StaticSprite pressedSprite = new StaticSprite("Shifting/AddShiftButtonPressed", 1.0f, DrawLayers.MenuElements);
+            _shiftButton = new UIButton(shiftButtonRect, 0.0f, normalSprite, pressedSprite);
+            _shiftButton.setTarget(enqueueShift);
+        }
+
+        public void enqueueShift(UIButton button) {
+            _mapManager.queueShift(_pressedButton.Index, _pressedButton.Direction, DoorDirections.RandomDoors(), false);
+                    _pressedButton.reset();
+                    _pressedButton = null;
         }
 
         internal void ClearGame() {
@@ -68,19 +86,13 @@ namespace ChaoticMind {
             _buttons.Clear();
         }
 
-        internal void Update() {
+        internal void Update(float deltaTime) {
             foreach (ShiftButton button in _buttons) {
                 button.Update();
             }
 
-            if (InputManager.IsKeyClicked(Keys.Enter)) {
-                if (_pressedButton != null) {
-                    _mapManager.queueShift(_pressedButton.Index, _pressedButton.Direction, DoorDirections.RandomDoors(), false);
-                    _pressedButton.reset();
-                    _pressedButton = null;
-                    //Program.SharedGame.closeShiftInterface();
-                }
-            }
+            _shiftButton.Update(deltaTime);
+
         }
 
         internal void Draw() {
@@ -101,6 +113,7 @@ namespace ChaoticMind {
             foreach (ShiftButton button in _buttons) {
                 _spriteBatch.Draw(button.Sprite.Texture, button.Center, button.Sprite.CurrentTextureBounds, Color.White, button.Rotation, button.Sprite.CurrentTextureOrigin, button.ScalingFactor, SpriteEffects.None, DrawLayers.MenuElements);
             }
+            _shiftButton.DrawSelf(_spriteBatch);
         }
 
         public void drawOnOverlay(IMiniMapable c) {

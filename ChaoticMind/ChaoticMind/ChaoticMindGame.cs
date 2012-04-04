@@ -20,7 +20,7 @@ namespace ChaoticMind {
     /// 
     public class ChaoticMindGame : Microsoft.Xna.Framework.Game {
 
-        bool _goFullscreen = true;
+        bool _goFullscreen = false;
 
         //map dimension
         const int MAP_SIZE = 4;
@@ -238,7 +238,7 @@ namespace ChaoticMind {
                 normalGameUpdate(deltaTime);
             }
             else if (GameState.Mode == GameState.GameMode.SHIFTING) {
-                _shiftInterface.Update();
+                _shiftInterface.Update(deltaTime);
             }
             else if (GameState.Mode == GameState.GameMode.PAUSED) {
                 //update stuff for the pause menu
