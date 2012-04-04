@@ -335,13 +335,6 @@ namespace ChaoticMind {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
 
-            if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
-                //drawDeathScreen();
-                //base.Draw(gameTime);
-                //return;
-            }
-
-
             /**** Draw Game Objects ****/
             _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
