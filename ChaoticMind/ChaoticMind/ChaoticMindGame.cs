@@ -206,6 +206,8 @@ namespace ChaoticMind {
         /// </summary>
         private void ResetGame() {
 
+            _mainCamera.resetZoom();
+
             ClearGame();
 
             StartNewGame();

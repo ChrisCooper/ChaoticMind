@@ -16,6 +16,7 @@ namespace ChaoticMind {
         Vector2 _position;
 
         float _zoom;
+        float _startingZoom;
         SpriteBatch _spriteBatch;
         GraphicsDevice _graphicsDevice;
 
@@ -35,10 +36,15 @@ namespace ChaoticMind {
         public Camera(Vector2 startingPosition, float startingZoom, GraphicsDevice graphics, SpriteBatch spriteBatch) {
             _position = startingPosition;
             _zoom = startingZoom;
+            _startingZoom = startingZoom;
             _graphicsDevice = graphics;
             _spriteBatch = spriteBatch;
             _minimapRect = HUD.HUDManager.MinimapRect;
             
+        }
+
+        public void resetZoom() {
+            _zoom = _startingZoom;
         }
 
         public void StartNewGame() {
