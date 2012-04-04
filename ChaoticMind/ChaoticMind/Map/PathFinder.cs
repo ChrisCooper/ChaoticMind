@@ -9,6 +9,7 @@ namespace ChaoticMind {
 
         static MapManager _mapManager;
 
+
         public static void Initialize(MapManager mapManager) {
             _mapManager = mapManager;
         }
