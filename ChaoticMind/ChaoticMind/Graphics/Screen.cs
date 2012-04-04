@@ -42,5 +42,7 @@ namespace ChaoticMind {
    }
 
         public static Rectangle ScreenRect { get; set; }
+
+        public static int SmallestDimension { get { return Math.Min(Width, Height); } }
     }
 }
