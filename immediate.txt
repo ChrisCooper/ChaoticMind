@@ -1,14 +1,3 @@
-Make game restartable
-
-AI Director
-
-Start Menu/Game over screens
-
-Return to start menu after dying
-
-Winning condition
-
-Collectable sprite
 
 
 Document methods and classes in code with ///
@@ -16,19 +5,14 @@ Document methods and classes in code with ///
 
 ghost enemy
 
-collectible appearance
-
 
 shifting interface
-
 
 
 continuum
 
 
 path finding
-
-correct collectible appearance
 
 refactor collision categories (see projectile constructor)
 
