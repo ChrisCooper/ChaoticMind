@@ -43,6 +43,11 @@ namespace ChaoticMind {
             spawnNewObjective();
         }
 
+        public static void ClearGame() {
+            _mainInstance._currCollectable.DestroySelf();
+            _mainInstance._currCollectable = null;
+        }
+
         private static void spawnNewObjective() {
             _mainInstance._currCollectable = CollectibleManager.CreateCollectible(MapTile.RandomPositionInTile(Utilities.randomInt(0, Program.SharedGame.MapManager.GridDimension), Utilities.randomInt(0, Program.SharedGame.MapManager.GridDimension)), CollectibleType.ObjectiveType);
         }

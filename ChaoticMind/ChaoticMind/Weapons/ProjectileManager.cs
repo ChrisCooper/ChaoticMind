@@ -25,8 +25,16 @@ namespace ChaoticMind {
         }
 
         public void Update(float deltaTime) {
-            foreach (Projectile p in _projectiles){
-                    p.Update(deltaTime);
+            for (int i = 0; i < _projectiles.Count; i++) {
+                if (_projectiles[i].ShouldDieNow()) {
+                    _projectiles[i].DestroySelf();
+                    //destroy self already removes it
+                    //_projectiles.RemoveAt(i);
+                    i--;
+                }
+                else {
+                    _projectiles[i].Update(deltaTime);
+                }
             }
         }
 
@@ -49,7 +57,5 @@ namespace ChaoticMind {
         internal static void Remove(Projectile projectile) {
             _mainInstance._projectiles.Remove(projectile);
         }
-
-
     }
 }

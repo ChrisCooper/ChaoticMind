@@ -90,6 +90,12 @@ namespace ChaoticMind {
             }
         }
 
+        public void DrawOnShiftInterface(IMiniMapable obj) {
+            if (obj.MapSprite != null) {
+                //_spriteBatch.Draw(obj.MapSprite.Texture, obj.MapPosition / (float)MapTile.TileSideLength * _tileDimension + startCoord, obj.MapSprite.CurrentTextureBounds, Color.White, obj.MapRotation, obj.MapSprite.CurrentTextureOrigin, 1 / obj.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, DrawLayers.MenuHighlightElements);
+            }
+        }
+
         private float WorldToMapScale(float worldScale) {
             return worldScale * _mapWidthScale;
         }
@@ -102,10 +108,6 @@ namespace ChaoticMind {
         }
 
         public void Update(float deltaTime) {
-            if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
-                _zoom *= 0.99f;
-            }
-
             if (_target != null) {
                 //to make shooting work properly
                 //_position = _target.Position;
@@ -123,7 +125,6 @@ namespace ChaoticMind {
             _toCentre.X = ((float)_graphicsDevice.Viewport.Width) / 2.0f;
             _toCentre.Y = ((float)_graphicsDevice.Viewport.Height) / 2.0f;
         }
-
 
         internal void shake() {
             _shakeMagnitude += _shakeIncreaseAmount;

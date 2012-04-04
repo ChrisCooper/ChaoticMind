@@ -61,9 +61,6 @@ namespace ChaoticMind {
 
         MouseDrawer _mouseDrawer = new MouseDrawer();
 
-        //Any objects in this array will have Update called on them and be drawn by the _mainCamera object
-        List<DrawableGameObject> _objects = new List<DrawableGameObject>();
-
         MapManager _mapManager;
         internal MapManager MapManager {
             get { return _mapManager; }
@@ -116,14 +113,15 @@ namespace ChaoticMind {
 
             InputManager.Initialize();
             GameState.Initilize();
+            AIDirector.Initilize();
 
             _backgroundMusic = new MusicController();
             //_backgroundMusic.Enqueue("testSound1");
             //_backgroundMusic.Enqueue("testSound2");
             //_backgroundMusic.Enqueue("testSound3");
             //_backgroundMusic.Enqueue("01 Cryogenic Dreams");
-            _backgroundMusic.Enqueue("05 Rapid Cognition");
-            _backgroundMusic.Enqueue("10 Disappear");
+            //_backgroundMusic.Enqueue("05 Rapid Cognition");
+            //_backgroundMusic.Enqueue("10 Disappear");
             //_backgroundMusic.Play();
 
             //_soundEffects = new SoundEffects();
@@ -149,7 +147,7 @@ namespace ChaoticMind {
         /// </summary>
         private void StartNewGame() {
 
-            _mapManager.StartNewGame(MAP_SIZE, ref _objects);
+            _mapManager.StartNewGame(MAP_SIZE);
 
             _shiftInterface.StartNewGame();
 
@@ -158,27 +156,9 @@ namespace ChaoticMind {
             //init the level
             GameState.StartNewGame(1, 3);
 
-            //Create swarmers in the first 3x3 square
-            for (int x = 0; x < Math.Min(MAP_SIZE, 3); x++) {
-                for (int y = 0; y < Math.Min(MAP_SIZE, 3); y++) {
-                    for (int i = 0; i < 5; i++) {
-                        if (x == 0 && y == 0) {
-                            //Skip the starting square for fairness
-                            continue;
-                        }
-                        Parasite parasite = new Parasite(MapTile.RandomPositionInTile(x, y));
-                        _objects.Add(parasite);
-
-                        if (i % 2 == 0) {
-                            Swarmer swarmer = new Swarmer(MapTile.RandomPositionInTile(x, y));
-                            _objects.Add(swarmer);
-                        }
-                    }
-                }
-            }
+            AIDirector.StartNewGame();
 
             _player = new Player(Vector2.Zero);
-            _objects.Add(_player);
             _mainCamera.setTarget(_player.Body);
 
         }
@@ -189,13 +169,10 @@ namespace ChaoticMind {
         private void ClearGame() {
 
             _mapManager.ClearGame();
-
-            //Remove all objects
-            for (int i = 0; i < _objects.Count; i++) {
-                _objects[i].DestroySelf();
-                _objects.RemoveAt(i);
-                i--;
-            }
+            AIDirector.ClearGame();
+            GameState.ClearGame();
+            PainStaticMaker.ClearGame();
+            ParticleManager.ClearGame();
         }
 
         /// <summary>
@@ -270,16 +247,7 @@ namespace ChaoticMind {
             //Update all objects in our list. This is not where physics is evaluated,
             // it is only where object-specific actions are performed, like applying control forces
 
-            for (int i = 0; i < _objects.Count; i++) {
-                if (_objects[i].ShouldDieNow()) {
-                    _objects[i].DestroySelf();
-                    _objects.RemoveAt(i);
-                    i--;
-                }
-                else {
-                    _objects[i].Update(deltaTime);
-                }
-            }
+            _player.Update(deltaTime);
 
             _projectileManager.Update(deltaTime);
             _collectibleManager.Update(deltaTime);
@@ -290,6 +258,8 @@ namespace ChaoticMind {
             _mapManager.Update(deltaTime);
 
             PainStaticMaker.Update(deltaTime);
+
+            AIDirector.Update(deltaTime);
 
             //Update the FarseerPhysics physics
             _world.Step(deltaTime);
@@ -311,7 +281,7 @@ namespace ChaoticMind {
                 GameState.Mode = GameState.Mode == GameState.GameMode.PAUSED ? GameState.GameMode.NORMAL : GameState.GameMode.PAUSED;
             }
             //shifting interface
-            if (InputManager.IsKeyClicked(Keys.Tab)) {
+            if (InputManager.IsKeyClicked(Keys.Space)) {
                 GameState.Mode = GameState.Mode == GameState.GameMode.SHIFTING ? GameState.GameMode.NORMAL : GameState.GameMode.SHIFTING;
             }
             //you died
@@ -366,7 +336,10 @@ namespace ChaoticMind {
 
             //Draw Minimap
             _mapManager.DrawMap(_mainCamera);
-            drawObjectsOnMinimap(gameTime);
+            AIDirector.DrawMinimap(_mainCamera);
+            _collectibleManager.DrawMinimap(_mainCamera);
+
+            _mainCamera.DrawMinimap(_player);
 
 
             /**** Draw Special State Objects ****/
@@ -375,7 +348,10 @@ namespace ChaoticMind {
                 drawPauseOverlay();
             }
             else if (GameState.Mode == GameState.GameMode.SHIFTING) {
-                _shiftInterface.DrawInterface(_objects);
+                _shiftInterface.Draw();
+                _mainCamera.DrawOnShiftInterface(_player);
+                AIDirector.DrawOnShiftInterface(_mainCamera);
+                _collectibleManager.DrawOnShiftInterface(_mainCamera);
             }
 
             drawDebugInfo(gameTime);
@@ -402,26 +378,11 @@ namespace ChaoticMind {
             //Draw map tiles
             _mapManager.DrawTiles(_mainCamera, (float)gameTime.TotalGameTime.TotalMilliseconds);
 
+            _mainCamera.Draw(_player);
+            AIDirector.Draw(_mainCamera);
             _particleManager.Draw(_mainCamera);
-
-            //Draw all objects in our list (and their minimap representations)
-            foreach (DrawableGameObject obj in _objects) {
-                _mainCamera.Draw((IDrawable)obj);
-                _mainCamera.DrawMinimap((IMiniMapable)obj);
-            }
-
             _projectileManager.Draw(_mainCamera);
             _collectibleManager.Draw(_mainCamera);
-            _collectibleManager.DrawOnMinimap(_mainCamera);
-        }
-
-        private void drawObjectsOnMinimap(GameTime gameTime) {
-
-            //Draw all objects in our list (and their minimap representations)
-            foreach (DrawableGameObject obj in _objects) {
-                _mainCamera.DrawMinimap(obj);
-            }
-            _collectibleManager.DrawOnMinimap(_mainCamera);
         }
 
         private void drawPauseOverlay() {

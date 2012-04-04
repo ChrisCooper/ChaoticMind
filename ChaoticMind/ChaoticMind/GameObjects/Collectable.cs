@@ -10,7 +10,6 @@ namespace ChaoticMind {
     class Collectable : DrawableGameObject {
 
         CollectibleType _collectibleType;
-        bool _shouldBeRemoved = false;
 
         public Collectable(CollectibleType collectibleType, Vector2 startingPosition)
             : base(startingPosition, collectibleType.AnimationSequence, collectibleType.VisibleEntitySize, collectibleType.AnimationDuration, collectibleType.DrawLayer) {
@@ -49,14 +48,6 @@ namespace ChaoticMind {
 
         public void SetPosition(Vector2 startingPosition) {
             _body.Position = startingPosition;
-        }
-
-        public void MarkForDeath() {
-            _shouldBeRemoved = true;
-        }
-
-        public override bool ShouldDieNow() {
-            return _shouldBeRemoved;
         }
     }
 }

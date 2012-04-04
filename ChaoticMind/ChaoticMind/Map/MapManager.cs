@@ -46,12 +46,11 @@ namespace ChaoticMind {
         private const float NERVE_MAX_ALPHA = 0.9f;
         private const float NERVE_MIN_ALPHA = 0.3f;
 
-        //for keeping the objects relative to tiles as they shift
-        private List<DrawableGameObject> _objects;
-
         private MapTile _shiftedOutTile;
 
         bool _isShifting = false;
+        int _currShiftIndex;
+        ShiftDirection _currShiftDir;
 
         static  MapManager _mainInstance;
 
@@ -62,7 +61,7 @@ namespace ChaoticMind {
         }
 
         //Make the tiles
-        public void StartNewGame(int gridDimension, ref List<DrawableGameObject> objects) {
+        public void StartNewGame(int gridDimension) {
             _gridDimension = gridDimension;
 
             _edgeOfMapdimesion = _gridDimension * MapTile.TileSideLength;
@@ -76,8 +75,6 @@ namespace ChaoticMind {
             }
             //initially set the overlays
             UpdateOverlays();
-
-            _objects = objects;
         }
 
         internal void ClearGame() {
@@ -156,14 +153,9 @@ namespace ChaoticMind {
                 throw new Exception("Invalid grid index passed to shiftTiles()");
             }
 
-            //get all objects that are in the shifted row
-            List<DrawableGameObject> shiftingObjects = new List<DrawableGameObject>(20);
-            foreach (DrawableGameObject o in _objects) {
-                if (((dir == ShiftDirection.LEFT || dir == ShiftDirection.RIGHT) && o.GridCoordinate.Y == index) ||
-                    ((dir == ShiftDirection.UP || dir == ShiftDirection.DOWN) && o.GridCoordinate.X == index)){
-                    shiftingObjects.Add(o);
-                }
-            }
+            //set current shift direction
+            _currShiftDir = dir;
+            _currShiftIndex = index;
 
             Program.SharedGame.MainCamera.shake();
 
@@ -176,7 +168,7 @@ namespace ChaoticMind {
             if (dir == ShiftDirection.LEFT || dir == ShiftDirection.RIGHT) {
                 //Set all the tiles to start moving
                 for (int x = 0; x < _gridDimension; x++) {
-                    shiftTile(x, index, x - shiftInc, index, shiftingObjects);
+                    shiftTile(x, index, x - shiftInc, index);
                 }
 
                 //store the tile that is getting shifted out
@@ -191,12 +183,12 @@ namespace ChaoticMind {
                 //TODO: don't reassign this. pass it in.
                 MapTile pushingTile = new MapTile(MapTile.WorldPositionForGridCoordinates(shiftEnd + shiftInc, index), newTileDoors, false);
                 _tiles[shiftEnd, index] = pushingTile;
-                shiftTile(pushingTile, shiftEnd, index, shiftingObjects);
+                shiftTile(pushingTile, shiftEnd, index);
             }
             else { //UP or DOWN
                 //Set all the tiles to start moving
                 for (int y = 0; y < _gridDimension; y++) {
-                    shiftTile(index, y, index, y - shiftInc, shiftingObjects);
+                    shiftTile(index, y, index, y - shiftInc);
                 }
 
                 //store the tile that is getting shifted out
@@ -211,7 +203,7 @@ namespace ChaoticMind {
                 //TODO: don't reassign this. pass it in.
                 MapTile pushingTile = new MapTile(MapTile.WorldPositionForGridCoordinates(index, shiftEnd + shiftInc), newTileDoors, false);
                 _tiles[index, shiftEnd] = pushingTile;
-                shiftTile(pushingTile, index, shiftEnd, shiftingObjects);
+                shiftTile(pushingTile, index, shiftEnd);
             }
 
             _shiftedOutTile.flagForDestruction(tileFinishedShifting);
@@ -228,11 +220,11 @@ namespace ChaoticMind {
             _isShifting = false;
         }
 
-        private void shiftTile(int tileX, int tileY, int destX, int destY, List<DrawableGameObject> objects) {
-            shiftTile(_tiles[tileX, tileY], destX, destY, objects);
+        private void shiftTile(int tileX, int tileY, int destX, int destY) {
+            shiftTile(_tiles[tileX, tileY], destX, destY);
         }
-        private void shiftTile(MapTile tile, int destX, int destY, List<DrawableGameObject> objects) {
-            tile.shiftTo(destX, destY, objects);
+        private void shiftTile(MapTile tile, int destX, int destY) {
+            tile.shiftTo(destX, destY);
         }
 
         public void DrawTiles(Camera camera, float deltaTime) {
@@ -286,6 +278,21 @@ namespace ChaoticMind {
         //The farthers point still on the map
         public float EdgeOfMapdimesion {
             get { return _edgeOfMapdimesion; }
+        }
+
+        //objects call these to shift themselves
+        public static bool isShifting(Vector2 position){
+            Vector2 tempGridCoord = MapTile.GridPositionForWorldCoordinates(position);
+            if (_mainInstance._isShifting) {
+                if (((_mainInstance._currShiftDir == ShiftDirection.LEFT || _mainInstance._currShiftDir == ShiftDirection.RIGHT) && tempGridCoord.Y == _mainInstance._currShiftIndex) ||
+                    ((_mainInstance._currShiftDir == ShiftDirection.UP || _mainInstance._currShiftDir == ShiftDirection.DOWN) && tempGridCoord.X == _mainInstance._currShiftIndex)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public static Vector2 shiftAmount(){
+            return _mainInstance._tiles[_mainInstance._currShiftIndex, _mainInstance._currShiftIndex].Velocity;
         }
     }
 }

@@ -51,6 +51,10 @@ namespace ChaoticMind {
             _mainInstance._particles.Add(new Particle(startingPosition, rotation, particleType));
         }
 
+        public static void ClearGame() {
+            _mainInstance._particles.Clear();
+        }
+
         internal static void Remove(Particle particle) {
             _mainInstance._particles.Remove(particle);
         }

@@ -30,26 +30,32 @@ namespace ChaoticMind {
                 else {
                     _collectibles[i].DestroySelf();
                     _collectibles.RemoveAt(i);
+                    i--;
                 }
             }
         }
 
-        public static List<Collectable> Collectables {
-            get {
-                return _mainInstance._collectibles;
+        public void Draw(Camera mainCamera) {
+            foreach (Collectable c in _mainInstance._collectibles) {
+                c.Draw(mainCamera);
+            }
+        }
+        public void DrawMinimap(Camera mainCamera) {
+            foreach (Collectable c in _mainInstance._collectibles) {
+                c.DrawMiniMap(mainCamera);
+            }
+        }
+        public void DrawOnShiftInterface(Camera mainCamera) {
+            foreach (Collectable c in _mainInstance._collectibles) {
+                c.DrawOnShiftInterface(mainCamera);
             }
         }
 
-        public void Draw(Camera camera) {
-            foreach (Collectable c in _collectibles) {
-                camera.Draw(c);
+        public void ClearGame() {
+            for (int i = 0; i < _mainInstance._collectibles.Count; i++) {
+                _mainInstance._collectibles[i].DestroySelf();
             }
-        }
-
-        public void DrawOnMinimap(Camera camera) {
-            foreach (Collectable c in _collectibles) {
-                camera.DrawMinimap(c);
-            }
+            _mainInstance._collectibles.Clear();
         }
 
         public static Collectable CreateCollectible(Vector2 startingPosition, CollectibleType collectibleType) {
@@ -57,7 +63,6 @@ namespace ChaoticMind {
             _mainInstance._collectibles.Add(newCollectible);
             return newCollectible;
         }
-
 
         internal static void removeCollectible(Collectable collectable) {
             _mainInstance._collectibles.Remove(collectable);

@@ -77,7 +77,7 @@ namespace ChaoticMind {
             }
         }
 
-        internal void DrawInterface(List<DrawableGameObject> minimapObjects) {
+        internal void Draw() {
             //setup constants
             float halfLength = (_tiles.GetLength(0) / (float)2) * _tileDimension;
             Vector2 startCoord = new Vector2(Screen.Center.X - halfLength, Screen.Center.Y - halfLength);
@@ -94,25 +94,22 @@ namespace ChaoticMind {
                 drawingLocation.X = startCoord.X;
             }
 
+
+            /*
             //draw minimap objects
             foreach (DrawableGameObject mm in minimapObjects) {
                 drawOnOverlay(startCoord, mm);
             }
 
             foreach(Collectable c in CollectibleManager.Collectables) {
-                startCoord = drawOnOverlay(startCoord, c);
+                drawOnOverlay(startCoord, c);
             }   
-
+            */
 
             //draw shift buttons
             foreach (ShiftButton button in _buttons) {
                 _spriteBatch.Draw(button.Sprite.Texture, button.Center, button.Sprite.CurrentTextureBounds, Color.White, button.Rotation, button.Sprite.CurrentTextureOrigin, button.ScalingFactor, SpriteEffects.None, DrawLayers.MenuElements);
             }
-        }
-
-        private Vector2 drawOnOverlay(Vector2 startCoord, IMiniMapable c) {
-            _spriteBatch.Draw(c.MapSprite.Texture, c.MapPosition / (float)MapTile.TileSideLength * _tileDimension + startCoord, c.MapSprite.CurrentTextureBounds, Color.White, c.MapRotation, c.MapSprite.CurrentTextureOrigin, 1 / c.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, DrawLayers.MenuHighlightElements);
-            return startCoord;
         }
 
         internal void ButtonWasPressed(ShiftButton pressedButton) {

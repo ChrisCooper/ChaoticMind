@@ -31,16 +31,27 @@ namespace ChaoticMind {
         }
 
         public override void Update(float deltaTime) {
-            base.Update(deltaTime);
+            //shift the object
+            if (!_body.IsDisposed && MapManager.isShifting(_body.Position)) {
+                _body.Position += MapManager.shiftAmount() * deltaTime;
+            }
+
+            //draw the object
             if (_sprite != null)
                 _sprite.Update(deltaTime);
+
+            base.Update(deltaTime);
         }
 
-        //called when the object is being shifted
-        public void Shift(Vector2 deltaPos) {
-            if (!_body.IsDisposed) {
-                _body.Position += deltaPos;
-            }
+        //drawing
+        public virtual void Draw(Camera mainCamera) {
+            mainCamera.Draw(this);
+        }
+        public virtual void DrawMiniMap(Camera mainCamera) {
+            mainCamera.DrawMinimap(this);
+        }
+        public virtual void DrawOnShiftInterface(Camera mainCamera) {
+            mainCamera.DrawOnShiftInterface(this);
         }
 
         //minimap stuff

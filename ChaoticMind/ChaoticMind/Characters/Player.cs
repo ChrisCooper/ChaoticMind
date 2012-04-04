@@ -71,12 +71,12 @@ namespace ChaoticMind {
             }
 
             //reload
-            if (InputManager.IsKeyClicked(Keys.R)) {
+            if (InputManager.IsKeyClicked(Keys.E)) {
                 Reload();
             }
 
             //Switch weapon
-            if (InputManager.IsKeyClicked(Keys.E)) {
+            if (InputManager.IsKeyClicked(Keys.Tab)) {
                 GoToNextWeapon();
             }
         }

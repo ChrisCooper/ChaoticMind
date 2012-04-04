@@ -36,8 +36,6 @@ namespace ChaoticMind {
 
         Vector2 _travelDirection;
 
-        List<DrawableGameObject> _shiftObjects;
-
         bool _isMoving;
         bool _isVisible;
 
@@ -46,8 +44,6 @@ namespace ChaoticMind {
             _openDoors = openDoors;
 
             _connectedDoors = new DoorDirections(false, false, false, false);
-
-            _shiftObjects = new List<DrawableGameObject>(5);
 
             _sprite = new StaticSprite(MapTileUtilities.appearanceStringFromDoorConfiguration(openDoors), TileSideLength, DrawLayers.MapGround);
 
@@ -86,11 +82,6 @@ namespace ChaoticMind {
                 Vector2 vel = (_travelDirection) * movementFunction(percent);
 
                 _body.LinearVelocity = vel;
-                
-                //apply velocity to all the objects within the tile (by setting position)
-                foreach (DrawableGameObject o in _shiftObjects) {
-                    o.Shift(vel * deltaTime);
-                }
 
                 //Are we there yet?
                 if (percent > SnapThreshold || Vector2.Dot(_travelDirection, _targetLocation - Position) < 0) {
@@ -100,12 +91,6 @@ namespace ChaoticMind {
         }
 
         private void snapToTarget() {
-
-            //snap all the objects to the target
-            foreach (DrawableGameObject o in _shiftObjects) {
-                o.Shift(_targetLocation - _body.Position);
-            }
-
             _body.Position = _targetLocation;
             _body.LinearVelocity = Vector2.Zero;
             _isMoving = false;
@@ -117,7 +102,6 @@ namespace ChaoticMind {
             if (signalEndOfShift != null) {
                 signalEndOfShift(this);
             }
-            _shiftObjects.Clear();
         }
 
         private float movementFunction(float percent) {
@@ -181,13 +165,7 @@ namespace ChaoticMind {
             }
         }
 
-        internal void shiftTo(int destX, int destY, List<DrawableGameObject> objects) {
-            //weed out the objects not in this tile
-            foreach (DrawableGameObject o in objects) {
-                if (o.GridCoordinate == GridCoordinate)
-                    _shiftObjects.Add(o);
-            }
-
+        internal void shiftTo(int destX, int destY) {
             //go
             setTarget(MapTile.WorldPositionForGridCoordinates(destX, destY));
         }
@@ -221,5 +199,9 @@ namespace ChaoticMind {
         }
 
         public float OverlayDrawLayer { get { return DrawLayers.MapOverlay; } }
+
+        public Vector2 Velocity {
+            get { return _body.LinearVelocity; }
+        }
     }
 }
