@@ -323,7 +323,7 @@ namespace ChaoticMind {
             if (GameState.Mode == GameState.GameMode.PREGAME && InputManager.IsMouseClicked()) {
                 GameState.Mode = GameState.GameMode.NORMAL;
             }
-            if (GameState.Mode == GameState.GameMode.GAMEOVERWIN && InputManager.IsMouseClicked()) {
+            if ((GameState.Mode == GameState.GameMode.GAMEOVERWIN || GameState.Mode == GameState.GameMode.GAMEOVERLOSE) && InputManager.IsMouseClicked()) {
                 ResetGame();
                 GameState.Mode = GameState.GameMode.PREGAME;
             }
