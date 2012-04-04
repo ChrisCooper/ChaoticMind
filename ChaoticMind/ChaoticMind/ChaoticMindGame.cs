@@ -34,6 +34,7 @@ namespace ChaoticMind {
         
         StaticSprite _gameoverWinScreen;
         StaticSprite _startMenuScreen;
+        StaticSprite _startMenuScreenOverlay;
         //StaticSprite _1pxBlack;
 
         FrameRateCounter _fpsCounter;
@@ -198,6 +199,7 @@ namespace ChaoticMind {
             
             _gameoverWinScreen = new StaticSprite("Screens/WinScreen", 1, DrawLayers.MenuBackgrounds);
             _startMenuScreen = new StaticSprite("Screens/StartMenuScreen", 1, DrawLayers.MenuBackgrounds);
+            _startMenuScreenOverlay = new StaticSprite("Screens/StartMenuScreenOverlay", 1, DrawLayers.MenuBackgrounds);
             //_1pxBlack = new StaticSprite("1pxBlack", 1, DrawLayers.MenuBackgrounds);
         }
 
@@ -384,7 +386,7 @@ namespace ChaoticMind {
                 LoseScreen.Draw(_spriteBatch);
             }
             else if (GameState.Mode == GameState.GameMode.PREGAME) {
-                drawStartMenuOverlay();
+                drawStartMenuOverlay(gameTime);
             }
             else if (GameState.Mode == GameState.GameMode.SHIFTING) {
                 _shiftInterface.Draw();
@@ -417,22 +419,15 @@ namespace ChaoticMind {
             _spriteBatch.Draw(_gameoverWinScreen.Texture, mapRect, _gameoverWinScreen.CurrentTextureBounds, Color.White, 0, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds);
         }
 
-        private void drawStartMenuOverlay() {
-            //_spriteBatch.Draw(_gameoverWinScreen.Texture, _centreLocation, _gameoverWinScreen.CurrentTextureBounds, Color.White, 0.0f, _gameoverWinScreen.CurrentTextureOrigin, , SpriteEffects.None, DrawLayers.MenuBackgrounds);
-            _spriteBatch.Draw(_gameoverWinScreen.Texture, _centreLocation, _gameoverWinScreen.CurrentTextureBounds, Color.Black, 0.0f, _gameoverWinScreen.CurrentTextureOrigin, 1, SpriteEffects.None, DrawLayers.MenuBackgrounds+0.01f);
+        private void drawStartMenuOverlay(GameTime gameTime) {
+            _spriteBatch.Draw(_gameoverWinScreen.Texture, _centreLocation, _gameoverWinScreen.CurrentTextureBounds, Color.Black, 0.0f, _gameoverWinScreen.CurrentTextureOrigin, 1, SpriteEffects.None, DrawLayers.MenuBackgrounds - 0.001f);
 
             float mapFrameSideLength = Math.Min(Screen.Width, Screen.Height);
             float mapFrameScale = mapFrameSideLength / _startMenuScreen.Texture.Bounds.Width;
             Rectangle mapFrameRect = new Rectangle((int)(Screen.Width - mapFrameSideLength) / 2, (int)(Screen.Height - mapFrameSideLength), (int)mapFrameSideLength, (int)mapFrameSideLength);
 
-            float frameWidth = mapFrameSideLength;
-            Rectangle mapRect = new Rectangle((int)(mapFrameRect.Left + frameWidth), (int)(mapFrameRect.Top + frameWidth), (int)(mapFrameRect.Width - 2 * frameWidth), (int)(mapFrameRect.Height - 2 * frameWidth));
-
-            //_spriteBatch.Draw(_1pxBlack.Texture, _centreLocation, _1pxBlack.CurrentTextureBounds, Color.White, 0.0f, _1pxBlack.CurrentTextureOrigin, 10000, SpriteEffects.None, DrawLayers.MenuBackgrounds);
-
-            //Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
-            //Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color);
-            _spriteBatch.Draw(_startMenuScreen.Texture, mapRect, _startMenuScreen.CurrentTextureBounds, Color.White, 0, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds);
+            _spriteBatch.Draw(_startMenuScreen.Texture, mapFrameRect, _startMenuScreen.CurrentTextureBounds, Color.White, 0, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds - 0.002f);
+            _spriteBatch.Draw(_startMenuScreenOverlay.Texture, mapFrameRect, _startMenuScreenOverlay.CurrentTextureBounds, Color.White * 0.5f * ((float)(Math.Sin(gameTime.TotalGameTime.TotalMilliseconds / 500.0f) + 1.0f) + 0.5f), 0, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds - 0.003f);
         }
 
         private void drawGlows(GameTime gameTime) {
