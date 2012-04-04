@@ -24,7 +24,6 @@ namespace ChaoticMind {
         internal void Initialize(MapManager mapManager, SpriteBatch spriteBatch) {
             _mapManager = mapManager;
             _spriteBatch = spriteBatch;
-
         }
 
         internal void StartNewGame() {
@@ -43,8 +42,6 @@ namespace ChaoticMind {
 
             _scalingFactor = _tileDimension / (float)tileSprite.CurrentTextureBounds.Width;
 
-
-
             //Create buttons
             float longLength = (gridSideDimension / (float)2) * _tileDimension;
             float shortLength = (_tiles.GetLength(0) / (float)2) * _tileDimension;
@@ -60,6 +57,11 @@ namespace ChaoticMind {
                 //Right buttons
                 _buttons.Add(new ShiftButton(this, new Vector2(Screen.Center.X + longLength - _tileDimension, startY + _tileDimension * i), _tileDimension, i, ShiftDirection.RIGHT));
             }
+        }
+
+        internal void ClearGame() {
+            _pressedButton = null;
+            _buttons.Clear();
         }
 
         internal void Update() {

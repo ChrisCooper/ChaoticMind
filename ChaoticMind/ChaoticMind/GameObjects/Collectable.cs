@@ -18,7 +18,7 @@ namespace ChaoticMind {
 
             //set up the body
             _body = BodyFactory.CreateCircle(Program.SharedGame.MainWorld, collectibleType.Radius, 0.5f);
-            _body.BodyType = BodyType.Dynamic;
+            _body.BodyType = BodyType.Kinematic;
             _body.AngularDamping = 0;
             _body.AngularVelocity = 5;
             _body.Position = startingPosition;

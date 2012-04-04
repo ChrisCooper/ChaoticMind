@@ -30,6 +30,7 @@ namespace ChaoticMind {
 
         public static void Initilize() {
             _mainInstance = new GameState();
+            _mainInstance._level = 0;
             _mainInstance._gameMode = GameMode.PREGAME;
         }
 
@@ -45,8 +46,10 @@ namespace ChaoticMind {
         }
 
         public static void ClearGame() {
-            _mainInstance._currCollectable.DestroySelf();
-            _mainInstance._currCollectable = null;
+            if (_mainInstance._currCollectable != null) {
+                _mainInstance._currCollectable.DestroySelf();
+                _mainInstance._currCollectable = null;
+            }
         }
 
         public static void spawnNewObjective() {
@@ -76,7 +79,12 @@ namespace ChaoticMind {
 
         public static bool BossActive {
             get { return _mainInstance._bossActive; }
-            //set { _mainInstance._bossActive = value; } 
+        }
+        public static int Level {
+            get { return _mainInstance._level; }
+        }
+        public static bool ExitOpen {
+            get { return _mainInstance._exitOpen; }
         }
     }
 }

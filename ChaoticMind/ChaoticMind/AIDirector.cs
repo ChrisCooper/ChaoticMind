@@ -76,7 +76,7 @@ namespace ChaoticMind {
             for (int x = 0; x < Math.Min(MapManager.MainInstance.GridDimension, 3); x++) {
                 for (int y = 0; y < Math.Min(MapManager.MainInstance.GridDimension, 3); y++) {
                     for (int i = 0; i < 3; i++) {
-                        if (x != 0 || y != 0) { //skip starting square
+                        if ((x != 0 || y != 0) && !MapTile.isOutOfBoundsGrid(new Vector2(x, y))) { //skip starting square
                             Parasite parasite = new Parasite(MapTile.RandomPositionInTile(x, y));
                             _mainInstance._enemies.Add(parasite);
 
