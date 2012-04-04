@@ -75,16 +75,22 @@ namespace ChaoticMind {
 
                         //Gets the position of the closest fixture on the ray path.
                         Program.SharedGame.MainWorld.RayCast((fixture, point, normal, fraction) => {
-                            if (fixture != null && fraction < minFrac) {
+
+                            //check for a valid fixture
+                            if (fixture == null) return -1;
+
+                            //check if its an enemy or a wall (and if it's closer than the previous result)
+                            if ((fixture.Body.UserData as Enemy != null || fixture.Body.UserData as MapTile != null) && fraction < minFrac) {
                                 pt = point;
                                 minFrac = fraction;
                                 return 1;
                             }
                             return -1;
-                        }, location, currentSpreadSweepDirection * _weaponType.Range);
+                        }, location, location + currentSpreadSweepDirection * _weaponType.Range);
 
                         //create a particle at the place where the ray was stopped
-                        ProjectileManager.CreateProjectile(pt, Vector2.Zero, _weaponType.ProjectileType);
+                        if (pt != Vector2.Zero)
+                            ProjectileManager.CreateProjectile(pt, Vector2.Zero, _weaponType.ProjectileType);
                     }
                     else { //use projectiles
                         ProjectileManager.CreateProjectile(location + direction * (_weaponOwner.PhysicalEntitySize/1.8f + _weaponType.ProjectileType.Radius), currentSpreadSweepDirection, _weaponType.ProjectileType);
