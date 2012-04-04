@@ -109,7 +109,7 @@ namespace ChaoticMind {
 
         public void Update(float deltaTime) {
             if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
-                _zoom *= 0.99f;
+                _zoom *= 1f - (deltaTime * 0.4f);
             }
 
             if (_target != null) {

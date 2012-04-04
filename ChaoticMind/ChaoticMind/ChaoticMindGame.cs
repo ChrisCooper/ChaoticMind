@@ -64,6 +64,8 @@ namespace ChaoticMind {
 
         MouseDrawer _mouseDrawer = new MouseDrawer();
 
+        float deltaTimeSinceLose;
+
         //Any objects in this array will have Update called on them and be drawn by the _mainCamera object
         List<DrawableGameObject> _objects = new List<DrawableGameObject>();
 
@@ -141,6 +143,8 @@ namespace ChaoticMind {
 
             ParticleType.Initialize();
 
+            deltaTimeSinceLose = 0;
+
             StartNewGame();
 
             base.Initialize();
@@ -208,6 +212,8 @@ namespace ChaoticMind {
 
             _mainCamera.resetZoom();
 
+            deltaTimeSinceLose = 0;
+
             ClearGame();
 
             StartNewGame();
@@ -273,6 +279,7 @@ namespace ChaoticMind {
                 //    _outcomeScreen.Update();
                 _mainCamera.Update(deltaTime);
                 PainStaticMaker.Update(deltaTime);
+                deltaTimeSinceLose += deltaTime;
             }
 
             _fpsCounter.Update(gameTime);
@@ -319,6 +326,10 @@ namespace ChaoticMind {
             }
             if (InputManager.IsKeyDown(Keys.Y)) {
                 ResetGame();
+            }
+
+            if (InputManager.IsKeyDown(Keys.K)) {
+                GameState.Mode = GameState.GameMode.GAMEOVERLOSE;
             }
 
             //menu screen progression
@@ -404,6 +415,9 @@ namespace ChaoticMind {
             else if (GameState.Mode == GameState.GameMode.GAMEOVERWIN) {
                 drawGameoverWinOverlay();
             }
+            else if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE && deltaTimeSinceLose > 4f) {
+                drawDeathScreen();
+            }
             else if (GameState.Mode == GameState.GameMode.PREGAME) {
                 drawStartMenuOverlay();
             }
@@ -456,6 +470,21 @@ namespace ChaoticMind {
         private void drawDeathScreen() {
             //_spriteBatch.Draw(_deathScreen.Texture, _centreLocation, _deathScreen.CurrentTextureBounds, Color.White, 0.0f, _deathScreen.CurrentTextureOrigin, , SpriteEffects.None, DrawLayers.MenuBackgrounds);
 
+            //_spriteBatch.Draw(_gameoverWinScreen.Texture, _centreLocation, _gameoverWinScreen.CurrentTextureBounds, Color.White, 0.0f, _gameoverWinScreen.CurrentTextureOrigin, , SpriteEffects.None, DrawLayers.MenuBackgrounds);
+            _spriteBatch.Draw(_deathScreen.Texture, _centreLocation, _deathScreen.CurrentTextureBounds, Color.Black, 0.0f, _deathScreen.CurrentTextureOrigin, 1, SpriteEffects.None, DrawLayers.MenuBackgrounds + 0.01f);
+
+            float mapFrameSideLength = Math.Min(Screen.Width, Screen.Height);
+            float mapFrameScale = mapFrameSideLength / _startMenuScreen.Texture.Bounds.Width;
+            Rectangle mapFrameRect = new Rectangle((int)(Screen.Width - mapFrameSideLength) / 2, (int)(Screen.Height - mapFrameSideLength), (int)mapFrameSideLength, (int)mapFrameSideLength);
+
+            float frameWidth = mapFrameSideLength;
+            Rectangle mapRect = new Rectangle((int)(mapFrameRect.Left + frameWidth), (int)(mapFrameRect.Top + frameWidth), (int)(mapFrameRect.Width - 2 * frameWidth), (int)(mapFrameRect.Height - 2 * frameWidth));
+
+            //_spriteBatch.Draw(_1pxBlack.Texture, _centreLocation, _1pxBlack.CurrentTextureBounds, Color.White, 0.0f, _1pxBlack.CurrentTextureOrigin, 10000, SpriteEffects.None, DrawLayers.MenuBackgrounds);
+
+            //Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
+            //Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color);
+            _spriteBatch.Draw(_deathScreen.Texture, mapRect, _deathScreen.CurrentTextureBounds, Color.White, 0, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds);
         }
 
         private void drawGlows(GameTime gameTime) {
