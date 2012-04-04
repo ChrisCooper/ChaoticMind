@@ -72,7 +72,7 @@ namespace ChaoticMind {
             }
 
             //damage idiots who go outside the map 
-            if (_OutsideBoardDamageTimer.isFinished && isOutsideBoard()) {
+            if (_OutsideBoardDamageTimer.isFinished && MapTile.isOutOfBounds(_body.Position)) {
                 ApplyDamage(OutsideBoardDamageAmount);
                 _OutsideBoardDamageTimer.Reset();
             }
@@ -89,11 +89,6 @@ namespace ChaoticMind {
 
         protected virtual void DropDeathParticle() {
             ParticleManager.CreateParticle(Position, Rotation, _characterType.DeathParticle);
-        }
-
-        private bool isOutsideBoard() {
-            return (GridCoordinate.X < 0 || GridCoordinate.X >= Program.SharedGame.MapManager.GridDimension ||
-                            GridCoordinate.Y < 0 || GridCoordinate.Y >= Program.SharedGame.MapManager.GridDimension);
         }
 
         //for e.g. ranged units move back if too close, parasites who lunge, etc.

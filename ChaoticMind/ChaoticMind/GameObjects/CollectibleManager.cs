@@ -28,8 +28,7 @@ namespace ChaoticMind {
                 if (!_collectibles[i].ShouldDieNow()) {
                     _collectibles[i].Update(deltaTime);
                     //OOB, reset and damage the player (idiot....)
-                    Vector2 tempGridCoord = MapTile.GridPositionForWorldCoordinates(_collectibles[i].Position);
-                    if (tempGridCoord.X < 0 || tempGridCoord.X >= Program.SharedGame.MapManager.GridDimension || tempGridCoord.Y < 0 || tempGridCoord.Y >= Program.SharedGame.MapManager.GridDimension) {
+                    if (MapTile.isOutOfBounds(_collectibles[i].Position)){
                         Player.Instance.ApplyDamage(50);
                         _collectibles[i].DestroySelf();
                         //done by the collectable

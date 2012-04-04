@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace ChaoticMind {
     class AIDirector {
@@ -16,6 +17,7 @@ namespace ChaoticMind {
         }
 
         public static void Update(float deltaTime) {
+            //update the enemies
             for (int i = 0; i < _mainInstance._enemies.Count; i++) {
                 if (_mainInstance._enemies[i].ShouldDieNow()) {
                     _mainInstance._enemies[i].DestroySelf();
@@ -32,7 +34,7 @@ namespace ChaoticMind {
             //spawn enemies around the player tile
             for (int x = -1; x <= 1; x++) {
                 for (int y = -1; y <= 1; y++) {
-                    if (x != 0 || y != 0) {
+                    if ((x != 0 || y != 0) && !MapTile.isOutOfBoundsGrid(new Vector2(x, y))) {
                         for (int i = 0; i < Utilities.randomInt(1, 3); i++) {
                             Parasite parasite = new Parasite(MapTile.RandomPositionInTile(x, y));
                             _mainInstance._enemies.Add(parasite);
@@ -74,7 +76,7 @@ namespace ChaoticMind {
             for (int x = 0; x < Math.Min(MapManager.MainInstance.GridDimension, 3); x++) {
                 for (int y = 0; y < Math.Min(MapManager.MainInstance.GridDimension, 3); y++) {
                     for (int i = 0; i < 3; i++) {
-                        if (x != 0 || y != 0) { //skip starting square
+                        if ((x != 0 || y != 0) && !MapTile.isOutOfBoundsGrid(new Vector2(x, y))) { //skip starting square
                             Parasite parasite = new Parasite(MapTile.RandomPositionInTile(x, y));
                             _mainInstance._enemies.Add(parasite);
 
