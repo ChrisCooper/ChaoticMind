@@ -56,9 +56,9 @@ namespace ChaoticMind {
                 c.DrawMiniMap(mainCamera);
             }
         }
-        public void DrawOnShiftInterface(Camera mainCamera) {
+        public void DrawOnShiftInterface(ShiftInterface shiftInterface) {
             foreach (Collectable c in _mainInstance._collectibles) {
-                c.DrawOnShiftInterface(mainCamera);
+                shiftInterface.drawOnOverlay(c);
             }
         }
 

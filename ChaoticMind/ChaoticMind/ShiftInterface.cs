@@ -20,6 +20,7 @@ namespace ChaoticMind {
         float _scalingFactor;
         List<ShiftButton> _buttons = new List<ShiftButton>();
         private ShiftButton _pressedButton;
+        private Vector2 _topLeftCorner;
 
         internal void Initialize(MapManager mapManager, SpriteBatch spriteBatch) {
             _mapManager = mapManager;
@@ -57,6 +58,9 @@ namespace ChaoticMind {
                 //Right buttons
                 _buttons.Add(new ShiftButton(this, new Vector2(Screen.Center.X + longLength - _tileDimension, startY + _tileDimension * i), _tileDimension, i, ShiftDirection.RIGHT));
             }
+
+            float halfLength = (_tiles.GetLength(0) / (float)2) * _tileDimension;
+            _topLeftCorner = new Vector2(Screen.Center.X - halfLength, Screen.Center.Y - halfLength);
         }
 
         internal void ClearGame() {
@@ -80,12 +84,9 @@ namespace ChaoticMind {
         }
 
         internal void Draw() {
-            //setup constants
-            float halfLength = (_tiles.GetLength(0) / (float)2) * _tileDimension;
-            Vector2 startCoord = new Vector2(Screen.Center.X - halfLength, Screen.Center.Y - halfLength);
 
             //draw tiles
-            Vector2 drawingLocation = new Vector2(startCoord.X, startCoord.Y);
+            Vector2 drawingLocation = new Vector2(_topLeftCorner.X, _topLeftCorner.Y);
             for (int y = 0; y < _tiles.GetLength(0); y++) {
                 for (int x = 0; x < _tiles.GetLength(1); x++) {
                     MapTile tile = _tiles[x, y];
@@ -93,25 +94,17 @@ namespace ChaoticMind {
                     drawingLocation.X += _tileDimension;
                 }
                 drawingLocation.Y += _tileDimension;
-                drawingLocation.X = startCoord.X;
+                drawingLocation.X = _topLeftCorner.X;
             }
-
-
-            /*
-            //draw minimap objects
-            foreach (DrawableGameObject mm in minimapObjects) {
-                drawOnOverlay(startCoord, mm);
-            }
-
-            foreach(Collectable c in CollectibleManager.Collectables) {
-                drawOnOverlay(startCoord, c);
-            }   
-            */
 
             //draw shift buttons
             foreach (ShiftButton button in _buttons) {
                 _spriteBatch.Draw(button.Sprite.Texture, button.Center, button.Sprite.CurrentTextureBounds, Color.White, button.Rotation, button.Sprite.CurrentTextureOrigin, button.ScalingFactor, SpriteEffects.None, DrawLayers.MenuElements);
             }
+        }
+
+        public void drawOnOverlay(IMiniMapable c) {
+            _spriteBatch.Draw(c.MapSprite.Texture, c.MapPosition / (float)MapTile.TileSideLength * _tileDimension + _topLeftCorner, c.MapSprite.CurrentTextureBounds, Color.White, c.MapRotation, c.MapSprite.CurrentTextureOrigin, 1 / c.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, DrawLayers.MenuHighlightElements);
         }
 
         internal void ButtonWasPressed(ShiftButton pressedButton) {

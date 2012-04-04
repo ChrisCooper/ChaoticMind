@@ -50,9 +50,6 @@ namespace ChaoticMind {
         public virtual void DrawMiniMap(Camera mainCamera) {
             mainCamera.DrawMinimap(this);
         }
-        public virtual void DrawOnShiftInterface(Camera mainCamera) {
-            mainCamera.DrawOnShiftInterface(this);
-        }
 
         //minimap stuff
         public virtual AnimatedSprite MapSprite {

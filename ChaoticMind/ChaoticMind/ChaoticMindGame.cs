@@ -390,9 +390,9 @@ namespace ChaoticMind {
             }
             else if (GameState.Mode == GameState.GameMode.SHIFTING) {
                 _shiftInterface.Draw();
-                _mainCamera.DrawOnShiftInterface(_player);
-                AIDirector.DrawOnShiftInterface(_mainCamera);
-                _collectibleManager.DrawOnShiftInterface(_mainCamera);
+                _shiftInterface.drawOnOverlay(_player);
+                AIDirector.DrawOnShiftInterface(_shiftInterface);
+                _collectibleManager.DrawOnShiftInterface(_shiftInterface);
             }
 
             drawDebugInfo(gameTime);

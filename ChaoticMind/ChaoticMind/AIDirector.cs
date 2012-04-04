@@ -68,9 +68,9 @@ namespace ChaoticMind {
                 e.DrawMiniMap(mainCamera);
             }
         }
-        public static void DrawOnShiftInterface(Camera mainCamera) {
+        public static void DrawOnShiftInterface(ShiftInterface shiftInterface) {
             foreach (Enemy e in _mainInstance._enemies) {
-                e.DrawOnShiftInterface(mainCamera);
+                shiftInterface.drawOnOverlay(e);
             }
         }
 

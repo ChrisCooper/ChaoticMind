@@ -97,12 +97,6 @@ namespace ChaoticMind {
             }
         }
 
-        public void DrawOnShiftInterface(IMiniMapable obj) {
-            if (obj.MapSprite != null) {
-                //_spriteBatch.Draw(obj.MapSprite.Texture, obj.MapPosition / (float)MapTile.TileSideLength * _tileDimension + startCoord, obj.MapSprite.CurrentTextureBounds, Color.White, obj.MapRotation, obj.MapSprite.CurrentTextureOrigin, 1 / obj.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, DrawLayers.MenuHighlightElements);
-            }
-        }
-
         private float WorldToMapScale(float worldScale) {
             return worldScale * _mapWidthScale;
         }
