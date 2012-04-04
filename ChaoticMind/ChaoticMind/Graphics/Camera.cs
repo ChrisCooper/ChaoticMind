@@ -16,6 +16,7 @@ namespace ChaoticMind {
         Vector2 _position;
 
         float _zoom;
+        float _startingZoom;
         SpriteBatch _spriteBatch;
         GraphicsDevice _graphicsDevice;
 
@@ -35,10 +36,15 @@ namespace ChaoticMind {
         public Camera(Vector2 startingPosition, float startingZoom, GraphicsDevice graphics, SpriteBatch spriteBatch) {
             _position = startingPosition;
             _zoom = startingZoom;
+            _startingZoom = startingZoom;
             _graphicsDevice = graphics;
             _spriteBatch = spriteBatch;
             _minimapRect = HUD.HUDManager.MinimapRect;
             
+        }
+
+        public void resetZoom() {
+            _zoom = _startingZoom;
         }
 
         public void StartNewGame() {
@@ -108,6 +114,10 @@ namespace ChaoticMind {
         }
 
         public void Update(float deltaTime) {
+            if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
+                _zoom *= 1f - (deltaTime * 0.4f);
+            }
+
             if (_target != null) {
                 //to make shooting work properly
                 //_position = _target.Position;
@@ -125,6 +135,7 @@ namespace ChaoticMind {
             _toCentre.X = ((float)_graphicsDevice.Viewport.Width) / 2.0f;
             _toCentre.Y = ((float)_graphicsDevice.Viewport.Height) / 2.0f;
         }
+
 
         internal void shake() {
             _shakeMagnitude += _shakeIncreaseAmount;

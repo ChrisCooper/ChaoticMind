@@ -8,6 +8,7 @@ namespace ChaoticMind {
     class GameState {
 
         public enum GameMode {
+            PREGAME,
             NORMAL,
             PAUSED,
             SHIFTING,
@@ -29,7 +30,7 @@ namespace ChaoticMind {
 
         public static void Initilize() {
             _mainInstance = new GameState();
-            _mainInstance._gameMode = GameMode.NORMAL;
+            _mainInstance._gameMode = GameMode.PREGAME;
         }
 
         public static void StartNewGame(int level, int numToCollect) {
@@ -71,6 +72,11 @@ namespace ChaoticMind {
             else {
                 spawnNewObjective();
             }
+        }
+
+        public static bool BossActive {
+            get { return _mainInstance._bossActive; }
+            //set { _mainInstance._bossActive = value; } 
         }
     }
 }
