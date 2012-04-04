@@ -112,6 +112,7 @@
     <Compile Include="Audio\MusicController.cs" />
     <Compile Include="Audio\SoundEffects.cs" />
     <Compile Include="Characters\Emenies\Parasite.cs" />
+    <Compile Include="LoseScreen.cs" />
     <Compile Include="PainStaticMaker.cs" />
     <Compile Include="Map\PathFinder.cs" />
     <Compile Include="FontManager.cs" />
@@ -132,8 +133,6 @@
     <Compile Include="Weapons\ProjectileType.cs" />
     <Compile Include="Weapons\WeaponType.cs" />
     <Compile Include="GameState.cs" />
-    <Compile Include="MenuUI\NavScreens.cs" />
-    <Compile Include="MenuUI\NavMenuUI.cs" />
     <Compile Include="Weapons\Weapon.cs" />
     <Compile Include="Weapons\ProjectileManager.cs" />
     <Compile Include="Weapons\Projectile.cs" />

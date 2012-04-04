@@ -31,7 +31,7 @@ namespace ChaoticMind {
         StaticSprite _pauseBackground;
         Vector2 _centreLocation;
 
-        StaticSprite _deathScreen;
+        
         StaticSprite _gameoverWinScreen;
         StaticSprite _startMenuScreen;
         //StaticSprite _1pxBlack;
@@ -64,8 +64,6 @@ namespace ChaoticMind {
 
         MouseDrawer _mouseDrawer = new MouseDrawer();
 
-        float deltaTimeSinceLose;
-
         MapManager _mapManager;
         internal MapManager MapManager {
             get { return _mapManager; }
@@ -76,8 +74,6 @@ namespace ChaoticMind {
         ParticleManager _particleManager = ParticleManager.mainInstance();
 
         ShiftInterface _shiftInterface = new ShiftInterface();
-
-        //OutcomeScreen _outcomeScreen = new OutcomeScreen();
 
         public ChaoticMindGame() {
 
@@ -135,13 +131,11 @@ namespace ChaoticMind {
 
             PainStaticMaker.Initialize();
 
-            //_outcomeScreen.StartNewGame();
-
             _mouseDrawer.Initialize();
 
             ParticleType.Initialize();
 
-            deltaTimeSinceLose = 0;
+            LoseScreen.Initialize();
 
             StartNewGame();
 
@@ -189,8 +183,6 @@ namespace ChaoticMind {
 
             _mainCamera.resetZoom();
 
-            deltaTimeSinceLose = 0;
-
             ClearGame();
 
             StartNewGame();
@@ -203,7 +195,7 @@ namespace ChaoticMind {
         /// </summary>
         protected override void LoadContent() {
             _pauseBackground = new StaticSprite("UI/PauseScreen", 1, DrawLayers.MenuBackgrounds);
-            _deathScreen = new StaticSprite("Screens/DeathScreen", 1, DrawLayers.MenuBackgrounds);
+            
             _gameoverWinScreen = new StaticSprite("Screens/WinScreen", 1, DrawLayers.MenuBackgrounds);
             _startMenuScreen = new StaticSprite("Screens/StartMenuScreen", 1, DrawLayers.MenuBackgrounds);
             //_1pxBlack = new StaticSprite("1pxBlack", 1, DrawLayers.MenuBackgrounds);
@@ -253,10 +245,10 @@ namespace ChaoticMind {
                 //quack goes the duck
             }
             else if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
-                //    _outcomeScreen.Update();
+                LoseScreen.Update(deltaTime);
                 _mainCamera.Update(deltaTime);
                 PainStaticMaker.Update(deltaTime);
-                deltaTimeSinceLose += deltaTime;
+                
             }
 
             _fpsCounter.Update(gameTime);
@@ -306,7 +298,7 @@ namespace ChaoticMind {
             if (GameState.Mode == GameState.GameMode.PREGAME && InputManager.IsMouseClicked()) {
                 GameState.Mode = GameState.GameMode.NORMAL;
             }
-            if ((GameState.Mode == GameState.GameMode.GAMEOVERWIN || GameState.Mode == GameState.GameMode.GAMEOVERLOSE) && InputManager.IsMouseClicked()) {
+            if ((GameState.Mode == GameState.GameMode.GAMEOVERWIN) && InputManager.IsMouseClicked()) {
                 ResetGame();
                 GameState.Mode = GameState.GameMode.PREGAME;
             }
@@ -325,6 +317,13 @@ namespace ChaoticMind {
             }
             if (GameState.BossActive) {
                 GameState.Mode = GameState.GameMode.GAMEOVERWIN;
+            }
+        }
+
+        internal void AdvanceToNextGameState() {
+            if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
+                ResetGame();
+                GameState.Mode = GameState.GameMode.PREGAME;
             }
         }
 
@@ -388,8 +387,8 @@ namespace ChaoticMind {
             else if (GameState.Mode == GameState.GameMode.GAMEOVERWIN) {
                 drawGameoverWinOverlay();
             }
-            else if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE && deltaTimeSinceLose > 4f) {
-                drawDeathScreen();
+            else if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
+                LoseScreen.Draw(_spriteBatch);
             }
             else if (GameState.Mode == GameState.GameMode.PREGAME) {
                 drawStartMenuOverlay();
@@ -441,26 +440,6 @@ namespace ChaoticMind {
             //Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
             //Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color);
             _spriteBatch.Draw(_startMenuScreen.Texture, mapRect, _startMenuScreen.CurrentTextureBounds, Color.White, 0, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds);
-        }
-
-        private void drawDeathScreen() {
-            //_spriteBatch.Draw(_deathScreen.Texture, _centreLocation, _deathScreen.CurrentTextureBounds, Color.White, 0.0f, _deathScreen.CurrentTextureOrigin, , SpriteEffects.None, DrawLayers.MenuBackgrounds);
-
-            //_spriteBatch.Draw(_gameoverWinScreen.Texture, _centreLocation, _gameoverWinScreen.CurrentTextureBounds, Color.White, 0.0f, _gameoverWinScreen.CurrentTextureOrigin, , SpriteEffects.None, DrawLayers.MenuBackgrounds);
-            _spriteBatch.Draw(_deathScreen.Texture, _centreLocation, _deathScreen.CurrentTextureBounds, Color.Black, 0.0f, _deathScreen.CurrentTextureOrigin, 1, SpriteEffects.None, DrawLayers.MenuBackgrounds + 0.01f);
-
-            float mapFrameSideLength = Math.Min(Screen.Width, Screen.Height);
-            float mapFrameScale = mapFrameSideLength / _startMenuScreen.Texture.Bounds.Width;
-            Rectangle mapFrameRect = new Rectangle((int)(Screen.Width - mapFrameSideLength) / 2, (int)(Screen.Height - mapFrameSideLength), (int)mapFrameSideLength, (int)mapFrameSideLength);
-
-            float frameWidth = mapFrameSideLength;
-            Rectangle mapRect = new Rectangle((int)(mapFrameRect.Left + frameWidth), (int)(mapFrameRect.Top + frameWidth), (int)(mapFrameRect.Width - 2 * frameWidth), (int)(mapFrameRect.Height - 2 * frameWidth));
-
-            //_spriteBatch.Draw(_1pxBlack.Texture, _centreLocation, _1pxBlack.CurrentTextureBounds, Color.White, 0.0f, _1pxBlack.CurrentTextureOrigin, 10000, SpriteEffects.None, DrawLayers.MenuBackgrounds);
-
-            //Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
-            //Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color);
-            _spriteBatch.Draw(_deathScreen.Texture, mapRect, _deathScreen.CurrentTextureBounds, Color.White, 0, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds);
         }
 
         private void drawGlows(GameTime gameTime) {

@@ -23,10 +23,10 @@ namespace ChaoticMind.HUD {
         }
 
         private void setupMinimapInfo() {
-            }
+        }
 
         private void setupHealthInfo() {
-           }
+        }
 
         internal void Draw_HUD(SpriteBatch spriteBatch) {
 
@@ -34,7 +34,7 @@ namespace ChaoticMind.HUD {
             _weaponDisplay.DrawDisplay(spriteBatch);
             _minimapDisplay.DrawDisplay(spriteBatch);
 
-            }
+        }
 
         internal static Rectangle MinimapRect {
             get { return _mainInstance._minimapDisplay.MinimapRect; }
