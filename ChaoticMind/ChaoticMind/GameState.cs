@@ -49,7 +49,7 @@ namespace ChaoticMind {
             _mainInstance._currCollectable = null;
         }
 
-        private static void spawnNewObjective() {
+        public static void spawnNewObjective() {
             _mainInstance._currCollectable = CollectibleManager.CreateCollectible(MapTile.RandomPositionInTile(Utilities.randomInt(0, Program.SharedGame.MapManager.GridDimension), Utilities.randomInt(0, Program.SharedGame.MapManager.GridDimension)), CollectibleType.ObjectiveType);
         }
 
