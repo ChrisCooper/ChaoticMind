@@ -16,8 +16,6 @@ namespace ChaoticMind {
             StaticSprite _HUD_Image;
             int _roundsPerClip; 
             ProjectileType _projectileType;
-            //Otherwise, this will be set to something
-            float _range;
             bool _isRayCasted;
 
             //For spread:
@@ -33,8 +31,8 @@ namespace ChaoticMind {
                 AssaultRifle._weaponName = "Assault Rifle";
                 AssaultRifle._firesPerRound = 4;
                 AssaultRifle._firingInterval = 0.1f;
-                AssaultRifle._roundsPerClip = 50;
-                AssaultRifle._reloadTime = 2.0f;
+                AssaultRifle._roundsPerClip = 80;
+                AssaultRifle._reloadTime = 1.5f;
                 AssaultRifle.setSpread(15.0f);
                 AssaultRifle.Inaccuracy = 0.4f;
                 AssaultRifle._HUD_Image = new StaticSprite("Weapons/AssaultRifle", 1, DrawLayers.HUD_Dynamic_Info);
@@ -46,7 +44,7 @@ namespace ChaoticMind {
                 EnergyRifle._firesPerRound = 1;
                 EnergyRifle._firingInterval = 0.5f;
                 EnergyRifle._roundsPerClip = 40;
-                EnergyRifle._reloadTime = 2.5f;
+                EnergyRifle._reloadTime = 1.5f;
                 EnergyRifle.setSpread(0.0f);
                 EnergyRifle.Inaccuracy = 0.1f;
                 EnergyRifle._HUD_Image = new StaticSprite("Weapons/EnergyRifle", 1, DrawLayers.HUD_Dynamic_Info);
@@ -95,14 +93,7 @@ namespace ChaoticMind {
             }
 
             public float Range {
-                get {
-                    if (_projectileType != null) {
-                        return _range;
-                    }
-                    else {
-                        throw new Exception("Don't use \"" + _weaponName + "\"'s range property if it has an associated ProjectileType. Use the projectile's range property instead.");
-                    }
-                }
+                get { return _projectileType.Range; }
             }
 
             public Matrix SpreadRotationStepMatrix {

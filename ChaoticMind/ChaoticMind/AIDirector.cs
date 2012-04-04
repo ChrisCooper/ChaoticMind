@@ -32,16 +32,26 @@ namespace ChaoticMind {
 
         public static void OnShift() {
             //spawn enemies around the player tile
+            int tx, ty;
+
             for (int x = -1; x <= 1; x++) {
                 for (int y = -1; y <= 1; y++) {
-                    if ((x != 0 || y != 0) && !MapTile.isOutOfBoundsGrid(new Vector2(x, y))) {
-                        for (int i = 0; i < Utilities.randomInt(1, 3); i++) {
-                            Parasite parasite = new Parasite(MapTile.RandomPositionInTile(x, y));
-                            _mainInstance._enemies.Add(parasite);
-                        }
-                        for (int i = 0; i < Utilities.randomInt(1, 3); i++) {
-                            Swarmer swarmer = new Swarmer(MapTile.RandomPositionInTile(x, y));
-                            _mainInstance._enemies.Add(swarmer);
+                    if (x != 0 || y != 0) {
+
+                        //add to player position
+                        tx = (int)Program.SharedGame.MainPlayer.GridCoordinate.X + x;
+                        ty = (int)Program.SharedGame.MainPlayer.GridCoordinate.Y + y;
+
+                        if (!MapTile.isOutOfBoundsGrid(new Vector2(tx, ty))) {
+
+                            for (int i = 0; i < Utilities.randomInt(1, 3); i++) {
+                                Parasite parasite = new Parasite(MapTile.RandomPositionInTile(tx, ty));
+                                _mainInstance._enemies.Add(parasite);
+                            }
+                            for (int i = 0; i < Utilities.randomInt(1, 3); i++) {
+                                Swarmer swarmer = new Swarmer(MapTile.RandomPositionInTile(tx, ty));
+                                _mainInstance._enemies.Add(swarmer);
+                            }
                         }
                     }
                 }
