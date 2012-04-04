@@ -32,6 +32,9 @@ namespace ChaoticMind {
         Vector2 _centreLocation;
 
         StaticSprite _deathScreen;
+        StaticSprite _gameoverWinScreen;
+        StaticSprite _startMenuScreen;
+        //StaticSprite _1pxBlack;
 
         FrameRateCounter _fpsCounter;
 
@@ -156,7 +159,7 @@ namespace ChaoticMind {
             _mainCamera.StartNewGame();
 
             //init the level
-            GameState.StartNewGame(1, 3);
+            GameState.StartNewGame(1, 1);
 
             //Create swarmers in the first 3x3 square
             for (int x = 0; x < Math.Min(MAP_SIZE, 3); x++) {
@@ -216,6 +219,9 @@ namespace ChaoticMind {
         protected override void LoadContent() {
             _pauseBackground = new StaticSprite("UI/PauseScreen", 1, DrawLayers.MenuBackgrounds);
             _deathScreen = new StaticSprite("Screens/DeathScreen", 1, DrawLayers.MenuBackgrounds);
+            _gameoverWinScreen = new StaticSprite("Screens/WinScreen", 1, DrawLayers.MenuBackgrounds);
+            _startMenuScreen = new StaticSprite("Screens/StartMenuScreen", 1, DrawLayers.MenuBackgrounds);
+            //_1pxBlack = new StaticSprite("1pxBlack", 1, DrawLayers.MenuBackgrounds);
         }
 
 
@@ -246,6 +252,9 @@ namespace ChaoticMind {
             if (GameState.Mode == GameState.GameMode.EXITED) {
                 return;
             }
+            else if (GameState.Mode == GameState.GameMode.PREGAME) {
+                //quack goes the duck
+            }
             else if (GameState.Mode == GameState.GameMode.NORMAL) {
                 normalGameUpdate(deltaTime);
             }
@@ -254,6 +263,9 @@ namespace ChaoticMind {
             }
             else if (GameState.Mode == GameState.GameMode.PAUSED) {
                 //update stuff for the pause menu
+            }
+            else if (GameState.Mode == GameState.GameMode.GAMEOVERWIN) {
+                //quack goes the duck
             }
             else if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
                 //    _outcomeScreen.Update();
@@ -306,6 +318,16 @@ namespace ChaoticMind {
             if (InputManager.IsKeyDown(Keys.Y)) {
                 ResetGame();
             }
+
+            //menu screen progression
+            if (GameState.Mode == GameState.GameMode.PREGAME && InputManager.IsMouseClicked()) {
+                GameState.Mode = GameState.GameMode.NORMAL;
+            }
+            if (GameState.Mode == GameState.GameMode.GAMEOVERWIN && InputManager.IsMouseClicked()) {
+                ResetGame();
+                GameState.Mode = GameState.GameMode.PREGAME;
+            }
+
             //pause/unpause
             if (InputManager.IsKeyClicked(Keys.P)) {
                 GameState.Mode = GameState.Mode == GameState.GameMode.PAUSED ? GameState.GameMode.NORMAL : GameState.GameMode.PAUSED;
@@ -317,6 +339,9 @@ namespace ChaoticMind {
             //you died
             if (_player.ShouldDieNow()) {
                 GameState.Mode = GameState.GameMode.GAMEOVERLOSE;
+            }
+            if (GameState.BossActive) {
+                GameState.Mode = GameState.GameMode.GAMEOVERWIN;
             }
         }
 
@@ -374,6 +399,12 @@ namespace ChaoticMind {
             if (GameState.Mode == GameState.GameMode.PAUSED) {
                 drawPauseOverlay();
             }
+            else if (GameState.Mode == GameState.GameMode.GAMEOVERWIN) {
+                drawGameoverWinOverlay();
+            }
+            else if (GameState.Mode == GameState.GameMode.PREGAME) {
+                drawStartMenuOverlay();
+            }
             else if (GameState.Mode == GameState.GameMode.SHIFTING) {
                 _shiftInterface.DrawInterface(_objects);
             }
@@ -385,6 +416,39 @@ namespace ChaoticMind {
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void drawGameoverWinOverlay() {
+            //_spriteBatch.Draw(_gameoverWinScreen.Texture, _centreLocation, _gameoverWinScreen.CurrentTextureBounds, Color.White, 0.0f, _gameoverWinScreen.CurrentTextureOrigin, , SpriteEffects.None, DrawLayers.MenuBackgrounds);
+            _spriteBatch.Draw(_gameoverWinScreen.Texture, _centreLocation, _gameoverWinScreen.CurrentTextureBounds, Color.Black, 0.0f, _gameoverWinScreen.CurrentTextureOrigin, 1, SpriteEffects.None, DrawLayers.MenuBackgrounds+0.01f);
+
+            float mapFrameSideLength = Math.Min(Screen.Width, Screen.Height);
+            float mapFrameScale = mapFrameSideLength / _gameoverWinScreen.Texture.Bounds.Width;
+            Rectangle mapFrameRect = new Rectangle((int)(Screen.Width - mapFrameSideLength) / 2, (int)(Screen.Height - mapFrameSideLength), (int)mapFrameSideLength, (int)mapFrameSideLength);
+
+            float frameWidth = mapFrameSideLength;
+            Rectangle mapRect = new Rectangle((int)(mapFrameRect.Left + frameWidth), (int)(mapFrameRect.Top + frameWidth), (int)(mapFrameRect.Width - 2 * frameWidth), (int)(mapFrameRect.Height - 2 * frameWidth));
+
+            //_spriteBatch.Draw(_1pxBlack.Texture, _centreLocation, _1pxBlack.CurrentTextureBounds, Color.White, 0.0f, _1pxBlack.CurrentTextureOrigin, 10000, SpriteEffects.None, DrawLayers.MenuBackgrounds);
+            _spriteBatch.Draw(_gameoverWinScreen.Texture, mapRect, _gameoverWinScreen.CurrentTextureBounds, Color.White, 0, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds);
+        }
+
+        private void drawStartMenuOverlay() {
+            //_spriteBatch.Draw(_gameoverWinScreen.Texture, _centreLocation, _gameoverWinScreen.CurrentTextureBounds, Color.White, 0.0f, _gameoverWinScreen.CurrentTextureOrigin, , SpriteEffects.None, DrawLayers.MenuBackgrounds);
+            _spriteBatch.Draw(_gameoverWinScreen.Texture, _centreLocation, _gameoverWinScreen.CurrentTextureBounds, Color.Black, 0.0f, _gameoverWinScreen.CurrentTextureOrigin, 1, SpriteEffects.None, DrawLayers.MenuBackgrounds+0.01f);
+
+            float mapFrameSideLength = Math.Min(Screen.Width, Screen.Height);
+            float mapFrameScale = mapFrameSideLength / _startMenuScreen.Texture.Bounds.Width;
+            Rectangle mapFrameRect = new Rectangle((int)(Screen.Width - mapFrameSideLength) / 2, (int)(Screen.Height - mapFrameSideLength), (int)mapFrameSideLength, (int)mapFrameSideLength);
+
+            float frameWidth = mapFrameSideLength;
+            Rectangle mapRect = new Rectangle((int)(mapFrameRect.Left + frameWidth), (int)(mapFrameRect.Top + frameWidth), (int)(mapFrameRect.Width - 2 * frameWidth), (int)(mapFrameRect.Height - 2 * frameWidth));
+
+            //_spriteBatch.Draw(_1pxBlack.Texture, _centreLocation, _1pxBlack.CurrentTextureBounds, Color.White, 0.0f, _1pxBlack.CurrentTextureOrigin, 10000, SpriteEffects.None, DrawLayers.MenuBackgrounds);
+
+            //Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
+            //Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color);
+            _spriteBatch.Draw(_startMenuScreen.Texture, mapRect, _startMenuScreen.CurrentTextureBounds, Color.White, 0, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds);
         }
 
         private void drawDeathScreen() {
