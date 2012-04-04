@@ -161,7 +161,7 @@ namespace ChaoticMind {
             _mainCamera.StartNewGame();
 
             //init the level
-            GameState.StartNewGame(1, 1);
+            GameState.StartNewGame(1, 3);
 
             AIDirector.StartNewGame();
 

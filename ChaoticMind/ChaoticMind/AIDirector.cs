@@ -28,6 +28,24 @@ namespace ChaoticMind {
             }
         }
 
+        public static void OnShift() {
+            //spawn enemies around the player tile
+            for (int x = -1; x <= 1; x++) {
+                for (int y = -1; y <= 1; y++) {
+                    if (x != 0 || y != 0) {
+                        for (int i = 0; i < Utilities.randomInt(1, 3); i++) {
+                            Parasite parasite = new Parasite(MapTile.RandomPositionInTile(x, y));
+                            _mainInstance._enemies.Add(parasite);
+                        }
+                        for (int i = 0; i < Utilities.randomInt(1, 3); i++) {
+                            Swarmer swarmer = new Swarmer(MapTile.RandomPositionInTile(x, y));
+                            _mainInstance._enemies.Add(swarmer);
+                        }
+                    }
+                }
+            }
+        }
+
         public static void Draw(Camera mainCamera) {
             foreach(Enemy e in _mainInstance._enemies){
                 e.Draw(mainCamera);
@@ -55,17 +73,15 @@ namespace ChaoticMind {
             //Create swarmers in the first 3x3 square
             for (int x = 0; x < Math.Min(MapManager.MainInstance.GridDimension, 3); x++) {
                 for (int y = 0; y < Math.Min(MapManager.MainInstance.GridDimension, 3); y++) {
-                    for (int i = 0; i < 5; i++) {
-                        if (x == 0 && y == 0) {
-                            //Skip the starting square for fairness
-                            continue;
-                        }
-                        Parasite parasite = new Parasite(MapTile.RandomPositionInTile(x, y));
-                        _mainInstance._enemies.Add(parasite);
+                    for (int i = 0; i < 3; i++) {
+                        if (x != 0 || y != 0) { //skip starting square
+                            Parasite parasite = new Parasite(MapTile.RandomPositionInTile(x, y));
+                            _mainInstance._enemies.Add(parasite);
 
-                        if (i % 2 == 0) {
-                            Swarmer swarmer = new Swarmer(MapTile.RandomPositionInTile(x, y));
-                            _mainInstance._enemies.Add(swarmer);
+                            if (i % 2 == 0) {
+                                Swarmer swarmer = new Swarmer(MapTile.RandomPositionInTile(x, y));
+                                _mainInstance._enemies.Add(swarmer);
+                            }
                         }
                     }
                 }
