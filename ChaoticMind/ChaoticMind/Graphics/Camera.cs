@@ -54,6 +54,7 @@ namespace ChaoticMind {
 
         public void setTarget(Body target) {
             _target = target;
+            _position = _target.Position;
         }
 
         public Vector2 screenPointToWorld(Vector2 screenPoint) {

@@ -25,11 +25,23 @@ namespace ChaoticMind {
 
         public void Update(float deltaTime) {
             for (int i = 0; i < _collectibles.Count; i++) {
-                if (!_collectibles[i].ShouldDieNow())
+                if (!_collectibles[i].ShouldDieNow()) {
                     _collectibles[i].Update(deltaTime);
+                    //OOB, reset and damage the player (idiot....)
+                    Vector2 tempGridCoord = MapTile.GridPositionForWorldCoordinates(_collectibles[i].Position);
+                    if (tempGridCoord.X < 0 || tempGridCoord.X >= Program.SharedGame.MapManager.GridDimension || tempGridCoord.Y < 0 || tempGridCoord.Y >= Program.SharedGame.MapManager.GridDimension) {
+                        Player.Instance.ApplyDamage(50);
+                        _collectibles[i].DestroySelf();
+                        //done by the collectable
+                        //_collectibles.RemoveAt(i);
+                        i--;
+                        GameState.spawnNewObjective();
+                    }
+                }
                 else {
                     _collectibles[i].DestroySelf();
-                    _collectibles.RemoveAt(i);
+                    //done by the collectable
+                    //_collectibles.RemoveAt(i);
                     i--;
                 }
             }
@@ -64,7 +76,7 @@ namespace ChaoticMind {
             return newCollectible;
         }
 
-        internal static void removeCollectible(Collectable collectable) {
+        public static void removeCollectible(Collectable collectable) {
             _mainInstance._collectibles.Remove(collectable);
         }
     }

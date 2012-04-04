@@ -41,6 +41,11 @@ namespace ChaoticMind {
             return false;
         }
 
+        public override void DestroySelf() {
+            _body.Dispose();
+            CollectibleManager.removeCollectible(this);
+        }
+
         private void removeFromGame() {
              _body.Dispose();
              CollectibleManager.removeCollectible(this);

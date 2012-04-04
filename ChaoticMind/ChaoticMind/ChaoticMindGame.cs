@@ -155,7 +155,7 @@ namespace ChaoticMind {
             _mainCamera.StartNewGame();
 
             //init the level
-            GameState.StartNewGame(1, 1);
+            GameState.StartNewGame(1, 3);
 
             AIDirector.StartNewGame();
 
@@ -333,13 +333,6 @@ namespace ChaoticMind {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
-
-            if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
-                //drawDeathScreen();
-                //base.Draw(gameTime);
-                //return;
-            }
-
 
             /**** Draw Game Objects ****/
             _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);

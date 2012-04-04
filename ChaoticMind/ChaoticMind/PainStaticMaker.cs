@@ -33,7 +33,7 @@ namespace ChaoticMind {
             if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
                 _opacity = Math.Min(1.0f, _opacity + _deathFadeInSpeed);
             } else {
-               _opacity = Math.Min(0.5f,(_painMagnitude / Player.Instance.PercentHealth / 5));
+               _opacity = Math.Min(0.5f, _painMagnitude);
             }
         }
 
