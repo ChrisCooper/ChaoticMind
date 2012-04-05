@@ -110,7 +110,7 @@
   <ItemGroup>
     <Compile Include="AIDirector.cs" />
     <Compile Include="Audio\MusicController.cs" />
-    <Compile Include="Audio\SoundEffects.cs" />
+    <Compile Include="Audio\SoundEffectManager.cs" />
     <Compile Include="Characters\Enemies\Parasite.cs" />
     <Compile Include="GameObjects\ToggleButton.cs" />
     <Compile Include="GameObjects\UIButton.cs" />
