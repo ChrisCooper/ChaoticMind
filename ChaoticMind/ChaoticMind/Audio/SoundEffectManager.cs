@@ -33,6 +33,8 @@ namespace ChaoticMind {
             _mainInstance._sInstance = new Dictionary<String, SoundEffectInstance>();
             _mainInstance._sInstance["shift"] = SharedContentManager.Load<SoundEffect>("SoundEffects/stonescraping").CreateInstance();
             _mainInstance._sInstance["shift"].IsLooped = true;
+            _mainInstance._sInstance["heartbeat"] = SharedContentManager.Load<SoundEffect>("SoundEffects/heartbeat").CreateInstance();
+            _mainInstance._sInstance["heartbeat"].IsLooped = true;
 
             //load effects
             _mainInstance._sEffect = new Dictionary<String, SoundEffect>();
@@ -41,17 +43,22 @@ namespace ChaoticMind {
             _mainInstance._sEffect["item-collect"] = SharedContentManager.Load<SoundEffect>("SoundEffects/item-collect");
             _mainInstance._sEffect["impact"] = SharedContentManager.Load<SoundEffect>("SoundEffects/impact");
             _mainInstance._sEffect["cinematicboom"] = SharedContentManager.Load<SoundEffect>("SoundEffects/cinematicboom");
+            _mainInstance._sEffect["reload"] = SharedContentManager.Load<SoundEffect>("SoundEffects/reload");
         }
 
         //do to all instances (for pausing game)
         public static void PauseInstances() {
             for (int i = 0; i < _mainInstance._sInstance.Count; i++) {
-                _mainInstance._sInstance.ElementAt(i).Value.Pause();
+                SoundEffectInstance temp = _mainInstance._sInstance.ElementAt(i).Value;
+                if (temp.State == SoundState.Playing)
+                    _mainInstance._sInstance.ElementAt(i).Value.Pause();
             }
         }
         public static void ResumeInstances() {
             for (int i = 0; i < _mainInstance._sInstance.Count; i++) {
-                _mainInstance._sInstance.ElementAt(i).Value.Resume();
+                SoundEffectInstance temp = _mainInstance._sInstance.ElementAt(i).Value;
+                if (temp.State == SoundState.Paused)
+                    _mainInstance._sInstance.ElementAt(i).Value.Resume();
             }
         }
         public static void StopInstances() {
