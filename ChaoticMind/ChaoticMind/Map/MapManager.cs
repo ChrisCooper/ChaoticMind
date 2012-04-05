@@ -159,6 +159,9 @@ namespace ChaoticMind {
 
             Program.SharedGame.MainCamera.shake();
 
+            //play a sound
+            SoundEffectManager.PlaySound("shift", true);
+
             //spawn extra enemies
             AIDirector.OnShift();
 
@@ -221,6 +224,7 @@ namespace ChaoticMind {
             _shiftedOutTile.DestroySelf();
             _shiftedOutTile = null;
             _isShifting = false;
+            SoundEffectManager.StopSound("shift");
         }
 
         private void shiftTile(int tileX, int tileY, int destX, int destY) {

@@ -35,7 +35,6 @@ namespace ChaoticMind {
         StaticSprite _gameoverWinScreen;
         StaticSprite _startMenuScreen;
         StaticSprite _startMenuScreenOverlay;
-        //StaticSprite _1pxBlack;
 
         FrameRateCounter _fpsCounter;
 
@@ -59,7 +58,6 @@ namespace ChaoticMind {
 
         //Audio
         MusicController _backgroundMusic;
-        SoundEffects _soundEffects;
 
         HUD.HUDManager _hudManager = new HUD.HUDManager();
 
@@ -88,7 +86,7 @@ namespace ChaoticMind {
             SpriteAnimationSequence.SharedContentManager = Content;
 
             MusicController.SharedContentManager = Content;
-            SoundEffects.SharedContentManager = Content;
+            SoundEffectManager.SharedContentManager = Content;
 
             //Create the physics simulator object, specifying that we want no gravity (since we're top-down)
             _world = new World(Vector2.Zero);
@@ -116,6 +114,7 @@ namespace ChaoticMind {
             InputManager.Initialize();
             GameState.Initilize();
             AIDirector.Initilize();
+            SoundEffectManager.Initilize();
 
             _backgroundMusic = new MusicController();
             //_backgroundMusic.Enqueue("testSound1");
@@ -125,8 +124,6 @@ namespace ChaoticMind {
             //_backgroundMusic.Enqueue("05 Rapid Cognition");
             //_backgroundMusic.Enqueue("10 Disappear");
             //_backgroundMusic.Play();
-
-            //_soundEffects = new SoundEffects();
 
             _shiftInterface.Initialize(_mapManager, _spriteBatch);
 
