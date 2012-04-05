@@ -164,7 +164,12 @@ namespace ChaoticMind {
 
         //destroy the object when they die
         public override bool ShouldDieNow() {
-            return _currentHealth <= 0;
+            if (_currentHealth <= 0) {
+                if (_characterType.DeathSound != null)
+                    SoundEffectManager.PlayEffect(_characterType.DeathSound, 1.0f);
+                return true;
+            }
+            return false;
         }
 
         //
