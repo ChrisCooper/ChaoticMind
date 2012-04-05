@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace ChaoticMind {
     enum ShiftDirection {
@@ -113,14 +114,20 @@ namespace ChaoticMind {
             }
 
             //process queue
-            if (_shiftQueue.Count > 0 && !_isShifting) {
-                Shift temp = _shiftQueue.First.Value;
-                _shiftQueue.RemoveFirst();
-                shiftTiles(temp.Index, temp.Direction, temp.TileDoors);
+            if (_shiftQueue.Count > 0) {
+                if (!_isShifting) {
+                    Shift temp = _shiftQueue.First.Value;
+                    _shiftQueue.RemoveFirst();
+                    if (SoundEffectManager.GetState("shift") == SoundState.Stopped) SoundEffectManager.PlaySound("shift");
+                    shiftTiles(temp.Index, temp.Direction, temp.TileDoors);
+                }
+            }
+            else if (!_isShifting) {
+                if (SoundEffectManager.GetState("shift") == SoundState.Playing) SoundEffectManager.StopSound("shift");
             }
         }
 
-        //TODO: probably not the most effecient way of doing it
+        //TODO: probably not the most efficient way of doing it
         //better way might be to have each tile analyze and set the tiles to the north and west of them
         private void UpdateOverlays() {
             for (int x = 0; x < _tiles.GetLength(0); x++) {
@@ -158,9 +165,6 @@ namespace ChaoticMind {
             _currShiftIndex = index;
 
             Program.SharedGame.MainCamera.shake();
-
-            //play a sound
-            SoundEffectManager.PlaySound("shift", true);
 
             //spawn extra enemies
             AIDirector.OnShift();
@@ -224,7 +228,6 @@ namespace ChaoticMind {
             _shiftedOutTile.DestroySelf();
             _shiftedOutTile = null;
             _isShifting = false;
-            SoundEffectManager.StopSound("shift");
         }
 
         private void shiftTile(int tileX, int tileY, int destX, int destY) {

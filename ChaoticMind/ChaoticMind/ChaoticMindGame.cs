@@ -304,18 +304,34 @@ namespace ChaoticMind {
 
             //pause/unpause
             if (InputManager.IsKeyClicked(Keys.P)) {
-                GameState.Mode = GameState.Mode == GameState.GameMode.PAUSED ? GameState.GameMode.NORMAL : GameState.GameMode.PAUSED;
+                if (GameState.Mode == GameState.GameMode.PAUSED) {
+                    GameState.Mode = GameState.GameMode.NORMAL;
+                    SoundEffectManager.ResumeAll();
+                }
+                else {
+                    GameState.Mode = GameState.GameMode.PAUSED;
+                    SoundEffectManager.PauseAll();
+                }
             }
             //shifting interface
             if (InputManager.IsKeyClicked(Keys.Space)) {
-                GameState.Mode = GameState.Mode == GameState.GameMode.SHIFTING ? GameState.GameMode.NORMAL : GameState.GameMode.SHIFTING;
+                if (GameState.Mode == GameState.GameMode.SHIFTING) {
+                    GameState.Mode = GameState.GameMode.NORMAL;
+                    SoundEffectManager.ResumeAll();
+                }
+                else {
+                    GameState.Mode = GameState.GameMode.SHIFTING;
+                    SoundEffectManager.PauseAll();
+                }
             }
             //you died
             if (_player.ShouldDieNow()) {
                 GameState.Mode = GameState.GameMode.GAMEOVERLOSE;
+                SoundEffectManager.StopAll();
             }
             if (GameState.BossActive) {
                 GameState.Mode = GameState.GameMode.GAMEOVERWIN;
+                SoundEffectManager.StopAll();
             }
         }
 

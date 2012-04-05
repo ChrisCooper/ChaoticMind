@@ -26,6 +26,7 @@ namespace ChaoticMind {
             _mainInstance = new SoundEffectManager();
             _mainInstance._sEffects = new Dictionary<String, SoundEffectInstance>();
             _mainInstance._sEffects["shift"] = SharedContentManager.Load<SoundEffect>("SoundEffects/stonescraping").CreateInstance();
+            _mainInstance._sEffects["shift"].IsLooped = true;
 
             //pshhhhh, elegance
             /*
@@ -41,21 +42,40 @@ namespace ChaoticMind {
             }
             */
         }
-        public static void PlaySound(String key, bool looped) {
-            if (_mainInstance._sEffects.ContainsKey(key)) {
-                _mainInstance._sEffects[key].IsLooped = looped;
-                _mainInstance._sEffects[key].Play();
+        
+        //do to all (for pausing game)
+        public static void PauseAll() {
+            for (int i = 0; i < _mainInstance._sEffects.Count; i++) {
+                _mainInstance._sEffects.ElementAt(i).Value.Pause();
             }
         }
+        public static void ResumeAll() {
+            for (int i = 0; i < _mainInstance._sEffects.Count; i++) {
+                _mainInstance._sEffects.ElementAt(i).Value.Resume();
+            }
+        }
+        public static void StopAll() {
+            for (int i = 0; i < _mainInstance._sEffects.Count; i++) {
+                _mainInstance._sEffects.ElementAt(i).Value.Stop();
+            }
+        }
+
+        //individual files
+        public static void PlaySound(String key) {
+            _mainInstance._sEffects[key].Play();
+        }
         public static void StopSound(String key) {
-            if (_mainInstance._sEffects.ContainsKey(key) && _mainInstance._sEffects[key].State == SoundState.Playing) {
+            if (_mainInstance._sEffects[key].State == SoundState.Playing) {
                 _mainInstance._sEffects[key].Stop();
             }
         }
         public static void PauseSound(String key) {
-            if (_mainInstance._sEffects.ContainsKey(key) && _mainInstance._sEffects[key].State == SoundState.Playing) {
+            if (_mainInstance._sEffects[key].State == SoundState.Playing) {
                 _mainInstance._sEffects[key].Pause();
             }
+        }
+        public static SoundState GetState (String key) {
+            return _mainInstance._sEffects[key].State;
         }
     }
 }
