@@ -76,9 +76,11 @@ namespace ChaoticMind {
         }
 
         public void enqueueShift(UIButton button) {
-            _mapManager.queueShift(_pressedButton.Index, _pressedButton.Direction, DoorDirections.RandomDoors(), false);
-                    _pressedButton.reset();
-                    _pressedButton = null;
+            if (_pressedButton != null) {
+                _mapManager.queueShift(_pressedButton.Index, _pressedButton.Direction, DoorDirections.RandomDoors(), false);
+                _pressedButton.reset();
+                _pressedButton = null;
+            }
         }
 
         internal void ClearGame() {
