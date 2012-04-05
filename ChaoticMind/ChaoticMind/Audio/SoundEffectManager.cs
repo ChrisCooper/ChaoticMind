@@ -18,64 +18,66 @@ namespace ChaoticMind {
         
         public static ContentManager SharedContentManager; //Set at execution in ChaoticMindGame init
 
-        private Dictionary<String, SoundEffectInstance> _sEffects;
+        private Dictionary<String, SoundEffectInstance> _sInstance;
+        private Dictionary<String, SoundEffect> _sEffect;
 
         static SoundEffectManager _mainInstance;
 
         public static void Initilize(){
             _mainInstance = new SoundEffectManager();
-            _mainInstance._sEffects = new Dictionary<String, SoundEffectInstance>();
-            _mainInstance._sEffects["shift"] = SharedContentManager.Load<SoundEffect>("SoundEffects/stonescraping").CreateInstance();
-            _mainInstance._sEffects["shift"].IsLooped = true;
 
-            //pshhhhh, elegance
-            /*
-            //Enumerate and load contents of Music resources folder
-            DirectoryInfo dir = new DirectoryInfo(SharedContentManager.RootDirectory + "/SoundEffects");
-            if (!dir.Exists)
-                throw new DirectoryNotFoundException();
+            //instances have features like pausing and resuming (but don't stack)
+            //effects just play (but stack on top of each other)
+            
+            //load instances
+            _mainInstance._sInstance = new Dictionary<String, SoundEffectInstance>();
+            _mainInstance._sInstance["shift"] = SharedContentManager.Load<SoundEffect>("SoundEffects/stonescraping").CreateInstance();
+            _mainInstance._sInstance["shift"].IsLooped = true;
 
-            FileInfo[] files = dir.GetFiles("*.wma"); //This may need to be changed, depends on the output of the SoundEffect content processor
-            foreach (FileInfo file in files) {
-                string key = Path.GetFileNameWithoutExtension(file.Name);
-                _sEffects[key] = SharedContentManager.Load<SoundEffect>("SoundEffects/" + key);
-            }
-            */
+            //load effects
+            _mainInstance._sEffect = new Dictionary<String, SoundEffect>();
+            _mainInstance._sEffect["pistol"] = SharedContentManager.Load<SoundEffect>("SoundEffects/pistol");
+            _mainInstance._sEffect["grenade"] = SharedContentManager.Load<SoundEffect>("SoundEffects/grenade");
         }
-        
-        //do to all (for pausing game)
-        public static void PauseAll() {
-            for (int i = 0; i < _mainInstance._sEffects.Count; i++) {
-                _mainInstance._sEffects.ElementAt(i).Value.Pause();
+
+        //do to all instances (for pausing game)
+        public static void PauseInstances() {
+            for (int i = 0; i < _mainInstance._sInstance.Count; i++) {
+                _mainInstance._sInstance.ElementAt(i).Value.Pause();
             }
         }
-        public static void ResumeAll() {
-            for (int i = 0; i < _mainInstance._sEffects.Count; i++) {
-                _mainInstance._sEffects.ElementAt(i).Value.Resume();
+        public static void ResumeInstances() {
+            for (int i = 0; i < _mainInstance._sInstance.Count; i++) {
+                _mainInstance._sInstance.ElementAt(i).Value.Resume();
             }
         }
-        public static void StopAll() {
-            for (int i = 0; i < _mainInstance._sEffects.Count; i++) {
-                _mainInstance._sEffects.ElementAt(i).Value.Stop();
+        public static void StopInstances() {
+            for (int i = 0; i < _mainInstance._sInstance.Count; i++) {
+                _mainInstance._sInstance.ElementAt(i).Value.Stop();
             }
         }
 
-        //individual files
+        //individual instances
         public static void PlaySound(String key) {
-            _mainInstance._sEffects[key].Play();
+            _mainInstance._sInstance[key].Play();
         }
         public static void StopSound(String key) {
-            if (_mainInstance._sEffects[key].State == SoundState.Playing) {
-                _mainInstance._sEffects[key].Stop();
+            if (_mainInstance._sInstance[key].State == SoundState.Playing) {
+                _mainInstance._sInstance[key].Stop();
             }
         }
         public static void PauseSound(String key) {
-            if (_mainInstance._sEffects[key].State == SoundState.Playing) {
-                _mainInstance._sEffects[key].Pause();
+            if (_mainInstance._sInstance[key].State == SoundState.Playing) {
+                _mainInstance._sInstance[key].Pause();
             }
         }
-        public static SoundState GetState (String key) {
-            return _mainInstance._sEffects[key].State;
+        public static SoundState GetSoundState (String key) {
+            return _mainInstance._sInstance[key].State;
+        }
+
+        //individual effects
+        public static void PlayEffect(String key, float volume) {
+            _mainInstance._sEffect[key].Play(volume, 0, 0);
         }
     }
 }

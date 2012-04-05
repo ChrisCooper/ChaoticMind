@@ -118,12 +118,12 @@ namespace ChaoticMind {
                 if (!_isShifting) {
                     Shift temp = _shiftQueue.First.Value;
                     _shiftQueue.RemoveFirst();
-                    if (SoundEffectManager.GetState("shift") == SoundState.Stopped) SoundEffectManager.PlaySound("shift");
+                    if (SoundEffectManager.GetSoundState("shift") == SoundState.Stopped) SoundEffectManager.PlaySound("shift");
                     shiftTiles(temp.Index, temp.Direction, temp.TileDoors);
                 }
             }
             else if (!_isShifting) {
-                if (SoundEffectManager.GetState("shift") == SoundState.Playing) SoundEffectManager.StopSound("shift");
+                if (SoundEffectManager.GetSoundState("shift") == SoundState.Playing) SoundEffectManager.StopSound("shift");
             }
         }
 

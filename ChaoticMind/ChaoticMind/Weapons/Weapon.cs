@@ -9,6 +9,8 @@ namespace ChaoticMind {
 
     class Weapon {
 
+        const float SOUND_VOLUME = 0.1f;
+
         WeaponType _weaponType;
         Character _weaponOwner;
 
@@ -42,6 +44,10 @@ namespace ChaoticMind {
 
         public void Shoot(Vector2 location, Vector2 direction){
             if (_roundsLeftInClip > 0 && _reloadTimer.isFinished && _shootTimer.isFinished) {
+
+                //play weapon fire sound
+                if (_weaponType.Sound != null)
+                    SoundEffectManager.PlayEffect(_weaponType.Sound, SOUND_VOLUME);
 
                 direction += Utilities.randomNormalizedVector() * _weaponType.Inaccuracy;
 
