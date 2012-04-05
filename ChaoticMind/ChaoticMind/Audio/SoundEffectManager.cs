@@ -33,6 +33,7 @@ namespace ChaoticMind {
             _mainInstance._sInstance = new Dictionary<String, SoundEffectInstance>();
             _mainInstance._sInstance["shift"] = SharedContentManager.Load<SoundEffect>("SoundEffects/stonescraping").CreateInstance();
             _mainInstance._sInstance["shift"].IsLooped = true;
+            _mainInstance._sInstance["shift"].Volume = 0.5f;
             _mainInstance._sInstance["heartbeat"] = SharedContentManager.Load<SoundEffect>("SoundEffects/heartbeat").CreateInstance();
             _mainInstance._sInstance["heartbeat"].IsLooped = true;
 
