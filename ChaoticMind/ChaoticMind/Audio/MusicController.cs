@@ -50,7 +50,7 @@ namespace ChaoticMind {
                 _songs[key] = SharedContentManager.Load<Song>("Music/" + key);
             }
             
-            MediaPlayer.Volume = 0.5f; //Arbitrary, range 1 to 0 float
+            MediaPlayer.Volume = 0.2f; //Arbitrary, range 1 to 0 float
 
             //Register event handler on MediaStateChanged
             //Need to be able to play the next song after one finishes
@@ -164,7 +164,7 @@ namespace ChaoticMind {
 
             //If the playlist was clear before this Song was added
             if (_playlistIndex == -1) {
-                _playlistIndex = 1;
+                _playlistIndex = 0;
             }
         }
     }

@@ -116,14 +116,10 @@ namespace ChaoticMind {
             AIDirector.Initilize();
             SoundEffectManager.Initilize();
 
+            //initial menu music
             _backgroundMusic = new MusicController();
-            //_backgroundMusic.Enqueue("testSound1");
-            //_backgroundMusic.Enqueue("testSound2");
-            //_backgroundMusic.Enqueue("testSound3");
-            //_backgroundMusic.Enqueue("01 Cryogenic Dreams");
-            //_backgroundMusic.Enqueue("05 Rapid Cognition");
-            //_backgroundMusic.Enqueue("10 Disappear");
-            //_backgroundMusic.Play();
+            _backgroundMusic.Enqueue("Predatory Instincts_ElevatorRemix");
+            _backgroundMusic.Play();
 
             _shiftInterface.Initialize(_mapManager, _spriteBatch);
 
@@ -229,7 +225,7 @@ namespace ChaoticMind {
                 return;
             }
             else if (GameState.Mode == GameState.GameMode.PREGAME) {
-                //quack goes the duck
+
             }
             else if (GameState.Mode == GameState.GameMode.NORMAL) {
                 normalGameUpdate(deltaTime);
@@ -244,6 +240,7 @@ namespace ChaoticMind {
                 //quack goes the duck
             }
             else if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
+                _backgroundMusic.Stop();
                 LoseScreen.Update(deltaTime);
                 _mainCamera.Update(deltaTime);
                 PainStaticMaker.Update(deltaTime);
@@ -297,10 +294,21 @@ namespace ChaoticMind {
 
             //menu screen progression
             if (GameState.Mode == GameState.GameMode.PREGAME && InputManager.IsMouseClicked()) {
+                //game music
+                _backgroundMusic.Stop();
+                _backgroundMusic.ClearQueue();
+                _backgroundMusic.Enqueue("01 Cryogenic Dreams");
+                _backgroundMusic.Enqueue("05 Rapid Cognition");
+                _backgroundMusic.Enqueue("10 Disappear");
+                _backgroundMusic.Play();
                 GameState.Mode = GameState.GameMode.NORMAL;
             }
-            if ((GameState.Mode == GameState.GameMode.GAMEOVERWIN) && InputManager.IsMouseClicked()) {
+            if ((GameState.Mode == GameState.GameMode.GAMEOVERWIN || GameState.Mode == GameState.GameMode.GAMEOVERLOSE) && InputManager.IsMouseClicked()) {
                 ResetGame();
+                _backgroundMusic.Stop();
+                _backgroundMusic.ClearQueue();
+                _backgroundMusic.Enqueue("Predatory Instincts_ElevatorRemix");
+                _backgroundMusic.Play();
                 GameState.Mode = GameState.GameMode.PREGAME;
             }
 
@@ -336,10 +344,10 @@ namespace ChaoticMind {
         }
 
         internal void AdvanceToNextGameState() {
-            if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
-                ResetGame();
-                GameState.Mode = GameState.GameMode.PREGAME;
-            }
+            //if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
+            //    ResetGame();
+            //    GameState.Mode = GameState.GameMode.PREGAME;
+            //}
         }
 
         /// <summary>
