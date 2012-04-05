@@ -44,6 +44,7 @@ namespace ChaoticMind {
             _mainInstance._sEffect["impact"] = SharedContentManager.Load<SoundEffect>("SoundEffects/impact");
             _mainInstance._sEffect["cinematicboom"] = SharedContentManager.Load<SoundEffect>("SoundEffects/cinematicboom");
             _mainInstance._sEffect["reload"] = SharedContentManager.Load<SoundEffect>("SoundEffects/reload");
+            _mainInstance._sEffect["squish"] = SharedContentManager.Load<SoundEffect>("SoundEffects/squish");
         }
 
         //do to all instances (for pausing game)

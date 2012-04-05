@@ -58,6 +58,7 @@ namespace ChaoticMind {
             Parasite._linearDampening = 10f;
             Parasite.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 5, DrawLayers.HUD_Minimap_normal_elements);
             Parasite.DeathParticle = ParticleType.ParasiteDeath;
+            Parasite.DeathSound = "squish";
 
             //Swarmer
             Swarmer._physicalEntitySize = 1.3f;
@@ -74,6 +75,7 @@ namespace ChaoticMind {
             Swarmer._linearDampening = 10f;
             Swarmer.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 4, DrawLayers.HUD_Minimap_normal_elements);
             Swarmer.DeathParticle = ParticleType.SwarmerDeath;
+            Swarmer.DeathSound = "squish";
             
         }
 
@@ -116,6 +118,8 @@ namespace ChaoticMind {
         public StaticSprite MinimapSprite { get; set; }
 
         public ParticleType DeathParticle { get; set; }
+
+        public String DeathSound { get; set; }
 
         public SpriteAnimationSequence SpriteAnimationSequence { get; set; }
 
