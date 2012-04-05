@@ -15,7 +15,8 @@ namespace ChaoticMind {
             float _reloadTime;
             StaticSprite _HUD_Image;
             int _roundsPerClip;
-            String _sound;
+            String _fireSound;
+            String _reloadSound;
             ProjectileType _projectileType;
             bool _isRayCasted;
 
@@ -36,7 +37,8 @@ namespace ChaoticMind {
                 AssaultRifle._reloadTime = 1.5f;
                 AssaultRifle.setSpread(15.0f);
                 AssaultRifle.Inaccuracy = 0.4f;
-                AssaultRifle._sound = "pistol";
+                AssaultRifle._fireSound = "pistol";
+                AssaultRifle._reloadSound = "reload";
                 AssaultRifle._HUD_Image = new StaticSprite("Weapons/AssaultRifle", 1, DrawLayers.HUD_Dynamic_Info);
                 AssaultRifle._projectileType = ProjectileType.AssaultRifleBullet;
                 AssaultRifle._isRayCasted = false;
@@ -49,7 +51,8 @@ namespace ChaoticMind {
                 EnergyRifle._reloadTime = 1.5f;
                 EnergyRifle.setSpread(0.0f);
                 EnergyRifle.Inaccuracy = 0.1f;
-                EnergyRifle._sound = "grenade";
+                EnergyRifle._fireSound = "grenade";
+                EnergyRifle._reloadSound = "reload";
                 EnergyRifle._HUD_Image = new StaticSprite("Weapons/EnergyRifle", 1, DrawLayers.HUD_Dynamic_Info);
                 EnergyRifle._projectileType = ProjectileType.EnergyShot;
                 EnergyRifle._isRayCasted = false;
@@ -91,8 +94,12 @@ namespace ChaoticMind {
                 get { return _roundsPerClip; }
             }
 
-            public String Sound {
-                get { return _sound; }
+            public String FireSound {
+                get { return _fireSound; }
+            }
+
+            public String ReloadSound {
+                get { return _reloadSound; }
             }
 
             public ProjectileType ProjectileType {
