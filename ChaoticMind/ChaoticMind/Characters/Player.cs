@@ -34,6 +34,7 @@ namespace ChaoticMind {
         }
 
         public override void ApplyDamage(float amount) {
+            SoundEffectManager.PlayEffect("impact", 0.2f);
             PainStaticMaker.AddDamage(amount);
 
             base.ApplyDamage(amount);

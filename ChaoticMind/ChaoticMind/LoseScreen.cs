@@ -14,11 +14,14 @@ namespace ChaoticMind {
 
         static Timer _fadeInTimer;
 
+        static bool _playedSound;
+
         private static float _deathSpriteScale;
         static Rectangle _leftSideRectangle;
         static Rectangle _rightSideRectangle;
 
         public static void Initialize() {
+            _playedSound = false;
             _fadeInTimer = new Timer(FadeInDuration);
             _deathSpriteScale = Screen.SmallestDimension / (float)_deathSprite.CurrentTextureBounds.Width;
 
@@ -30,9 +33,15 @@ namespace ChaoticMind {
         public static void Update(float deltaTime) {
             _fadeInTimer.Update(deltaTime);
 
+            if (!_playedSound) {
+                SoundEffectManager.PlayEffect("cinematicboom", 1.0f);
+                _playedSound = true;
+            }
+
             if (_fadeInTimer.isFinished) {
                 if (InputManager.IsMouseClicked()) {
                     Program.SharedGame.AdvanceToNextGameState();
+                    _playedSound = false;
                     _fadeInTimer.Reset();
                 }
             }
@@ -43,9 +52,6 @@ namespace ChaoticMind {
             //Draw two rectangles on the sides of the lose sprite
             spriteBatch.Draw(_deathSprite.Texture, _leftSideRectangle, _deathSprite.CurrentTextureBounds, Color.Black * _fadeInTimer.percentComplete, 0.0f, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds);
             spriteBatch.Draw(_deathSprite.Texture, _rightSideRectangle, _deathSprite.CurrentTextureBounds, Color.Black * _fadeInTimer.percentComplete, 0.0f, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds);
-
-
-
 
             //Draw lose image
             spriteBatch.Draw(_deathSprite.Texture, Screen.Center, _deathSprite.CurrentTextureBounds, Color.White * _fadeInTimer.percentComplete, 0.0f, _deathSprite.CurrentTextureOrigin, _deathSpriteScale, SpriteEffects.None, DrawLayers.MenuBackgrounds - 0.001f);
