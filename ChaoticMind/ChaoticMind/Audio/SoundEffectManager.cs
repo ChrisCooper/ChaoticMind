@@ -38,6 +38,7 @@ namespace ChaoticMind {
             _mainInstance._sEffect = new Dictionary<String, SoundEffect>();
             _mainInstance._sEffect["pistol"] = SharedContentManager.Load<SoundEffect>("SoundEffects/pistol");
             _mainInstance._sEffect["grenade"] = SharedContentManager.Load<SoundEffect>("SoundEffects/grenade");
+            _mainInstance._sEffect["item-collect"] = SharedContentManager.Load<SoundEffect>("SoundEffects/item-collect");
         }
 
         //do to all instances (for pausing game)

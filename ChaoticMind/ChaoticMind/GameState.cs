@@ -67,6 +67,8 @@ namespace ChaoticMind {
         }
 
         internal static void ObjectiveWasCollected() {
+            SoundEffectManager.PlayEffect("item-collect", 1.0f);
+            
             _mainInstance._numObjectsCollected++;
             Player.Instance.GoToFullHealth();
             if (_mainInstance._numObjectsCollected >= _mainInstance._numToCollect) {
