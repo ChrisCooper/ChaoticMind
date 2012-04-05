@@ -43,7 +43,10 @@ namespace ChaoticMind {
         }
 
         public void Shoot(Vector2 location, Vector2 direction){
-            if (_roundsLeftInClip > 0 && _reloadTimer.isFinished && _shootTimer.isFinished) {
+            if (_roundsLeftInClip == 0 && _reloadTimer.isFinished && _shootTimer.isFinished) {
+                Reload();
+            }
+            else if (_roundsLeftInClip > 0 && _reloadTimer.isFinished && _shootTimer.isFinished) {
 
                 //play weapon fire sound
                 if (_weaponType.FireSound != null)

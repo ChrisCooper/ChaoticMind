@@ -44,11 +44,11 @@ namespace ChaoticMind {
 
                         if (!MapTile.isOutOfBoundsGrid(new Vector2(tx, ty))) {
 
-                            for (int i = 0; i < Utilities.randomInt(1, 3); i++) {
+                            for (int i = 0; i < Utilities.randomInt(1, 2); i++) {
                                 Parasite parasite = new Parasite(MapTile.RandomPositionInTile(tx, ty));
                                 _mainInstance._enemies.Add(parasite);
                             }
-                            for (int i = 0; i < Utilities.randomInt(1, 3); i++) {
+                            for (int i = 0; i < Utilities.randomInt(1, 2); i++) {
                                 Swarmer swarmer = new Swarmer(MapTile.RandomPositionInTile(tx, ty));
                                 _mainInstance._enemies.Add(swarmer);
                             }

@@ -109,7 +109,7 @@ namespace ChaoticMind {
 
             _mapManager = new MapManager();
 
-            _mainCamera = new Camera(Vector2.Zero, 50.0f, _graphics.GraphicsDevice, _spriteBatch);
+            _mainCamera = new Camera(Vector2.Zero, 35.0f, _graphics.GraphicsDevice, _spriteBatch);
 
             InputManager.Initialize();
             GameState.Initilize();
