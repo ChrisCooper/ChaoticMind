@@ -285,13 +285,15 @@ namespace ChaoticMind {
                 this.Exit();
 
             }
-            if (InputManager.IsKeyDown(Keys.Y)) {
+            
+            //debug
+            /*if (InputManager.IsKeyDown(Keys.Y)) {
                 ResetGame();
             }
-
             if (InputManager.IsKeyDown(Keys.K)) {
                 GameState.Mode = GameState.GameMode.GAMEOVERLOSE;
             }
+            */ 
 
             //menu screen progression
             if (GameState.Mode == GameState.GameMode.PREGAME && InputManager.IsMouseClicked()) {
@@ -303,27 +305,25 @@ namespace ChaoticMind {
             }
 
             //pause/unpause
-            if (InputManager.IsKeyClicked(Keys.P)) {
-                if (GameState.Mode == GameState.GameMode.PAUSED) {
-                    GameState.Mode = GameState.GameMode.NORMAL;
-                    SoundEffectManager.ResumeAll();
-                }
-                else {
-                    GameState.Mode = GameState.GameMode.PAUSED;
-                    SoundEffectManager.PauseAll();
-                }
+            if (InputManager.IsKeyClicked(Keys.P) && GameState.Mode == GameState.GameMode.PAUSED) {
+                GameState.Mode = GameState.GameMode.NORMAL;
+                SoundEffectManager.ResumeAll();
             }
+            else if (InputManager.IsKeyClicked(Keys.P) && GameState.Mode == GameState.GameMode.NORMAL) {
+                GameState.Mode = GameState.GameMode.PAUSED;
+                SoundEffectManager.PauseAll();
+            }
+
             //shifting interface
-            if (InputManager.IsKeyClicked(Keys.Space)) {
-                if (GameState.Mode == GameState.GameMode.SHIFTING) {
-                    GameState.Mode = GameState.GameMode.NORMAL;
-                    SoundEffectManager.ResumeAll();
-                }
-                else {
-                    GameState.Mode = GameState.GameMode.SHIFTING;
-                    SoundEffectManager.PauseAll();
-                }
+            if (InputManager.IsKeyClicked(Keys.Space) && GameState.Mode == GameState.GameMode.SHIFTING) {
+                GameState.Mode = GameState.GameMode.NORMAL;
+                SoundEffectManager.ResumeAll();
             }
+            else if (InputManager.IsKeyClicked(Keys.Space) && GameState.Mode == GameState.GameMode.NORMAL) {
+                GameState.Mode = GameState.GameMode.SHIFTING;
+                SoundEffectManager.PauseAll();
+            }
+
             //you died
             if (_player.ShouldDieNow()) {
                 GameState.Mode = GameState.GameMode.GAMEOVERLOSE;
