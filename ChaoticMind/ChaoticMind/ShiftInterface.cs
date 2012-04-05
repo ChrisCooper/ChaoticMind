@@ -18,13 +18,13 @@ namespace ChaoticMind {
         MapTile[,] _tiles;
         SpriteBatch _spriteBatch;
 
-        float _tileDimension;
+        float _tileSideLength;
         float _scalingFactor;
         List<ShiftButton> _buttons = new List<ShiftButton>();
         private ShiftButton _pressedButton;
-        private Vector2 _topLeftCorner;
+        private Vector2 _topLeftTilePosition;
 
-        UIButton _shiftButton;
+        UIButton _addShiftToQueueButton;
 
         internal void Initialize(MapManager mapManager, SpriteBatch spriteBatch) {
             _mapManager = mapManager;
@@ -36,49 +36,64 @@ namespace ChaoticMind {
             _tiles = _mapManager.Tiles;
 
             //Calculate the size of our interface
-            int interfaceSideLength = Math.Min(Screen.Width, Screen.Height) - 2 * interfacePixelPadding;
+            int interfaceSideLength = Math.Min(Screen.Width, Screen.Height) - (2 * interfacePixelPadding);
 
             //Add 2 for the buttons on each end
-            int gridSideDimension = _tiles.GetLength(0) + 2;
+            int gridSideIndexDimension = _tiles.GetLength(0) + 2;
 
-            _tileDimension = interfaceSideLength / (float)gridSideDimension;
+            _tileSideLength = interfaceSideLength / (float)gridSideIndexDimension;
 
             StaticSprite tileSprite = _tiles[0, 0].ShiftTexture;
-
-            _scalingFactor = _tileDimension / (float)tileSprite.CurrentTextureBounds.Width;
+            _scalingFactor = _tileSideLength / tileSprite.CurrentTextureBounds.Width;
 
             //Create buttons
-            float longLength = (gridSideDimension / (float)2) * _tileDimension;
-            float shortLength = (_tiles.GetLength(0) / (float)2) * _tileDimension;
-            float startX = Screen.Center.X - shortLength;
-            float startY = Screen.Center.Y - shortLength;
+
+            //Length from centre to the very edge of the farthest button
+            float longLength = interfaceSideLength / 2f;
+
+            //Length to the edge of the map tiles
+            float shortLength = longLength - _tileSideLength;
+
+            float leftX = Screen.Center.X - longLength;
+            float topY = Screen.Center.Y - longLength;
+            float leftOfRightX = leftX + (gridSideIndexDimension - 1) * _tileSideLength;
+            float topOfBottomY = topY + (gridSideIndexDimension - 1) * _tileSideLength;
+
             for (int i = 0; i < _tiles.GetLength(0); i++) {
+
                 //Top buttons
-                _buttons.Add(new ShiftButton(this, new Vector2(startX + _tileDimension * i, Screen.Center.Y - longLength), _tileDimension, i, ShiftDirection.UP));
+                Rectangle buttonRect = new Rectangle((int)(leftX + _tileSideLength * (i + 1)), (int)topY, (int)_tileSideLength, (int)_tileSideLength);
+                _buttons.Add(new ShiftButton(this, buttonRect, i, ShiftDirection.UP));
+
                 //Bottom buttons
-                _buttons.Add(new ShiftButton(this, new Vector2(startX + _tileDimension * i, Screen.Center.Y + longLength - _tileDimension), _tileDimension, i, ShiftDirection.DOWN));
+                buttonRect = new Rectangle((int)(leftX + _tileSideLength * (i + 1)), (int)topOfBottomY, (int)_tileSideLength, (int)_tileSideLength);
+                _buttons.Add(new ShiftButton(this, buttonRect, i, ShiftDirection.DOWN));
+
                 //Left buttons
-                _buttons.Add(new ShiftButton(this, new Vector2(Screen.Center.X - longLength, startY + _tileDimension * i), _tileDimension, i, ShiftDirection.LEFT));
+                buttonRect = new Rectangle((int)leftX, (int)(topY + _tileSideLength + (_tileSideLength * i)), (int)_tileSideLength, (int)_tileSideLength);
+                _buttons.Add(new ShiftButton(this, buttonRect, i, ShiftDirection.LEFT));
+
                 //Right buttons
-                _buttons.Add(new ShiftButton(this, new Vector2(Screen.Center.X + longLength - _tileDimension, startY + _tileDimension * i), _tileDimension, i, ShiftDirection.RIGHT));
+                buttonRect = new Rectangle((int)leftOfRightX, (int)(topY + _tileSideLength + (_tileSideLength * i)), (int)_tileSideLength, (int)_tileSideLength);
+                _buttons.Add(new ShiftButton(this, buttonRect, i, ShiftDirection.RIGHT));
             }
 
-            float halfLength = (_tiles.GetLength(0) / (float)2) * _tileDimension;
-            _topLeftCorner = new Vector2(Screen.Center.X - halfLength, Screen.Center.Y - halfLength);
+            float halfLength = (_tiles.GetLength(0) / (float)2) * _tileSideLength;
+            _topLeftTilePosition = new Vector2(Screen.Center.X - halfLength + 0.5f * _tileSideLength , Screen.Center.Y - halfLength + 0.5f*_tileSideLength);
 
 
             //Create the shift button
-            Rectangle shiftButtonRect = new Rectangle((int)(Screen.ScreenRect.Right - _tileDimension * 2.5), (int)(Screen.Center.Y + shortLength), (int)_tileDimension * 2, (int)_tileDimension);
+            Rectangle shiftButtonRect = new Rectangle((int)(Screen.ScreenRect.Right - 300), 200, 250, 125);
             StaticSprite normalSprite = new StaticSprite("Shifting/AddShiftButton", 1.0f, DrawLayers.MenuElements);
             StaticSprite pressedSprite = new StaticSprite("Shifting/AddShiftButtonPressed", 1.0f, DrawLayers.MenuElements);
-            _shiftButton = new UIButton(shiftButtonRect, 0.0f, normalSprite, pressedSprite);
-            _shiftButton.setTarget(enqueueShift);
+            _addShiftToQueueButton = new UIButton(shiftButtonRect, 0.0f, normalSprite, pressedSprite);
+            _addShiftToQueueButton.setTarget(enqueueShift);
         }
 
         public void enqueueShift(UIButton button) {
             _mapManager.queueShift(_pressedButton.Index, _pressedButton.Direction, DoorDirections.RandomDoors(), false);
-                    _pressedButton.reset();
-                    _pressedButton = null;
+            _pressedButton.reset();
+            _pressedButton = null;
         }
 
         internal void ClearGame() {
@@ -88,40 +103,40 @@ namespace ChaoticMind {
 
         internal void Update(float deltaTime) {
             foreach (ShiftButton button in _buttons) {
-                button.Update();
+                button.Update(deltaTime);
             }
 
-            _shiftButton.Update(deltaTime);
+            _addShiftToQueueButton.Update(deltaTime);
 
         }
 
         internal void Draw() {
 
             //draw tiles
-            Vector2 drawingLocation = new Vector2(_topLeftCorner.X, _topLeftCorner.Y);
+            Vector2 drawingLocation = new Vector2(_topLeftTilePosition.X, _topLeftTilePosition.Y);
             for (int y = 0; y < _tiles.GetLength(0); y++) {
                 for (int x = 0; x < _tiles.GetLength(1); x++) {
                     MapTile tile = _tiles[x, y];
                     _spriteBatch.Draw(tile.ShiftTexture.Texture, drawingLocation, tile.ShiftTexture.CurrentTextureBounds, Color.White, tile.Rotation, tile.ShiftTexture.CurrentTextureOrigin, _scalingFactor, SpriteEffects.None, DrawLayers.MenuElements);
-                    drawingLocation.X += _tileDimension;
+                    drawingLocation.X += _tileSideLength;
                 }
-                drawingLocation.Y += _tileDimension;
-                drawingLocation.X = _topLeftCorner.X;
+                drawingLocation.Y += _tileSideLength;
+                drawingLocation.X = _topLeftTilePosition.X;
             }
 
             //draw shift buttons
             foreach (ShiftButton button in _buttons) {
-                _spriteBatch.Draw(button.Sprite.Texture, button.Center, button.Sprite.CurrentTextureBounds, Color.White, button.Rotation, button.Sprite.CurrentTextureOrigin, button.ScalingFactor, SpriteEffects.None, DrawLayers.MenuElements);
+                button.DrawSelf(_spriteBatch);
             }
-            _shiftButton.DrawSelf(_spriteBatch);
+            _addShiftToQueueButton.DrawSelf(_spriteBatch);
         }
 
         public void drawOnOverlay(IMiniMapable c) {
-            _spriteBatch.Draw(c.MapSprite.Texture, c.MapPosition / (float)MapTile.TileSideLength * _tileDimension + _topLeftCorner, c.MapSprite.CurrentTextureBounds, Color.White, c.MapRotation, c.MapSprite.CurrentTextureOrigin, 1 / c.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, DrawLayers.MenuHighlightElements);
+            _spriteBatch.Draw(c.MapSprite.Texture, c.MapPosition / (float)MapTile.TileSideLength * _tileSideLength + _topLeftTilePosition, c.MapSprite.CurrentTextureBounds, Color.White, c.MapRotation, c.MapSprite.CurrentTextureOrigin, 1 / c.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, DrawLayers.MenuHighlightElements);
         }
 
         internal void ButtonWasPressed(ShiftButton pressedButton) {
-            if (_pressedButton != null){
+            if (_pressedButton != null) {
                 _pressedButton.reset();
             }
             _pressedButton = pressedButton;
