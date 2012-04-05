@@ -138,7 +138,7 @@ namespace ChaoticMind {
         }
 
         internal void ButtonWasPressed(ShiftButton pressedButton) {
-            if (_pressedButton != null) {
+             if (_pressedButton != null) {
                 _pressedButton.reset();
             }
             _pressedButton = pressedButton;

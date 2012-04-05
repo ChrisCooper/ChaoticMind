@@ -1,4 +1,10 @@
 
+shift preview (use recursion to go through the shift queue and apply transformations to return the correct object
+Only add shift button when you need to confirm or undo a shift (add an undo button only)
+create shift object
+
+weaon right click
+
 
 Document methods and classes in code with ///
 

@@ -168,6 +168,7 @@ namespace ChaoticMind {
             GameState.ClearGame();
             PainStaticMaker.ClearGame();
             ParticleManager.ClearGame();
+            _shiftInterface.ClearGame();
         }
 
         /// <summary>

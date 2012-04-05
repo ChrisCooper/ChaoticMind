@@ -20,8 +20,8 @@ namespace ChaoticMind {
             : base(CharacterType.Player, startingPosition) {
 
             _weapons = new List<Weapon>();
-            _weapons.Add(new Weapon(WeaponType.AssaultRifle, 5, this));
-            _weapons.Add(new Weapon(WeaponType.EnergyRifle, 5, this));
+            _weapons.Add(new Weapon(WeaponType.AssaultRifle, 7, this));
+            _weapons.Add(new Weapon(WeaponType.EnergyRifle, 7, this));
 
             _body.UserData = this;
             _instance = this;
