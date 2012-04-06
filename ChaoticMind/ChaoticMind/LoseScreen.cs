@@ -40,7 +40,6 @@ namespace ChaoticMind {
 
             if (_fadeInTimer.isFinished) {
                 if (InputManager.IsMouseClicked()) {
-                    Program.SharedGame.AdvanceToNextGameState();
                     _playedSound = false;
                     _fadeInTimer.Reset();
                 }
@@ -50,11 +49,15 @@ namespace ChaoticMind {
         public static void Draw(SpriteBatch spriteBatch) {
 
             //Draw two rectangles on the sides of the lose sprite
-            spriteBatch.Draw(_deathSprite.Texture, _leftSideRectangle, _deathSprite.CurrentTextureBounds, Color.Black * _fadeInTimer.percentComplete, 0.0f, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds);
-            spriteBatch.Draw(_deathSprite.Texture, _rightSideRectangle, _deathSprite.CurrentTextureBounds, Color.Black * _fadeInTimer.percentComplete, 0.0f, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds);
+            spriteBatch.Draw(Program.SharedGame.BlackPx, _leftSideRectangle, Rectangle.Empty, Color.Black * _fadeInTimer.percentComplete, 0.0f, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds);
+            spriteBatch.Draw(Program.SharedGame.BlackPx, _rightSideRectangle, Rectangle.Empty, Color.Black * _fadeInTimer.percentComplete, 0.0f, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds);
 
             //Draw lose image
             spriteBatch.Draw(_deathSprite.Texture, Screen.Center, _deathSprite.CurrentTextureBounds, Color.White * _fadeInTimer.percentComplete, 0.0f, _deathSprite.CurrentTextureOrigin, _deathSpriteScale, SpriteEffects.None, DrawLayers.MenuBackgrounds - 0.001f);
+        }
+
+        public static bool TimerFinished() {
+            return _fadeInTimer.isFinished;
         }
     }
 }

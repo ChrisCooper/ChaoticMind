@@ -31,6 +31,10 @@ namespace ChaoticMind {
         StaticSprite _pauseBackground;
         Vector2 _centreLocation;
 
+        Texture2D _blackPx;
+        internal Texture2D BlackPx {
+            get { return _blackPx; }
+        }
         
         StaticSprite _gameoverWinScreen;
         StaticSprite _startMenuScreen;
@@ -110,6 +114,11 @@ namespace ChaoticMind {
             _mapManager = new MapManager();
 
             _mainCamera = new Camera(Vector2.Zero, 35.0f, _graphics.GraphicsDevice, _spriteBatch);
+
+            //set up the black pixel used for clearing the screen
+            _blackPx = new Texture2D(_graphics.GraphicsDevice, 1, 1);
+            uint[] px = { 0xFFFFFFFF };
+            _blackPx.SetData<uint>(px);
 
             InputManager.Initialize();
             GameState.Initilize();
@@ -304,7 +313,7 @@ namespace ChaoticMind {
                 _backgroundMusic.Play();
                 GameState.Mode = GameState.GameMode.NORMAL;
             }
-            if ((GameState.Mode == GameState.GameMode.GAMEOVERWIN || GameState.Mode == GameState.GameMode.GAMEOVERLOSE) && InputManager.IsMouseClicked()) {
+            if ((GameState.Mode == GameState.GameMode.GAMEOVERWIN || (GameState.Mode == GameState.GameMode.GAMEOVERLOSE && LoseScreen.TimerFinished())) && InputManager.IsMouseClicked()) {
                 ResetGame();
                 _backgroundMusic.Stop();
                 _backgroundMusic.ClearQueue();
@@ -316,21 +325,21 @@ namespace ChaoticMind {
             //pause/unpause
             if (InputManager.IsKeyClicked(Keys.P) && GameState.Mode == GameState.GameMode.PAUSED) {
                 GameState.Mode = GameState.GameMode.NORMAL;
-                SoundEffectManager.ResumeInstances();
+                SoundEffectManager.ResumeSound("shift");
             }
             else if (InputManager.IsKeyClicked(Keys.P) && GameState.Mode == GameState.GameMode.NORMAL) {
                 GameState.Mode = GameState.GameMode.PAUSED;
-                SoundEffectManager.PauseInstances();
+                SoundEffectManager.PauseSound("shift");
             }
 
             //shifting interface
             if (InputManager.IsKeyClicked(Keys.Space) && GameState.Mode == GameState.GameMode.SHIFTING) {
                 GameState.Mode = GameState.GameMode.NORMAL;
-                SoundEffectManager.ResumeInstances();
+                SoundEffectManager.ResumeSound("shift");
             }
             else if (InputManager.IsKeyClicked(Keys.Space) && GameState.Mode == GameState.GameMode.NORMAL) {
                 GameState.Mode = GameState.GameMode.SHIFTING;
-                SoundEffectManager.PauseInstances();
+                SoundEffectManager.PauseSound("shift");
             }
 
             //you died
@@ -342,13 +351,6 @@ namespace ChaoticMind {
                 GameState.Mode = GameState.GameMode.GAMEOVERWIN;
                 SoundEffectManager.StopInstances();
             }
-        }
-
-        internal void AdvanceToNextGameState() {
-            //if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
-            //    ResetGame();
-            //    GameState.Mode = GameState.GameMode.PREGAME;
-            //}
         }
 
         /// <summary>
@@ -427,18 +429,8 @@ namespace ChaoticMind {
         }
 
         private void drawGameoverWinOverlay() {
-            //_spriteBatch.Draw(_gameoverWinScreen.Texture, _centreLocation, _gameoverWinScreen.CurrentTextureBounds, Color.White, 0.0f, _gameoverWinScreen.CurrentTextureOrigin, , SpriteEffects.None, DrawLayers.MenuBackgrounds);
-            _spriteBatch.Draw(_gameoverWinScreen.Texture, _centreLocation, _gameoverWinScreen.CurrentTextureBounds, Color.Black, 0.0f, _gameoverWinScreen.CurrentTextureOrigin, 1, SpriteEffects.None, DrawLayers.MenuBackgrounds+0.01f);
-
-            float mapFrameSideLength = Math.Min(Screen.Width, Screen.Height);
-            float mapFrameScale = mapFrameSideLength / _gameoverWinScreen.Texture.Bounds.Width;
-            Rectangle mapFrameRect = new Rectangle((int)(Screen.Width - mapFrameSideLength) / 2, (int)(Screen.Height - mapFrameSideLength), (int)mapFrameSideLength, (int)mapFrameSideLength);
-
-            float frameWidth = mapFrameSideLength;
-            Rectangle mapRect = new Rectangle((int)(mapFrameRect.Left + frameWidth), (int)(mapFrameRect.Top + frameWidth), (int)(mapFrameRect.Width - 2 * frameWidth), (int)(mapFrameRect.Height - 2 * frameWidth));
-
-            //_spriteBatch.Draw(_1pxBlack.Texture, _centreLocation, _1pxBlack.CurrentTextureBounds, Color.White, 0.0f, _1pxBlack.CurrentTextureOrigin, 10000, SpriteEffects.None, DrawLayers.MenuBackgrounds);
-            _spriteBatch.Draw(_gameoverWinScreen.Texture, mapRect, _gameoverWinScreen.CurrentTextureBounds, Color.White, 0, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds);
+            _spriteBatch.Draw(_blackPx, Screen.ScreenRect, Rectangle.Empty, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, DrawLayers.MenuBackgrounds);
+            _spriteBatch.Draw(_gameoverWinScreen.Texture, Screen.Center, _gameoverWinScreen.CurrentTextureBounds, Color.White, 0.0f, _gameoverWinScreen.CurrentTextureOrigin, Screen.SmallestDimension / (float)_gameoverWinScreen.CurrentTextureBounds.Width, SpriteEffects.None, DrawLayers.MenuBackgrounds - 0.001f);
         }
 
         private void drawStartMenuOverlay(GameTime gameTime) {

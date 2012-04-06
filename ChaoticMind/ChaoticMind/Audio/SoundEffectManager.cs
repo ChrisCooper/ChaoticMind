@@ -49,6 +49,7 @@ namespace ChaoticMind {
         }
 
         //do to all instances (for pausing game)
+        /* 
         public static void PauseInstances() {
             for (int i = 0; i < _mainInstance._sInstance.Count; i++) {
                 SoundEffectInstance temp = _mainInstance._sInstance.ElementAt(i).Value;
@@ -63,15 +64,20 @@ namespace ChaoticMind {
                     _mainInstance._sInstance.ElementAt(i).Value.Resume();
             }
         }
+        */ 
         public static void StopInstances() {
             for (int i = 0; i < _mainInstance._sInstance.Count; i++) {
                 _mainInstance._sInstance.ElementAt(i).Value.Stop();
             }
         }
 
+
         //individual instances
         public static void PlaySound(String key) {
             _mainInstance._sInstance[key].Play();
+        }
+        public static void ResumeSound(String key) {
+            _mainInstance._sInstance[key].Resume();
         }
         public static void StopSound(String key) {
             if (_mainInstance._sInstance[key].State == SoundState.Playing) {

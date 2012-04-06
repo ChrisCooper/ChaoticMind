@@ -163,23 +163,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Music\testSound1.mp3">
-      <Name>testSound1</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-    <Compile Include="Music\testSound2.mp3">
-      <Name>testSound2</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-    <Compile Include="Music\testSound3.mp3">
-      <Name>testSound3</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="TestImages\Projectile.png">
       <Name>Projectile</Name>
       <Importer>TextureImporter</Importer>
@@ -401,13 +384,6 @@
   <ItemGroup>
     <Compile Include="Player.png">
       <Name>Player</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Enemies\ParasiteNew.png">
-      <Name>ParasiteNew</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
