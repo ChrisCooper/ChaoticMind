@@ -108,7 +108,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AIDirector.cs" />
+    <Compile Include="Characters\AIDirector.cs" />
     <Compile Include="Audio\MusicController.cs" />
     <Compile Include="Audio\SoundEffectManager.cs" />
     <Compile Include="Characters\Enemies\Parasite.cs" />

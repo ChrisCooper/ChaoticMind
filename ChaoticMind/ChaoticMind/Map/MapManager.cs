@@ -80,6 +80,10 @@ namespace ChaoticMind {
 
         internal void ClearGame() {
 
+            //clear the queued up shifts
+            _shiftQueue.Clear();
+
+            //destroy the tiles
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
                     _tiles[x, y].DestroySelf();
@@ -90,6 +94,7 @@ namespace ChaoticMind {
             _tiles = null;
             _gridDimension = 0;
             _edgeOfMapdimesion = 0;
+            _isShifting = false;
 
         }
 
