@@ -85,7 +85,13 @@ namespace ChaoticMind {
             Song currentSong = _playlist[_playlistIndex];
 
             _ownMediaStateActionCount++;
-            MediaPlayer.Play(currentSong);
+            try {
+                MediaPlayer.Play(currentSong);
+            }
+            catch (InvalidOperationException e) {
+                Console.WriteLine("Couldn't play background music (DRM/Codec issue)");
+            }
+ 
             //_playing = true;
         }
 

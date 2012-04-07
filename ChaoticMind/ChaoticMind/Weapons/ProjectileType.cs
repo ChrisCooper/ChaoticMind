@@ -30,7 +30,7 @@ namespace ChaoticMind {
             AssaultRifleBullet.DeathParticle = ParticleType.AssaultRifleBulletDeath;
 
             //EnergyShot
-            EnergyShot._damage = 10.0f;
+            EnergyShot._damage = 15.0f;
             EnergyShot._speed = 12.0f;
             EnergyShot._range = 25.0f;
             EnergyShot._radius = 0.5f;
