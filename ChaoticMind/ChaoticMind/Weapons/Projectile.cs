@@ -68,9 +68,13 @@ namespace ChaoticMind {
         public AnimatedSprite GlowSprite { get; set; }
 
         public override void DestroySelf() {
+            DestroySelf(true);
+        }
+
+        public void DestroySelf(bool spawnPatricles) {
             _body.Dispose();
             ProjectileManager.Remove(this);
-            if (_projectileType.DeathParticle != null) {
+            if (spawnPatricles && _projectileType.DeathParticle != null) {
                 ParticleManager.CreateParticle(Position, (float)Utilities.randomDouble(), _projectileType.DeathParticle);
             }
         }

@@ -20,6 +20,14 @@ namespace ChaoticMind {
             return _mainInstance;
         }
 
+        public void ClearGame() {
+            for (int i = 0; i < _projectiles.Count; i++) {
+                _projectiles[i].DestroySelf(false);
+                i--;
+            }
+            _projectiles.Clear();
+        }
+
         //No one can make one but us
         private ProjectileManager() {
         }

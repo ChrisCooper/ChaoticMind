@@ -30,19 +30,17 @@ namespace ChaoticMind {
             _rightSideRectangle = new Rectangle(Screen.Width - barWidth, 0, barWidth, Screen.Height);
         }
 
+        public static void ClearGame() {
+            _playedSound = false;
+            _fadeInTimer.Reset();
+        }
+
         public static void Update(float deltaTime) {
             _fadeInTimer.Update(deltaTime);
 
             if (!_playedSound) {
                 SoundEffectManager.PlayEffect("cinematicboom", 1.0f);
                 _playedSound = true;
-            }
-
-            if (_fadeInTimer.isFinished) {
-                if (InputManager.IsMouseClicked()) {
-                    _playedSound = false;
-                    _fadeInTimer.Reset();
-                }
             }
         }
 
