@@ -88,8 +88,8 @@ namespace ChaoticMind {
             try {
                 MediaPlayer.Play(currentSong);
             }
-            catch (InvalidOperationException e) {
-                Console.WriteLine("Couldn't play background music (DRM/Codec issue)");
+            catch (InvalidOperationException) {
+                Console.WriteLine("Couldn't play background music (Do you have WMP installed?)");
             }
  
             //_playing = true;
