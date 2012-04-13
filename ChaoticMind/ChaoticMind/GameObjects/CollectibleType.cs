@@ -19,8 +19,8 @@ namespace ChaoticMind {
             ObjectiveType.VisibleEntitySize = ObjectiveType._radius * 8;
             ObjectiveType.AnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Collectables/Collectable", 1, 1, ObjectiveType.VisibleEntitySize);
             ObjectiveType.AnimationDuration = 3.0f;
-            ObjectiveType.DrawLayer = DrawLayers.Collectibles;
-            ObjectiveType._miniMapSprite = new AnimatedSprite("Minimap/CollectableMinimap", 1,1, MapTile.TileSideLength / 2, 1.0f, DrawLayers.HUD_Minimap_important_elements);
+            ObjectiveType.DrawLayer = DrawLayers.GameElements.Collectibles;
+            ObjectiveType._miniMapSprite = new AnimatedSprite("Minimap/CollectableMinimap", 1,1, MapTile.TileSideLength / 2, 1.0f, DrawLayers.HUD.Minimap_important_elements);
         }
 
         public float Radius {

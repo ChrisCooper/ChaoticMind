@@ -7,8 +7,8 @@ using Microsoft.Xna.Framework;
 namespace ChaoticMind {
     class ShiftButton : ToggleButton {
 
-        static StaticSprite arrowButton = new StaticSprite("Shifting/ShiftArrow", 1, DrawLayers.MenuElements);
-        static StaticSprite arrowButtonPressed = new StaticSprite("Shifting/ShiftArrowPressed", 1, DrawLayers.MenuElements);
+        static StaticSprite arrowButton = new StaticSprite("Shifting/ShiftArrow", 1, DrawLayers.Menu.Elements);
+        static StaticSprite arrowButtonPressed = new StaticSprite("Shifting/ShiftArrowPressed", 1, DrawLayers.Menu.Elements);
 
         ShiftInterface _interface;
 

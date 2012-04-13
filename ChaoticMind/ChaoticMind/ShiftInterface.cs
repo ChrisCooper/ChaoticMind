@@ -84,8 +84,8 @@ namespace ChaoticMind {
 
             //Create the shift button
             Rectangle shiftButtonRect = new Rectangle((int)(Screen.ScreenRect.Right - 300), 200, 250, 125);
-            StaticSprite normalSprite = new StaticSprite("Shifting/AddShiftButton", 1.0f, DrawLayers.MenuElements);
-            StaticSprite pressedSprite = new StaticSprite("Shifting/AddShiftButtonPressed", 1.0f, DrawLayers.MenuElements);
+            StaticSprite normalSprite = new StaticSprite("Shifting/AddShiftButton", 1.0f, DrawLayers.Menu.Elements);
+            StaticSprite pressedSprite = new StaticSprite("Shifting/AddShiftButtonPressed", 1.0f, DrawLayers.Menu.Elements);
             _addShiftToQueueButton = new UIButton(shiftButtonRect, 0.0f, normalSprite, pressedSprite);
             _addShiftToQueueButton.setTarget(enqueueShift);
         }
@@ -119,7 +119,7 @@ namespace ChaoticMind {
             for (int y = 0; y < _tiles.GetLength(0); y++) {
                 for (int x = 0; x < _tiles.GetLength(1); x++) {
                     MapTile tile = _tiles[x, y];
-                    _spriteBatch.Draw(tile.ShiftTexture.Texture, drawingLocation, tile.ShiftTexture.CurrentTextureBounds, Color.White, tile.Rotation, tile.ShiftTexture.CurrentTextureOrigin, _scalingFactor, SpriteEffects.None, DrawLayers.MenuElements);
+                    _spriteBatch.Draw(tile.ShiftTexture.Texture, drawingLocation, tile.ShiftTexture.CurrentTextureBounds, Color.White, tile.Rotation, tile.ShiftTexture.CurrentTextureOrigin, _scalingFactor, SpriteEffects.None, DrawLayers.Menu.Elements);
                     drawingLocation.X += _tileSideLength;
                 }
                 drawingLocation.Y += _tileSideLength;
@@ -134,7 +134,7 @@ namespace ChaoticMind {
         }
 
         public void drawOnOverlay(IMiniMapable c) {
-            _spriteBatch.Draw(c.MapSprite.Texture, c.MapPosition / (float)MapTile.TileSideLength * _tileSideLength + _topLeftTilePosition, c.MapSprite.CurrentTextureBounds, Color.White, c.MapRotation, c.MapSprite.CurrentTextureOrigin, 1 / c.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, DrawLayers.MenuHighlightElements);
+            _spriteBatch.Draw(c.MapSprite.Texture, c.MapPosition / (float)MapTile.TileSideLength * _tileSideLength + _topLeftTilePosition, c.MapSprite.CurrentTextureBounds, Color.White, c.MapRotation, c.MapSprite.CurrentTextureOrigin, 1 / c.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, DrawLayers.Menu.HighlightElements);
         }
 
         internal void ButtonWasPressed(ShiftButton pressedButton) {

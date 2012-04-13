@@ -26,7 +26,7 @@ namespace ChaoticMind {
             AssaultRifleBullet._density = 10.0f;
             AssaultRifleBullet.AnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/AssaultRifleBullet", 1, 1, AssaultRifleBullet.VisibleEntitySize);
             AssaultRifleBullet.AnimationDuration = 1.0f;
-            AssaultRifleBullet.DrawLayer = DrawLayers.UpperParticles;
+            AssaultRifleBullet.DrawLayer = DrawLayers.GameElements.UpperParticles;
             AssaultRifleBullet.DeathParticle = ParticleType.AssaultRifleBulletDeath;
 
             //EnergyShot
@@ -40,7 +40,7 @@ namespace ChaoticMind {
             EnergyShot.AnimationDuration = 0.15f;
             EnergyShot.GlowEntitySize = EnergyShot.VisibleEntitySize * 2;
             EnergyShot.GlowSpriteSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/EnergyBallGlow", 4, 1, EnergyShot.GlowEntitySize);
-            EnergyShot.DrawLayer = DrawLayers.UpperParticles;
+            EnergyShot.DrawLayer = DrawLayers.GameElements.UpperParticles;
             EnergyShot.DeathParticle = ParticleType.EnergyRifleBulletDeath;
         }
 

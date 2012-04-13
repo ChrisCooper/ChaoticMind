@@ -16,7 +16,7 @@ namespace ChaoticMind.HUD {
         Rectangle _mapRect;
 
         internal void Initialize() {
-            _minimapFrame = new StaticSprite("HUD/Minimap_Frame", 1.0f, DrawLayers.HUD_Backgrounds);
+            _minimapFrame = new StaticSprite("HUD/Minimap_Frame", 1.0f, DrawLayers.HUD.Backgrounds);
 
             float mapFrameSideLength = Math.Min(Screen.Width / 4.0f, Screen.Height / 3.0f);
             _mapFrameScale = mapFrameSideLength / _minimapFrame.Texture.Bounds.Width;

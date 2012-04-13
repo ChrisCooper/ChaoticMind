@@ -39,7 +39,7 @@ namespace ChaoticMind {
                 AssaultRifle.Inaccuracy = 0.4f;
                 AssaultRifle._fireSound = "pistol";
                 AssaultRifle._reloadSound = "reload";
-                AssaultRifle._HUD_Image = new StaticSprite("Weapons/AssaultRifle", 1, DrawLayers.HUD_Dynamic_Info);
+                AssaultRifle._HUD_Image = new StaticSprite("Weapons/AssaultRifle", 1, DrawLayers.HUD.Dynamic_Info);
                 AssaultRifle._projectileType = ProjectileType.AssaultRifleBullet;
                 AssaultRifle._isRayCasted = false;
 
@@ -53,7 +53,7 @@ namespace ChaoticMind {
                 EnergyRifle.Inaccuracy = 0.1f;
                 EnergyRifle._fireSound = "grenade";
                 EnergyRifle._reloadSound = "reload";
-                EnergyRifle._HUD_Image = new StaticSprite("Weapons/EnergyRifle", 1, DrawLayers.HUD_Dynamic_Info);
+                EnergyRifle._HUD_Image = new StaticSprite("Weapons/EnergyRifle", 1, DrawLayers.HUD.Dynamic_Info);
                 EnergyRifle._projectileType = ProjectileType.EnergyShot;
                 EnergyRifle._isRayCasted = false;
             }

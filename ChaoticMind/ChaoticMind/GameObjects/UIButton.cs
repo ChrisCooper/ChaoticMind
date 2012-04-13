@@ -60,7 +60,7 @@ namespace ChaoticMind {
         }
 
         public void DrawSelf(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(Sprite.Texture, Center, Sprite.CurrentTextureBounds, Color.White, Rotation, Sprite.CurrentTextureOrigin, ScalingFactor, SpriteEffects.None, DrawLayers.MenuElements);
+            spriteBatch.Draw(Sprite.Texture, Center, Sprite.CurrentTextureBounds, Color.White, Rotation, Sprite.CurrentTextureOrigin, ScalingFactor, SpriteEffects.None, DrawLayers.Menu.Elements);
         }
 
         private bool mouseIsOverSelf() {

@@ -17,7 +17,7 @@ namespace ChaoticMind {
         private static float _deathFadeInSpeed = 0.005f;
 
         public static void Initialize() {
-            _staticSprite = new AnimatedSprite("Screens/PainStatic", 12, 3, 1, 1.0f, DrawLayers.Mouse);
+            _staticSprite = new AnimatedSprite("Screens/PainStatic", 12, 3, 1, 1.0f, DrawLayers.VeryTop.FullOverlay);
         }
 
         public static void AddDamage(float magnitude) {

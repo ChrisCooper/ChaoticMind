@@ -17,8 +17,8 @@ namespace ChaoticMind.HUD {
         Vector2 _healthFrameScale;
 
         internal void Initialize() {
-            _healthSprite = new StaticSprite("HUD/HealthBar", 1.0f, DrawLayers.HUD_Dynamic_Info);
-            _healthFrameSprite = new StaticSprite("HUD/Health_Frame", 1.0f, DrawLayers.HUD_Backgrounds);
+            _healthSprite = new StaticSprite("HUD/HealthBar", 1.0f, DrawLayers.HUD.Dynamic_Info);
+            _healthFrameSprite = new StaticSprite("HUD/Health_Frame", 1.0f, DrawLayers.HUD.Backgrounds);
 
             float healthFrameSpriteWidth = Screen.Width / 2.0f;
             float healthFrameSpriteHeight = _healthFrameSprite.Texture.Height / 3;

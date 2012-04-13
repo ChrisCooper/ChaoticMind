@@ -118,7 +118,7 @@
     <Compile Include="PainStaticMaker.cs" />
     <Compile Include="Map\PathFinder.cs" />
     <Compile Include="FontManager.cs" />
-    <Compile Include="Graphics\DrawLayer.cs" />
+    <Compile Include="Graphics\DrawLayers.cs" />
     <Compile Include="Graphics\Particles\Particle.cs" />
     <Compile Include="Graphics\Particles\ParticleManager.cs" />
     <Compile Include="Graphics\Particles\ParticleType.cs" />

@@ -20,14 +20,14 @@ namespace ChaoticMind {
             //Parasite Death
             ParasiteDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/ParasiteDeath", 4, 1, CharacterType.Parasite.VisibleEntitySize);
             ParasiteDeath._animationDuration = 0.3f;
-            ParasiteDeath.DrawLayer = DrawLayers.LowerParticles;
+            ParasiteDeath.DrawLayer = DrawLayers.GameElements.LowerParticles;
             ParasiteDeath._entitySize = CharacterType.Parasite.VisibleEntitySize;
             ParasiteDeath.Lifespan = 4.0f;
 
             //Swarmer Death
             SwarmerDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/SwarmerDeath", 4, 1, CharacterType.Swarmer.VisibleEntitySize);
             SwarmerDeath._animationDuration = 0.3f;
-            SwarmerDeath.DrawLayer = DrawLayers.LowerParticles;
+            SwarmerDeath.DrawLayer = DrawLayers.GameElements.LowerParticles;
             SwarmerDeath._entitySize = CharacterType.Swarmer.VisibleEntitySize;
             SwarmerDeath.Lifespan = 4.0f;
 
@@ -35,7 +35,7 @@ namespace ChaoticMind {
             AssaultRifleBulletDeath._entitySize = ProjectileType.AssaultRifleBullet.VisibleEntitySize *1.5f;
             AssaultRifleBulletDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/AssaultRifleBulletDeath", 3, 1, AssaultRifleBulletDeath._entitySize);
             AssaultRifleBulletDeath._animationDuration = 0.25f;
-            AssaultRifleBulletDeath.DrawLayer = DrawLayers.UpperParticles;
+            AssaultRifleBulletDeath.DrawLayer = DrawLayers.GameElements.UpperParticles;
             AssaultRifleBulletDeath.Lifespan = AssaultRifleBulletDeath._animationDuration;
 
             //Energy Rifle Bullet Death
@@ -43,7 +43,7 @@ namespace ChaoticMind {
             EnergyRifleBulletDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/EnergyBallDeath", 4, 1, EnergyRifleBulletDeath._entitySize);
             EnergyRifleBulletDeath._animationDuration = 0.15f;
             EnergyRifleBulletDeath.GlowSpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/EnergyBallDeathGlow", 4, 1, EnergyRifleBulletDeath._entitySize);
-            EnergyRifleBulletDeath.DrawLayer = DrawLayers.UpperParticles;
+            EnergyRifleBulletDeath.DrawLayer = DrawLayers.GameElements.UpperParticles;
             EnergyRifleBulletDeath.Lifespan = EnergyRifleBulletDeath._animationDuration;
 
             //Swarmer Attack
@@ -51,7 +51,7 @@ namespace ChaoticMind {
             SwarmerAttack._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/SwarmerBolt", 4, 1, SwarmerAttack._entitySize);
             SwarmerAttack.GlowSpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/SwarmerBoltGlow", 4, 1, SwarmerAttack._entitySize);
             SwarmerAttack._animationDuration = 0.3f;
-            SwarmerAttack.DrawLayer = DrawLayers.UpperParticles;
+            SwarmerAttack.DrawLayer = DrawLayers.GameElements.UpperParticles;
             SwarmerAttack.Lifespan = 0.3f;
         }
 

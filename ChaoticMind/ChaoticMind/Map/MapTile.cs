@@ -45,7 +45,7 @@ namespace ChaoticMind {
 
             _connectedDoors = new DoorDirections(false, false, false, false);
 
-            _sprite = new StaticSprite(MapTileUtilities.appearanceStringFromDoorConfiguration(openDoors), TileSideLength, DrawLayers.MapGround);
+            _sprite = new StaticSprite(MapTileUtilities.appearanceStringFromDoorConfiguration(openDoors), TileSideLength, DrawLayers.GameElements.TileGround);
 
             _body = new Body(Program.SharedGame.MainWorld);
             _body.Position = startingPosition;
@@ -194,7 +194,7 @@ namespace ChaoticMind {
         }
 
         public override float MapDrawLayer {
-            get { return DrawLayers.HUD_Minimap_Maze; }
+            get { return DrawLayers.HUD.Minimap_Maze; }
         }
 
         public bool IsVisible {
@@ -206,7 +206,7 @@ namespace ChaoticMind {
             return MapTile.WorldPositionForGridCoordinates(x, y) + Utilities.randomVector() * 0.7f * MapTile.TileSideLength;
         }
 
-        public float OverlayDrawLayer { get { return DrawLayers.MapOverlay; } }
+        public float OverlayDrawLayer { get { return DrawLayers.GameElements.TileOverlay; } }
 
         public Vector2 Velocity {
             get { return _body.LinearVelocity; }
