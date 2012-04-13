@@ -23,9 +23,8 @@ namespace ChaoticMind {
         }
 
         public void Update(float deltaTime) {
-            foreach (Particle p in _particles){
-                    p.Update(deltaTime);
-            }
+            _particles.ForEach(p => p.Update(deltaTime));
+
             for (int i = 0; i < _particles.Count; i++) {
                 Particle p = _particles[i];
                 if (p.isDead) {
@@ -36,15 +35,11 @@ namespace ChaoticMind {
         }
 
         public void Draw(Camera camera) {
-            foreach (Particle p in _particles) {
-                camera.Draw(p);
-            }
+            _particles.ForEach(p => camera.Draw(p));
         }
 
         internal void DrawGlows(Camera camera) {
-            foreach (Particle p in _particles) {
-                camera.DrawGlow(p);
-            }
+            _particles.ForEach(p => camera.DrawGlow(p));
         }
 
         public static void CreateParticle(Vector2 startingPosition, float rotation, ParticleType particleType) {

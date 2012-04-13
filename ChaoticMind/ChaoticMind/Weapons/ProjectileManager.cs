@@ -47,15 +47,11 @@ namespace ChaoticMind {
         }
 
         public void Draw(Camera camera) {
-            foreach (Projectile p in _projectiles) {
-                camera.Draw(p);
-            }
+            _projectiles.ForEach(p => camera.Draw(p));
         }
 
         internal void DrawGlows(Camera camera) {
-            foreach (Projectile p in _projectiles) {
-                camera.DrawGlow(p);
-            }
+            _projectiles.ForEach(p => camera.DrawGlow(p));
         }
 
         public static void CreateProjectile(Vector2 startingPosition, Vector2 gunDirection, ProjectileType projectileType) {

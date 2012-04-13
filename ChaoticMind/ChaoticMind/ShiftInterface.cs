@@ -104,9 +104,7 @@ namespace ChaoticMind {
         }
 
         internal void Update(float deltaTime) {
-            foreach (ShiftButton button in _buttons) {
-                button.Update(deltaTime);
-            }
+            _buttons.ForEach(b => b.Update(deltaTime));
 
             _addShiftToQueueButton.Update(deltaTime);
 
@@ -127,9 +125,8 @@ namespace ChaoticMind {
             }
 
             //draw shift buttons
-            foreach (ShiftButton button in _buttons) {
-                button.DrawSelf(_spriteBatch);
-            }
+            _buttons.ForEach(b => b.DrawSelf(_spriteBatch));
+
             _addShiftToQueueButton.DrawSelf(_spriteBatch);
         }
 

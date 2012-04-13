@@ -53,11 +53,11 @@ namespace ChaoticMind {
         int _currShiftIndex;
         ShiftDirection _currShiftDir;
 
-        static  MapManager _mainInstance;
+        static MapManager _mainInstance;
 
         //constructor
         public MapManager() {
-            _mainInstance = this;        
+            _mainInstance = this;
             _shiftQueue = new LinkedList<Shift>();
         }
 
@@ -71,7 +71,7 @@ namespace ChaoticMind {
 
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
-                    _tiles[x,y] = new MapTile(MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors(), false);
+                    _tiles[x, y] = new MapTile(MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors(), false);
                 }
             }
             //initially set the overlays
@@ -110,9 +110,7 @@ namespace ChaoticMind {
             }
 
             foreach (MapTile tile in _tiles) {
-                if (tile != null) {
-                    tile.Update(deltaTime);
-                }
+                tile.Update(deltaTime);
             }
             if (_shiftedOutTile != null) {
                 _shiftedOutTile.Update(deltaTime);
@@ -136,9 +134,9 @@ namespace ChaoticMind {
         //better way might be to have each tile analyze and set the tiles to the north and west of them
         private void UpdateOverlays() {
             for (int x = 0; x < _tiles.GetLength(0); x++) {
-                for (int y = 0 ; y < _tiles.GetLength(1) ; y++){
+                for (int y = 0; y < _tiles.GetLength(1); y++) {
                     if (_tiles[x, y] != null) {
-                        _tiles[x, y].updateConnectedDoors(getTileDoors(x, y-1), getTileDoors(x, y+1), getTileDoors(x+1, y), getTileDoors(x-1, y));
+                        _tiles[x, y].updateConnectedDoors(getTileDoors(x, y - 1), getTileDoors(x, y + 1), getTileDoors(x + 1, y), getTileDoors(x - 1, y));
                     }
                 }
             }
@@ -246,7 +244,7 @@ namespace ChaoticMind {
             float alpha = NERVE_MIN_ALPHA + (NERVE_MAX_ALPHA - NERVE_MIN_ALPHA) * (float)(Math.Sin(deltaTime * NERVE_PULSE_SPEED) + 1) / 2.0f;
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
-                    MapTile tile = _tiles[x,y];
+                    MapTile tile = _tiles[x, y];
                     if (tile.IsVisible) {
                         camera.Draw(tile);
                         camera.DrawOverlay(tile, Color.White * alpha);
@@ -296,7 +294,7 @@ namespace ChaoticMind {
         }
 
         //objects call these to shift themselves
-        public static bool isShifting(Vector2 position){
+        public static bool isShifting(Vector2 position) {
             Vector2 tempGridCoord = MapTile.GridPositionForWorldCoordinates(position);
             if (_mainInstance._isShifting) {
                 if (((_mainInstance._currShiftDir == ShiftDirection.LEFT || _mainInstance._currShiftDir == ShiftDirection.RIGHT) && tempGridCoord.Y == _mainInstance._currShiftIndex) ||
@@ -306,7 +304,7 @@ namespace ChaoticMind {
             }
             return false;
         }
-        public static Vector2 shiftAmount(){
+        public static Vector2 shiftAmount() {
             return _mainInstance._tiles[_mainInstance._currShiftIndex, _mainInstance._currShiftIndex].Velocity;
         }
     }

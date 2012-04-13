@@ -59,25 +59,17 @@ namespace ChaoticMind {
         }
 
         public static void Draw(Camera mainCamera) {
-            foreach(Enemy e in _mainInstance._enemies){
-                e.Draw(mainCamera);
-            }
+            _mainInstance._enemies.ForEach(e => e.Draw(mainCamera));
         }
         public static void DrawMinimap(Camera mainCamera) {
-            foreach (Enemy e in _mainInstance._enemies) {
-                e.DrawMiniMap(mainCamera);
-            }
+            _mainInstance._enemies.ForEach(e => e.DrawMiniMap(mainCamera));
         }
         public static void DrawOnShiftInterface(ShiftInterface shiftInterface) {
-            foreach (Enemy e in _mainInstance._enemies) {
-                shiftInterface.drawOnOverlay(e);
-            }
+            _mainInstance._enemies.ForEach(e => shiftInterface.drawOnOverlay(e));
         }
 
         public static void ClearGame() {
-            for (int i = 0; i < _mainInstance._enemies.Count; i++) {
-                _mainInstance._enemies[i].DestroySelf();
-            }
+            _mainInstance._enemies.ForEach(e => e.DestroySelf());
             _mainInstance._enemies.Clear();
         }
 
