@@ -120,7 +120,6 @@
     <Compile Include="FontManager.cs" />
     <Compile Include="Graphics\DrawLayers.cs" />
     <Compile Include="Graphics\Particles\Particle.cs" />
-    <Compile Include="Graphics\Particles\ParticleManager.cs" />
     <Compile Include="Graphics\Particles\ParticleType.cs" />
     <Compile Include="HUD\HealthDisplay.cs" />
     <Compile Include="HUD\HUDManager.cs" />

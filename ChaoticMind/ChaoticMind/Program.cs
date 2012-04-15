@@ -6,10 +6,9 @@ namespace ChaoticMind
     static class Program
     {
 
-        static ChaoticMindGame _sharedGame;
-        public static ChaoticMindGame SharedGame
-        {
-            get { return _sharedGame; }
+        public static ChaoticMindGame SharedGame {
+            get;
+            set;
         }
 
         /// <summary>
@@ -17,9 +16,9 @@ namespace ChaoticMind
         /// </summary>
         static void Main(string[] args)
         {
-            using (_sharedGame = new ChaoticMindGame())
+            using (SharedGame = new ChaoticMindGame())
             {
-                _sharedGame.Run();
+                SharedGame.Run();
             }
         }
     }

@@ -43,6 +43,9 @@ namespace ChaoticMind {
             _fadeOutTimer.Update(deltaTime);
         }
 
+        internal void DestroySelf() {
+        }
+
         public AnimatedSprite Sprite { get { return _sprite; } }
 
         public Vector2 Position { get { return _position; } }

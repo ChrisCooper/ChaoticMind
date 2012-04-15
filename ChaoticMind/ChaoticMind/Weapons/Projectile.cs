@@ -75,7 +75,7 @@ namespace ChaoticMind {
             _body.Dispose();
             ProjectileManager.Remove(this);
             if (spawnPatricles && _projectileType.DeathParticle != null) {
-                ParticleManager.CreateParticle(Position, (float)Utilities.randomDouble(), _projectileType.DeathParticle);
+                Program.SharedGame.Particles.Add(new Particle(Position, (float)Utilities.randomDouble(), _projectileType.DeathParticle));
             }
         }
 

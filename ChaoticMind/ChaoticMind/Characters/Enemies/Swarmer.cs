@@ -35,12 +35,12 @@ namespace ChaoticMind {
             if (_attackTimer.isFinished && Vector2.Distance(Player.Instance.Position, Position) <= _range && Player.Instance.GridCoordinate == GridCoordinate){
                 Player.Instance.ApplyDamage(_characterType.MainAttackDamage);
                 _attackTimer.Reset();
-                ParticleManager.CreateParticle(Position, Utilities.AngleTowards(Position, Player.Instance.Position), ParticleType.SwarmerAttack);
+                Program.SharedGame.Particles.Add(new Particle(Position, Utilities.AngleTowards(Position, Player.Instance.Position), ParticleType.SwarmerAttack));
             }
         }
 
         protected override void DropDeathParticle() {
-            ParticleManager.CreateParticle(Position, (float)(Utilities.randomDouble() * Math.PI * 2), _characterType.DeathParticle);
+            Program.SharedGame.Particles.Add(new Particle(Position, (float)(Utilities.randomDouble() * Math.PI * 2), _characterType.DeathParticle));
         }
 
         public static float AttackRange { get { return _range; } }

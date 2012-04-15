@@ -88,7 +88,7 @@ namespace ChaoticMind {
         }
 
         protected virtual void DropDeathParticle() {
-            ParticleManager.CreateParticle(Position, Rotation, _characterType.DeathParticle);
+            Program.SharedGame.Particles.Add(new Particle(Position, Rotation, _characterType.DeathParticle));
         }
 
         //for e.g. ranged units move back if too close, parasites who lunge, etc.
