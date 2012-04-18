@@ -10,7 +10,7 @@ namespace ChaoticMind {
 
     //This class is for all intelligent actors in the game, such as 
     // the main player character, and enemies.
-    class Character : DrawableGameObject, IDamageable, IGameObject {
+    class Character : DrawableGameObject, IDamageable {
 
         protected CharacterType _characterType;
 
@@ -183,6 +183,10 @@ namespace ChaoticMind {
         }
 
         public float PhysicalEntitySize { get { return _characterType.PhysicalEntitySize; } }
+
+        public override AnimatedSprite GlowSprite {
+            get { return null; }
+        }
     }
 
     internal interface IDamageable {

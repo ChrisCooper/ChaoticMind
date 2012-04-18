@@ -25,7 +25,7 @@ namespace ChaoticMind {
             get { return _gameObjects; }
         }
 
-        bool _goFullscreen = true;
+        bool _goFullscreen = false;
 
         //map dimension
         const int MAP_SIZE = 4;
@@ -76,9 +76,6 @@ namespace ChaoticMind {
         internal MapManager MapManager {
             get { return _mapManager; }
         }
-
-        
-        CollectibleManager _collectibleManager = CollectibleManager.mainInstance();
 
         ShiftInterface _shiftInterface = new ShiftInterface();
 
@@ -182,7 +179,6 @@ namespace ChaoticMind {
             PainStaticMaker.ClearGame();
             LoseScreen.ClearGame();
             _shiftInterface.ClearGame();
-            _collectibleManager.ClearGame();
 
             Objects.Clear();
         }
@@ -274,8 +270,6 @@ namespace ChaoticMind {
             // it is only where object-specific actions are performed, like applying control forces
 
             _player.Update(deltaTime);
-
-            _collectibleManager.Update(deltaTime);
 
             Objects.Update(deltaTime);
 
@@ -400,8 +394,9 @@ namespace ChaoticMind {
             //Draw Minimap
             _mapManager.DrawMap(_mainCamera);
             AIDirector.DrawMinimap(_mainCamera);
-            _collectibleManager.DrawMinimap(_mainCamera);
 
+            Objects.DrawMinimap(_mainCamera);
+            
             _mainCamera.DrawMinimap(_player);
 
 
@@ -423,7 +418,7 @@ namespace ChaoticMind {
                 _shiftInterface.Draw();
                 _shiftInterface.drawOnOverlay(_player);
                 AIDirector.DrawOnShiftInterface(_shiftInterface);
-                _collectibleManager.DrawOnShiftInterface(_shiftInterface);
+                Objects.DrawOnShiftInterface(_shiftInterface);
             }
 
             drawDebugInfo(gameTime);
@@ -453,9 +448,6 @@ namespace ChaoticMind {
 
         private void drawGlows(GameTime gameTime) {
             Objects.DrawGlows(_mainCamera);
-
-            
-            //_collectibleManager.DrawGlows(_mainCamera);
         }
 
         private void drawObjects(GameTime gameTime) {
@@ -466,8 +458,6 @@ namespace ChaoticMind {
             AIDirector.Draw(_mainCamera);
 
             Objects.DrawObjects(_mainCamera);
-
-            _collectibleManager.Draw(_mainCamera);
         }
 
         private void drawPauseOverlay() {

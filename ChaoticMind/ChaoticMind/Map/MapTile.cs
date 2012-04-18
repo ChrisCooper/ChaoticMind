@@ -16,7 +16,7 @@ namespace ChaoticMind {
 
     class MapTile : DrawableGameObject, IMiniMapable {
 
-        public const float TileSideLength = 24.0f;
+        public const float TileSideLength = 20.0f;
         public const float TileDoorPercent = 2 / 16.0f;
         public const float TileWallPercent = 1 / 16.0f;
         private const float SnapThreshold = 0.99999f;

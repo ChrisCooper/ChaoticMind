@@ -65,7 +65,7 @@ namespace ChaoticMind {
             get { return _lifetimeTimer.isFinished; }
         }
 
-        public AnimatedSprite GlowSprite { get; set; }
+        public override AnimatedSprite GlowSprite { get; set; }
 
         public override void WasKilled() {
             WasCleared();

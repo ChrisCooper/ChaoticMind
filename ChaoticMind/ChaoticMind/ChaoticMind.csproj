@@ -112,7 +112,7 @@
     <Compile Include="Audio\MusicController.cs" />
     <Compile Include="Audio\SoundEffectManager.cs" />
     <Compile Include="Characters\Enemies\Parasite.cs" />
-    <Compile Include="GameObjects.cs" />
+    <Compile Include="GameObjects\GameObjects.cs" />
     <Compile Include="GameObjects\ToggleButton.cs" />
     <Compile Include="GameObjects\UIButton.cs" />
     <Compile Include="LoseScreen.cs" />
@@ -131,7 +131,6 @@
     <Compile Include="Characters\Enemies\Swarmer.cs" />
     <Compile Include="Timer.cs" />
     <Compile Include="GameObjects\CollectibleType.cs" />
-    <Compile Include="GameObjects\CollectibleManager.cs" />
     <Compile Include="Weapons\ProjectileType.cs" />
     <Compile Include="Weapons\WeaponType.cs" />
     <Compile Include="GameState.cs" />

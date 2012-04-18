@@ -31,6 +31,15 @@ namespace ChaoticMind {
             _minimapSprite = collectibleType.MiniMapSprite;
         }
 
+        public override void Update(float deltaTime) {
+            base.Update(deltaTime);
+            if (_collectibleType == CollectibleType.ObjectiveType && MapTile.isOutOfBounds(Position)) {
+                Player.Instance.ApplyDamage(50);
+                _shouldBeKilledFlag = true;
+                GameState.spawnNewObjective();
+            }
+        }
+
         bool _body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact) {
             if (fixtureB.Body.UserData == Player.Instance) {
                 _shouldBeKilledFlag = true;
@@ -41,8 +50,8 @@ namespace ChaoticMind {
             return false;
         }
 
-        public void SetPosition(Vector2 startingPosition) {
-            _body.Position = startingPosition;
+        public override AnimatedSprite GlowSprite {
+            get { return null; }
         }
     }
 }

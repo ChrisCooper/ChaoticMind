@@ -29,7 +29,7 @@ namespace ChaoticMind {
                 GlowSprite = new AnimatedSprite(particleType.GlowSpriteAnimationSequence, particleType.EntitySize, particleType.AnimationDuration, particleType.DrawLayer, false);
             }
         }
-        internal void Update(float deltaTime) {
+        public void Update(float deltaTime) {
             //shift the object
             if (MapManager.isShifting(_position)) {
                 _position += MapManager.shiftAmount() * deltaTime;
@@ -66,5 +66,11 @@ namespace ChaoticMind {
         public bool ShouldBeKilled { get { return _fadeOutTimer.isFinished; } }
 
         public float DrawLayer { get { return _sprite.DrawLayer; } }
+
+        //For GameObject interface
+        public AnimatedSprite MapSprite { get {return null;}}
+        public Vector2 MapPosition { get { return Vector2.Zero; } }
+        public float MapRotation { get { return 0f; } }
+        public float MapDrawLayer { get { return 0f; } }
     }
 }
