@@ -10,6 +10,7 @@ using FarseerPhysics.Factories;
 namespace ChaoticMind {
     class GameObject {
         protected Body _body;
+        protected bool _shouldBeKilledFlag = false;
 
         public GameObject(Vector2 startingPosition) {
         }
@@ -29,13 +30,15 @@ namespace ChaoticMind {
             get { return _body; }
         }
 
-        //destroy flag
-        public virtual bool ShouldDieNow() {
-            return false;
+        public virtual bool ShouldBeKilled {
+            get { return _shouldBeKilledFlag; }
         }
 
-        //destroy method
-        public virtual void DestroySelf(){
+        public virtual void WasKilled() {
+            WasCleared();
+        }
+
+        public virtual void WasCleared(){
             _body.Dispose();
         }
     }

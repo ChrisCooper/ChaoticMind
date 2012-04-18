@@ -20,11 +20,10 @@ namespace ChaoticMind {
     /// 
     public class ChaoticMindGame : Microsoft.Xna.Framework.Game {
 
-        List<Particle> _particles = new List<Particle>();
-        internal List<Particle> Particles {
-            get { return _particles; }
+        GameObjects _gameObjects = new GameObjects();
+        internal GameObjects Objects {
+            get { return _gameObjects; }
         }
-
 
         bool _goFullscreen = true;
 
@@ -78,7 +77,7 @@ namespace ChaoticMind {
             get { return _mapManager; }
         }
 
-        ProjectileManager _projectileManager = ProjectileManager.mainInstance();
+        
         CollectibleManager _collectibleManager = CollectibleManager.mainInstance();
 
         ShiftInterface _shiftInterface = new ShiftInterface();
@@ -182,12 +181,10 @@ namespace ChaoticMind {
             GameState.ClearGame();
             PainStaticMaker.ClearGame();
             LoseScreen.ClearGame();
-            _projectileManager.ClearGame();
             _shiftInterface.ClearGame();
+            _collectibleManager.ClearGame();
 
-
-            _particles.ForEach(particle => particle.DestroySelf());
-            _particles.Clear();
+            Objects.Clear();
         }
 
         /// <summary>
@@ -278,17 +275,9 @@ namespace ChaoticMind {
 
             _player.Update(deltaTime);
 
-            _projectileManager.Update(deltaTime);
             _collectibleManager.Update(deltaTime);
 
-            _particles.ForEach(particle => particle.Update(deltaTime));
-            for (int i = 0; i < _particles.Count; i++) {
-                Particle p = _particles[i];
-                if (p.isDead) {
-                    _particles.RemoveAt(i);
-                    i--;
-                }
-            }
+            Objects.Update(deltaTime);
 
             _mainCamera.Update(deltaTime);
 
@@ -361,7 +350,7 @@ namespace ChaoticMind {
             }
 
             //you died
-            if (_player.ShouldDieNow()) {
+            if (_player.ShouldBeKilled) {
                 GameState.Mode = GameState.GameMode.GAMEOVERLOSE;
                 SoundEffectManager.StopInstances();
             }
@@ -463,9 +452,9 @@ namespace ChaoticMind {
         }
 
         private void drawGlows(GameTime gameTime) {
-            _particles.ForEach(particle => _mainCamera.DrawGlow(particle));
+            Objects.DrawGlows(_mainCamera);
 
-            _projectileManager.DrawGlows(_mainCamera);
+            
             //_collectibleManager.DrawGlows(_mainCamera);
         }
 
@@ -476,9 +465,8 @@ namespace ChaoticMind {
             _mainCamera.Draw(_player);
             AIDirector.Draw(_mainCamera);
 
-            _particles.ForEach(p => _mainCamera.Draw(p));
+            Objects.DrawObjects(_mainCamera);
 
-            _projectileManager.Draw(_mainCamera);
             _collectibleManager.Draw(_mainCamera);
         }
 

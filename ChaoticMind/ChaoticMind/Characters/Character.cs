@@ -10,7 +10,7 @@ namespace ChaoticMind {
 
     //This class is for all intelligent actors in the game, such as 
     // the main player character, and enemies.
-    class Character : DrawableGameObject, IDamageable {
+    class Character : DrawableGameObject, IDamageable, IGameObject {
 
         protected CharacterType _characterType;
 
@@ -80,15 +80,15 @@ namespace ChaoticMind {
             base.Update(deltaTime);
         }
 
-        public override void DestroySelf() {
+        public override void WasKilled() {
             if (_characterType.DeathParticle != null) {
                 DropDeathParticle();
             }
-            base.DestroySelf();
+            WasCleared();
         }
 
         protected virtual void DropDeathParticle() {
-            Program.SharedGame.Particles.Add(new Particle(Position, Rotation, _characterType.DeathParticle));
+            Program.Objects.Particles.Add(new Particle(Position, Rotation, _characterType.DeathParticle));
         }
 
         //for e.g. ranged units move back if too close, parasites who lunge, etc.
@@ -162,14 +162,8 @@ namespace ChaoticMind {
             }
         }
 
-        //destroy the object when they die
-        public override bool ShouldDieNow() {
-            if (_currentHealth <= 0) {
-                if (_characterType.DeathSound != null)
-                    SoundEffectManager.PlayEffect(_characterType.DeathSound, 1.0f);
-                return true;
-            }
-            return false;
+        public override bool ShouldBeKilled {
+            get { return _currentHealth <= 0; }
         }
 
         //

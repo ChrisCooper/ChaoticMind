@@ -99,10 +99,10 @@ namespace ChaoticMind {
 
                         //create a particle at the place where the ray was stopped
                         if (pt != Vector2.Zero)
-                            ProjectileManager.CreateProjectile(pt, Vector2.Zero, _weaponType.ProjectileType);
+                            Program.Objects.Projectiles.Add(new Projectile(pt, Vector2.Zero, _weaponType.ProjectileType));
                     }
                     else { //use projectiles
-                        ProjectileManager.CreateProjectile(location + direction * (_weaponOwner.PhysicalEntitySize/1.8f + _weaponType.ProjectileType.Radius), currentSpreadSweepDirection, _weaponType.ProjectileType);
+                        Program.Objects.Projectiles.Add(new Projectile(location + direction * (_weaponOwner.PhysicalEntitySize/1.8f + _weaponType.ProjectileType.Radius), currentSpreadSweepDirection, _weaponType.ProjectileType));
                     }
 
                     //rotate the direction to shoot the next particle in

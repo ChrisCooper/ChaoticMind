@@ -33,22 +33,12 @@ namespace ChaoticMind {
 
         bool _body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact) {
             if (fixtureB.Body.UserData == Player.Instance) {
-                removeFromGame();
+                _shouldBeKilledFlag = true;
                 if (_collectibleType == CollectibleType.ObjectiveType) {
                     GameState.ObjectiveWasCollected();
                 }
             }
             return false;
-        }
-
-        public override void DestroySelf() {
-            _body.Dispose();
-            CollectibleManager.removeCollectible(this);
-        }
-
-        private void removeFromGame() {
-             _body.Dispose();
-             CollectibleManager.removeCollectible(this);
         }
 
         public void SetPosition(Vector2 startingPosition) {

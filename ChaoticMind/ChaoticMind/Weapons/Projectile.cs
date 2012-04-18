@@ -50,7 +50,7 @@ namespace ChaoticMind {
         bool _body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact) {
             IDamageable hitObject = fixtureB.Body.UserData as IDamageable;
 
-            DestroySelf();
+            _lifetimeTimer.Finish();
 
             //Check if the object is even an IDamageable, and not the player
             if (hitObject == null || hitObject == Player.Instance) {
@@ -61,21 +61,16 @@ namespace ChaoticMind {
             return true;
         }
 
-        public override bool ShouldDieNow(){
-            return _lifetimeTimer.isFinished;
+        public override bool ShouldBeKilled {
+            get { return _lifetimeTimer.isFinished; }
         }
 
         public AnimatedSprite GlowSprite { get; set; }
 
-        public override void DestroySelf() {
-            DestroySelf(true);
-        }
-
-        public void DestroySelf(bool spawnPatricles) {
-            _body.Dispose();
-            ProjectileManager.Remove(this);
-            if (spawnPatricles && _projectileType.DeathParticle != null) {
-                Program.SharedGame.Particles.Add(new Particle(Position, (float)Utilities.randomDouble(), _projectileType.DeathParticle));
+        public override void WasKilled() {
+            WasCleared();
+            if (_projectileType.DeathParticle != null) {
+                Program.Objects.Particles.Add(new Particle(Position, (float)Utilities.randomDouble(), _projectileType.DeathParticle));
             }
         }
 

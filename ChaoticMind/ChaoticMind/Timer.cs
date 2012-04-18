@@ -49,5 +49,9 @@ namespace ChaoticMind {
                 } 
             }
 
+
+            internal void Finish() {
+                _elapsedSeconds = _secondsToCountTo;
+            }
     }
 }

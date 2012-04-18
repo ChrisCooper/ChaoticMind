@@ -6,7 +6,7 @@ using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 
 namespace ChaoticMind {
-    class ProjectileManager {
+   /* class ProjectileManager {
 
         static ProjectileManager _mainInstance;
 
@@ -20,30 +20,13 @@ namespace ChaoticMind {
             return _mainInstance;
         }
 
-        public void ClearGame() {
-            for (int i = 0; i < _projectiles.Count; i++) {
-                _projectiles[i].DestroySelf(false);
-                i--;
-            }
-            _projectiles.Clear();
-        }
 
         //No one can make one but us
         private ProjectileManager() {
         }
 
         public void Update(float deltaTime) {
-            for (int i = 0; i < _projectiles.Count; i++) {
-                if (_projectiles[i].ShouldDieNow()) {
-                    _projectiles[i].DestroySelf();
-                    //destroy self already removes it
-                    //_projectiles.RemoveAt(i);
-                    i--;
-                }
-                else {
-                    _projectiles[i].Update(deltaTime);
-                }
-            }
+
         }
 
         public void Draw(Camera camera) {
@@ -61,5 +44,5 @@ namespace ChaoticMind {
         internal static void Remove(Projectile projectile) {
             _mainInstance._projectiles.Remove(projectile);
         }
-    }
+    }*/
 }

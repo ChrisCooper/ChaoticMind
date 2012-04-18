@@ -7,8 +7,11 @@ namespace ChaoticMind
     {
 
         public static ChaoticMindGame SharedGame {
-            get;
-            set;
+            get; set;
+        }
+
+        public static GameObjects Objects {
+            get { return SharedGame.Objects; }
         }
 
         /// <summary>

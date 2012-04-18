@@ -25,22 +25,20 @@ namespace ChaoticMind {
 
         public void Update(float deltaTime) {
             for (int i = 0; i < _collectibles.Count; i++) {
-                if (!_collectibles[i].ShouldDieNow()) {
+                if (!_collectibles[i].ShouldBeKilled) {
                     _collectibles[i].Update(deltaTime);
                     //OOB, reset and damage the player (idiot....)
                     if (MapTile.isOutOfBounds(_collectibles[i].Position)){
                         Player.Instance.ApplyDamage(50);
-                        _collectibles[i].DestroySelf();
-                        //done by the collectable
-                        //_collectibles.RemoveAt(i);
+                        _collectibles[i].WasKilled();
+                        _collectibles.RemoveAt(i);
                         i--;
                         GameState.spawnNewObjective();
                     }
                 }
                 else {
-                    _collectibles[i].DestroySelf();
-                    //done by the collectable
-                    //_collectibles.RemoveAt(i);
+                    _collectibles[i].WasKilled();
+                    _collectibles.RemoveAt(i);
                     i--;
                 }
             }
@@ -57,7 +55,7 @@ namespace ChaoticMind {
         }
 
         public void ClearGame() {
-            _mainInstance._collectibles.ForEach(c => c.DestroySelf());
+            _mainInstance._collectibles.ForEach(c => c.WasCleared());
             _mainInstance._collectibles.Clear();
         }
 

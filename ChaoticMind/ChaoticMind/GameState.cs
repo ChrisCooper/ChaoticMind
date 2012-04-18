@@ -46,10 +46,7 @@ namespace ChaoticMind {
         }
 
         public static void ClearGame() {
-            if (_mainInstance._currCollectable != null) {
-                _mainInstance._currCollectable.DestroySelf();
-                _mainInstance._currCollectable = null;
-            }
+           _mainInstance._currCollectable = null;
         }
 
         public static void spawnNewObjective() {

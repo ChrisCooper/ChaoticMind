@@ -112,6 +112,7 @@
     <Compile Include="Audio\MusicController.cs" />
     <Compile Include="Audio\SoundEffectManager.cs" />
     <Compile Include="Characters\Enemies\Parasite.cs" />
+    <Compile Include="GameObjects.cs" />
     <Compile Include="GameObjects\ToggleButton.cs" />
     <Compile Include="GameObjects\UIButton.cs" />
     <Compile Include="LoseScreen.cs" />

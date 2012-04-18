@@ -19,8 +19,8 @@ namespace ChaoticMind {
         public static void Update(float deltaTime) {
             //update the enemies
             for (int i = 0; i < _mainInstance._enemies.Count; i++) {
-                if (_mainInstance._enemies[i].ShouldDieNow()) {
-                    _mainInstance._enemies[i].DestroySelf();
+                if (_mainInstance._enemies[i].ShouldBeKilled) {
+                    _mainInstance._enemies[i].WasKilled();
                     _mainInstance._enemies.RemoveAt(i);
                     i--;
                 }
@@ -69,7 +69,7 @@ namespace ChaoticMind {
         }
 
         public static void ClearGame() {
-            _mainInstance._enemies.ForEach(e => e.DestroySelf());
+            _mainInstance._enemies.ForEach(e => e.WasCleared());
             _mainInstance._enemies.Clear();
         }
 

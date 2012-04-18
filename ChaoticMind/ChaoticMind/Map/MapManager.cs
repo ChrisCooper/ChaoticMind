@@ -86,7 +86,7 @@ namespace ChaoticMind {
             //destroy the tiles
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
-                    _tiles[x, y].DestroySelf();
+                    _tiles[x, y].WasKilled();
                     _tiles[x, y] = null;
                 }
             }
@@ -228,7 +228,7 @@ namespace ChaoticMind {
         }
 
         internal void tileFinishedShifting(MapTile finishedTile) {
-            _shiftedOutTile.DestroySelf();
+            _shiftedOutTile.WasKilled();
             _shiftedOutTile = null;
             _isShifting = false;
         }

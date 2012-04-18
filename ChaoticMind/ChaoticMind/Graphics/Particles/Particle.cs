@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ChaoticMind {
-    class Particle : IDrawable, IGlowDrawable {
+    class Particle : IDrawable, IGlowDrawable, IGameObject {
 
         private Vector2 _position;
         private float _rotation;
@@ -43,7 +43,10 @@ namespace ChaoticMind {
             _fadeOutTimer.Update(deltaTime);
         }
 
-        internal void DestroySelf() {
+        public void WasCleared() {
+        }
+
+        public void WasKilled() {
         }
 
         public AnimatedSprite Sprite { get { return _sprite; } }
@@ -60,7 +63,7 @@ namespace ChaoticMind {
 
         public AnimatedSprite GlowSprite { get; set; }
 
-        public bool isDead { get { return _fadeOutTimer.isFinished; } }
+        public bool ShouldBeKilled { get { return _fadeOutTimer.isFinished; } }
 
         public float DrawLayer { get { return _sprite.DrawLayer; } }
     }
