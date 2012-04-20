@@ -31,8 +31,8 @@ namespace ChaoticMind {
         }
         public void Update(float deltaTime) {
             //shift the object
-            if (MapManager.isShifting(_position)) {
-                _position += MapManager.shiftAmount() * deltaTime;
+            if (Program.Objects.Map.isShifting(_position)) {
+                _position += Program.Objects.Map.shiftAmount() * deltaTime;
             }
             if (_sprite != null) {
                 _sprite.Update(deltaTime);

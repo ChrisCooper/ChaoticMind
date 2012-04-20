@@ -17,7 +17,9 @@ namespace ChaoticMind {
 
         internal World PhysicsWorld { get; set; }
 
-        internal void StartNewGame() {
+        internal Camera MainCamera { get; set; }
+
+        internal void StartNewGame(int mapDimension) {
             //Create the physics simulator object, specifying that we want no gravity (since we're top-down)
             PhysicsWorld = new World(Vector2.Zero);
             
@@ -25,8 +27,13 @@ namespace ChaoticMind {
             Projectiles = new List<IGameObject>();
             Collectables = new List<IGameObject>();
             Map = new MapManager();
+            Map.StartNewGame(mapDimension);
 
             MainPlayer = new Player(Vector2.Zero);
+
+            MainCamera = new Camera(Vector2.Zero, 35.0f, Program.SharedGame.GraphicsDevice, Program.SharedGame.SpriteBatch);
+            MainCamera.setTarget(MainPlayer.Body);
+            MainCamera.StartNewGame();
         }
 
         internal void ClearGame() {
@@ -43,6 +50,8 @@ namespace ChaoticMind {
 
             MainPlayer.WasCleared();
             MainPlayer = null;
+
+            MainCamera = null;
         }
 
         internal void Update(float deltaTime) {
@@ -54,6 +63,8 @@ namespace ChaoticMind {
             Collectables.ForEach(c => c.Update(deltaTime));
             MainPlayer.Update(deltaTime);
             Map.Update(deltaTime);
+
+            MainCamera.Update(deltaTime);
 
             Cull(Projectiles);
             Cull(Particles);

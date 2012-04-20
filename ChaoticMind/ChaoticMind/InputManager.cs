@@ -31,7 +31,7 @@ namespace ChaoticMind {
         }
 
         public static Vector2 MouseWorldPosition {
-            get { return Program.SharedGame.MainCamera.screenPointToWorld(new Vector2(_mainManager._curMouseState.X, _mainManager._curMouseState.Y)); }
+            get { return Program.Objects.MainCamera.screenPointToWorld(new Vector2(_mainManager._curMouseState.X, _mainManager._curMouseState.Y)); }
         }
 
         public static bool IsKeyUp(Keys k) {

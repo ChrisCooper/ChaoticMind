@@ -47,12 +47,6 @@ namespace ChaoticMind {
 
         FrameRateCounter _fpsCounter;
 
-        //Draws the objects
-        Camera _mainCamera;
-        internal Camera MainCamera {
-            get { return _mainCamera; }
-        }
-
         //Audio
         MusicController _backgroundMusic;
 
@@ -94,8 +88,6 @@ namespace ChaoticMind {
 
             _hudManager.Initialize();
 
-            _mainCamera = new Camera(Vector2.Zero, 35.0f, _graphics.GraphicsDevice, _spriteBatch);
-
             //set up the black pixel used for clearing the screen
             _blackPx = new Texture2D(_graphics.GraphicsDevice, 1, 1);
             uint[] px = { 0xFFFFFFFF };
@@ -132,21 +124,14 @@ namespace ChaoticMind {
         /// This includes pretty much everything except loading of resources and basic non-map-specific initialization.
         /// </summary>
         private void StartNewGame() {
-
-            Objects.StartNewGame();
-            Objects.Map.StartNewGame(MAP_SIZE);
+            Objects.StartNewGame(MAP_SIZE);
 
             _shiftInterface.StartNewGame();
-
-            _mainCamera.StartNewGame();
 
             //init the level
             GameState.StartNewGame(1, 3);
 
             AIDirector.StartNewGame();
-
-            _mainCamera.setTarget(Objects.MainPlayer.Body);
-
         }
 
         /// <summary>
@@ -168,13 +153,8 @@ namespace ChaoticMind {
         /// This method puts the game back to a beginning state.
         /// </summary>
         private void ResetGame() {
-
-            _mainCamera.resetZoom();
-
             ClearGame();
-
             StartNewGame();
-
         }
 
         /// <summary>
@@ -200,15 +180,12 @@ namespace ChaoticMind {
         }
 
         /// <summary>
-        /// Allows the game to run logic such as updating the _world,
+        /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
             float deltaTime = ((float)gameTime.ElapsedGameTime.TotalMilliseconds) * 0.001f;
-
-            //BULLET TIME!!!! :DDDD (have to pass non-scaled time to player's update though... otherwise player gets slowed too.
-            //deltaTime *= 0.2f;
 
             //must call once BEFORE any keyboard/mouse operations
             InputManager.Update(deltaTime);
@@ -236,9 +213,8 @@ namespace ChaoticMind {
             else if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
                 _backgroundMusic.Stop();
                 LoseScreen.Update(deltaTime);
-                _mainCamera.Update(deltaTime);
+                Objects.MainCamera.Update(deltaTime);
                 PainStaticMaker.Update(deltaTime);
-                
             }
 
             _fpsCounter.Update(gameTime);
@@ -252,8 +228,6 @@ namespace ChaoticMind {
 
             Objects.Update(deltaTime);
 
-            _mainCamera.Update(deltaTime);
-
             PainStaticMaker.Update(deltaTime);
 
             AIDirector.Update(deltaTime);
@@ -265,7 +239,7 @@ namespace ChaoticMind {
                 ClearGame();
                 GameState.Mode = GameState.GameMode.EXITED;
                 this.Exit();
-
+                return;
             }
            
 
@@ -357,9 +331,9 @@ namespace ChaoticMind {
             _hudManager.Draw_HUD(_spriteBatch);
 
             //Draw Minimap
-            AIDirector.DrawMinimap(_mainCamera);
+            AIDirector.DrawMinimap(Objects.MainCamera);
 
-            Objects.DrawMinimap(_mainCamera);
+            Objects.DrawMinimap(Objects.MainCamera);
 
 
             /**** Draw Special State Objects ****/
@@ -408,13 +382,13 @@ namespace ChaoticMind {
         }
 
         private void drawGlows(GameTime gameTime) {
-            Objects.DrawGlows(_mainCamera);
+            Objects.DrawGlows(Objects.MainCamera);
         }
 
         private void drawObjects(GameTime gameTime) {
-            AIDirector.Draw(_mainCamera);
+            AIDirector.Draw(Objects.MainCamera);
 
-            Objects.DrawObjects(_mainCamera);
+            Objects.DrawObjects(Objects.MainCamera);
         }
 
         private void drawPauseOverlay() {
@@ -432,5 +406,7 @@ namespace ChaoticMind {
         internal void closeShiftInterface() {
             GameState.Mode = GameState.GameMode.NORMAL;
         }
+
+        public SpriteBatch SpriteBatch { get { return _spriteBatch; } }
     }
 }

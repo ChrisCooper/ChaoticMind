@@ -159,7 +159,7 @@
     <Compile Include="Graphics\SpriteAnimationSequence.cs" />
     <Compile Include="Graphics\StaticSprite.cs" />
     <Compile Include="Graphics\Screen.cs" />
-    <Compile Include="ShiftInterface.cs" />
+    <Compile Include="Map\ShiftInterface.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>

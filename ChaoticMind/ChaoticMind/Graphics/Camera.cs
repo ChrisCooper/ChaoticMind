@@ -48,8 +48,9 @@ namespace ChaoticMind {
         }
 
         public void StartNewGame() {
-            _mapWidthScale = _minimapRect.Width / MapManager.MainInstance.EdgeOfMapdimesion;
-            _mapHeightScale = _minimapRect.Height / MapManager.MainInstance.EdgeOfMapdimesion;
+            _mapWidthScale = _minimapRect.Width / Program.Objects.Map.EdgeOfMapdimesion;
+            _mapHeightScale = _minimapRect.Height / Program.Objects.Map.EdgeOfMapdimesion;
+            resetZoom();
         }
 
         public void setTarget(Body target) {

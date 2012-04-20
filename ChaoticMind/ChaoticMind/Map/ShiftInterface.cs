@@ -105,7 +105,6 @@ namespace ChaoticMind {
             _buttons.ForEach(b => b.Update(deltaTime));
 
             _addShiftToQueueButton.Update(deltaTime);
-
         }
 
         internal void Draw() {

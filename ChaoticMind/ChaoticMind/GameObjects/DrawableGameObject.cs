@@ -32,8 +32,8 @@ namespace ChaoticMind {
 
         public override void Update(float deltaTime) {
             //shift the object
-            if (!_body.IsDisposed && MapManager.isShifting(_body.Position)) {
-                _body.Position += MapManager.shiftAmount() * deltaTime;
+            if (!_body.IsDisposed && Program.Objects.Map.isShifting(_body.Position)) {
+                _body.Position += Program.Objects.Map.shiftAmount() * deltaTime;
             }
 
             //draw the object

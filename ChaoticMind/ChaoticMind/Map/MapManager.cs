@@ -54,11 +54,8 @@ namespace ChaoticMind {
         int _currShiftIndex;
         ShiftDirection _currShiftDir;
 
-        static MapManager _mainInstance;
-
         //constructor
         public MapManager() {
-            _mainInstance = this;
             _shiftQueue = new LinkedList<MapShift>();
         }
 
@@ -161,7 +158,7 @@ namespace ChaoticMind {
             _currShiftDir = dir;
             _currShiftIndex = index;
 
-            Program.SharedGame.MainCamera.shake();
+            Program.Objects.MainCamera.shake();
 
             //spawn extra enemies
             AIDirector.OnShift();
@@ -281,28 +278,24 @@ namespace ChaoticMind {
             get { return _tiles; }
         }
 
-        public static MapManager MainInstance {
-            get { return _mainInstance; }
-        }
-
         //The farthers point still on the map
         public float EdgeOfMapdimesion {
             get { return _edgeOfMapdimesion; }
         }
 
         //objects call these to shift themselves
-        public static bool isShifting(Vector2 position) {
+        public  bool isShifting(Vector2 position) {
             Vector2 tempGridCoord = MapTile.GridPositionForWorldCoordinates(position);
-            if (_mainInstance._isShifting) {
-                if (((_mainInstance._currShiftDir == ShiftDirection.LEFT || _mainInstance._currShiftDir == ShiftDirection.RIGHT) && tempGridCoord.Y == _mainInstance._currShiftIndex) ||
-                    ((_mainInstance._currShiftDir == ShiftDirection.UP || _mainInstance._currShiftDir == ShiftDirection.DOWN) && tempGridCoord.X == _mainInstance._currShiftIndex)) {
+            if (_isShifting) {
+                if (((_currShiftDir == ShiftDirection.LEFT || _currShiftDir == ShiftDirection.RIGHT) && tempGridCoord.Y == _currShiftIndex) ||
+                    ((_currShiftDir == ShiftDirection.UP || _currShiftDir == ShiftDirection.DOWN) && tempGridCoord.X == _currShiftIndex)) {
                     return true;
                 }
             }
             return false;
         }
-        public static Vector2 shiftAmount() {
-            return _mainInstance._tiles[_mainInstance._currShiftIndex, _mainInstance._currShiftIndex].Velocity;
+        public Vector2 shiftAmount() {
+            return _tiles[_currShiftIndex, _currShiftIndex].Velocity;
         }
 
         internal static Vector2 RandomPositionOnMap() {
