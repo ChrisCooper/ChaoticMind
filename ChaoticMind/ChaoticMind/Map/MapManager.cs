@@ -16,8 +16,8 @@ namespace ChaoticMind {
     }
 
     //store shift data
-    struct Shift {
-        public Shift(int index, ShiftDirection dir, DoorDirections newDoors) {
+    struct MapShift {
+        public MapShift(int index, ShiftDirection dir, DoorDirections newDoors) {
             _index = index;
             _dir = dir;
             _newDoors = newDoors;
@@ -41,11 +41,12 @@ namespace ChaoticMind {
         float _edgeOfMapdimesion;
 
         MapTile[,] _tiles;
-        LinkedList<Shift> _shiftQueue; //note: doubly linked
+        LinkedList<MapShift> _shiftQueue; //note: doubly linked
 
         private const float NERVE_PULSE_SPEED = 0.003f;
         private const float NERVE_MAX_ALPHA = 0.9f;
         private const float NERVE_MIN_ALPHA = 0.3f;
+        public float NervePulseTimeCount;
 
         private MapTile _shiftedOutTile;
 
@@ -58,7 +59,7 @@ namespace ChaoticMind {
         //constructor
         public MapManager() {
             _mainInstance = this;
-            _shiftQueue = new LinkedList<Shift>();
+            _shiftQueue = new LinkedList<MapShift>();
         }
 
         //Make the tiles
@@ -86,7 +87,7 @@ namespace ChaoticMind {
             //destroy the tiles
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
-                    _tiles[x, y].WasKilled();
+                    _tiles[x, y].WasCleared();
                     _tiles[x, y] = null;
                 }
             }
@@ -99,15 +100,6 @@ namespace ChaoticMind {
         }
 
         public void Update(float deltaTime) {
-            //set visibility based on player position
-            Vector2 playerPos = Program.SharedGame.MainPlayer.GridCoordinate;
-            for (int x = (int)playerPos.X - 1; x < (int)playerPos.X + 2; x++) {
-                for (int y = (int)playerPos.Y - 1; y < (int)playerPos.Y + 2; y++) {
-                    if (x >= 0 && x < _gridDimension && y >= 0 && y < _gridDimension && !_tiles[x, y].IsVisible) {
-                        _tiles[x, y].IsVisible = true;
-                    }
-                }
-            }
 
             foreach (MapTile tile in _tiles) {
                 tile.Update(deltaTime);
@@ -119,7 +111,7 @@ namespace ChaoticMind {
             //process queue
             if (_shiftQueue.Count > 0) {
                 if (!_isShifting) {
-                    Shift temp = _shiftQueue.First.Value;
+                    MapShift temp = _shiftQueue.First.Value;
                     _shiftQueue.RemoveFirst();
                     if (SoundEffectManager.GetSoundState("shift") == SoundState.Stopped) SoundEffectManager.PlaySound("shift");
                     shiftTiles(temp.Index, temp.Direction, temp.TileDoors);
@@ -128,6 +120,8 @@ namespace ChaoticMind {
             else if (!_isShifting) {
                 if (SoundEffectManager.GetSoundState("shift") == SoundState.Playing) SoundEffectManager.StopSound("shift");
             }
+
+            NervePulseTimeCount += deltaTime;
         }
 
         //TODO: probably not the most efficient way of doing it
@@ -145,9 +139,9 @@ namespace ChaoticMind {
         //add a shift to the queue
         public void queueShift(int index, ShiftDirection dir, DoorDirections tileDoors, bool pritority) {
             if (pritority)
-                _shiftQueue.AddFirst(new Shift(index, dir, tileDoors));
+                _shiftQueue.AddFirst(new MapShift(index, dir, tileDoors));
             else
-                _shiftQueue.AddLast(new Shift(index, dir, tileDoors));
+                _shiftQueue.AddLast(new MapShift(index, dir, tileDoors));
         }
 
         //shift the row/col of tiles
@@ -240,8 +234,8 @@ namespace ChaoticMind {
             tile.shiftTo(destX, destY);
         }
 
-        public void DrawTiles(Camera camera, float deltaTime) {
-            float alpha = NERVE_MIN_ALPHA + (NERVE_MAX_ALPHA - NERVE_MIN_ALPHA) * (float)(Math.Sin(deltaTime * NERVE_PULSE_SPEED) + 1) / 2.0f;
+        public void DrawTiles(Camera camera) {
+            float alpha = NERVE_MIN_ALPHA + (NERVE_MAX_ALPHA - NERVE_MIN_ALPHA) * (float)(Math.Sin(NervePulseTimeCount * NERVE_PULSE_SPEED) + 1) / 2.0f;
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
                     MapTile tile = _tiles[x, y];
@@ -254,6 +248,9 @@ namespace ChaoticMind {
             if (_shiftedOutTile != null) {
                 camera.Draw(_shiftedOutTile, 1.0f - _shiftedOutTile.travelPercent());
             }
+        }
+
+        internal void DrawGlows(Camera camera) {
         }
 
         //Minimap
@@ -306,6 +303,10 @@ namespace ChaoticMind {
         }
         public static Vector2 shiftAmount() {
             return _mainInstance._tiles[_mainInstance._currShiftIndex, _mainInstance._currShiftIndex].Velocity;
+        }
+
+        internal static Vector2 RandomPositionOnMap() {
+            return MapTile.RandomPositionInTile(Utilities.randomInt(0, Program.Objects.Map.GridDimension), Utilities.randomInt(0, Program.Objects.Map.GridDimension));
         }
     }
 }

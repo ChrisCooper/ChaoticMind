@@ -12,6 +12,8 @@ namespace ChaoticMind {
 
         static Player _instance;
 
+        public float SightGridDistance = 1;
+
         public static Player Instance {
             get { return _instance; }
         }

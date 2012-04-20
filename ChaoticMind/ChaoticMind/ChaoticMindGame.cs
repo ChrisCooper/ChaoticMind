@@ -20,7 +20,7 @@ namespace ChaoticMind {
     /// 
     public class ChaoticMindGame : Microsoft.Xna.Framework.Game {
 
-        GameObjects _gameObjects = new GameObjects();
+        GameObjects _gameObjects;
         internal GameObjects Objects {
             get { return _gameObjects; }
         }
@@ -72,11 +72,6 @@ namespace ChaoticMind {
 
         MouseDrawer _mouseDrawer = new MouseDrawer();
 
-        MapManager _mapManager;
-        internal MapManager MapManager {
-            get { return _mapManager; }
-        }
-
         ShiftInterface _shiftInterface = new ShiftInterface();
 
         public ChaoticMindGame() {
@@ -95,6 +90,8 @@ namespace ChaoticMind {
 
             //Create the physics simulator object, specifying that we want no gravity (since we're top-down)
             _world = new World(Vector2.Zero);
+
+            _gameObjects = new GameObjects();
         }
 
         /// <summary>
@@ -111,8 +108,6 @@ namespace ChaoticMind {
             _fpsCounter = new FrameRateCounter(_spriteBatch, FontManager.DebugFont);
 
             _hudManager.Initialize();
-
-            _mapManager = new MapManager();
 
             _mainCamera = new Camera(Vector2.Zero, 35.0f, _graphics.GraphicsDevice, _spriteBatch);
 
@@ -131,7 +126,7 @@ namespace ChaoticMind {
             _backgroundMusic.Enqueue("Predatory Instincts_ElevatorRemix");
             _backgroundMusic.Play();
 
-            _shiftInterface.Initialize(_mapManager, _spriteBatch);
+            _shiftInterface.Initialize(Objects.Map, _spriteBatch);
 
             PainStaticMaker.Initialize();
 
@@ -152,7 +147,7 @@ namespace ChaoticMind {
         /// </summary>
         private void StartNewGame() {
 
-            _mapManager.StartNewGame(MAP_SIZE);
+            Objects.Map.StartNewGame(MAP_SIZE);
 
             _shiftInterface.StartNewGame();
 
@@ -173,7 +168,7 @@ namespace ChaoticMind {
         /// </summary>
         private void ClearGame() {
 
-            _mapManager.ClearGame();
+
             AIDirector.ClearGame();
             GameState.ClearGame();
             PainStaticMaker.ClearGame();
@@ -274,8 +269,6 @@ namespace ChaoticMind {
             Objects.Update(deltaTime);
 
             _mainCamera.Update(deltaTime);
-
-            _mapManager.Update(deltaTime);
 
             PainStaticMaker.Update(deltaTime);
 
@@ -392,7 +385,6 @@ namespace ChaoticMind {
             _hudManager.Draw_HUD(_spriteBatch);
 
             //Draw Minimap
-            _mapManager.DrawMap(_mainCamera);
             AIDirector.DrawMinimap(_mainCamera);
 
             Objects.DrawMinimap(_mainCamera);
@@ -451,8 +443,6 @@ namespace ChaoticMind {
         }
 
         private void drawObjects(GameTime gameTime) {
-            //Draw map tiles
-            _mapManager.DrawTiles(_mainCamera, (float)gameTime.TotalGameTime.TotalMilliseconds);
 
             _mainCamera.Draw(_player);
             AIDirector.Draw(_mainCamera);

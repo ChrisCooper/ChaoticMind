@@ -10,10 +10,14 @@ namespace ChaoticMind {
         internal List<IGameObject> Projectiles { get; set; }
         internal List<IGameObject> Collectables { get; set; }
 
+        internal MapManager Map { get; set; }
+
+
         internal GameObjects() {
             Particles = new List<IGameObject>();
             Projectiles = new List<IGameObject>();
             Collectables = new List<IGameObject>();
+            Map = new MapManager();
         }
 
         internal void Clear() {
@@ -25,16 +29,19 @@ namespace ChaoticMind {
 
             Collectables.ForEach(c => c.WasCleared());
             Collectables.Clear();
+
+            Map.ClearGame();
         }
 
         internal void Update(float deltaTime) {
             Projectiles.ForEach(p => p.Update(deltaTime));
             Particles.ForEach(p => p.Update(deltaTime));
             Collectables.ForEach(c => c.Update(deltaTime));
+            Map.Update(deltaTime);
 
             Cull(Projectiles);
             Cull(Particles);
-            Cull(Collectables);        
+            Cull(Collectables);
         }
 
         void Cull(List<IGameObject> objects) {
@@ -49,18 +56,21 @@ namespace ChaoticMind {
         }
 
         internal void DrawObjects(Camera camera) {
+            Map.DrawTiles(camera);
             Particles.ForEach(p => camera.Draw(p));
             Projectiles.ForEach(p => camera.Draw(p));
             Collectables.ForEach(c => camera.Draw(c));
         }
 
         internal void DrawGlows(Camera camera) {
+            Map.DrawGlows(camera);
             Particles.ForEach(p => camera.DrawGlow(p));
             Projectiles.ForEach(p => camera.DrawGlow(p));
             Collectables.ForEach(c => camera.DrawGlow(c));
         }
 
         internal void DrawMinimap(Camera camera) {
+            Map.DrawMap(camera);
             Particles.ForEach(p => camera.DrawMinimap(p));
             Projectiles.ForEach(p => camera.DrawMinimap(p));
             Collectables.ForEach(c => camera.DrawMinimap(c));

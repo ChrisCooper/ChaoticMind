@@ -88,6 +88,11 @@ namespace ChaoticMind {
                     snapToTarget();
                 }
             }
+
+            if (Math.Abs(GridCoordinate.X - Player.Instance.GridCoordinate.X) <= Player.Instance.SightGridDistance &&
+                Math.Abs(GridCoordinate.Y - Player.Instance.GridCoordinate.Y) <= Player.Instance.SightGridDistance) {
+                IsVisible = true;
+            }
         }
 
         private void snapToTarget() {
@@ -125,7 +130,7 @@ namespace ChaoticMind {
             return isOutOfBoundsGrid(GridPositionForWorldCoordinates(position));
         }
         public static bool isOutOfBoundsGrid(Vector2 gridCoord) {
-            return gridCoord.X < 0 || gridCoord.X >= Program.SharedGame.MapManager.GridDimension || gridCoord.Y < 0 || gridCoord.Y >= Program.SharedGame.MapManager.GridDimension;
+            return gridCoord.X < 0 || gridCoord.X >= Program.Objects.Map.GridDimension || gridCoord.Y < 0 || gridCoord.Y >= Program.Objects.Map.GridDimension;
         }
 
 

@@ -50,7 +50,7 @@ namespace ChaoticMind {
         }
 
         public static void spawnNewObjective() {
-            Collectable collectable = new Collectable( CollectibleType.ObjectiveType, MapTile.RandomPositionInTile(Utilities.randomInt(0, Program.SharedGame.MapManager.GridDimension), Utilities.randomInt(0, Program.SharedGame.MapManager.GridDimension)));
+            Collectable collectable = new Collectable( CollectibleType.ObjectiveType, MapManager.RandomPositionOnMap());
             _mainInstance._currCollectable = collectable;
             Program.Objects.Collectables.Add(collectable);
         }
