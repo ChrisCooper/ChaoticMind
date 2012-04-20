@@ -110,12 +110,8 @@ namespace ChaoticMind {
                 if (!_isShifting) {
                     MapShift temp = _shiftQueue.First.Value;
                     _shiftQueue.RemoveFirst();
-                    if (SoundEffectManager.GetSoundState("shift") == SoundState.Stopped) SoundEffectManager.PlaySound("shift");
                     shiftTiles(temp.Index, temp.Direction, temp.TileDoors);
                 }
-            }
-            else if (!_isShifting) {
-                if (SoundEffectManager.GetSoundState("shift") == SoundState.Playing) SoundEffectManager.StopSound("shift");
             }
 
             NervePulseTimeCount += deltaTime*1000;

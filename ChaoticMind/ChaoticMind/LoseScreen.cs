@@ -14,14 +14,11 @@ namespace ChaoticMind {
 
         static Timer _fadeInTimer;
 
-        static bool _playedSound;
-
         private static float _deathSpriteScale;
         static Rectangle _leftSideRectangle;
         static Rectangle _rightSideRectangle;
 
         public static void Initialize() {
-            _playedSound = false;
             _fadeInTimer = new Timer(FadeInDuration);
             _deathSpriteScale = Screen.SmallestDimension / (float)_deathSprite.CurrentTextureBounds.Width;
 
@@ -31,17 +28,11 @@ namespace ChaoticMind {
         }
 
         public static void ClearGame() {
-            _playedSound = false;
             _fadeInTimer.Reset();
         }
 
         public static void Update(float deltaTime) {
             _fadeInTimer.Update(deltaTime);
-
-            if (!_playedSound) {
-                SoundEffectManager.PlayEffect("cinematicboom", 1.0f);
-                _playedSound = true;
-            }
         }
 
         public static void Draw(SpriteBatch spriteBatch) {

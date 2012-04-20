@@ -44,8 +44,6 @@ namespace ChaoticMind {
         StaticSprite _gameoverWinScreen;
         StaticSprite _startMenuScreen;
         StaticSprite _startMenuScreenOverlay;
-        //Audio
-        MusicController _backgroundMusic;
 
         HUD.HUDManager _hudManager = new HUD.HUDManager();
 
@@ -63,9 +61,6 @@ namespace ChaoticMind {
 
             Content.RootDirectory = "Content";
             SpriteAnimationSequence.SharedContentManager = Content;
-
-            MusicController.SharedContentManager = Content;
-            SoundEffectManager.SharedContentManager = Content;
 
             _gameObjects = new GameObjects();
         }
@@ -89,13 +84,6 @@ namespace ChaoticMind {
             _blackPx.SetData<uint>(px);
 
             InputManager.Initialize();
-
-            SoundEffectManager.Initilize();
-
-            //initial menu music
-            _backgroundMusic = new MusicController();
-            _backgroundMusic.Enqueue("Predatory Instincts_ElevatorRemix");
-            _backgroundMusic.Play();
 
             PainStaticMaker.Initialize();
 
@@ -173,6 +161,14 @@ namespace ChaoticMind {
 
             updateGameState();
 
+            //Allows the game to exit
+            if (InputManager.IsKeyDown(Keys.Escape)) {
+                ClearGame();
+                GameState.Mode = GameState.GameMode.EXITED;
+                this.Exit();
+                return;
+            }
+
             if (GameState.Mode == GameState.GameMode.EXITED) {
                 return;
             }
@@ -192,7 +188,6 @@ namespace ChaoticMind {
                 //quack goes the duck
             }
             else if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
-                _backgroundMusic.Stop();
                 LoseScreen.Update(deltaTime);
                 Objects.MainCamera.Update(deltaTime);
                 PainStaticMaker.Update(deltaTime);
@@ -211,63 +206,39 @@ namespace ChaoticMind {
         }
 
         private void updateGameState() {
-            //Allows the game to exit
-            if (InputManager.IsKeyDown(Keys.Escape)) {
-                ClearGame();
-                GameState.Mode = GameState.GameMode.EXITED;
-                this.Exit();
-                return;
-            }
            
 
             //menu screen progression
             if (GameState.Mode == GameState.GameMode.PREGAME && InputManager.IsMouseClicked()) {
-                //game music
-                _backgroundMusic.Stop();
-                _backgroundMusic.ClearQueue();
-                _backgroundMusic.Enqueue("01 Cryogenic Dreams");
-                _backgroundMusic.Enqueue("05 Rapid Cognition");
-                _backgroundMusic.Enqueue("10 Disappear");
-                _backgroundMusic.Play();
                 GameState.Mode = GameState.GameMode.NORMAL;
             }
             if ((GameState.Mode == GameState.GameMode.GAMEOVERWIN || (GameState.Mode == GameState.GameMode.GAMEOVERLOSE && LoseScreen.TimerFinished())) && InputManager.IsMouseClicked()) {
                 ResetGame();
-                _backgroundMusic.Stop();
-                _backgroundMusic.ClearQueue();
-                _backgroundMusic.Enqueue("Predatory Instincts_ElevatorRemix");
-                _backgroundMusic.Play();
                 GameState.Mode = GameState.GameMode.PREGAME;
             }
             
             //pause/unpause
             if (InputManager.IsKeyClicked(Keys.P) && GameState.Mode == GameState.GameMode.PAUSED) {
                 GameState.Mode = GameState.GameMode.NORMAL;
-                SoundEffectManager.ResumeSound("shift");
             }
             else if (InputManager.IsKeyClicked(Keys.P) && GameState.Mode == GameState.GameMode.NORMAL) {
                 GameState.Mode = GameState.GameMode.PAUSED;
-                SoundEffectManager.PauseSound("shift");
             }
 
             //shifting interface
             if (InputManager.IsKeyClicked(Keys.Space) && GameState.Mode == GameState.GameMode.SHIFTING) {
                 GameState.Mode = GameState.GameMode.NORMAL;
-                SoundEffectManager.ResumeSound("shift");
             }
             else if (InputManager.IsKeyClicked(Keys.Space) && GameState.Mode == GameState.GameMode.NORMAL) {
                 GameState.Mode = GameState.GameMode.SHIFTING;
-                SoundEffectManager.PauseSound("shift");
             }
 
             //you died
             if (Objects.MainPlayer == null || Objects.MainPlayer.ShouldBeKilled) {
                 GameState.Mode = GameState.GameMode.GAMEOVERLOSE;
-                SoundEffectManager.StopInstances();
             }
             if (GameState.AllObjectivesCollected) {
                 GameState.Mode = GameState.GameMode.GAMEOVERWIN;
-                SoundEffectManager.StopInstances();
             }
         }
 

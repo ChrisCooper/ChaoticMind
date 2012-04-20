@@ -9,8 +9,6 @@ namespace ChaoticMind {
 
     class Weapon {
 
-        const float SOUND_VOLUME = 0.1f;
-
         WeaponType _weaponType;
         Character _weaponOwner;
 
@@ -47,10 +45,6 @@ namespace ChaoticMind {
                 Reload();
             }
             else if (_roundsLeftInClip > 0 && _reloadTimer.isFinished && _shootTimer.isFinished) {
-
-                //play weapon fire sound
-                if (_weaponType.FireSound != null)
-                    SoundEffectManager.PlayEffect(_weaponType.FireSound, SOUND_VOLUME);
 
                 direction += Utilities.randomNormalizedVector() * _weaponType.Inaccuracy;
 
@@ -120,7 +114,6 @@ namespace ChaoticMind {
 
         public void Reload() {
             if (_reloadTimer.isFinished && _spareClipsLeft > 0) {
-                SoundEffectManager.PlayEffect(_weaponType.ReloadSound, 1.0f);
                 _spareClipsLeft--;
                 _roundsLeftInClip = _weaponType.RoundsPerClip;
                 _reloadTimer.Reset();

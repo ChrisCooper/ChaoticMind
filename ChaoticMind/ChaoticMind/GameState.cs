@@ -66,7 +66,6 @@ namespace ChaoticMind {
         }
 
         internal static void ObjectiveWasCollected() {
-            SoundEffectManager.PlayEffect("item-collect", 1.0f);
             
             _mainInstance._numObjectsCollected++;
             Program.Objects.MainPlayer.GoToFullHealth();

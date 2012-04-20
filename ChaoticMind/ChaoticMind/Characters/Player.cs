@@ -30,13 +30,8 @@ namespace ChaoticMind {
         }
 
         public override void ApplyDamage(float amount) {
-            SoundEffectManager.PlayEffect("impact", 0.1f);
             PainStaticMaker.AddDamage(amount);
 
-            //heatbeat
-            if ((_currentHealth / _maxHealth) < 0.3 && SoundEffectManager.GetSoundState("heartbeat") != SoundState.Playing) {
-                SoundEffectManager.PlaySound("heartbeat");
-            }
             base.ApplyDamage(amount);
         }
 
@@ -84,9 +79,6 @@ namespace ChaoticMind {
 
         internal void GoToFullHealth() {
             _currentHealth = _maxHealth;
-            if (SoundEffectManager.GetSoundState("heartbeat") == SoundState.Playing) {
-                SoundEffectManager.StopSound("heartbeat");
-            }
         }
     }
 }

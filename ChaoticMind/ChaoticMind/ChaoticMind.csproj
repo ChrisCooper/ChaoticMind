@@ -109,8 +109,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Characters\AIDirector.cs" />
-    <Compile Include="Audio\MusicController.cs" />
-    <Compile Include="Audio\SoundEffectManager.cs" />
     <Compile Include="Characters\Enemies\Parasite.cs" />
     <Compile Include="GameObjects\GameObjects.cs" />
     <Compile Include="GameObjects\ToggleButton.cs" />
