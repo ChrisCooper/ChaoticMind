@@ -44,9 +44,6 @@ namespace ChaoticMind {
         StaticSprite _gameoverWinScreen;
         StaticSprite _startMenuScreen;
         StaticSprite _startMenuScreenOverlay;
-
-        FrameRateCounter _fpsCounter;
-
         //Audio
         MusicController _backgroundMusic;
 
@@ -83,8 +80,6 @@ namespace ChaoticMind {
 
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            _fpsCounter = new FrameRateCounter(_spriteBatch, FontManager.DebugFont);
 
             _hudManager.Initialize();
 
@@ -202,8 +197,6 @@ namespace ChaoticMind {
                 Objects.MainCamera.Update(deltaTime);
                 PainStaticMaker.Update(deltaTime);
             }
-
-            _fpsCounter.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -336,8 +329,6 @@ namespace ChaoticMind {
                 Objects.DrawOnShiftInterface(_shiftInterface);
             }
 
-            drawDebugInfo(gameTime);
-
             _mouseDrawer.drawMouse(_spriteBatch);
 
             _spriteBatch.End();
@@ -370,15 +361,8 @@ namespace ChaoticMind {
         }
 
         private void drawPauseOverlay() {
-            //_spriteBatch.DrawString(_debugFont, "Game is paused", new Vector2(600.0f, 400.0f), Color.White);
             _spriteBatch.Draw(_pauseBackground.Texture, _centreLocation, _pauseBackground.CurrentTextureBounds, Color.White, 0.0f, _pauseBackground.CurrentTextureOrigin, (Screen.SmallestDimension - 200) / (float)_pauseBackground.CurrentTextureBounds.Width, SpriteEffects.None, DrawLayers.Menu.Backgrounds);
 
-        }
-
-        private void drawDebugInfo(GameTime gameTime) {
-            //_fpsCounter.Draw(gameTime);
-            //_spriteBatch.DrawString(FontManager.DebugFont, string.Format("PlayerType: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
-            //_spriteBatch.DrawString(FontManager.DebugFont, string.Format("In Tile: ({0:0}, {1:0})", _player.GridCoordinate.X, _player.GridCoordinate.Y), new Vector2(10.0f, 65.0f), Color.White);
         }
 
         internal void closeShiftInterface() {

@@ -140,7 +140,6 @@
     <Compile Include="GameObjects\Collectable.cs" />
     <Compile Include="Map\DoorDirections.cs" />
     <Compile Include="InputManager.cs" />
-    <Compile Include="FramerateCounterComponent.cs" />
     <Compile Include="Characters\CharacterType.cs" />
     <Compile Include="Graphics\AnimatedSprite.cs" />
     <Compile Include="Graphics\Camera.cs" />
