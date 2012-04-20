@@ -32,6 +32,7 @@ namespace ChaoticMind {
 
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
+        public SpriteBatch SpriteBatch { get { return _spriteBatch; } }
 
         StaticSprite _pauseBackground;
         Vector2 _centreLocation;
@@ -278,7 +279,6 @@ namespace ChaoticMind {
 
         private void DrawHUD() {
             _hudManager.Draw_HUD(_spriteBatch);
-
             Objects.DrawMinimap(Objects.MainCamera);
         }
 
@@ -318,13 +318,10 @@ namespace ChaoticMind {
 
         private void drawPauseOverlay() {
             _spriteBatch.Draw(_pauseBackground.Texture, _centreLocation, _pauseBackground.CurrentTextureBounds, Color.White, 0.0f, _pauseBackground.CurrentTextureOrigin, (Screen.SmallestDimension - 200) / (float)_pauseBackground.CurrentTextureBounds.Width, SpriteEffects.None, DrawLayers.Menu.Backgrounds);
-
         }
 
         internal void closeShiftInterface() {
             GameState.Mode = GameState.GameMode.NORMAL;
         }
-
-        public SpriteBatch SpriteBatch { get { return _spriteBatch; } }
     }
 }
