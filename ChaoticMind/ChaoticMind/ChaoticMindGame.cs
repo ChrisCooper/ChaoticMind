@@ -40,7 +40,7 @@ namespace ChaoticMind {
         internal Texture2D BlackPx {
             get { return _blackPx; }
         }
-        
+
         StaticSprite _gameoverWinScreen;
         StaticSprite _startMenuScreen;
         StaticSprite _startMenuScreenOverlay;
@@ -141,7 +141,7 @@ namespace ChaoticMind {
         /// </summary>
         protected override void LoadContent() {
             _pauseBackground = new StaticSprite("UI/PauseScreen", 1, DrawLayers.Menu.Backgrounds);
-            
+
             _gameoverWinScreen = new StaticSprite("Screens/WinScreen", 1, DrawLayers.Menu.Backgrounds);
             _startMenuScreen = new StaticSprite("Screens/StartMenuScreen", 1, DrawLayers.Menu.Backgrounds);
             _startMenuScreenOverlay = new StaticSprite("Screens/StartMenuScreenOverlay", 1, DrawLayers.Menu.Backgrounds);
@@ -159,8 +159,6 @@ namespace ChaoticMind {
             //must call once BEFORE any keyboard/mouse operations
             InputManager.Update(deltaTime);
 
-            updateGameState();
-
             //Allows the game to exit
             if (InputManager.IsKeyDown(Keys.Escape)) {
                 ClearGame();
@@ -169,78 +167,68 @@ namespace ChaoticMind {
                 return;
             }
 
-            if (GameState.Mode == GameState.GameMode.EXITED) {
-                return;
-            }
-            else if (GameState.Mode == GameState.GameMode.PREGAME) {
+            switch (GameState.Mode) {
+                case GameState.GameMode.PREGAME:
+                    if (InputManager.IsMouseClicked()) {
+                        GameState.Mode = GameState.GameMode.NORMAL;
+                    }
+                    break;
+                case GameState.GameMode.NORMAL:
+                    normalGameUpdate(deltaTime);
+                    break;
+                case GameState.GameMode.PAUSED:
+                    if (InputManager.IsKeyClicked(Keys.P)) {
+                        GameState.Mode = GameState.GameMode.NORMAL;
+                    }
+                    break;
+                case GameState.GameMode.SHIFTING:
+                     _shiftInterface.Update(deltaTime);
 
-            }
-            else if (GameState.Mode == GameState.GameMode.NORMAL) {
-                normalGameUpdate(deltaTime);
-            }
-            else if (GameState.Mode == GameState.GameMode.SHIFTING) {
-                _shiftInterface.Update(deltaTime);
-            }
-            else if (GameState.Mode == GameState.GameMode.PAUSED) {
-                //update stuff for the pause menu
-            }
-            else if (GameState.Mode == GameState.GameMode.GAMEOVERWIN) {
-                //quack goes the duck
-            }
-            else if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
-                LoseScreen.Update(deltaTime);
-                Objects.MainCamera.Update(deltaTime);
-                PainStaticMaker.Update(deltaTime);
+                     if (InputManager.IsKeyClicked(Keys.Space)) {
+                         GameState.Mode = GameState.GameMode.NORMAL;
+                     }
+                    break;
+                case GameState.GameMode.GAMEOVERWIN:
+                    if (InputManager.IsMouseClicked()) {
+                        ResetGame();
+                        GameState.Mode = GameState.GameMode.PREGAME;
+                    }
+                    break;
+                case GameState.GameMode.GAMEOVERLOSE:
+                    LoseScreen.Update(deltaTime);
+                    Objects.MainCamera.Update(deltaTime);
+                    PainStaticMaker.Update(deltaTime);
+
+                    if (LoseScreen.TimerFinished() && InputManager.IsMouseClicked()) {
+                        ResetGame();
+                        GameState.Mode = GameState.GameMode.PREGAME;
+                    }
+                    break;
+                case GameState.GameMode.EXITED:
+                    return;
+                default:
+                    throw new NotImplementedException("The GameState.GameMode " + GameState.Mode + " is not handled");
             }
 
             base.Update(gameTime);
         }
 
         private void normalGameUpdate(float deltaTime) {
-            //Update all objects in our list. This is not where physics is evaluated,
-            // it is only where object-specific actions are performed, like applying control forces
+            if (Objects.MainPlayer.ShouldBeKilled) {
+                GameState.Mode = GameState.GameMode.GAMEOVERLOSE;
+            } else if (GameState.AllObjectivesCollected) {
+                GameState.Mode = GameState.GameMode.GAMEOVERWIN;
+            } else if (InputManager.IsKeyClicked(Keys.P)) {
+                GameState.Mode = GameState.GameMode.PAUSED;
+            } else if (InputManager.IsKeyClicked(Keys.Space)) {
+                GameState.Mode = GameState.GameMode.SHIFTING;
+            }
 
             Objects.Update(deltaTime);
 
             PainStaticMaker.Update(deltaTime);
         }
 
-        private void updateGameState() {
-           
-
-            //menu screen progression
-            if (GameState.Mode == GameState.GameMode.PREGAME && InputManager.IsMouseClicked()) {
-                GameState.Mode = GameState.GameMode.NORMAL;
-            }
-            if ((GameState.Mode == GameState.GameMode.GAMEOVERWIN || (GameState.Mode == GameState.GameMode.GAMEOVERLOSE && LoseScreen.TimerFinished())) && InputManager.IsMouseClicked()) {
-                ResetGame();
-                GameState.Mode = GameState.GameMode.PREGAME;
-            }
-            
-            //pause/unpause
-            if (InputManager.IsKeyClicked(Keys.P) && GameState.Mode == GameState.GameMode.PAUSED) {
-                GameState.Mode = GameState.GameMode.NORMAL;
-            }
-            else if (InputManager.IsKeyClicked(Keys.P) && GameState.Mode == GameState.GameMode.NORMAL) {
-                GameState.Mode = GameState.GameMode.PAUSED;
-            }
-
-            //shifting interface
-            if (InputManager.IsKeyClicked(Keys.Space) && GameState.Mode == GameState.GameMode.SHIFTING) {
-                GameState.Mode = GameState.GameMode.NORMAL;
-            }
-            else if (InputManager.IsKeyClicked(Keys.Space) && GameState.Mode == GameState.GameMode.NORMAL) {
-                GameState.Mode = GameState.GameMode.SHIFTING;
-            }
-
-            //you died
-            if (Objects.MainPlayer == null || Objects.MainPlayer.ShouldBeKilled) {
-                GameState.Mode = GameState.GameMode.GAMEOVERLOSE;
-            }
-            if (GameState.AllObjectivesCollected) {
-                GameState.Mode = GameState.GameMode.GAMEOVERWIN;
-            }
-        }
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -249,55 +237,36 @@ namespace ChaoticMind {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
 
-            /**** Draw Game Objects ****/
             _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
-            //Draw real game
-            drawObjects(gameTime);
-
-            _spriteBatch.End();
-
-
-            /**** Draw Glow Effects ****/
-            //Using BlendState.Additive will make things drawn in this section only brighten, never darken.
-            //This means colors will be intensified, and look like glow
-
-            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-
-            //Draw real game
-            drawGlows(gameTime);
-
-            PainStaticMaker.DrawStatic(_spriteBatch);
-
-            _spriteBatch.End();
-
-
-
-            _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-
-            /**** Draw HUD ****/
-            _hudManager.Draw_HUD(_spriteBatch);
-
-            Objects.DrawMinimap(Objects.MainCamera);
-
-
-            /**** Draw Special State Objects ****/
-
-            if (GameState.Mode == GameState.GameMode.PAUSED) {
-                drawPauseOverlay();
-            }
-            else if (GameState.Mode == GameState.GameMode.GAMEOVERWIN) {
-                drawGameoverWinOverlay();
-            }
-            else if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
-                LoseScreen.Draw(_spriteBatch);
-            }
-            else if (GameState.Mode == GameState.GameMode.PREGAME) {
-                drawStartMenuOverlay(gameTime);
-            }
-            else if (GameState.Mode == GameState.GameMode.SHIFTING) {
-                _shiftInterface.Draw();
-                Objects.DrawOnShiftInterface(_shiftInterface);
+            switch (GameState.Mode) {
+                case GameState.GameMode.PREGAME:
+                    drawStartMenuOverlay(gameTime);
+                    break;
+                case GameState.GameMode.NORMAL:
+                    DrawGameBoard(gameTime);
+                    DrawHUD();
+                    break;
+                case GameState.GameMode.PAUSED:
+                    DrawGameBoard(gameTime);
+                    drawPauseOverlay();
+                    break;
+                case GameState.GameMode.SHIFTING:
+                    DrawGameBoard(gameTime);
+                    _shiftInterface.Draw();
+                    Objects.DrawOnShiftInterface(_shiftInterface);
+                    break;
+                case GameState.GameMode.GAMEOVERWIN:
+                    drawGameoverWinOverlay();
+                    break;
+                case GameState.GameMode.GAMEOVERLOSE:
+                    DrawGameBoard(gameTime);
+                    LoseScreen.Draw(_spriteBatch);
+                    break;
+                case GameState.GameMode.EXITED:
+                    return;
+                default:
+                    throw new NotImplementedException("The GameState.GameMode " + GameState.Mode + " is not handled");
             }
 
             _mouseDrawer.drawMouse(_spriteBatch);
@@ -305,6 +274,30 @@ namespace ChaoticMind {
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void DrawHUD() {
+            _hudManager.Draw_HUD(_spriteBatch);
+
+            Objects.DrawMinimap(Objects.MainCamera);
+        }
+
+        private void DrawGameBoard(GameTime gameTime) {
+            Objects.DrawObjects(Objects.MainCamera);
+            _spriteBatch.End();
+
+            /**** Draw Glow Effects ****/
+            //Using BlendState.Additive will make things drawn in this section only brighten, never darken.
+            //This means colors will be intensified, and look like glow
+            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+
+            Objects.DrawGlows(Objects.MainCamera);
+            PainStaticMaker.DrawStatic(_spriteBatch);
+
+            _spriteBatch.End();
+
+            //Prep for others' drawing
+            _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
         }
 
         private void drawGameoverWinOverlay() {
@@ -321,14 +314,6 @@ namespace ChaoticMind {
 
             _spriteBatch.Draw(_startMenuScreen.Texture, mapFrameRect, _startMenuScreen.CurrentTextureBounds, Color.White, 0, Vector2.Zero, SpriteEffects.None, DrawLayers.Menu.Backgrounds - 0.002f);
             _spriteBatch.Draw(_startMenuScreenOverlay.Texture, mapFrameRect, _startMenuScreenOverlay.CurrentTextureBounds, Color.White * 0.5f * ((float)(Math.Sin(gameTime.TotalGameTime.TotalMilliseconds / 500.0f) + 1.0f) + 0.5f), 0, Vector2.Zero, SpriteEffects.None, DrawLayers.Menu.Backgrounds - 0.003f);
-        }
-
-        private void drawGlows(GameTime gameTime) {
-            Objects.DrawGlows(Objects.MainCamera);
-        }
-
-        private void drawObjects(GameTime gameTime) {
-            Objects.DrawObjects(Objects.MainCamera);    
         }
 
         private void drawPauseOverlay() {
