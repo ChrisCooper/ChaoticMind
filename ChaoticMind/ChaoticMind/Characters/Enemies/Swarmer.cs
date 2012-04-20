@@ -14,7 +14,7 @@ namespace ChaoticMind {
         Timer _attackTimer;
 
         public Swarmer(Vector2 startingPosition)
-            : base(CharacterType.Swarmer, startingPosition) {
+            : base(CharacterType.SwarmerType, startingPosition) {
 
                 _attackTimer = new Timer(attackInterval, true);
         }
@@ -32,10 +32,10 @@ namespace ChaoticMind {
         protected override void performTypeUniqueMovements(float deltaTime) {
             _attackTimer.Update(deltaTime);
 
-            if (_attackTimer.isFinished && Vector2.Distance(Player.Instance.Position, Position) <= _range && Player.Instance.GridCoordinate == GridCoordinate){
-                Player.Instance.ApplyDamage(_characterType.MainAttackDamage);
+            if (_attackTimer.isFinished && Vector2.Distance(Program.Objects.MainPlayer.Position, Position) <= _range && Program.Objects.MainPlayer.GridCoordinate == GridCoordinate) {
+                Program.Objects.MainPlayer.ApplyDamage(_characterType.MainAttackDamage);
                 _attackTimer.Reset();
-                Program.Objects.Particles.Add(new Particle(Position, Utilities.AngleTowards(Position, Player.Instance.Position), ParticleType.SwarmerAttack));
+                Program.Objects.Particles.Add(new Particle(Position, Utilities.AngleTowards(Position, Program.Objects.MainPlayer.Position), ParticleType.SwarmerAttack));
             }
         }
 

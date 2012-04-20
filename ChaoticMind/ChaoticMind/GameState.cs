@@ -69,7 +69,7 @@ namespace ChaoticMind {
             SoundEffectManager.PlayEffect("item-collect", 1.0f);
             
             _mainInstance._numObjectsCollected++;
-            Player.Instance.GoToFullHealth();
+            Program.Objects.MainPlayer.GoToFullHealth();
             if (_mainInstance._numObjectsCollected >= _mainInstance._numToCollect) {
                 _mainInstance._bossActive = true;
             }
@@ -78,7 +78,7 @@ namespace ChaoticMind {
             }
         }
 
-        public static bool BossActive {
+        public static bool AllObjectivesCollected {
             get { return _mainInstance._bossActive; }
         }
         public static int Level {

@@ -53,12 +53,6 @@ namespace ChaoticMind {
             get { return _mainCamera; }
         }
 
-        //player
-        Player _player;
-        internal Player MainPlayer {
-            get { return _player; }
-        }
-
         //Audio
         MusicController _backgroundMusic;
 
@@ -117,17 +111,18 @@ namespace ChaoticMind {
             _backgroundMusic.Enqueue("Predatory Instincts_ElevatorRemix");
             _backgroundMusic.Play();
 
-            _shiftInterface.Initialize(Objects.Map, _spriteBatch);
-
             PainStaticMaker.Initialize();
 
             _mouseDrawer.Initialize();
 
+            CharacterType.Initialize();
             ParticleType.Initialize();
 
             LoseScreen.Initialize();
 
             StartNewGame();
+
+            _shiftInterface.Initialize(_spriteBatch);
 
             base.Initialize();
         }
@@ -138,6 +133,7 @@ namespace ChaoticMind {
         /// </summary>
         private void StartNewGame() {
 
+            Objects.StartNewGame();
             Objects.Map.StartNewGame(MAP_SIZE);
 
             _shiftInterface.StartNewGame();
@@ -149,8 +145,7 @@ namespace ChaoticMind {
 
             AIDirector.StartNewGame();
 
-            _player = new Player(Vector2.Zero);
-            _mainCamera.setTarget(_player.Body);
+            _mainCamera.setTarget(Objects.MainPlayer.Body);
 
         }
 
@@ -166,7 +161,7 @@ namespace ChaoticMind {
             LoseScreen.ClearGame();
             _shiftInterface.ClearGame();
 
-            Objects.Clear();
+            Objects.ClearGame();
         }
 
         /// <summary>
@@ -255,8 +250,6 @@ namespace ChaoticMind {
             //Update all objects in our list. This is not where physics is evaluated,
             // it is only where object-specific actions are performed, like applying control forces
 
-            _player.Update(deltaTime);
-
             Objects.Update(deltaTime);
 
             _mainCamera.Update(deltaTime);
@@ -274,15 +267,7 @@ namespace ChaoticMind {
                 this.Exit();
 
             }
-            
-            //debug
-            /*if (InputManager.IsKeyDown(Keys.Y)) {
-                ResetGame();
-            }
-            if (InputManager.IsKeyDown(Keys.K)) {
-                GameState.Mode = GameState.GameMode.GAMEOVERLOSE;
-            }
-            */ 
+           
 
             //menu screen progression
             if (GameState.Mode == GameState.GameMode.PREGAME && InputManager.IsMouseClicked()) {
@@ -303,7 +288,7 @@ namespace ChaoticMind {
                 _backgroundMusic.Play();
                 GameState.Mode = GameState.GameMode.PREGAME;
             }
-
+            
             //pause/unpause
             if (InputManager.IsKeyClicked(Keys.P) && GameState.Mode == GameState.GameMode.PAUSED) {
                 GameState.Mode = GameState.GameMode.NORMAL;
@@ -325,11 +310,11 @@ namespace ChaoticMind {
             }
 
             //you died
-            if (_player.ShouldBeKilled) {
+            if (Objects.MainPlayer == null || Objects.MainPlayer.ShouldBeKilled) {
                 GameState.Mode = GameState.GameMode.GAMEOVERLOSE;
                 SoundEffectManager.StopInstances();
             }
-            if (GameState.BossActive) {
+            if (GameState.AllObjectivesCollected) {
                 GameState.Mode = GameState.GameMode.GAMEOVERWIN;
                 SoundEffectManager.StopInstances();
             }
@@ -349,7 +334,6 @@ namespace ChaoticMind {
             drawObjects(gameTime);
 
             _spriteBatch.End();
-
 
 
             /**** Draw Glow Effects ****/
@@ -376,8 +360,6 @@ namespace ChaoticMind {
             AIDirector.DrawMinimap(_mainCamera);
 
             Objects.DrawMinimap(_mainCamera);
-            
-            _mainCamera.DrawMinimap(_player);
 
 
             /**** Draw Special State Objects ****/
@@ -396,7 +378,6 @@ namespace ChaoticMind {
             }
             else if (GameState.Mode == GameState.GameMode.SHIFTING) {
                 _shiftInterface.Draw();
-                _shiftInterface.drawOnOverlay(_player);
                 AIDirector.DrawOnShiftInterface(_shiftInterface);
                 Objects.DrawOnShiftInterface(_shiftInterface);
             }
@@ -431,8 +412,6 @@ namespace ChaoticMind {
         }
 
         private void drawObjects(GameTime gameTime) {
-
-            _mainCamera.Draw(_player);
             AIDirector.Draw(_mainCamera);
 
             Objects.DrawObjects(_mainCamera);
@@ -446,7 +425,7 @@ namespace ChaoticMind {
 
         private void drawDebugInfo(GameTime gameTime) {
             //_fpsCounter.Draw(gameTime);
-            //_spriteBatch.DrawString(FontManager.DebugFont, string.Format("Player: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
+            //_spriteBatch.DrawString(FontManager.DebugFont, string.Format("PlayerType: ({0:0}, {1:0})", _player.Position.X, _player.Position.Y), new Vector2(10.0f, 40.0f), Color.White);
             //_spriteBatch.DrawString(FontManager.DebugFont, string.Format("In Tile: ({0:0}, {1:0})", _player.GridCoordinate.X, _player.GridCoordinate.Y), new Vector2(10.0f, 65.0f), Color.White);
         }
 

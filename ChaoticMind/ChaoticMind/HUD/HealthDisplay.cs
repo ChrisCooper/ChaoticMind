@@ -39,7 +39,7 @@ namespace ChaoticMind.HUD {
             //Health frame
             spriteBatch.Draw(_healthFrameSprite.Texture, _healthFrameRect, _healthFrameSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _healthFrameSprite.DrawLayer);
             //Health bar
-            spriteBatch.Draw(_healthSprite.Texture, new Rectangle(_healthRect.Left, _healthRect.Top, (int)(Player.Instance.PercentHealth * _healthRect.Width), _healthRect.Height), _healthSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _healthSprite.DrawLayer);
+            spriteBatch.Draw(_healthSprite.Texture, new Rectangle(_healthRect.Left, _healthRect.Top, (int)(Program.Objects.MainPlayer.PercentHealth * _healthRect.Width), _healthRect.Height), _healthSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _healthSprite.DrawLayer);
 
         }
     }

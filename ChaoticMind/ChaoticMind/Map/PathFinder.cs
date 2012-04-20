@@ -18,7 +18,7 @@ namespace ChaoticMind {
 
             //Find Path, and fill a result.
 
-            return new PathFindingResult(searchToFutureLocation ? Player.Instance.FuturePosition : Player.Instance.Position, true);
+            return new PathFindingResult(searchToFutureLocation ? Program.Objects.MainPlayer.FuturePosition : Program.Objects.MainPlayer.Position, true);
         }
     }
 

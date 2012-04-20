@@ -39,8 +39,8 @@ namespace ChaoticMind {
                     if (x != 0 || y != 0) {
 
                         //add to player position
-                        tx = (int)Program.SharedGame.MainPlayer.GridCoordinate.X + x;
-                        ty = (int)Program.SharedGame.MainPlayer.GridCoordinate.Y + y;
+                        tx = (int)Program.Objects.MainPlayer.GridCoordinate.X + x;
+                        ty = (int)Program.Objects.MainPlayer.GridCoordinate.Y + y;
 
                         if (!MapTile.isOutOfBoundsGrid(new Vector2(tx, ty))) {
 

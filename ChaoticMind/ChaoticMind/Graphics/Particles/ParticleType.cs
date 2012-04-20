@@ -17,18 +17,18 @@ namespace ChaoticMind {
         private float _entitySize;
 
         public static void Initialize() {
-            //Parasite Death
-            ParasiteDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/ParasiteDeath", 4, 1, CharacterType.Parasite.VisibleEntitySize);
+            //ParasiteType Death
+            ParasiteDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/ParasiteDeath", 4, 1, CharacterType.ParasiteType.VisibleEntitySize);
             ParasiteDeath._animationDuration = 0.3f;
             ParasiteDeath.DrawLayer = DrawLayers.GameElements.LowerParticles;
-            ParasiteDeath._entitySize = CharacterType.Parasite.VisibleEntitySize;
+            ParasiteDeath._entitySize = CharacterType.ParasiteType.VisibleEntitySize;
             ParasiteDeath.Lifespan = 4.0f;
 
-            //Swarmer Death
-            SwarmerDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/SwarmerDeath", 4, 1, CharacterType.Swarmer.VisibleEntitySize);
+            //SwarmerType Death
+            SwarmerDeath._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/SwarmerDeath", 4, 1, CharacterType.SwarmerType.VisibleEntitySize);
             SwarmerDeath._animationDuration = 0.3f;
             SwarmerDeath.DrawLayer = DrawLayers.GameElements.LowerParticles;
-            SwarmerDeath._entitySize = CharacterType.Swarmer.VisibleEntitySize;
+            SwarmerDeath._entitySize = CharacterType.SwarmerType.VisibleEntitySize;
             SwarmerDeath.Lifespan = 4.0f;
 
             //Assault Rifle Bullet Death
@@ -46,7 +46,7 @@ namespace ChaoticMind {
             EnergyRifleBulletDeath.DrawLayer = DrawLayers.GameElements.UpperParticles;
             EnergyRifleBulletDeath.Lifespan = EnergyRifleBulletDeath._animationDuration;
 
-            //Swarmer Attack
+            //SwarmerType Attack
             SwarmerAttack._entitySize = Swarmer.AttackRange/7f;
             SwarmerAttack._spriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/SwarmerBolt", 4, 1, SwarmerAttack._entitySize);
             SwarmerAttack.GlowSpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Projectiles/SwarmerBoltGlow", 4, 1, SwarmerAttack._entitySize);

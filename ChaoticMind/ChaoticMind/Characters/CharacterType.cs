@@ -11,72 +11,76 @@ namespace ChaoticMind {
 
     class CharacterType {
 
-        public static CharacterType SillyBox = new CharacterType();
-        public static CharacterType Swarmer = new CharacterType();
-        public static CharacterType Parasite = new CharacterType();
-        public static CharacterType Player = new CharacterType();
+        public static CharacterType SillyBoxType;
+        public static CharacterType SwarmerType;
+        public static CharacterType ParasiteType;
+        public static CharacterType PlayerType;
 
-        static CharacterType() {
+        public static void Initialize() {
 
-            //Player
-            Player._physicalEntitySize = 1.0f;
-            Player.SpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Player", 1, 1, Player._physicalEntitySize * 1.3f);
-            Player.AnimationDuration = 1.0f;
-            Player.DrawLayer = DrawLayers.GameElements.Characters;
-            Player._objectShape = ObjectShapes.CIRCLE;
-            Player._density = 1.0f;
-            Player._maxTurningTorque = 1.0f;
-            Player._maxMovementForce = 80.0f;
-            Player._health = 150;
-            Player._linearDampening = 10f;
-            Player.MinimapSprite = new StaticSprite("Minimap/PlayerMinimap", MapTile.TileSideLength / 2, DrawLayers.HUD.Minimap_important_elements);
+            //PlayerType
+            PlayerType = new CharacterType();
+            PlayerType._physicalEntitySize = 1.0f;
+            PlayerType.SpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Player", 1, 1, PlayerType._physicalEntitySize * 1.3f);
+            PlayerType.AnimationDuration = 1.0f;
+            PlayerType.DrawLayer = DrawLayers.GameElements.Characters;
+            PlayerType._objectShape = ObjectShapes.CIRCLE;
+            PlayerType._density = 1.0f;
+            PlayerType._maxTurningTorque = 1.0f;
+            PlayerType._maxMovementForce = 80.0f;
+            PlayerType._health = 150;
+            PlayerType._linearDampening = 10f;
+            PlayerType.MinimapSprite = new StaticSprite("Minimap/PlayerMinimap", MapTile.TileSideLength / 2, DrawLayers.HUD.Minimap_important_elements);
 
-            //SillyBox
-            SillyBox._physicalEntitySize = 1.0f;
-            SillyBox.SpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("TestImages/Box", 17, 1, SillyBox._physicalEntitySize);
-            SillyBox.AnimationDuration = 1.0f;
-            SillyBox.DrawLayer = DrawLayers.GameElements.Characters;
-            SillyBox._objectShape = ObjectShapes.RECTANGLE;
-            SillyBox._density = 1.0f;
-            SillyBox._maxTurningTorque = 1.0f;
-            SillyBox._maxMovementForce = 300.0f;
-            SillyBox._linearDampening = 0.0f;
-            SillyBox._health = 10;
+            //SillyBoxType
+            SillyBoxType = new CharacterType();
+            SillyBoxType._physicalEntitySize = 1.0f;
+            SillyBoxType.SpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("TestImages/Box", 17, 1, SillyBoxType._physicalEntitySize);
+            SillyBoxType.AnimationDuration = 1.0f;
+            SillyBoxType.DrawLayer = DrawLayers.GameElements.Characters;
+            SillyBoxType._objectShape = ObjectShapes.RECTANGLE;
+            SillyBoxType._density = 1.0f;
+            SillyBoxType._maxTurningTorque = 1.0f;
+            SillyBoxType._maxMovementForce = 300.0f;
+            SillyBoxType._linearDampening = 0.0f;
+            SillyBoxType._health = 10;
 
-            //Parasite
-            Parasite._physicalEntitySize = 0.8f;
-            Parasite.VisibleEntitySize = Parasite._physicalEntitySize * 6f / 4f;
-            Parasite.SpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/Parasite", 5, 1, Parasite._physicalEntitySize * 6f / 4f);
-            Parasite.AnimationDuration = 0.23f;
-            Parasite.DrawLayer = DrawLayers.GameElements.Characters;
-            Parasite._objectShape = ObjectShapes.CIRCLE;
-            Parasite._density = 1.0f;
-            Parasite._maxTurningTorque = 1.0f;
-            Parasite._maxMovementForce = 100.0f;
-            Parasite._health = 20;
-            Parasite.MainAttackDamage = 5.0f;
-            Parasite._linearDampening = 10f;
-            Parasite.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 5, DrawLayers.HUD.Minimap_normal_elements);
-            Parasite.DeathParticle = ParticleType.ParasiteDeath;
-            Parasite.DeathSound = "squish";
+            //ParasiteType
+            ParasiteType = new CharacterType();
+            ParasiteType._physicalEntitySize = 0.8f;
+            ParasiteType.VisibleEntitySize = ParasiteType._physicalEntitySize * 6f / 4f;
+            ParasiteType.SpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/Parasite", 5, 1, ParasiteType._physicalEntitySize * 6f / 4f);
+            ParasiteType.AnimationDuration = 0.23f;
+            ParasiteType.DrawLayer = DrawLayers.GameElements.Characters;
+            ParasiteType._objectShape = ObjectShapes.CIRCLE;
+            ParasiteType._density = 1.0f;
+            ParasiteType._maxTurningTorque = 1.0f;
+            ParasiteType._maxMovementForce = 100.0f;
+            ParasiteType._health = 20;
+            ParasiteType.MainAttackDamage = 5.0f;
+            ParasiteType._linearDampening = 10f;
+            ParasiteType.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 5, DrawLayers.HUD.Minimap_normal_elements);
+            ParasiteType.DeathParticle = ParticleType.ParasiteDeath;
+            ParasiteType.DeathSound = "squish";
 
-            //Swarmer
-            Swarmer._physicalEntitySize = 1.3f;
-            Swarmer.VisibleEntitySize = Swarmer._physicalEntitySize * 5.0f / 4.0f;
-            Swarmer.SpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/Swarmer", 7, 1, Swarmer.VisibleEntitySize);
-            Swarmer.AnimationDuration = 0.5f;
-            Swarmer.DrawLayer = DrawLayers.GameElements.Characters;
-            Swarmer._objectShape = ObjectShapes.CIRCLE;
-            Swarmer._density = 1.0f;
-            Swarmer._maxTurningTorque = 1.0f;
-            Swarmer._maxMovementForce = 140.0f;
-            Swarmer._health = 29;
-            Swarmer.MainAttackDamage = 8.0f;
-            Swarmer._linearDampening = 10f;
-            Swarmer.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 4, DrawLayers.HUD.Minimap_normal_elements);
-            Swarmer.DeathParticle = ParticleType.SwarmerDeath;
-            Swarmer.DeathSound = "squish";
-            
+            //SwarmerType
+            SwarmerType = new CharacterType();
+            SwarmerType._physicalEntitySize = 1.3f;
+            SwarmerType.VisibleEntitySize = SwarmerType._physicalEntitySize * 5.0f / 4.0f;
+            SwarmerType.SpriteAnimationSequence = SpriteAnimationSequence.newOrExistingSpriteAnimationSequence("Enemies/Swarmer", 7, 1, SwarmerType.VisibleEntitySize);
+            SwarmerType.AnimationDuration = 0.5f;
+            SwarmerType.DrawLayer = DrawLayers.GameElements.Characters;
+            SwarmerType._objectShape = ObjectShapes.CIRCLE;
+            SwarmerType._density = 1.0f;
+            SwarmerType._maxTurningTorque = 1.0f;
+            SwarmerType._maxMovementForce = 140.0f;
+            SwarmerType._health = 29;
+            SwarmerType.MainAttackDamage = 8.0f;
+            SwarmerType._linearDampening = 10f;
+            SwarmerType.MinimapSprite = new StaticSprite("Minimap/EnemyMinimap", MapTile.TileSideLength / 4, DrawLayers.HUD.Minimap_normal_elements);
+            SwarmerType.DeathParticle = ParticleType.SwarmerDeath;
+            SwarmerType.DeathSound = "squish";
+
         }
 
         float _physicalEntitySize;

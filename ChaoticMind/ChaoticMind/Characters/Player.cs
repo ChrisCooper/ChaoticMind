@@ -10,23 +10,16 @@ using Microsoft.Xna.Framework.Audio;
 namespace ChaoticMind {
     class Player : Character {
 
-        static Player _instance;
-
         public float SightGridDistance = 1;
 
-        public static Player Instance {
-            get { return _instance; }
-        }
-
         public Player(Vector2 startingPosition)
-            : base(CharacterType.Player, startingPosition) {
+            : base(CharacterType.PlayerType, startingPosition) {
 
             _weapons = new List<Weapon>();
             _weapons.Add(new Weapon(WeaponType.AssaultRifle, 7, this));
             _weapons.Add(new Weapon(WeaponType.EnergyRifle, 7, this));
 
             _body.UserData = this;
-            _instance = this;
         }
 
         //Use input to decide what direction this character should try to face and move

@@ -53,7 +53,7 @@ namespace ChaoticMind {
             _lifetimeTimer.Finish();
 
             //Check if the object is even an IDamageable, and not the player
-            if (hitObject == null || hitObject == Player.Instance) {
+            if (hitObject == null || hitObject == Program.Objects.MainPlayer) {
                 return true;
             }
 

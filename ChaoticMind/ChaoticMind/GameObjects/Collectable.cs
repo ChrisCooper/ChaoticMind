@@ -34,14 +34,14 @@ namespace ChaoticMind {
         public override void Update(float deltaTime) {
             base.Update(deltaTime);
             if (_collectibleType == CollectibleType.ObjectiveType && MapTile.isOutOfBounds(Position)) {
-                Player.Instance.ApplyDamage(50);
+                Program.Objects.MainPlayer.ApplyDamage(50);
                 _shouldBeKilledFlag = true;
                 GameState.spawnNewObjective();
             }
         }
 
         bool _body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact) {
-            if (fixtureB.Body.UserData == Player.Instance) {
+            if (fixtureB.Body.UserData == Program.Objects.MainPlayer) {
                 _shouldBeKilledFlag = true;
                 if (_collectibleType == CollectibleType.ObjectiveType) {
                     GameState.ObjectiveWasCollected();

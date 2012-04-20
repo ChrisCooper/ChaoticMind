@@ -89,8 +89,8 @@ namespace ChaoticMind {
                 }
             }
 
-            if (Math.Abs(GridCoordinate.X - Player.Instance.GridCoordinate.X) <= Player.Instance.SightGridDistance &&
-                Math.Abs(GridCoordinate.Y - Player.Instance.GridCoordinate.Y) <= Player.Instance.SightGridDistance) {
+            if (Math.Abs(GridCoordinate.X - Program.Objects.MainPlayer.GridCoordinate.X) <= Program.Objects.MainPlayer.SightGridDistance &&
+                Math.Abs(GridCoordinate.Y - Program.Objects.MainPlayer.GridCoordinate.Y) <= Program.Objects.MainPlayer.SightGridDistance) {
                 IsVisible = true;
             }
         }

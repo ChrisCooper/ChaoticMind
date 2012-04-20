@@ -14,7 +14,6 @@ namespace ChaoticMind {
 
         const int addShiftButtonXDist = 50;
 
-        MapManager _mapManager;
         MapTile[,] _tiles;
         SpriteBatch _spriteBatch;
 
@@ -26,14 +25,13 @@ namespace ChaoticMind {
 
         UIButton _addShiftToQueueButton;
 
-        internal void Initialize(MapManager mapManager, SpriteBatch spriteBatch) {
-            _mapManager = mapManager;
+        internal void Initialize(SpriteBatch spriteBatch) {
             _spriteBatch = spriteBatch;
         }
 
         internal void StartNewGame() {
 
-            _tiles = _mapManager.Tiles;
+            _tiles = Program.Objects.Map.Tiles;
 
             //Calculate the size of our interface
             int interfaceSideLength = Math.Min(Screen.Width, Screen.Height) - (2 * interfacePixelPadding);
@@ -92,7 +90,7 @@ namespace ChaoticMind {
 
         public void enqueueShift(UIButton button) {
             if (_pressedButton != null) {
-                _mapManager.queueShift(_pressedButton.Index, _pressedButton.Direction, DoorDirections.RandomDoors(), false);
+                Program.Objects.Map.queueShift(_pressedButton.Index, _pressedButton.Direction, DoorDirections.RandomDoors(), false);
                 _pressedButton.reset();
                 _pressedButton = null;
             }

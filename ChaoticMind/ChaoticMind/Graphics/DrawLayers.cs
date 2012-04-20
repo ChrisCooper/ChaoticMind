@@ -72,7 +72,7 @@ namespace ChaoticMind {
             public static float Minimap_normal_elements = 0.322f;
 
             /// <summary>
-            /// Player, collectibles, and other important elements
+            /// PlayerType, collectibles, and other important elements
             /// </summary>
             public static float Minimap_important_elements = 0.321f;
 

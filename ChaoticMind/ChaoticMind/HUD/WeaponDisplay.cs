@@ -36,15 +36,15 @@ namespace ChaoticMind.HUD {
             spriteBatch.Draw(_weaponFrameSprite.Texture, _weaponFrameRectangle, _weaponFrameSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _weaponFrameSprite.DrawLayer);
 
             //Ammo in clip
-            Vector2 ammoPosition = (Player.Instance.CurrentWeapon.RoundsLeftInClip < 10) ? _ammoLocation + singleDigitOffset : _ammoLocation;   
-                spriteBatch.DrawString(FontManager.DebugFont, string.Format("{0:0}", Player.Instance.CurrentWeapon.RoundsLeftInClip), ammoPosition, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, DrawLayers.HUD.Minimap_normal_elements);
+            Vector2 ammoPosition = (Program.Objects.MainPlayer.CurrentWeapon.RoundsLeftInClip < 10) ? _ammoLocation + singleDigitOffset : _ammoLocation;
+            spriteBatch.DrawString(FontManager.DebugFont, string.Format("{0:0}", Program.Objects.MainPlayer.CurrentWeapon.RoundsLeftInClip), ammoPosition, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, DrawLayers.HUD.Minimap_normal_elements);
 
             //Spare clips
-            Vector2 spareClipsPosition = (Player.Instance.CurrentWeapon.SpareClipsLeft < 10) ? _spareRoundsLocation + singleDigitOffset : _spareRoundsLocation;
-            spriteBatch.DrawString(FontManager.DebugFont, string.Format("{0:0}", Player.Instance.CurrentWeapon.SpareClipsLeft), spareClipsPosition, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, DrawLayers.HUD.Minimap_normal_elements);
+                Vector2 spareClipsPosition = (Program.Objects.MainPlayer.CurrentWeapon.SpareClipsLeft < 10) ? _spareRoundsLocation + singleDigitOffset : _spareRoundsLocation;
+            spriteBatch.DrawString(FontManager.DebugFont, string.Format("{0:0}", Program.Objects.MainPlayer.CurrentWeapon.SpareClipsLeft), spareClipsPosition, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, DrawLayers.HUD.Minimap_normal_elements);
 
             //Weapon picture
-            AnimatedSprite weaponSprite = Player.Instance.CurrentWeapon.WeaponType.HUD_Image;
+            AnimatedSprite weaponSprite = Program.Objects.MainPlayer.CurrentWeapon.WeaponType.HUD_Image;
             spriteBatch.Draw(weaponSprite.Texture, _weaponImageRectangle, weaponSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, weaponSprite.DrawLayer);
 
         }
