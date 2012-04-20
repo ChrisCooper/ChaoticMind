@@ -43,14 +43,6 @@ namespace ChaoticMind {
             base.Update(deltaTime);
         }
 
-        //drawing
-        public virtual void Draw(Camera mainCamera) {
-            mainCamera.Draw(this);
-        }
-        public virtual void DrawMiniMap(Camera mainCamera) {
-            mainCamera.DrawMinimap(this);
-        }
-
         //minimap stuff
         public virtual AnimatedSprite MapSprite {
             get { return _minimapSprite; }
@@ -70,7 +62,6 @@ namespace ChaoticMind {
 
         public float Alpha {
             get { return 1.0f; }
-
         }
 
         public virtual Vector2 MapPosition {

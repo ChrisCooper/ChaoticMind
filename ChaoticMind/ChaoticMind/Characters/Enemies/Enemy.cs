@@ -20,9 +20,8 @@ namespace ChaoticMind {
                 _currentHealth = 0;
                 return;
             }
-            
-                
-                base.Update(deltaTime);
+
+            base.Update(deltaTime);
         }
 
         //Use input (in the case of a controllable character)
