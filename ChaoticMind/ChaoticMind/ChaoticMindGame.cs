@@ -94,8 +94,7 @@ namespace ChaoticMind {
             _blackPx.SetData<uint>(px);
 
             InputManager.Initialize();
-            GameState.Initilize();
-            AIDirector.Initilize();
+
             SoundEffectManager.Initilize();
 
             //initial menu music
@@ -112,6 +111,7 @@ namespace ChaoticMind {
 
             LoseScreen.Initialize();
 
+            GameState.Initilize();
             StartNewGame();
 
             _shiftInterface.Initialize(_spriteBatch);
@@ -130,17 +130,12 @@ namespace ChaoticMind {
 
             //init the level
             GameState.StartNewGame(1, 3);
-
-            AIDirector.StartNewGame();
         }
 
         /// <summary>
         /// Undoes StartNewGame() so that a new game can be created.
         /// </summary>
         private void ClearGame() {
-
-
-            AIDirector.ClearGame();
             GameState.ClearGame();
             PainStaticMaker.ClearGame();
             LoseScreen.ClearGame();
@@ -168,15 +163,6 @@ namespace ChaoticMind {
             _startMenuScreen = new StaticSprite("Screens/StartMenuScreen", 1, DrawLayers.Menu.Backgrounds);
             _startMenuScreenOverlay = new StaticSprite("Screens/StartMenuScreenOverlay", 1, DrawLayers.Menu.Backgrounds);
             //_1pxBlack = new StaticSprite("1pxBlack", 1, DrawLayers.MenuBackgrounds);
-        }
-
-
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
-        protected override void UnloadContent() {
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>
@@ -229,8 +215,6 @@ namespace ChaoticMind {
             Objects.Update(deltaTime);
 
             PainStaticMaker.Update(deltaTime);
-
-            AIDirector.Update(deltaTime);
         }
 
         private void updateGameState() {
@@ -330,9 +314,6 @@ namespace ChaoticMind {
             /**** Draw HUD ****/
             _hudManager.Draw_HUD(_spriteBatch);
 
-            //Draw Minimap
-            AIDirector.DrawMinimap(Objects.MainCamera);
-
             Objects.DrawMinimap(Objects.MainCamera);
 
 
@@ -352,7 +333,6 @@ namespace ChaoticMind {
             }
             else if (GameState.Mode == GameState.GameMode.SHIFTING) {
                 _shiftInterface.Draw();
-                AIDirector.DrawOnShiftInterface(_shiftInterface);
                 Objects.DrawOnShiftInterface(_shiftInterface);
             }
 
@@ -386,9 +366,7 @@ namespace ChaoticMind {
         }
 
         private void drawObjects(GameTime gameTime) {
-            AIDirector.Draw(Objects.MainCamera);
-
-            Objects.DrawObjects(Objects.MainCamera);
+            Objects.DrawObjects(Objects.MainCamera);    
         }
 
         private void drawPauseOverlay() {

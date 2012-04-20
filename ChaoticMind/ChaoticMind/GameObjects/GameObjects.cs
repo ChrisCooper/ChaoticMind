@@ -11,7 +11,11 @@ namespace ChaoticMind {
         internal List<IGameObject> Particles { get; set; }
         internal List<IGameObject> Projectiles { get; set; }
         internal List<IGameObject> Collectables { get; set; }
+        internal List<IGameObject> Enemies { get; set; }
+
         internal Player MainPlayer;
+
+        internal AIDirector EnemyDirector { get; set; }
 
         internal MapManager Map { get; set; }
 
@@ -26,10 +30,15 @@ namespace ChaoticMind {
             Particles = new List<IGameObject>();
             Projectiles = new List<IGameObject>();
             Collectables = new List<IGameObject>();
+            Enemies = new List<IGameObject>();
+
             Map = new MapManager();
             Map.StartNewGame(mapDimension);
 
             MainPlayer = new Player(Vector2.Zero);
+
+            EnemyDirector = new AIDirector();
+            EnemyDirector.StartNewGame();
 
             MainCamera = new Camera(Vector2.Zero, 35.0f, Program.SharedGame.GraphicsDevice, Program.SharedGame.SpriteBatch);
             MainCamera.setTarget(MainPlayer.Body);
@@ -46,7 +55,12 @@ namespace ChaoticMind {
             Collectables.ForEach(c => c.WasCleared());
             Collectables.Clear();
 
+            Enemies.ForEach(e => e.WasCleared());
+            Enemies.Clear();
+
             Map.ClearGame();
+
+            EnemyDirector.ClearGame();
 
             MainPlayer.WasCleared();
             MainPlayer = null;
@@ -61,14 +75,18 @@ namespace ChaoticMind {
             Projectiles.ForEach(p => p.Update(deltaTime));
             Particles.ForEach(p => p.Update(deltaTime));
             Collectables.ForEach(c => c.Update(deltaTime));
+            Enemies.ForEach(e => e.Update(deltaTime));
+
             MainPlayer.Update(deltaTime);
             Map.Update(deltaTime);
+            EnemyDirector.Update(deltaTime);
 
             MainCamera.Update(deltaTime);
 
             Cull(Projectiles);
             Cull(Particles);
             Cull(Collectables);
+            Cull(Enemies);
         }
 
         void Cull(List<IGameObject> objects) {
@@ -87,6 +105,7 @@ namespace ChaoticMind {
             Particles.ForEach(p => camera.Draw(p));
             Projectiles.ForEach(p => camera.Draw(p));
             Collectables.ForEach(c => camera.Draw(c));
+            Enemies.ForEach(e => camera.Draw(e));
             camera.Draw(MainPlayer);
         }
 
@@ -95,6 +114,7 @@ namespace ChaoticMind {
             Particles.ForEach(p => camera.DrawGlow(p));
             Projectiles.ForEach(p => camera.DrawGlow(p));
             Collectables.ForEach(c => camera.DrawGlow(c));
+            Enemies.ForEach(e => camera.DrawGlow(e));
             camera.DrawGlow(MainPlayer);
         }
 
@@ -103,6 +123,7 @@ namespace ChaoticMind {
             Particles.ForEach(p => camera.DrawMinimap(p));
             Projectiles.ForEach(p => camera.DrawMinimap(p));
             Collectables.ForEach(c => camera.DrawMinimap(c));
+            Enemies.ForEach(e => camera.DrawMinimap(e));
             camera.DrawMinimap(MainPlayer);
         }
 
@@ -110,6 +131,7 @@ namespace ChaoticMind {
             Particles.ForEach(p => shiftInterface.drawOnOverlay(p));
             Projectiles.ForEach(p => shiftInterface.drawOnOverlay(p));
             Collectables.ForEach(c => shiftInterface.drawOnOverlay(c));
+            Enemies.ForEach(e => shiftInterface.drawOnOverlay(e));
             shiftInterface.drawOnOverlay(MainPlayer);
         }
     }

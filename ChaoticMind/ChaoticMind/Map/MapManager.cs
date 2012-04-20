@@ -161,7 +161,7 @@ namespace ChaoticMind {
             Program.Objects.MainCamera.shake();
 
             //spawn extra enemies
-            AIDirector.OnShift();
+            Program.Objects.EnemyDirector.OnShift();
 
             bool isPositiveShift = (dir == ShiftDirection.RIGHT || dir == ShiftDirection.DOWN);
 

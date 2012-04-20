@@ -53,7 +53,7 @@ namespace ChaoticMind {
                 }
             }
 
-            //set pixelsPerMeter ratio (no seperate x/y size, square/circular entities only)
+            //set pixelsPerMeter ratio (no seperate xAddition/yAddition size, square/circular entities only)
             _pixelsPerMeter = xSize / entitySize;
         }
 
