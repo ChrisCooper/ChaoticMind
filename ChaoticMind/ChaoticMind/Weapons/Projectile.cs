@@ -26,7 +26,7 @@ namespace ChaoticMind {
             _direction = (direction == Vector2.Zero) ?  direction : Vector2.Normalize(direction);
 
             //set up the body
-            _body = BodyFactory.CreateCircle(Program.SharedGame.MainWorld, _projectileType.Radius, _projectileType.Density);
+            _body = BodyFactory.CreateCircle(Program.Objects.PhysicsWorld, _projectileType.Radius, _projectileType.Density);
             _body.BodyType = BodyType.Dynamic;
             _body.LinearDamping = 0;
             _body.LinearVelocity = _direction * _projectileType.Speed;

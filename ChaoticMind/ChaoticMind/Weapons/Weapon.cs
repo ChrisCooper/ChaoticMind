@@ -83,7 +83,7 @@ namespace ChaoticMind {
                         float minFrac = float.MaxValue;
 
                         //Gets the position of the closest fixture on the ray path.
-                        Program.SharedGame.MainWorld.RayCast((fixture, point, normal, fraction) => {
+                        Program.Objects.PhysicsWorld.RayCast((fixture, point, normal, fraction) => {
 
                             //check for a valid fixture
                             if (fixture == null) return -1;

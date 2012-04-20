@@ -47,7 +47,7 @@ namespace ChaoticMind {
 
             _sprite = new StaticSprite(MapTileUtilities.appearanceStringFromDoorConfiguration(openDoors), TileSideLength, DrawLayers.GameElements.TileGround);
 
-            _body = new Body(Program.SharedGame.MainWorld);
+            _body = new Body(Program.Objects.PhysicsWorld);
             _body.Position = startingPosition;
             _body.BodyType = BodyType.Kinematic;
             _body.UserData = this;

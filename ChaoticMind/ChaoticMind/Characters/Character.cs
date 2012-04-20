@@ -37,10 +37,10 @@ namespace ChaoticMind {
 
             switch (characterType.ObjectShape) {
                 case ObjectShapes.RECTANGLE:
-                    _body = BodyFactory.CreateRectangle(Program.SharedGame.MainWorld, _characterType.PhysicalEntitySize, _characterType.PhysicalEntitySize, _characterType.Density);
+                    _body = BodyFactory.CreateRectangle(Program.Objects.PhysicsWorld, _characterType.PhysicalEntitySize, _characterType.PhysicalEntitySize, _characterType.Density);
                     break;
                 case ObjectShapes.CIRCLE:
-                    _body = BodyFactory.CreateCircle(Program.SharedGame.MainWorld, _characterType.PhysicalEntitySize / 2, _characterType.Density);
+                    _body = BodyFactory.CreateCircle(Program.Objects.PhysicsWorld, _characterType.PhysicalEntitySize / 2, _characterType.Density);
                     break;
             }
 

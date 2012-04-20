@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FarseerPhysics.Dynamics;
+using Microsoft.Xna.Framework;
 
 namespace ChaoticMind {
     class GameObjects {
@@ -12,8 +14,13 @@ namespace ChaoticMind {
 
         internal MapManager Map { get; set; }
 
+        internal World PhysicsWorld { get; set; }
+
 
         internal GameObjects() {
+            //Create the physics simulator object, specifying that we want no gravity (since we're top-down)
+            PhysicsWorld = new World(Vector2.Zero);
+            
             Particles = new List<IGameObject>();
             Projectiles = new List<IGameObject>();
             Collectables = new List<IGameObject>();
@@ -34,6 +41,9 @@ namespace ChaoticMind {
         }
 
         internal void Update(float deltaTime) {
+            //Update the FarseerPhysics physics
+            PhysicsWorld.Step(deltaTime);
+
             Projectiles.ForEach(p => p.Update(deltaTime));
             Particles.ForEach(p => p.Update(deltaTime));
             Collectables.ForEach(c => c.Update(deltaTime));

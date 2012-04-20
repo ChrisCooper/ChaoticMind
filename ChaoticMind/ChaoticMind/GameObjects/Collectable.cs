@@ -17,7 +17,7 @@ namespace ChaoticMind {
                 _collectibleType = collectibleType;
 
             //set up the body
-            _body = BodyFactory.CreateCircle(Program.SharedGame.MainWorld, collectibleType.Radius, 0.5f);
+            _body = BodyFactory.CreateCircle(Program.Objects.PhysicsWorld, collectibleType.Radius, 0.5f);
             _body.BodyType = BodyType.Kinematic;
             _body.AngularDamping = 0;
             _body.AngularVelocity = 5;

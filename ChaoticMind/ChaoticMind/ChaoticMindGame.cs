@@ -47,12 +47,6 @@ namespace ChaoticMind {
 
         FrameRateCounter _fpsCounter;
 
-        //Farseer physics simulator
-        World _world;
-        internal World MainWorld {
-            get { return _world; }
-        }
-
         //Draws the objects
         Camera _mainCamera;
         internal Camera MainCamera {
@@ -87,9 +81,6 @@ namespace ChaoticMind {
 
             MusicController.SharedContentManager = Content;
             SoundEffectManager.SharedContentManager = Content;
-
-            //Create the physics simulator object, specifying that we want no gravity (since we're top-down)
-            _world = new World(Vector2.Zero);
 
             _gameObjects = new GameObjects();
         }
@@ -273,9 +264,6 @@ namespace ChaoticMind {
             PainStaticMaker.Update(deltaTime);
 
             AIDirector.Update(deltaTime);
-
-            //Update the FarseerPhysics physics
-            _world.Step(deltaTime);
         }
 
         private void updateGameState() {

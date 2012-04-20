@@ -79,7 +79,7 @@ namespace ChaoticMind {
             }
 
             float halfLength = (_tiles.GetLength(0) / (float)2) * _tileSideLength;
-            _topLeftTilePosition = new Vector2(Screen.Center.X - halfLength + 0.5f * _tileSideLength , Screen.Center.Y - halfLength + 0.5f*_tileSideLength);
+            _topLeftTilePosition = new Vector2(Screen.Center.X - halfLength + 0.5f * _tileSideLength, Screen.Center.Y - halfLength + 0.5f * _tileSideLength);
 
 
             //Create the shift button
@@ -131,11 +131,13 @@ namespace ChaoticMind {
         }
 
         public void drawOnOverlay(IMiniMapable c) {
-            _spriteBatch.Draw(c.MapSprite.Texture, c.MapPosition / (float)MapTile.TileSideLength * _tileSideLength + _topLeftTilePosition, c.MapSprite.CurrentTextureBounds, Color.White, c.MapRotation, c.MapSprite.CurrentTextureOrigin, 1 / c.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, DrawLayers.Menu.HighlightElements);
+            if (c.MapSprite != null) {
+                _spriteBatch.Draw(c.MapSprite.Texture, c.MapPosition / (float)MapTile.TileSideLength * _tileSideLength + _topLeftTilePosition, c.MapSprite.CurrentTextureBounds, Color.White, c.MapRotation, c.MapSprite.CurrentTextureOrigin, 1 / c.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, DrawLayers.Menu.HighlightElements);
+            }
         }
 
         internal void ButtonWasPressed(ShiftButton pressedButton) {
-             if (_pressedButton != null) {
+            if (_pressedButton != null) {
                 _pressedButton.reset();
             }
             _pressedButton = pressedButton;

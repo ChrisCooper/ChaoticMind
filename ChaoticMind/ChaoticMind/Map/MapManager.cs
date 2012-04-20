@@ -121,7 +121,7 @@ namespace ChaoticMind {
                 if (SoundEffectManager.GetSoundState("shift") == SoundState.Playing) SoundEffectManager.StopSound("shift");
             }
 
-            NervePulseTimeCount += deltaTime;
+            NervePulseTimeCount += deltaTime*1000;
         }
 
         //TODO: probably not the most efficient way of doing it
