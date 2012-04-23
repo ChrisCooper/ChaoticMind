@@ -77,7 +77,7 @@ namespace ChaoticMind {
                         float minFrac = float.MaxValue;
 
                         //Gets the position of the closest fixture on the ray path.
-                        Program.Objects.PhysicsWorld.RayCast((fixture, point, normal, fraction) => {
+                        Program.DeprecatedObjects.PhysicsWorld.RayCast((fixture, point, normal, fraction) => {
 
                             //check for a valid fixture
                             if (fixture == null) return -1;
@@ -93,10 +93,10 @@ namespace ChaoticMind {
 
                         //create a particle at the place where the ray was stopped
                         if (pt != Vector2.Zero)
-                            Program.Objects.Projectiles.Add(new Projectile(pt, Vector2.Zero, _weaponType.ProjectileType));
+                            Program.DeprecatedObjects.Projectiles.Add(new Projectile(pt, Vector2.Zero, _weaponType.ProjectileType));
                     }
                     else { //use projectiles
-                        Program.Objects.Projectiles.Add(new Projectile(location + direction * (_weaponOwner.PhysicalEntitySize/1.8f + _weaponType.ProjectileType.Radius), currentSpreadSweepDirection, _weaponType.ProjectileType));
+                        Program.DeprecatedObjects.Projectiles.Add(new Projectile(location + direction * (_weaponOwner.PhysicalEntitySize/1.8f + _weaponType.ProjectileType.Radius), currentSpreadSweepDirection, _weaponType.ProjectileType));
                     }
 
                     //rotate the direction to shoot the next particle in

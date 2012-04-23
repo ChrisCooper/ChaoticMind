@@ -52,7 +52,7 @@ namespace ChaoticMind {
         public static void spawnNewObjective() {
             Collectable collectable = new Collectable( CollectibleType.ObjectiveType, MapManager.RandomPositionOnMap());
             _mainInstance._currCollectable = collectable;
-            Program.Objects.Collectables.Add(collectable);
+            Program.DeprecatedObjects.Collectables.Add(collectable);
         }
 
         public static void KillBoss() {
@@ -68,7 +68,7 @@ namespace ChaoticMind {
         internal static void ObjectiveWasCollected() {
             
             _mainInstance._numObjectsCollected++;
-            Program.Objects.MainPlayer.GoToFullHealth();
+            Program.DeprecatedObjects.MainPlayer.GoToFullHealth();
             if (_mainInstance._numObjectsCollected >= _mainInstance._numToCollect) {
                 _mainInstance._bossActive = true;
             }

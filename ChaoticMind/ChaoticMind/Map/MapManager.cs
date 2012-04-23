@@ -154,10 +154,10 @@ namespace ChaoticMind {
             _currShiftDir = dir;
             _currShiftIndex = index;
 
-            Program.Objects.MainCamera.shake();
+            Program.DeprecatedObjects.MainCamera.shake();
 
             //spawn extra enemies
-            Program.Objects.EnemyDirector.OnShift();
+            Program.DeprecatedObjects.EnemyDirector.OnShift();
 
             bool isPositiveShift = (dir == ShiftDirection.RIGHT || dir == ShiftDirection.DOWN);
 
@@ -295,7 +295,7 @@ namespace ChaoticMind {
         }
 
         internal static Vector2 RandomPositionOnMap() {
-            return MapTile.RandomPositionInTile(Utilities.randomInt(0, Program.Objects.Map.GridDimension), Utilities.randomInt(0, Program.Objects.Map.GridDimension));
+            return MapTile.RandomPositionInTile(Utilities.randomInt(0, Program.DeprecatedObjects.Map.GridDimension), Utilities.randomInt(0, Program.DeprecatedObjects.Map.GridDimension));
         }
     }
 }

@@ -20,11 +20,11 @@ namespace ChaoticMind {
 
         public static void Initialize() {
             _fadeInTimer = new Timer(FadeInDuration);
-            _deathSpriteScale = Screen.SmallestDimension / (float)_deathSprite.CurrentTextureBounds.Width;
+            _deathSpriteScale = ScreenUtils.SmallestDimension / (float)_deathSprite.CurrentTextureBounds.Width;
 
-            int barWidth = (Screen.Width - Screen.Height) / 2;
-            _leftSideRectangle = new Rectangle(0, 0, barWidth, Screen.Height);
-            _rightSideRectangle = new Rectangle(Screen.Width - barWidth, 0, barWidth, Screen.Height);
+            int barWidth = (ScreenUtils.Width - ScreenUtils.Height) / 2;
+            _leftSideRectangle = new Rectangle(0, 0, barWidth, ScreenUtils.Height);
+            _rightSideRectangle = new Rectangle(ScreenUtils.Width - barWidth, 0, barWidth, ScreenUtils.Height);
         }
 
         public static void ClearGame() {
@@ -38,11 +38,11 @@ namespace ChaoticMind {
         public static void Draw(SpriteBatch spriteBatch) {
 
             //Draw two rectangles on the sides of the lose sprite
-            spriteBatch.Draw(Program.SharedGame.BlackPx, _leftSideRectangle, Rectangle.Empty, Color.Black * _fadeInTimer.percentComplete, 0.0f, Vector2.Zero, SpriteEffects.None, DrawLayers.Menu.Backgrounds);
-            spriteBatch.Draw(Program.SharedGame.BlackPx, _rightSideRectangle, Rectangle.Empty, Color.Black * _fadeInTimer.percentComplete, 0.0f, Vector2.Zero, SpriteEffects.None, DrawLayers.Menu.Backgrounds);
+            spriteBatch.Draw(Program.DeprecatedGame.BlackPx, _leftSideRectangle, Rectangle.Empty, Color.Black * _fadeInTimer.percentComplete, 0.0f, Vector2.Zero, SpriteEffects.None, DrawLayers.Menu.Backgrounds);
+            spriteBatch.Draw(Program.DeprecatedGame.BlackPx, _rightSideRectangle, Rectangle.Empty, Color.Black * _fadeInTimer.percentComplete, 0.0f, Vector2.Zero, SpriteEffects.None, DrawLayers.Menu.Backgrounds);
 
             //Draw lose image
-            spriteBatch.Draw(_deathSprite.Texture, Screen.Center, _deathSprite.CurrentTextureBounds, Color.White * _fadeInTimer.percentComplete, 0.0f, _deathSprite.CurrentTextureOrigin, _deathSpriteScale, SpriteEffects.None, DrawLayers.Menu.Backgrounds - 0.001f);
+            spriteBatch.Draw(_deathSprite.Texture, ScreenUtils.Center, _deathSprite.CurrentTextureBounds, Color.White * _fadeInTimer.percentComplete, 0.0f, _deathSprite.CurrentTextureOrigin, _deathSpriteScale, SpriteEffects.None, DrawLayers.Menu.Backgrounds - 0.001f);
         }
 
         public static bool TimerFinished() {

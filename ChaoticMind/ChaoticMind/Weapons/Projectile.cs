@@ -26,7 +26,7 @@ namespace ChaoticMind {
             _direction = (direction == Vector2.Zero) ?  direction : Vector2.Normalize(direction);
 
             //set up the body
-            _body = BodyFactory.CreateCircle(Program.Objects.PhysicsWorld, _projectileType.Radius, _projectileType.Density);
+            _body = BodyFactory.CreateCircle(Program.DeprecatedObjects.PhysicsWorld, _projectileType.Radius, _projectileType.Density);
             _body.BodyType = BodyType.Dynamic;
             _body.LinearDamping = 0;
             _body.LinearVelocity = _direction * _projectileType.Speed;
@@ -53,7 +53,7 @@ namespace ChaoticMind {
             _lifetimeTimer.Finish();
 
             //Check if the object is even an IDamageable, and not the player
-            if (hitObject == null || hitObject == Program.Objects.MainPlayer) {
+            if (hitObject == null || hitObject == Program.DeprecatedObjects.MainPlayer) {
                 return true;
             }
 
@@ -70,7 +70,7 @@ namespace ChaoticMind {
         public override void WasKilled() {
             WasCleared();
             if (_projectileType.DeathParticle != null) {
-                Program.Objects.Particles.Add(new Particle(Position, (float)Utilities.randomDouble(), _projectileType.DeathParticle));
+                Program.DeprecatedObjects.Particles.Add(new Particle(Position, (float)Utilities.randomDouble(), _projectileType.DeathParticle));
             }
         }
 

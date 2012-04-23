@@ -40,7 +40,7 @@ namespace ChaoticMind {
             EnemyDirector = new AIDirector();
             EnemyDirector.StartNewGame();
 
-            MainCamera = new Camera(Vector2.Zero, 35.0f, Program.SharedGame.GraphicsDevice, Program.SharedGame.SpriteBatch);
+            MainCamera = new Camera(Vector2.Zero, 35.0f, Program.DeprecatedGame.GraphicsDevice, Program.DeprecatedGame.SpriteBatch);
             MainCamera.setTarget(MainPlayer.Body);
             MainCamera.StartNewGame();
         }

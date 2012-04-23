@@ -32,15 +32,15 @@ namespace ChaoticMind {
         protected override void performTypeUniqueMovements(float deltaTime) {
             _attackTimer.Update(deltaTime);
 
-            if (_attackTimer.isFinished && Vector2.Distance(Program.Objects.MainPlayer.Position, Position) <= _range && Program.Objects.MainPlayer.GridCoordinate == GridCoordinate) {
-                Program.Objects.MainPlayer.ApplyDamage(_characterType.MainAttackDamage);
+            if (_attackTimer.isFinished && Vector2.Distance(Program.DeprecatedObjects.MainPlayer.Position, Position) <= _range && Program.DeprecatedObjects.MainPlayer.GridCoordinate == GridCoordinate) {
+                Program.DeprecatedObjects.MainPlayer.ApplyDamage(_characterType.MainAttackDamage);
                 _attackTimer.Reset();
-                Program.Objects.Particles.Add(new Particle(Position, Utilities.AngleTowards(Position, Program.Objects.MainPlayer.Position), ParticleType.SwarmerAttack));
+                Program.DeprecatedObjects.Particles.Add(new Particle(Position, Utilities.AngleTowards(Position, Program.DeprecatedObjects.MainPlayer.Position), ParticleType.SwarmerAttack));
             }
         }
 
         protected override void DropDeathParticle() {
-            Program.Objects.Particles.Add(new Particle(Position, (float)(Utilities.randomDouble() * Math.PI * 2), _characterType.DeathParticle));
+            Program.DeprecatedObjects.Particles.Add(new Particle(Position, (float)(Utilities.randomDouble() * Math.PI * 2), _characterType.DeathParticle));
         }
 
         public static float AttackRange { get { return _range; } }

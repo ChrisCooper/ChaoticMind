@@ -14,7 +14,7 @@ namespace ChaoticMind {
         }
 
         public override void Update(float deltaTime) {
-            Vector2 playerDist = GridCoordinate - Program.Objects.MainPlayer.GridCoordinate;
+            Vector2 playerDist = GridCoordinate - Program.DeprecatedObjects.MainPlayer.GridCoordinate;
 
             if (Math.Abs(playerDist.X) > distanceLimitToPlayer || Math.Abs(playerDist.Y) > distanceLimitToPlayer) {
                 _currentHealth = 0;
@@ -27,8 +27,8 @@ namespace ChaoticMind {
         //Use input (in the case of a controllable character)
         // or an AI routine to decide what direction this character should try to face, and move
         protected override void decideOnMovementTargets() {
-            LocationToMoveToward = Program.Objects.MainPlayer.Position + Utilities.randomNormalizedVector() * 50.0f;
-            LocationToFace = Program.Objects.MainPlayer.Position;
+            LocationToMoveToward = Program.DeprecatedObjects.MainPlayer.Position + Utilities.randomNormalizedVector() * 50.0f;
+            LocationToFace = Program.DeprecatedObjects.MainPlayer.Position;
         }
     }
 }

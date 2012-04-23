@@ -12,7 +12,7 @@ namespace ChaoticMind {
 
         static FontManager() {
 
-            DebugFont = Program.SharedGame.Content.Load<SpriteFont>("DebugFont");
+            DebugFont = Program.DeprecatedGame.Content.Load<SpriteFont>("DebugFont");
 
         }
     }

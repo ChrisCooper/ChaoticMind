@@ -17,7 +17,7 @@ namespace ChaoticMind {
                 _collectibleType = collectibleType;
 
             //set up the body
-            _body = BodyFactory.CreateCircle(Program.Objects.PhysicsWorld, collectibleType.Radius, 0.5f);
+            _body = BodyFactory.CreateCircle(Program.DeprecatedObjects.PhysicsWorld, collectibleType.Radius, 0.5f);
             _body.BodyType = BodyType.Kinematic;
             _body.AngularDamping = 0;
             _body.AngularVelocity = 5;
@@ -34,14 +34,14 @@ namespace ChaoticMind {
         public override void Update(float deltaTime) {
             base.Update(deltaTime);
             if (_collectibleType == CollectibleType.ObjectiveType && MapTile.isOutOfBounds(Position)) {
-                Program.Objects.MainPlayer.ApplyDamage(50);
+                Program.DeprecatedObjects.MainPlayer.ApplyDamage(50);
                 _shouldBeKilledFlag = true;
                 GameState.spawnNewObjective();
             }
         }
 
         bool _body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact) {
-            if (fixtureB.Body.UserData == Program.Objects.MainPlayer) {
+            if (fixtureB.Body.UserData == Program.DeprecatedObjects.MainPlayer) {
                 _shouldBeKilledFlag = true;
                 if (_collectibleType == CollectibleType.ObjectiveType) {
                     GameState.ObjectiveWasCollected();

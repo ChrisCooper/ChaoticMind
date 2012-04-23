@@ -38,7 +38,7 @@ namespace ChaoticMind {
         }
 
         public static void DrawStatic(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(_staticSprite.Texture, Screen.ScreenRect, _staticSprite.CurrentTextureBounds, Color.White * _opacity);
+            spriteBatch.Draw(_staticSprite.Texture, ScreenUtils.ScreenRect, _staticSprite.CurrentTextureBounds, Color.White * _opacity);
         }
 
         public static void ClearGame() {

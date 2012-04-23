@@ -47,7 +47,7 @@ namespace ChaoticMind {
 
             _sprite = new StaticSprite(MapTileUtilities.appearanceStringFromDoorConfiguration(openDoors), TileSideLength, DrawLayers.GameElements.TileGround);
 
-            _body = new Body(Program.Objects.PhysicsWorld);
+            _body = new Body(Program.DeprecatedObjects.PhysicsWorld);
             _body.Position = startingPosition;
             _body.BodyType = BodyType.Kinematic;
             _body.UserData = this;
@@ -89,8 +89,8 @@ namespace ChaoticMind {
                 }
             }
 
-            if (Math.Abs(GridCoordinate.X - Program.Objects.MainPlayer.GridCoordinate.X) <= Program.Objects.MainPlayer.SightGridDistance &&
-                Math.Abs(GridCoordinate.Y - Program.Objects.MainPlayer.GridCoordinate.Y) <= Program.Objects.MainPlayer.SightGridDistance) {
+            if (Math.Abs(GridCoordinate.X - Program.DeprecatedObjects.MainPlayer.GridCoordinate.X) <= Program.DeprecatedObjects.MainPlayer.SightGridDistance &&
+                Math.Abs(GridCoordinate.Y - Program.DeprecatedObjects.MainPlayer.GridCoordinate.Y) <= Program.DeprecatedObjects.MainPlayer.SightGridDistance) {
                 IsVisible = true;
             }
         }
@@ -130,7 +130,7 @@ namespace ChaoticMind {
             return isOutOfBoundsGrid(GridPositionForWorldCoordinates(position));
         }
         public static bool isOutOfBoundsGrid(Vector2 gridCoord) {
-            return gridCoord.X < 0 || gridCoord.X >= Program.Objects.Map.GridDimension || gridCoord.Y < 0 || gridCoord.Y >= Program.Objects.Map.GridDimension;
+            return gridCoord.X < 0 || gridCoord.X >= Program.DeprecatedObjects.Map.GridDimension || gridCoord.Y < 0 || gridCoord.Y >= Program.DeprecatedObjects.Map.GridDimension;
         }
 
 

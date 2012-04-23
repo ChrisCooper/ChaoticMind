@@ -42,7 +42,7 @@ namespace ChaoticMind {
             LocationToMoveToward = PathFinder.NextLocationForPathToPlayer(Position, true).ImmediateDestination;
             LocationToMoveToward += Utilities.randomNormalizedVector() * movement_jitteriness;
 
-            LocationToFace = Program.Objects.MainPlayer.Position;
+            LocationToFace = Program.DeprecatedObjects.MainPlayer.Position;
         }
 
         protected override void performTypeUniqueMovements(float deltaTime) {
@@ -52,7 +52,7 @@ namespace ChaoticMind {
             }
 
             if (Utilities.randomDouble() < lunge_chance) {
-                lunge(Program.Objects.MainPlayer.Position, deltaTime);
+                lunge(Program.DeprecatedObjects.MainPlayer.Position, deltaTime);
             }
         }
 

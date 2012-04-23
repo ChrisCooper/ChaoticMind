@@ -37,10 +37,10 @@ namespace ChaoticMind {
 
             switch (characterType.ObjectShape) {
                 case ObjectShapes.RECTANGLE:
-                    _body = BodyFactory.CreateRectangle(Program.Objects.PhysicsWorld, _characterType.PhysicalEntitySize, _characterType.PhysicalEntitySize, _characterType.Density);
+                    _body = BodyFactory.CreateRectangle(Program.DeprecatedObjects.PhysicsWorld, _characterType.PhysicalEntitySize, _characterType.PhysicalEntitySize, _characterType.Density);
                     break;
                 case ObjectShapes.CIRCLE:
-                    _body = BodyFactory.CreateCircle(Program.Objects.PhysicsWorld, _characterType.PhysicalEntitySize / 2, _characterType.Density);
+                    _body = BodyFactory.CreateCircle(Program.DeprecatedObjects.PhysicsWorld, _characterType.PhysicalEntitySize / 2, _characterType.Density);
                     break;
             }
 
@@ -88,7 +88,7 @@ namespace ChaoticMind {
         }
 
         protected virtual void DropDeathParticle() {
-            Program.Objects.Particles.Add(new Particle(Position, Rotation, _characterType.DeathParticle));
+            Program.DeprecatedObjects.Particles.Add(new Particle(Position, Rotation, _characterType.DeathParticle));
         }
 
         //for e.g. ranged units move back if too close, parasites who lunge, etc.

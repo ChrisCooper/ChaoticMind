@@ -31,10 +31,10 @@ namespace ChaoticMind {
 
         internal void StartNewGame() {
 
-            _tiles = Program.Objects.Map.Tiles;
+            _tiles = Program.DeprecatedObjects.Map.Tiles;
 
             //Calculate the size of our interface
-            int interfaceSideLength = Math.Min(Screen.Width, Screen.Height) - (2 * interfacePixelPadding);
+            int interfaceSideLength = Math.Min(ScreenUtils.Width, ScreenUtils.Height) - (2 * interfacePixelPadding);
 
             //Add 2 for the buttons on each end
             int gridSideIndexDimension = _tiles.GetLength(0) + 2;
@@ -52,8 +52,8 @@ namespace ChaoticMind {
             //Length to the edge of the map tiles
             float shortLength = longLength - _tileSideLength;
 
-            float leftX = Screen.Center.X - longLength;
-            float topY = Screen.Center.Y - longLength;
+            float leftX = ScreenUtils.Center.X - longLength;
+            float topY = ScreenUtils.Center.Y - longLength;
             float leftOfRightX = leftX + (gridSideIndexDimension - 1) * _tileSideLength;
             float topOfBottomY = topY + (gridSideIndexDimension - 1) * _tileSideLength;
 
@@ -77,11 +77,11 @@ namespace ChaoticMind {
             }
 
             float halfLength = (_tiles.GetLength(0) / (float)2) * _tileSideLength;
-            _topLeftTilePosition = new Vector2(Screen.Center.X - halfLength + 0.5f * _tileSideLength, Screen.Center.Y - halfLength + 0.5f * _tileSideLength);
+            _topLeftTilePosition = new Vector2(ScreenUtils.Center.X - halfLength + 0.5f * _tileSideLength, ScreenUtils.Center.Y - halfLength + 0.5f * _tileSideLength);
 
 
             //Create the shift button
-            Rectangle shiftButtonRect = new Rectangle((int)(Screen.ScreenRect.Right - 300), 200, 250, 125);
+            Rectangle shiftButtonRect = new Rectangle((int)(ScreenUtils.ScreenRect.Right - 300), 200, 250, 125);
             StaticSprite normalSprite = new StaticSprite("Shifting/AddShiftButton", 1.0f, DrawLayers.Menu.Elements);
             StaticSprite pressedSprite = new StaticSprite("Shifting/AddShiftButtonPressed", 1.0f, DrawLayers.Menu.Elements);
             _addShiftToQueueButton = new UIButton(shiftButtonRect, 0.0f, normalSprite, pressedSprite);
@@ -90,7 +90,7 @@ namespace ChaoticMind {
 
         public void enqueueShift(UIButton button) {
             if (_pressedButton != null) {
-                Program.Objects.Map.queueShift(_pressedButton.Index, _pressedButton.Direction, DoorDirections.RandomDoors(), false);
+                Program.DeprecatedObjects.Map.queueShift(_pressedButton.Index, _pressedButton.Direction, DoorDirections.RandomDoors(), false);
                 _pressedButton.reset();
                 _pressedButton = null;
             }

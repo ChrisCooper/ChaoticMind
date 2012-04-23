@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace ChaoticMind {
-    class Screen {
+    class ScreenUtils {
 
         internal static void Initialize(Microsoft.Xna.Framework.GraphicsDeviceManager graphics, bool goFullscreen) {
             Width = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;

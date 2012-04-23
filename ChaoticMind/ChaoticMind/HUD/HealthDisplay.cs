@@ -20,7 +20,7 @@ namespace ChaoticMind.HUD {
             _healthSprite = new StaticSprite("HUD/HealthBar", 1.0f, DrawLayers.HUD.Dynamic_Info);
             _healthFrameSprite = new StaticSprite("HUD/Health_Frame", 1.0f, DrawLayers.HUD.Backgrounds);
 
-            float healthFrameSpriteWidth = Screen.Width / 2.0f;
+            float healthFrameSpriteWidth = ScreenUtils.Width / 2.0f;
             float healthFrameSpriteHeight = _healthFrameSprite.Texture.Height / 3;
 
             //To be used with the spriteBatch.Draw() call
@@ -29,7 +29,7 @@ namespace ChaoticMind.HUD {
             float healthFrameWidth = healthFrameSpriteWidth * _healthFrameWidthFraction;
             float healthFrameHeight = healthFrameSpriteHeight * _healthFrameHeightFraction;
 
-            _healthFrameRect = new Rectangle((int)(Screen.Width / 4.0f), 10, (int)healthFrameSpriteWidth, (int)healthFrameSpriteHeight);
+            _healthFrameRect = new Rectangle((int)(ScreenUtils.Width / 4.0f), 10, (int)healthFrameSpriteWidth, (int)healthFrameSpriteHeight);
 
             _healthRect = new Rectangle((int)(_healthFrameRect.Left + healthFrameWidth), (int)(_healthFrameRect.Top + healthFrameHeight), (int)(_healthFrameRect.Width - 2 * healthFrameWidth), (int)(_healthFrameRect.Height - 2 * healthFrameHeight));
 
@@ -39,7 +39,7 @@ namespace ChaoticMind.HUD {
             //Health frame
             spriteBatch.Draw(_healthFrameSprite.Texture, _healthFrameRect, _healthFrameSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _healthFrameSprite.DrawLayer);
             //Health bar
-            spriteBatch.Draw(_healthSprite.Texture, new Rectangle(_healthRect.Left, _healthRect.Top, (int)(Program.Objects.MainPlayer.PercentHealth * _healthRect.Width), _healthRect.Height), _healthSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _healthSprite.DrawLayer);
+            spriteBatch.Draw(_healthSprite.Texture, new Rectangle(_healthRect.Left, _healthRect.Top, (int)(Program.DeprecatedObjects.MainPlayer.PercentHealth * _healthRect.Width), _healthRect.Height), _healthSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _healthSprite.DrawLayer);
 
         }
     }
