@@ -20,7 +20,7 @@ namespace ChaoticMind.FullMenuScreens {
 
         public FrontMenu() {
             _background = new StaticSprite("Screens/StartMenuScreen", 1, DrawLayers.Menu.Backgrounds);
-            _overlay = new StaticSprite("Screens/StartMenuScreenOverlay", 1, DrawLayers.Menu.Backgrounds);
+            _overlay = new StaticSprite("Screens/StartMenuScreenOverlay", 1, DrawLayers.Menu.Backgrounds -0.01f);
         }
 
         public void Update(float deltaTime) {
@@ -28,13 +28,11 @@ namespace ChaoticMind.FullMenuScreens {
         }
 
         public void Draw(float deltaTime) {
-
-            float mapFrameSideLength = Math.Min(ScreenUtils.Width, ScreenUtils.Height);
-            float mapFrameScale = mapFrameSideLength / _background.Texture.Bounds.Width;
-            Rectangle mapFrameRect = new Rectangle((int)(ScreenUtils.Width - mapFrameSideLength) / 2, (int)(ScreenUtils.Height - mapFrameSideLength), (int)mapFrameSideLength, (int)mapFrameSideLength);
-
-            Program.SpriteBatch.Draw(_background.Texture, mapFrameRect, _background.CurrentTextureBounds, Color.White, 0, Vector2.Zero, SpriteEffects.None, DrawLayers.Menu.Backgrounds - 0.002f);
-            Program.SpriteBatch.Draw(_overlay.Texture, mapFrameRect, _overlay.CurrentTextureBounds, Color.White * 0.5f * ((float)(Math.Sin(_pulseTime / 500.0f) + 1.0f) + 0.5f), 0, Vector2.Zero, SpriteEffects.None, DrawLayers.Menu.Backgrounds - 0.003f);
+            Program.SpriteBatch.Draw(_background.Texture, ScreenUtils.BiggestSquare, _background.CurrentTextureBounds, Color.White, 0, Vector2.Zero, SpriteEffects.None, _background.DrawLayer);
+            float overlayOpacity = 0.5f * ((float)(Math.Sin(_pulseTime / 500.0f) + 0.6f) + 0.5f);
+            Program.SpriteBatch.Draw(_overlay.Texture, ScreenUtils.BiggestSquare, _overlay.CurrentTextureBounds, Color.White * overlayOpacity, 0, Vector2.Zero, SpriteEffects.None, _overlay.DrawLayer);
+            //Program.SpriteBatch.Draw(_background.Texture, mapFrameRect, _background.CurrentTextureBounds, Color.White, 0, Vector2.Zero, SpriteEffects.None, DrawLayers.Menu.Backgrounds - 0.002f);
+            //Program.SpriteBatch.Draw(_overlay.Texture, mapFrameRect, _overlay.CurrentTextureBounds, Color.White * 0.5f * ((float)(Math.Sin(_pulseTime / 500.0f) + 1.0f) + 0.5f), 0, Vector2.Zero, SpriteEffects.None, DrawLayers.Menu.Backgrounds - 0.003f);
         
         }
 
