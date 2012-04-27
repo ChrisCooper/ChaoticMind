@@ -161,7 +161,7 @@ namespace ChaoticMind {
 
             switch (GameState.Mode) {
                 case GameState.GameMode.PREGAME:
-                    if (InputManager.IsMouseClicked()) {
+                    if (InputManager.IsMouseClicked) {
                         GameState.Mode = GameState.GameMode.NORMAL;
                     }
                     break;
@@ -181,7 +181,7 @@ namespace ChaoticMind {
                      }
                     break;
                 case GameState.GameMode.GAMEOVERWIN:
-                    if (InputManager.IsMouseClicked()) {
+                    if (InputManager.IsMouseClicked) {
                         ResetGame();
                         GameState.Mode = GameState.GameMode.PREGAME;
                     }
@@ -191,7 +191,7 @@ namespace ChaoticMind {
                     Objects.MainCamera.Update(deltaTime);
                     PainStaticMaker.Update(deltaTime);
 
-                    if (LoseScreen.TimerFinished() && InputManager.IsMouseClicked()) {
+                    if (LoseScreen.TimerFinished() && InputManager.IsMouseClicked) {
                         ResetGame();
                         GameState.Mode = GameState.GameMode.PREGAME;
                     }

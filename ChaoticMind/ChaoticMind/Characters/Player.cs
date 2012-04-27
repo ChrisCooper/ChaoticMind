@@ -62,7 +62,7 @@ namespace ChaoticMind {
             _body.ApplyLinearImpulse(movementVector * deltaTime);
 
             //shooting
-            if (InputManager.IsMouseDown()) {
+            if (InputManager.IsMouseDown) {
                 Shoot();
             }
 

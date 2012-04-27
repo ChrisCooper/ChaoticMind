@@ -39,12 +39,13 @@ namespace ChaoticMind {
             return _curKeyState.IsKeyDown(k) && !_oldKeyState.IsKeyDown(k);
         }
 
-        public static bool IsMouseDown() {
-            return _curMouseState.LeftButton == ButtonState.Pressed;
+        public static bool IsMouseDown {
+            get { return _curMouseState.LeftButton == ButtonState.Pressed; }
         }
-        public static bool IsMouseClicked() {
-            //up this time, but not last
-            return (!(_curMouseState.LeftButton == ButtonState.Pressed)) && (_oldMouseState.LeftButton == ButtonState.Pressed);
+        public static bool IsMouseClicked {
+            get { //up this time, but not last
+                return (!(_curMouseState.LeftButton == ButtonState.Pressed)) && (_oldMouseState.LeftButton == ButtonState.Pressed);
+            }
         }
     }
 }

@@ -33,7 +33,7 @@ namespace ChaoticMind {
 
             switch (type) {
                 case MouseType.POINTER:
-                    sprite = InputManager.IsMouseDown() ? _mouseClicked : _mouse;
+                    sprite = InputManager.IsMouseDown ? _mouseClicked : _mouse;
                     break;
                 case MouseType.REDICAL:
                     sprite = _retical;

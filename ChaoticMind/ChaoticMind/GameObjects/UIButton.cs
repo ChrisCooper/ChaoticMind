@@ -42,12 +42,12 @@ namespace ChaoticMind {
 
         internal void Update(float deltaTime) {
             if (mouseIsOverSelf()) {
-                if (InputManager.IsMouseClicked()) {
+                if (InputManager.IsMouseClicked) {
                     if (_signalButtonClick != null) {
                         _signalButtonClick(this);
                     }
                 }
-                else if (InputManager.IsMouseDown()) {
+                else if (InputManager.IsMouseDown) {
                     _state = UIButtonState.PRESSED;
                 }
                 else {
