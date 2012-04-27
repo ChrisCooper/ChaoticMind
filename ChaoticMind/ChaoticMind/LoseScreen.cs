@@ -10,18 +10,19 @@ namespace ChaoticMind {
 
         const float FadeInDuration = 3.0f;
 
-        static StaticSprite _deathSprite = new StaticSprite("Screens/DeathScreen", 1, DrawLayers.Menu.Backgrounds);
+        StaticSprite _deathSprite;
 
-        static Timer _fadeInTimer;
+        Timer _fadeInTimer;
 
-        private static float _deathSpriteScale;
-        static Rectangle _leftSideRectangle;
-        static Rectangle _rightSideRectangle;
+        private float _deathSpriteScale;
+        Rectangle _leftSideRectangle;
+        Rectangle _rightSideRectangle;
 
         Texture2D _blackPx;
 
-        public static void Initialize() {
+        public LoseScreen() {
             _fadeInTimer = new Timer(FadeInDuration);
+            _deathSprite = new StaticSprite("Screens/DeathScreen", 1, DrawLayers.Menu.Backgrounds);
             _deathSpriteScale = ScreenUtils.SmallestDimension / (float)_deathSprite.CurrentTextureBounds.Width;
 
             int barWidth = (ScreenUtils.Width - ScreenUtils.Height) / 2;
@@ -34,25 +35,25 @@ namespace ChaoticMind {
             _blackPx.SetData<uint>(px);
         }
 
-        public static void ClearGame() {
+        public void ClearGame() {
             _fadeInTimer.Reset();
         }
 
-        public static void Update(float deltaTime) {
+        public void Update(float deltaTime) {
             _fadeInTimer.Update(deltaTime);
         }
 
-        public static void Draw() {
+        public void Draw() {
 
             //Draw two rectangles on the sides of the lose sprite
-            Program.SpriteBatch.Draw(Program.DeprecatedGame.BlackPx, _leftSideRectangle, Rectangle.Empty, Color.Black * _fadeInTimer.percentComplete, 0.0f, Vector2.Zero, SpriteEffects.None, DrawLayers.Menu.Backgrounds);
-            Program.SpriteBatch.Draw(Program.DeprecatedGame.BlackPx, _rightSideRectangle, Rectangle.Empty, Color.Black * _fadeInTimer.percentComplete, 0.0f, Vector2.Zero, SpriteEffects.None, DrawLayers.Menu.Backgrounds);
+            Program.SpriteBatch.Draw(_blackPx, _leftSideRectangle, Rectangle.Empty, Color.Black * _fadeInTimer.percentComplete, 0.0f, Vector2.Zero, SpriteEffects.None, DrawLayers.Menu.Backgrounds);
+            Program.SpriteBatch.Draw(_blackPx, _rightSideRectangle, Rectangle.Empty, Color.Black * _fadeInTimer.percentComplete, 0.0f, Vector2.Zero, SpriteEffects.None, DrawLayers.Menu.Backgrounds);
 
             //Draw lose image
             Program.SpriteBatch.Draw(_deathSprite.Texture, ScreenUtils.Center, _deathSprite.CurrentTextureBounds, Color.White * _fadeInTimer.percentComplete, 0.0f, _deathSprite.CurrentTextureOrigin, _deathSpriteScale, SpriteEffects.None, DrawLayers.Menu.Backgrounds - 0.001f);
         }
 
-        public static bool TimerFinished() {
+        public bool TimerFinished() {
             return _fadeInTimer.isFinished;
         }
     }

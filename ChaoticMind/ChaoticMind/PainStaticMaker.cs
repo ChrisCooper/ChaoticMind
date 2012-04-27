@@ -29,12 +29,7 @@ namespace ChaoticMind {
             _painMagnitude *= _painFalloff;
             _staticSprite.Update(deltaTime);
 
-
-            if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
-                _opacity = Math.Min(1.0f, _opacity + _deathFadeInSpeed);
-            } else {
-               _opacity = Math.Min(0.5f, _painMagnitude);
-            }
+            _opacity = Math.Min(0.5f, _painMagnitude);
         }
 
         public static void DrawStatic() {

@@ -33,10 +33,10 @@ namespace ChaoticMind {
 
         public override void Update(float deltaTime) {
             base.Update(deltaTime);
-            if (_collectibleType == CollectibleType.ObjectiveType && MapTile.isOutOfBounds(Position)) {
+            if (_collectibleType == CollectibleType.ObjectiveType && IsOutOfBounds) {
                 _owner.MainPlayer.ApplyDamage(50);
                 _shouldBeKilledFlag = true;
-                GameState.spawnNewObjective();
+                //TODO: spawn objective
             }
         }
 
@@ -44,7 +44,7 @@ namespace ChaoticMind {
             if (fixtureB.Body.UserData == _owner.MainPlayer) {
                 _shouldBeKilledFlag = true;
                 if (_collectibleType == CollectibleType.ObjectiveType) {
-                    GameState.ObjectiveWasCollected();
+                    //TODO: spawn objective
                 }
             }
             return false;

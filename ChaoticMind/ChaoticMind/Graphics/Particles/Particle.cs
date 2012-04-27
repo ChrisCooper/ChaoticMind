@@ -15,7 +15,10 @@ namespace ChaoticMind {
 
         Timer _fadeOutTimer;
 
-        public Particle(Vector2 startingPosition, float rotation, ParticleType particleType) {
+        GameObjects _owner;
+
+        public Particle(GameObjects owner, Vector2 startingPosition, float rotation, ParticleType particleType) {
+            _owner = owner;
             _position = startingPosition;
             _rotation = rotation;
             _particleType = particleType;
@@ -31,8 +34,8 @@ namespace ChaoticMind {
         }
         public void Update(float deltaTime) {
             //shift the object
-            if (Program.DeprecatedObjects.Map.isShifting(_position)) {
-                _position += Program.DeprecatedObjects.Map.shiftAmount() * deltaTime;
+            if (_owner.Map.isShifting(_position)) {
+                _position += _owner.Map.shiftAmount() * deltaTime;
             }
             if (_sprite != null) {
                 _sprite.Update(deltaTime);

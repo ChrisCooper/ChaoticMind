@@ -54,8 +54,11 @@ namespace ChaoticMind {
         int _currShiftIndex;
         ShiftDirection _currShiftDir;
 
+        GameObjects _objectsOwner;
+
         //constructor
-        public MapManager() {
+        public MapManager(GameObjects objectsOwner) {
+            _objectsOwner = objectsOwner;
             _shiftQueue = new LinkedList<MapShift>();
         }
 
@@ -69,7 +72,7 @@ namespace ChaoticMind {
 
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
-                    _tiles[x, y] = new MapTile(MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors(), false);
+                    _tiles[x, y] = new MapTile(_objectsOwner, MapTile.WorldPositionForGridCoordinates(x, y), DoorDirections.RandomDoors(), false);
                 }
             }
             //initially set the overlays
@@ -154,10 +157,10 @@ namespace ChaoticMind {
             _currShiftDir = dir;
             _currShiftIndex = index;
 
-            Program.DeprecatedObjects.MainCamera.shake();
+            _objectsOwner.MainCamera.shake();
 
             //spawn extra enemies
-            Program.DeprecatedObjects.EnemyDirector.OnShift();
+            _objectsOwner.EnemyDirector.OnShift();
 
             bool isPositiveShift = (dir == ShiftDirection.RIGHT || dir == ShiftDirection.DOWN);
 
@@ -181,7 +184,7 @@ namespace ChaoticMind {
 
                 //set the location of the tile that was pushed in a move it into place
                 //TODO: don't reassign this. pass it in.
-                MapTile pushingTile = new MapTile(MapTile.WorldPositionForGridCoordinates(shiftEnd + shiftInc, index), newTileDoors, false);
+                MapTile pushingTile = new MapTile(_objectsOwner, MapTile.WorldPositionForGridCoordinates(shiftEnd + shiftInc, index), newTileDoors, false);
                 _tiles[shiftEnd, index] = pushingTile;
                 shiftTile(pushingTile, shiftEnd, index);
             }
@@ -201,7 +204,7 @@ namespace ChaoticMind {
 
                 //set the location of the tile that was pushed in a move it into place
                 //TODO: don't reassign this. pass it in.
-                MapTile pushingTile = new MapTile(MapTile.WorldPositionForGridCoordinates(index, shiftEnd + shiftInc), newTileDoors, false);
+                MapTile pushingTile = new MapTile(_objectsOwner, MapTile.WorldPositionForGridCoordinates(index, shiftEnd + shiftInc), newTileDoors, false);
                 _tiles[index, shiftEnd] = pushingTile;
                 shiftTile(pushingTile, index, shiftEnd);
             }
@@ -298,8 +301,16 @@ namespace ChaoticMind {
             return _tiles[_currShiftIndex, _currShiftIndex].Velocity;
         }
 
-        internal static Vector2 RandomPositionOnMap() {
-            return MapTile.RandomPositionInTile(Utilities.randomInt(0, Program.DeprecatedObjects.Map.GridDimension), Utilities.randomInt(0, Program.DeprecatedObjects.Map.GridDimension));
+        internal  Vector2 RandomPositionOnMap() {
+            return MapTile.RandomPositionInTile(Utilities.randomInt(0, _objectsOwner.Map.GridDimension), Utilities.randomInt(0, _objectsOwner.Map.GridDimension));
+        }
+
+        public bool IsOutOfGridBounds(Vector2 gridCoord) {
+            return gridCoord.X < 0 || gridCoord.X >= GridDimension || gridCoord.Y < 0 || gridCoord.Y >= GridDimension;
+        }
+
+        internal bool IsOutOfBounds(Vector2 worldPosition) {
+            return IsOutOfGridBounds(GridPositionForWorldCoordinates(worldPosition));
         }
     }
 }

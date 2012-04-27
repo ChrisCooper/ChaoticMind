@@ -18,6 +18,10 @@ namespace ChaoticMind {
         }
 
         public virtual void Update(float deltaTime) {
+            //shift the object
+            if (!_body.IsDisposed && _owner.Map.isShifting(_body.Position)) {
+                _body.Position += _owner.Map.shiftAmount() * deltaTime;
+            }
         }
 
         public Vector2 Position {
@@ -44,8 +48,17 @@ namespace ChaoticMind {
             _body.Dispose();
         }
 
-        public bool isOutOfGridBounds(Vector2 gridCoord) {
-            return gridCoord.X < 0 || gridCoord.X >= _owner.Map.GridDimension || gridCoord.Y < 0 || gridCoord.Y >= _owner.Map.GridDimension;
+        public GameObjects Owner {
+            get { return _owner; }
+        }
+
+        public bool IsOutOfBounds{
+            get { return _owner.Map.IsOutOfBounds(Position); }
+        }
+
+        //returns the index of the map array the object is currently in
+        public virtual Vector2 GridCoordinate {
+            get { return _owner.Map.GridPositionForWorldCoordinates(Position); }
         }
     }
 }

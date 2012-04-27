@@ -18,7 +18,8 @@ namespace ChaoticMind.HUD {
 
         Character _character;
 
-        internal void Initialize(Character character) {
+
+        internal HealthDisplay(Character character) {
             _character = character;
             _healthSprite = new StaticSprite("HUD/HealthBar", 1.0f, DrawLayers.HUD.Dynamic_Info);
             _healthFrameSprite = new StaticSprite("HUD/Health_Frame", 1.0f, DrawLayers.HUD.Backgrounds);

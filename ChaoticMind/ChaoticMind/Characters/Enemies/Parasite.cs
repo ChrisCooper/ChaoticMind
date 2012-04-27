@@ -39,7 +39,7 @@ namespace ChaoticMind {
         //Use input (in the case of a controllable character)
         // or an AI routine to decide what direction this character should try to face, and move
         protected override void decideOnMovementTargets() {
-            LocationToMoveToward = PathFinder.NextLocationForPathToPlayer(Position, true).ImmediateDestination;
+            LocationToMoveToward = _owner.MainPlayer.Position;//TODO: PathFinder.NextLocationForPathToPlayer(Position, true).ImmediateDestination;
             LocationToMoveToward += Utilities.randomNormalizedVector() * movement_jitteriness;
 
             LocationToFace = _owner.MainPlayer.Position;

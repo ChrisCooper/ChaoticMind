@@ -28,6 +28,7 @@ namespace ChaoticMind {
         GameObjects _objectsOwner;
 
         public GameState(GameObjects objectsOwner) {
+            _objectsOwner = objectsOwner;
             _gameMode = GameMode.NORMAL;
         }
 
@@ -41,12 +42,8 @@ namespace ChaoticMind {
             spawnNewObjective();
         }
 
-        public  void ClearGame() {
-           _currCollectable = null;
-        }
-
         public void spawnNewObjective() {
-            Collectable collectable = new Collectable(_objectsOwner, CollectibleType.ObjectiveType, MapManager.RandomPositionOnMap());
+            Collectable collectable = new Collectable(_objectsOwner, CollectibleType.ObjectiveType, _objectsOwner.Map.RandomPositionOnMap());
             _currCollectable = collectable;
             _objectsOwner.Collectables.Add(collectable);
         }

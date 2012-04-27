@@ -31,11 +31,6 @@ namespace ChaoticMind {
         }
 
         public override void Update(float deltaTime) {
-            //shift the object
-            if (!_body.IsDisposed && _owner.Map.isShifting(_body.Position)) {
-                _body.Position += _owner.Map.shiftAmount() * deltaTime;
-            }
-
             //draw the object
             if (_sprite != null)
                 _sprite.Update(deltaTime);
@@ -77,11 +72,6 @@ namespace ChaoticMind {
 
         public float DrawLayer {
             get { return _sprite.DrawLayer; }
-        }
-
-        //returns the index of the map array the object is currently in
-        public virtual Vector2 GridCoordinate {
-            get { return MapTile.GridPositionForWorldCoordinates(Position); }
         }
 
         public virtual AnimatedSprite GlowSprite {

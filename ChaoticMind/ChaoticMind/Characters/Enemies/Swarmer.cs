@@ -22,7 +22,7 @@ namespace ChaoticMind {
         //Use input (in the case of a controllable character)
         // or an AI routine to decide what direction this character should try to face, and move
         protected override void decideOnMovementTargets() {
-            LocationToMoveToward = PathFinder.NextLocationForPathToPlayer(Position, true).ImmediateDestination;
+            LocationToMoveToward = _owner.MainPlayer.Position; //TODO: PathFinder.NextLocationForPathToPlayer(Position, true).ImmediateDestination;
             LocationToMoveToward += Utilities.randomNormalizedVector() * movementJitteriness;
 
             //Don't rotate. Just face up.
@@ -35,12 +35,12 @@ namespace ChaoticMind {
             if (_attackTimer.isFinished && Vector2.Distance(_owner.MainPlayer.Position, Position) <= _range && _owner.MainPlayer.GridCoordinate == GridCoordinate) {
                 _owner.MainPlayer.ApplyDamage(_characterType.MainAttackDamage);
                 _attackTimer.Reset();
-                _owner.Particles.Add(new Particle(Position, Utilities.AngleTowards(Position, _owner.MainPlayer.Position), ParticleType.SwarmerAttack));
+                _owner.Particles.Add(new Particle(_owner, Position, Utilities.AngleTowards(Position, _owner.MainPlayer.Position), ParticleType.SwarmerAttack));
             }
         }
 
         protected override void DropDeathParticle() {
-            _owner.Particles.Add(new Particle(Position, (float)(Utilities.randomDouble() * Math.PI * 2), _characterType.DeathParticle));
+            _owner.Particles.Add(new Particle(_owner, Position, (float)(Utilities.randomDouble() * Math.PI * 2), _characterType.DeathParticle));
         }
 
         public static float AttackRange { get { return _range; } }

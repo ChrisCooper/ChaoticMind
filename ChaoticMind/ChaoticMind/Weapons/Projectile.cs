@@ -70,7 +70,7 @@ namespace ChaoticMind {
         public override void WasKilled() {
             WasCleared();
             if (_projectileType.DeathParticle != null) {
-                _owner.Particles.Add(new Particle(Position, (float)Utilities.randomDouble(), _projectileType.DeathParticle));
+                _owner.Particles.Add(new Particle(_owner, Position, (float)Utilities.randomDouble(), _projectileType.DeathParticle));
             }
         }
 

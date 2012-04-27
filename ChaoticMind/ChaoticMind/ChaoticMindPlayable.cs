@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
+using ChaoticMind.HUD;
 
 namespace ChaoticMind {
 
@@ -21,38 +22,30 @@ namespace ChaoticMind {
             get { return _gameObjects; }
         }
 
-        bool _goFullscreen = false;
-
         //map dimension
         const int MAP_SIZE = 4;
-
+         
         StaticSprite _pauseBackground;
 
-        Texture2D _blackPx;
-        internal Texture2D BlackPx {
-            get { return _blackPx; }
-        }
-
         StaticSprite _gameoverWinScreen;
+        WinScreen _winScreen;
+        LoseScreen _loseScreen;
 
-        HUD.HUDManager _hudManager = new HUD.HUDManager();
+        HUDManager _hudManager;
 
-        MouseDrawer _mouseDrawer = new MouseDrawer();
-
-        ShiftInterface _shiftInterface = new ShiftInterface();
+        ShiftInterface _shiftInterface;
         private GameState _deprecatedState;
 
         public ChaoticMindPlayable() {
             _gameObjects = new GameObjects();
-
-            _hudManager.Initialize();
 
             PainStaticMaker.Initialize();
 
             CharacterType.Initialize();
             ParticleType.Initialize();
 
-            LoseScreen.Initialize();
+            _winScreen = new WinScreen();
+            _loseScreen = new LoseScreen();
 
             _deprecatedState = new GameState(Objects); 
 
@@ -60,42 +53,14 @@ namespace ChaoticMind {
 
             _gameoverWinScreen = new StaticSprite("Screens/WinScreen", 1, DrawLayers.Menu.Backgrounds);
 
-            StartNewGame();
-        }
-
-
-        /// <summary>
-        /// Anything that will have to be undone or redone to start a new game without restarting the program should be done in here.
-        /// This includes pretty much everything except loading of resources and basic non-map-specific initialization.
-        /// </summary>
-        private void StartNewGame() {
+            //Start the game
             Objects.StartNewGame(MAP_SIZE);
-
-            _shiftInterface.StartNewGame();
-
-            //init the level
             _deprecatedState.StartNewGame(3);
+
+            _hudManager = new HUDManager(_gameObjects);
+            _shiftInterface = new ShiftInterface(_gameObjects);
         }
 
-        /// <summary>
-        /// Undoes StartNewGame() so that a new game can be created.
-        /// </summary>
-        private void ClearGame() {
-            _deprecatedState.ClearGame();
-            PainStaticMaker.ClearGame();
-            LoseScreen.ClearGame();
-            _shiftInterface.ClearGame();
-
-            Objects.ClearGame();
-        }
-
-        /// <summary>
-        /// This method puts the game back to a beginning state.
-        /// </summary>
-        private void ResetGame() {
-            ClearGame();
-            StartNewGame();
-        }
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -109,8 +74,6 @@ namespace ChaoticMind {
 
             //Allows the game to exit
             if (InputManager.IsKeyDown(Keys.Escape)) {
-                ClearGame();
-                _deprecatedState.Mode = GameState.GameMode.EXITED;
                 return;
             }
 
@@ -132,17 +95,15 @@ namespace ChaoticMind {
                     break;
                 case GameState.GameMode.GAMEOVERWIN:
                     if (InputManager.IsMouseClicked) {
-                        ResetGame();
                         _deprecatedState.Mode = GameState.GameMode.PREGAME;
                     }
                     break;
                 case GameState.GameMode.GAMEOVERLOSE:
-                    LoseScreen.Update(deltaTime);
+                    _loseScreen.Update(deltaTime);
                     Objects.MainCamera.Update(deltaTime);
                     PainStaticMaker.Update(deltaTime);
 
-                    if (LoseScreen.TimerFinished() && InputManager.IsMouseClicked) {
-                        ResetGame();
+                    if (_loseScreen.TimerFinished() && InputManager.IsMouseClicked) {
                         _deprecatedState.Mode = GameState.GameMode.PREGAME;
                     }
                     break;
@@ -191,19 +152,17 @@ namespace ChaoticMind {
                     Objects.DrawOnShiftInterface(_shiftInterface);
                     break;
                 case GameState.GameMode.GAMEOVERWIN:
-                    drawGameoverWinOverlay();
+                    _winScreen.Draw();
                     break;
                 case GameState.GameMode.GAMEOVERLOSE:
                     DrawGameBoard();
-                    LoseScreen.Draw();
+                    _loseScreen.Draw();
                     break;
                 case GameState.GameMode.EXITED:
                     return;
                 default:
                     throw new NotImplementedException("The GameState.GameMode " + _deprecatedState.Mode + " is not handled");
             }
-
-            Program.SpriteBatch.End();
         }
 
         private void DrawHUD() {
@@ -227,11 +186,6 @@ namespace ChaoticMind {
 
             //Prep for others' drawing
             Program.SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-        }
-
-        private void drawGameoverWinOverlay() {
-            Program.SpriteBatch.Draw(_blackPx, ScreenUtils.ScreenRect, Rectangle.Empty, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, DrawLayers.Menu.Backgrounds);
-            Program.SpriteBatch.Draw(_gameoverWinScreen.Texture, ScreenUtils.Center, _gameoverWinScreen.CurrentTextureBounds, Color.White, 0.0f, _gameoverWinScreen.CurrentTextureOrigin, ScreenUtils.SmallestDimension / (float)_gameoverWinScreen.CurrentTextureBounds.Width, SpriteEffects.None, DrawLayers.Menu.Backgrounds - 0.001f);
         }
 
         private void drawPauseOverlay() {

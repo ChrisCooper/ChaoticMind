@@ -10,7 +10,7 @@ namespace ChaoticMind {
     class Weapon {
 
         WeaponType _weaponType;
-        Character _weaponOwner;
+        Character _character;
 
         int _roundsLeftInClip;
         int _spareClipsLeft;
@@ -24,7 +24,7 @@ namespace ChaoticMind {
         Matrix _halfSpreadRotationMatrix;
 
         public Weapon(WeaponType weaponType, int numberOfSpareClips, Character weaponOwner) {
-            _weaponOwner = weaponOwner;
+            _character = weaponOwner;
 
             _weaponType = weaponType;
 
@@ -77,7 +77,7 @@ namespace ChaoticMind {
                         float minFrac = float.MaxValue;
 
                         //Gets the position of the closest fixture on the ray path.
-                        Program.DeprecatedObjects.PhysicsWorld.RayCast((fixture, point, normal, fraction) => {
+                         _character.Owner.PhysicsWorld.RayCast((fixture, point, normal, fraction) => {
 
                             //check for a valid fixture
                             if (fixture == null) return -1;
@@ -93,10 +93,10 @@ namespace ChaoticMind {
 
                         //create a particle at the place where the ray was stopped
                         if (pt != Vector2.Zero)
-                            Program.DeprecatedObjects.Projectiles.Add(new Projectile(pt, Vector2.Zero, _weaponType.ProjectileType));
+                            _character.Owner.Projectiles.Add(new Projectile(_character.Owner, pt, Vector2.Zero, _weaponType.ProjectileType));
                     }
                     else { //use projectiles
-                        Program.DeprecatedObjects.Projectiles.Add(new Projectile(location + direction * (_weaponOwner.PhysicalEntitySize/1.8f + _weaponType.ProjectileType.Radius), currentSpreadSweepDirection, _weaponType.ProjectileType));
+                        _character.Owner.Projectiles.Add(new Projectile(_character.Owner, location + direction * (_character.PhysicalEntitySize / 1.8f + _weaponType.ProjectileType.Radius), currentSpreadSweepDirection, _weaponType.ProjectileType));
                     }
 
                     //rotate the direction to shoot the next particle in

@@ -9,16 +9,18 @@ namespace ChaoticMind {
 
         static MapManager _mapManager;
 
+        GameObjects _objectsOwner;
 
-        public static void Initialize(MapManager mapManager) {
+        public void Initialize(GameObjects objectsOwner, MapManager mapManager) {
+            _objectsOwner = objectsOwner;
             _mapManager = mapManager;
         }
 
-        public static PathFindingResult NextLocationForPathToPlayer(Vector2 worldFromLocation, bool searchToFutureLocation) {
+        public PathFindingResult NextLocationForPathToPlayer(Vector2 worldFromLocation, bool searchToFutureLocation) {
 
             //Find Path, and fill a result.
 
-            return new PathFindingResult(searchToFutureLocation ? Program.DeprecatedObjects.MainPlayer.FuturePosition : Program.DeprecatedObjects.MainPlayer.Position, true);
+            return new PathFindingResult(searchToFutureLocation ? _objectsOwner.MainPlayer.FuturePosition : _objectsOwner.MainPlayer.Position, true);
         }
     }
 

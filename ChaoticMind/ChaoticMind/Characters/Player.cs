@@ -26,7 +26,7 @@ namespace ChaoticMind {
         protected override void decideOnMovementTargets() {
             //movement
             LocationToMoveToward = _body.Position;
-            LocationToFace = InputManager.MouseWorldPosition;
+            LocationToFace = _owner.MainCamera.screenPointToWorld(InputManager.MouseScreenPosition);
         }
 
         public override void ApplyDamage(float amount) {

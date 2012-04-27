@@ -32,7 +32,7 @@ namespace ChaoticMind {
             Collectables = new List<IGameObject>();
             Enemies = new List<IGameObject>();
 
-            Map = new MapManager();
+            Map = new MapManager(this);
             Map.StartNewGame(mapDimension);
 
             MainPlayer = new Player(this, Vector2.Zero);
@@ -43,29 +43,6 @@ namespace ChaoticMind {
             MainCamera = new Camera(Vector2.Zero, 35.0f, Program.Graphics.GraphicsDevice);
             MainCamera.setTarget(MainPlayer.Body);
             MainCamera.StartNewGame(mapDimension, mapDimension);
-        }
-
-        internal void ClearGame() {
-            Projectiles.ForEach(p => p.WasCleared());
-            Projectiles.Clear();
-
-            Particles.ForEach(p => p.WasCleared());
-            Particles.Clear();
-
-            Collectables.ForEach(c => c.WasCleared());
-            Collectables.Clear();
-
-            Enemies.ForEach(e => e.WasCleared());
-            Enemies.Clear();
-
-            Map.ClearGame();
-
-            EnemyDirector.ClearGame();
-
-            MainPlayer.WasCleared();
-            MainPlayer = null;
-
-            MainCamera = null;
         }
 
         internal void Update(float deltaTime) {

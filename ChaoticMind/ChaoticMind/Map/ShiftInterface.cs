@@ -24,9 +24,13 @@ namespace ChaoticMind {
 
         UIButton _addShiftToQueueButton;
 
-        internal void StartNewGame() {
+        GameObjects _objectsOwner;
 
-            _tiles = Program.DeprecatedObjects.Map.Tiles;
+        public ShiftInterface(GameObjects objectsOwner) {
+
+            _objectsOwner = objectsOwner;
+
+            _tiles = _objectsOwner.Map.Tiles;
 
             //Calculate the size of our interface
             int interfaceSideLength = Math.Min(ScreenUtils.Width, ScreenUtils.Height) - (2 * interfacePixelPadding);
@@ -85,15 +89,10 @@ namespace ChaoticMind {
 
         public void enqueueShift(UIButton button) {
             if (_pressedButton != null) {
-                Program.DeprecatedObjects.Map.queueShift(_pressedButton.Index, _pressedButton.Direction, DoorDirections.RandomDoors(), false);
+                _objectsOwner.Map.queueShift(_pressedButton.Index, _pressedButton.Direction, DoorDirections.RandomDoors(), false);
                 _pressedButton.reset();
                 _pressedButton = null;
             }
-        }
-
-        internal void ClearGame() {
-            _pressedButton = null;
-            _buttons.Clear();
         }
 
         internal void Update(float deltaTime) {

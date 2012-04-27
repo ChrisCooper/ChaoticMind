@@ -7,12 +7,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using FarseerPhysics.Dynamics;
+using ChaoticMind.HUD;
 
 namespace ChaoticMind {
     class Camera {
         const float FollowFaithfulness = 0.4f;
 
-        //Position of the camera in game coordinates
+        //worldPosition of the camera in game coordinates
         Vector2 _position;
 
         float _zoom;
@@ -33,14 +34,13 @@ namespace ChaoticMind {
         private float _mapWidthScale;
         private float _mapHeightScale;
 
-        public Camera(Vector2 startingPosition, float startingZoom, GraphicsDevice graphics) {
+        public Camera(Vector2 startingPosition, float startingZoom, GraphicsDevice graphics ) {
             _position = startingPosition;
             _zoom = startingZoom;
             _startingZoom = startingZoom;
             _graphicsDevice = graphics;
             _spriteBatch = Program.SpriteBatch;
-            _minimapRect = HUD.HUDManager.MinimapRect;
-            
+            _minimapRect = new Rectangle(10, 600, 100, 100);//TODO: HUDManager.MinimapRect;
         }
 
         public void resetZoom() {
@@ -110,13 +110,10 @@ namespace ChaoticMind {
         }
 
         public void Update(float deltaTime) {
-            if (GameState.Mode == GameState.GameMode.GAMEOVERLOSE) {
-                _zoom *= 1f - (deltaTime * 0.4f);
-            }
 
             if (_target != null) {
                 //to make shooting work properly
-                //_position = _target.Position;
+                //_position = _target.worldPosition;
                 _position += FollowFaithfulness * (_target.Position - _position);
             }
 

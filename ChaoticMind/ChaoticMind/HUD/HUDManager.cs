@@ -11,21 +11,15 @@ namespace ChaoticMind.HUD {
         static HUDManager _mainInstance;
 
 
-        WeaponDisplay _weaponDisplay = new WeaponDisplay();
-        HealthDisplay _healthDisplay = new HealthDisplay();
-        MinimapDisplay _minimapDisplay = new MinimapDisplay();
+        WeaponDisplay _weaponDisplay;
+        HealthDisplay _healthDisplay;
+        MinimapDisplay _minimapDisplay;
 
-        internal void Initialize() {
+        public HUDManager(GameObjects objectsOwner) {
             _mainInstance = this;
-            _healthDisplay.Initialize();
-            _weaponDisplay.Initialize();
-            _minimapDisplay.Initialize();
-        }
-
-        private void setupMinimapInfo() {
-        }
-
-        private void setupHealthInfo() {
+            _weaponDisplay = new WeaponDisplay(objectsOwner);
+             _healthDisplay = new HealthDisplay(objectsOwner.MainPlayer);
+            _minimapDisplay = new MinimapDisplay();
         }
 
         internal void Draw() {
@@ -34,8 +28,8 @@ namespace ChaoticMind.HUD {
             _minimapDisplay.Draw();
         }
 
-        internal static Rectangle MinimapRect {
-            get { return _mainInstance._minimapDisplay.MinimapRect; }
+        internal Rectangle MinimapRect {
+            get { return _minimapDisplay.MinimapRect; }
         }
     }
 }

@@ -162,6 +162,7 @@
     <Compile Include="Graphics\ScreenUtils.cs" />
     <Compile Include="Map\ShiftInterface.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="WinScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\x86\Debug\ChaoticMind.exe" />

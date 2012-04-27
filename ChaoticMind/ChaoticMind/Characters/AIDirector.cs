@@ -29,9 +29,6 @@ namespace ChaoticMind {
             }
         }
 
-        internal void ClearGame() {
-        }
-
         public void Update(float deltaTime) {
         }
 
@@ -43,7 +40,7 @@ namespace ChaoticMind {
                     int resultX = (int)_objectOwner.MainPlayer.GridCoordinate.X + xAddition;
                     int resultY = (int)_objectOwner.MainPlayer.GridCoordinate.Y + yAddition;
 
-                    if (MapTile.isOutOfBoundsGrid(new Vector2(resultX, resultY))) {
+                    if (_objectOwner.Map.IsOutOfGridBounds(new Vector2(resultX, resultY))) {
                         continue;
                     }
 
