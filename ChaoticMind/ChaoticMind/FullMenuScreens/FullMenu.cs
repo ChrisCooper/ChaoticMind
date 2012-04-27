@@ -13,8 +13,9 @@ namespace ChaoticMind.FullMenuScreens {
 
         IGameFlowComponent ActiveScreen;
 
-        public FullMenu() {
-            ActiveScreen = new FrontMenu();
+        public FullMenu(ChaoticMindGame parentGame) {
+            ParentGame = parentGame;
+            ActiveScreen = new FrontMenu(this);
         }
 
         public void Update(float deltaTime) {
@@ -24,6 +25,10 @@ namespace ChaoticMind.FullMenuScreens {
             }
         }
 
+        public void StartGame() {
+            ParentGame.StartGame();
+        }
+
         public void Draw(float deltaTime) {
             ActiveScreen.Draw(deltaTime);
             MouseDrawer.Draw(MouseType.POINTER);
@@ -31,5 +36,7 @@ namespace ChaoticMind.FullMenuScreens {
 
 
         public IGameFlowComponent NextComponent { get; set; }
+
+        public ChaoticMindGame ParentGame { get; set; }
     }
 }

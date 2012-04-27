@@ -12,19 +12,29 @@ namespace ChaoticMind.FullMenuScreens {
     /// </summary>
     class FrontMenu : IGameFlowComponent {
 
+
+
         StaticSprite _background;
         StaticSprite _overlay;
 
         float _pulseTime = 0f;
 
+        Timer clickThroughTimer = new Timer(0.5f);
 
-        public FrontMenu() {
+        public FrontMenu(FullMenu parentMenu) {
+            ParentMenu = parentMenu;
+
             _background = new StaticSprite("Screens/StartMenuScreen", 1, DrawLayers.Menu.Backgrounds);
             _overlay = new StaticSprite("Screens/StartMenuScreenOverlay", 1, DrawLayers.Menu.Backgrounds -0.01f);
         }
 
         public void Update(float deltaTime) {
             _pulseTime += deltaTime * 1000f;
+            clickThroughTimer.Update(deltaTime);
+
+            if (clickThroughTimer.isFinished && InputManager.IsMouseClicked) {
+                ParentMenu.StartGame();
+            }
         }
 
         public void Draw(float deltaTime) {
@@ -37,5 +47,7 @@ namespace ChaoticMind.FullMenuScreens {
         }
 
         public IGameFlowComponent NextComponent { get; set; }
+
+        public FullMenu ParentMenu { get; set; }
     }
 }

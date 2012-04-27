@@ -27,7 +27,7 @@ namespace ChaoticMind {
 
             MouseDrawer.Initialize();
 
-            ActiveComponent = new FullMenu();
+            ActiveComponent = new FullMenu(this);
 
             base.LoadContent();
         }
@@ -46,6 +46,11 @@ namespace ChaoticMind {
             base.Update(gameTime);
         }
 
+        public void StartGame() {
+            Exit();
+            //ActiveComponent = new ChaoticMindPlayable();
+        }
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -62,6 +67,8 @@ namespace ChaoticMind {
 
             base.Draw(gameTime);
         }
+
+        
     }
 
     public interface IGameFlowComponent {
