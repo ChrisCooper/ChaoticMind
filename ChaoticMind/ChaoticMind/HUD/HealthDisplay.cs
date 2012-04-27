@@ -16,7 +16,10 @@ namespace ChaoticMind.HUD {
         StaticSprite _healthFrameSprite;
         Vector2 _healthFrameScale;
 
-        internal void Initialize() {
+        Character _character;
+
+        internal void Initialize(Character character) {
+            _character = character;
             _healthSprite = new StaticSprite("HUD/HealthBar", 1.0f, DrawLayers.HUD.Dynamic_Info);
             _healthFrameSprite = new StaticSprite("HUD/Health_Frame", 1.0f, DrawLayers.HUD.Backgrounds);
 
@@ -35,11 +38,11 @@ namespace ChaoticMind.HUD {
 
         }
 
-        internal void DrawDisplay(SpriteBatch spriteBatch) {
+        internal void Draw() {
             //Health frame
-            spriteBatch.Draw(_healthFrameSprite.Texture, _healthFrameRect, _healthFrameSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _healthFrameSprite.DrawLayer);
+            Program.SpriteBatch.Draw(_healthFrameSprite.Texture, _healthFrameRect, _healthFrameSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _healthFrameSprite.DrawLayer);
             //Health bar
-            spriteBatch.Draw(_healthSprite.Texture, new Rectangle(_healthRect.Left, _healthRect.Top, (int)(Program.DeprecatedObjects.MainPlayer.PercentHealth * _healthRect.Width), _healthRect.Height), _healthSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _healthSprite.DrawLayer);
+            Program.SpriteBatch.Draw(_healthSprite.Texture, new Rectangle(_healthRect.Left, _healthRect.Top, (int)(_character.PercentHealth * _healthRect.Width), _healthRect.Height), _healthSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _healthSprite.DrawLayer);
 
         }
     }

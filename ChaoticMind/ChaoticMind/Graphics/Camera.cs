@@ -33,12 +33,12 @@ namespace ChaoticMind {
         private float _mapWidthScale;
         private float _mapHeightScale;
 
-        public Camera(Vector2 startingPosition, float startingZoom, GraphicsDevice graphics, SpriteBatch spriteBatch) {
+        public Camera(Vector2 startingPosition, float startingZoom, GraphicsDevice graphics) {
             _position = startingPosition;
             _zoom = startingZoom;
             _startingZoom = startingZoom;
             _graphicsDevice = graphics;
-            _spriteBatch = spriteBatch;
+            _spriteBatch = Program.SpriteBatch;
             _minimapRect = HUD.HUDManager.MinimapRect;
             
         }
@@ -47,9 +47,9 @@ namespace ChaoticMind {
             _zoom = _startingZoom;
         }
 
-        public void StartNewGame() {
-            _mapWidthScale = _minimapRect.Width / Program.DeprecatedObjects.Map.EdgeOfMapdimesion;
-            _mapHeightScale = _minimapRect.Height / Program.DeprecatedObjects.Map.EdgeOfMapdimesion;
+        public void StartNewGame(float mapWidth, float mapHeight) {
+            _mapWidthScale = _minimapRect.Width / mapWidth;
+            _mapHeightScale = _minimapRect.Height / mapHeight;
             resetZoom();
         }
 

@@ -9,8 +9,8 @@ using FarseerPhysics.Factories;
 namespace ChaoticMind {
     class SillyBox : Character {
 
-        public SillyBox(CharacterType characterType, Vector2 startingPosition)
-            : base(characterType, startingPosition) {
+        public SillyBox(GameObjects owner, CharacterType characterType, Vector2 startingPosition)
+            : base(owner, characterType, startingPosition) {
         }
 
         //Use input (in the case of a controllable character)

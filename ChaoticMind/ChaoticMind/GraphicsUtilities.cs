@@ -28,5 +28,7 @@ namespace ChaoticMind.Graphics {
 
             MainSpriteBatch = new SpriteBatch(_graphics.GraphicsDevice);
         }
+
+        public GraphicsDevice GraphicsDevice { get { return _mainGame.GraphicsDevice; } }
     }
 }

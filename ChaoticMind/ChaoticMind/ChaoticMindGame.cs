@@ -47,8 +47,7 @@ namespace ChaoticMind {
         }
 
         public void StartGame() {
-            Exit();
-            //ActiveComponent = new ChaoticMindPlayable();
+            ActiveComponent = new ChaoticMindPlayable();
         }
 
         /// <summary>

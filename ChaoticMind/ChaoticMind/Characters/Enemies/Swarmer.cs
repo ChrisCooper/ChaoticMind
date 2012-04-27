@@ -13,8 +13,8 @@ namespace ChaoticMind {
 
         Timer _attackTimer;
 
-        public Swarmer(Vector2 startingPosition)
-            : base(CharacterType.SwarmerType, startingPosition) {
+        public Swarmer(GameObjects owner, Vector2 startingPosition)
+            : base(owner, CharacterType.SwarmerType, startingPosition) {
 
                 _attackTimer = new Timer(attackInterval, true);
         }
@@ -32,15 +32,15 @@ namespace ChaoticMind {
         protected override void performTypeUniqueMovements(float deltaTime) {
             _attackTimer.Update(deltaTime);
 
-            if (_attackTimer.isFinished && Vector2.Distance(Program.DeprecatedObjects.MainPlayer.Position, Position) <= _range && Program.DeprecatedObjects.MainPlayer.GridCoordinate == GridCoordinate) {
-                Program.DeprecatedObjects.MainPlayer.ApplyDamage(_characterType.MainAttackDamage);
+            if (_attackTimer.isFinished && Vector2.Distance(_owner.MainPlayer.Position, Position) <= _range && _owner.MainPlayer.GridCoordinate == GridCoordinate) {
+                _owner.MainPlayer.ApplyDamage(_characterType.MainAttackDamage);
                 _attackTimer.Reset();
-                Program.DeprecatedObjects.Particles.Add(new Particle(Position, Utilities.AngleTowards(Position, Program.DeprecatedObjects.MainPlayer.Position), ParticleType.SwarmerAttack));
+                _owner.Particles.Add(new Particle(Position, Utilities.AngleTowards(Position, _owner.MainPlayer.Position), ParticleType.SwarmerAttack));
             }
         }
 
         protected override void DropDeathParticle() {
-            Program.DeprecatedObjects.Particles.Add(new Particle(Position, (float)(Utilities.randomDouble() * Math.PI * 2), _characterType.DeathParticle));
+            _owner.Particles.Add(new Particle(Position, (float)(Utilities.randomDouble() * Math.PI * 2), _characterType.DeathParticle));
         }
 
         public static float AttackRange { get { return _range; } }

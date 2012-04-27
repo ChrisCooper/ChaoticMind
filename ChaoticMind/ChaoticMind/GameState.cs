@@ -17,9 +17,6 @@ namespace ChaoticMind {
             EXITED
         }
 
-        static GameState _mainInstance;
-
-        int _level;
         int _numObjectsCollected;
         int _numToCollect;
         bool _bossActive;
@@ -28,63 +25,60 @@ namespace ChaoticMind {
 
         Collectable _currCollectable;
 
-        public static void Initilize() {
-            _mainInstance = new GameState();
-            _mainInstance._level = 0;
-            _mainInstance._gameMode = GameMode.PREGAME;
+        GameObjects _objectsOwner;
+
+        public GameState(GameObjects objectsOwner) {
+            _gameMode = GameMode.NORMAL;
         }
 
-        public static void StartNewGame(int level, int numToCollect) {
-            _mainInstance._level = level;
-            _mainInstance._numObjectsCollected = 0;
-            _mainInstance._numToCollect = numToCollect;
-            _mainInstance._bossActive = false;
-            _mainInstance._exitOpen = false;
+        public  void StartNewGame(int numToCollect) {
+            _numObjectsCollected = 0;
+            _numToCollect = numToCollect;
+            _bossActive = false;
+            _exitOpen = false;
 
             //create the first collectable
             spawnNewObjective();
         }
 
-        public static void ClearGame() {
-           _mainInstance._currCollectable = null;
+        public  void ClearGame() {
+           _currCollectable = null;
         }
 
-        public static void spawnNewObjective() {
-            Collectable collectable = new Collectable( CollectibleType.ObjectiveType, MapManager.RandomPositionOnMap());
-            _mainInstance._currCollectable = collectable;
-            Program.DeprecatedObjects.Collectables.Add(collectable);
+        public void spawnNewObjective() {
+            Collectable collectable = new Collectable(_objectsOwner, CollectibleType.ObjectiveType, MapManager.RandomPositionOnMap());
+            _currCollectable = collectable;
+            _objectsOwner.Collectables.Add(collectable);
         }
 
-        public static void KillBoss() {
-            _mainInstance._bossActive = false;
-            _mainInstance._exitOpen = true;
+        public void KillBoss() {
+            _bossActive = false;
+            _exitOpen = true;
         }
 
-        public static GameMode Mode {
-            get { return _mainInstance._gameMode; }
-            set { _mainInstance._gameMode = value; }
+        public GameMode Mode {
+            get { return _gameMode; }
+            set { _gameMode = value; }
         }
 
-        internal static void ObjectiveWasCollected() {
+        internal void ObjectiveWasCollected() {
             
-            _mainInstance._numObjectsCollected++;
-            Program.DeprecatedObjects.MainPlayer.GoToFullHealth();
-            if (_mainInstance._numObjectsCollected >= _mainInstance._numToCollect) {
-                _mainInstance._bossActive = true;
+            _numObjectsCollected++;
+            _objectsOwner.MainPlayer.GoToFullHealth();
+            if (_numObjectsCollected >= _numToCollect) {
+                _bossActive = true;
             }
             else {
                 spawnNewObjective();
             }
         }
 
-        public static bool AllObjectivesCollected {
-            get { return _mainInstance._bossActive; }
+        public bool AllObjectivesCollected {
+            get { return _bossActive; }
         }
-        public static int Level {
-            get { return _mainInstance._level; }
-        }
-        public static bool ExitOpen {
-            get { return _mainInstance._exitOpen; }
+
+        public bool ExitOpen {
+            get { return _exitOpen; }
         }
     }
 }

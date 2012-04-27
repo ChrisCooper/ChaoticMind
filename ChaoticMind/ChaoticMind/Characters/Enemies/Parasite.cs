@@ -15,8 +15,8 @@ namespace ChaoticMind {
         bool _isLunging = false;
         Timer _lungeDurationTimer;
 
-        public Parasite(Vector2 startingPosition)
-            : base(CharacterType.ParasiteType, startingPosition) {
+        public Parasite(GameObjects owner, Vector2 startingPosition)
+            : base(owner, CharacterType.ParasiteType, startingPosition) {
                 _body.OnCollision += new FarseerPhysics.Dynamics.OnCollisionEventHandler(_body_OnCollision);
                 _lungeDurationTimer = new Timer(lungeDuration);
         }
@@ -42,7 +42,7 @@ namespace ChaoticMind {
             LocationToMoveToward = PathFinder.NextLocationForPathToPlayer(Position, true).ImmediateDestination;
             LocationToMoveToward += Utilities.randomNormalizedVector() * movement_jitteriness;
 
-            LocationToFace = Program.DeprecatedObjects.MainPlayer.Position;
+            LocationToFace = _owner.MainPlayer.Position;
         }
 
         protected override void performTypeUniqueMovements(float deltaTime) {
@@ -52,7 +52,7 @@ namespace ChaoticMind {
             }
 
             if (Utilities.randomDouble() < lunge_chance) {
-                lunge(Program.DeprecatedObjects.MainPlayer.Position, deltaTime);
+                lunge(_owner.MainPlayer.Position, deltaTime);
             }
         }
 

@@ -266,6 +266,10 @@ namespace ChaoticMind {
             return null;
         }
 
+        public Vector2 GridPositionForWorldCoordinates(Vector2 worldPosition) {
+            return new Vector2((float)Math.Floor((worldPosition.X + MapTile.TileSideLength / 2.0f) / MapTile.TileSideLength), (float)Math.Floor((worldPosition.Y + MapTile.TileSideLength / 2.0f) / MapTile.TileSideLength));
+        }
+
         public int GridDimension {
             get { return _gridDimension; }
         }
@@ -274,14 +278,14 @@ namespace ChaoticMind {
             get { return _tiles; }
         }
 
-        //The farthers point still on the map
+        //The fartherst point still on the map
         public float EdgeOfMapdimesion {
             get { return _edgeOfMapdimesion; }
         }
 
         //objects call these to shift themselves
-        public  bool isShifting(Vector2 position) {
-            Vector2 tempGridCoord = MapTile.GridPositionForWorldCoordinates(position);
+        public bool isShifting(Vector2 position) {
+            Vector2 tempGridCoord = GridPositionForWorldCoordinates(position);
             if (_isShifting) {
                 if (((_currShiftDir == ShiftDirection.LEFT || _currShiftDir == ShiftDirection.RIGHT) && tempGridCoord.Y == _currShiftIndex) ||
                     ((_currShiftDir == ShiftDirection.UP || _currShiftDir == ShiftDirection.DOWN) && tempGridCoord.X == _currShiftIndex)) {

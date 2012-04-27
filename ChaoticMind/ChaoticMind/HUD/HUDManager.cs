@@ -28,12 +28,10 @@ namespace ChaoticMind.HUD {
         private void setupHealthInfo() {
         }
 
-        internal void Draw_HUD(SpriteBatch spriteBatch) {
-
-            _healthDisplay.DrawDisplay(spriteBatch);
-            _weaponDisplay.DrawDisplay(spriteBatch);
-            _minimapDisplay.DrawDisplay(spriteBatch);
-
+        internal void Draw() {
+            _healthDisplay.Draw();
+            _weaponDisplay.Draw();
+            _minimapDisplay.Draw();
         }
 
         internal static Rectangle MinimapRect {

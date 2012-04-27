@@ -31,16 +31,16 @@ namespace ChaoticMind {
         protected float _maxHealth;
         protected float _currentHealth;
 
-        public Character(CharacterType characterType, Vector2 startingPosition)
-            : base(startingPosition, characterType.SpriteAnimationSequence, characterType.VisibleEntitySize, characterType.AnimationDuration, characterType.DrawLayer) {
+        public Character(GameObjects owner, CharacterType characterType, Vector2 startingPosition)
+            : base(owner, startingPosition, characterType.SpriteAnimationSequence, characterType.VisibleEntitySize, characterType.AnimationDuration, characterType.DrawLayer) {
             _characterType = characterType;
 
             switch (characterType.ObjectShape) {
                 case ObjectShapes.RECTANGLE:
-                    _body = BodyFactory.CreateRectangle(Program.DeprecatedObjects.PhysicsWorld, _characterType.PhysicalEntitySize, _characterType.PhysicalEntitySize, _characterType.Density);
+                    _body = BodyFactory.CreateRectangle(_owner.PhysicsWorld, _characterType.PhysicalEntitySize, _characterType.PhysicalEntitySize, _characterType.Density);
                     break;
                 case ObjectShapes.CIRCLE:
-                    _body = BodyFactory.CreateCircle(Program.DeprecatedObjects.PhysicsWorld, _characterType.PhysicalEntitySize / 2, _characterType.Density);
+                    _body = BodyFactory.CreateCircle(_owner.PhysicsWorld, _characterType.PhysicalEntitySize / 2, _characterType.Density);
                     break;
             }
 
@@ -88,7 +88,7 @@ namespace ChaoticMind {
         }
 
         protected virtual void DropDeathParticle() {
-            Program.DeprecatedObjects.Particles.Add(new Particle(Position, Rotation, _characterType.DeathParticle));
+            _owner.Particles.Add(new Particle(Position, Rotation, _characterType.DeathParticle));
         }
 
         //for e.g. ranged units move back if too close, parasites who lunge, etc.

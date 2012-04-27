@@ -15,7 +15,6 @@ namespace ChaoticMind {
         const int addShiftButtonXDist = 50;
 
         MapTile[,] _tiles;
-        SpriteBatch _spriteBatch;
 
         float _tileSideLength;
         float _scalingFactor;
@@ -24,10 +23,6 @@ namespace ChaoticMind {
         private Vector2 _topLeftTilePosition;
 
         UIButton _addShiftToQueueButton;
-
-        internal void Initialize(SpriteBatch spriteBatch) {
-            _spriteBatch = spriteBatch;
-        }
 
         internal void StartNewGame() {
 
@@ -114,7 +109,7 @@ namespace ChaoticMind {
             for (int y = 0; y < _tiles.GetLength(0); y++) {
                 for (int x = 0; x < _tiles.GetLength(1); x++) {
                     MapTile tile = _tiles[x, y];
-                    _spriteBatch.Draw(tile.ShiftTexture.Texture, drawingLocation, tile.ShiftTexture.CurrentTextureBounds, Color.White, tile.Rotation, tile.ShiftTexture.CurrentTextureOrigin, _scalingFactor, SpriteEffects.None, DrawLayers.Menu.Elements);
+                    Program.SpriteBatch.Draw(tile.ShiftTexture.Texture, drawingLocation, tile.ShiftTexture.CurrentTextureBounds, Color.White, tile.Rotation, tile.ShiftTexture.CurrentTextureOrigin, _scalingFactor, SpriteEffects.None, DrawLayers.Menu.Elements);
                     drawingLocation.X += _tileSideLength;
                 }
                 drawingLocation.Y += _tileSideLength;
@@ -122,14 +117,14 @@ namespace ChaoticMind {
             }
 
             //draw shift buttons
-            _buttons.ForEach(b => b.DrawSelf(_spriteBatch));
+            _buttons.ForEach(b => b.DrawSelf(Program.SpriteBatch));
 
-            _addShiftToQueueButton.DrawSelf(_spriteBatch);
+            _addShiftToQueueButton.DrawSelf(Program.SpriteBatch);
         }
 
         public void drawOnOverlay(IMiniMapable c) {
             if (c.MapSprite != null) {
-                _spriteBatch.Draw(c.MapSprite.Texture, c.MapPosition / (float)MapTile.TileSideLength * _tileSideLength + _topLeftTilePosition, c.MapSprite.CurrentTextureBounds, Color.White, c.MapRotation, c.MapSprite.CurrentTextureOrigin, 1 / c.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, DrawLayers.Menu.HighlightElements);
+                Program.SpriteBatch.Draw(c.MapSprite.Texture, c.MapPosition / (float)MapTile.TileSideLength * _tileSideLength + _topLeftTilePosition, c.MapSprite.CurrentTextureBounds, Color.White, c.MapRotation, c.MapSprite.CurrentTextureOrigin, 1 / c.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, DrawLayers.Menu.HighlightElements);
             }
         }
 

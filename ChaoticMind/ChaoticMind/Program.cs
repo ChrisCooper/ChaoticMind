@@ -1,17 +1,15 @@
 using System;
 using Microsoft.Xna.Framework.Graphics;
+using ChaoticMind.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace ChaoticMind {
 #if WINDOWS || XBOX
     static class Program {
 
-        public static ChaoticMindPlayable DeprecatedGame { get; set; }
-
+        public static GraphicsUtilities Graphics { get { return OverallGame.GraphicsUtils; } }
         public static SpriteBatch SpriteBatch { get { return OverallGame.GraphicsUtils.MainSpriteBatch; } }
-
-        public static GameObjects DeprecatedObjects {
-            get { return DeprecatedGame.Objects; }
-        }
+        public static ContentManager Content { get { return OverallGame.Content; } }
 
         static ChaoticMindGame OverallGame;
 

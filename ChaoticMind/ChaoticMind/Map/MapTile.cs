@@ -39,15 +39,15 @@ namespace ChaoticMind {
         bool _isMoving;
         bool _isVisible;
 
-        public MapTile(Vector2 startingPosition, DoorDirections openDoors, bool visible)
-            : base(startingPosition) {
+        public MapTile(GameObjects owner, Vector2 startingPosition, DoorDirections openDoors, bool visible)
+            : base(owner, startingPosition) {
             _openDoors = openDoors;
 
             _connectedDoors = new DoorDirections(false, false, false, false);
 
             _sprite = new StaticSprite(MapTileUtilities.appearanceStringFromDoorConfiguration(openDoors), TileSideLength, DrawLayers.GameElements.TileGround);
 
-            _body = new Body(Program.DeprecatedObjects.PhysicsWorld);
+            _body = new Body(_owner.PhysicsWorld);
             _body.Position = startingPosition;
             _body.BodyType = BodyType.Kinematic;
             _body.UserData = this;
@@ -89,8 +89,8 @@ namespace ChaoticMind {
                 }
             }
 
-            if (Math.Abs(GridCoordinate.X - Program.DeprecatedObjects.MainPlayer.GridCoordinate.X) <= Program.DeprecatedObjects.MainPlayer.SightGridDistance &&
-                Math.Abs(GridCoordinate.Y - Program.DeprecatedObjects.MainPlayer.GridCoordinate.Y) <= Program.DeprecatedObjects.MainPlayer.SightGridDistance) {
+            if (Math.Abs(GridCoordinate.X - _owner.MainPlayer.GridCoordinate.X) <= _owner.MainPlayer.SightGridDistance &&
+                Math.Abs(GridCoordinate.Y - _owner.MainPlayer.GridCoordinate.Y) <= _owner.MainPlayer.SightGridDistance) {
                 IsVisible = true;
             }
         }
@@ -122,17 +122,6 @@ namespace ChaoticMind {
         public static Vector2 WorldPositionForGridCoordinates(int x, int y) {
             return new Vector2(TileSideLength * x, TileSideLength * y);
         }
-    
-        public static Vector2 GridPositionForWorldCoordinates(Vector2 worldPosition) {
-            return new Vector2((float)Math.Floor((worldPosition.X + MapTile.TileSideLength / 2.0f) / MapTile.TileSideLength), (float)Math.Floor((worldPosition.Y + MapTile.TileSideLength / 2.0f) / MapTile.TileSideLength)); 
-        }
-        public static bool isOutOfBounds(Vector2 position) {
-            return isOutOfBoundsGrid(GridPositionForWorldCoordinates(position));
-        }
-        public static bool isOutOfBoundsGrid(Vector2 gridCoord) {
-            return gridCoord.X < 0 || gridCoord.X >= Program.DeprecatedObjects.Map.GridDimension || gridCoord.Y < 0 || gridCoord.Y >= Program.DeprecatedObjects.Map.GridDimension;
-        }
-
 
         //updates the connected doors
         public void updateConnectedDoors(DoorDirections n, DoorDirections s, DoorDirections e, DoorDirections w) {

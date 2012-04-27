@@ -24,9 +24,9 @@ namespace ChaoticMind {
             get { return new Vector2(_curMouseState.X, _curMouseState.Y); }
         }
 
-        public static Vector2 MouseWorldPosition {
-            get { return Program.DeprecatedObjects.MainCamera.screenPointToWorld(new Vector2(_curMouseState.X, _curMouseState.Y)); }
-        }
+        //public static Vector2 MouseWorldPosition {
+        //    get { return Program.DeprecatedObjects.MainCamera.screenPointToWorld(new Vector2(_curMouseState.X, _curMouseState.Y)); }
+        //}
 
         public static bool IsKeyUp(Keys k) {
             return _curKeyState.IsKeyUp(k);

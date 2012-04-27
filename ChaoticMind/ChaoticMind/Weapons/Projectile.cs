@@ -15,8 +15,8 @@ namespace ChaoticMind {
 
         Timer _lifetimeTimer;
 
-        public Projectile(Vector2 startingPosition, Vector2 direction, ProjectileType projectileType)
-            : base(startingPosition, projectileType.AnimationSequence, projectileType.VisibleEntitySize, projectileType.AnimationDuration, projectileType.DrawLayer) {
+        public Projectile(GameObjects owner, Vector2 startingPosition, Vector2 direction, ProjectileType projectileType)
+            : base(owner, startingPosition, projectileType.AnimationSequence, projectileType.VisibleEntitySize, projectileType.AnimationDuration, projectileType.DrawLayer) {
 
             _projectileType = projectileType;
 
@@ -26,7 +26,7 @@ namespace ChaoticMind {
             _direction = (direction == Vector2.Zero) ?  direction : Vector2.Normalize(direction);
 
             //set up the body
-            _body = BodyFactory.CreateCircle(Program.DeprecatedObjects.PhysicsWorld, _projectileType.Radius, _projectileType.Density);
+            _body = BodyFactory.CreateCircle(_owner.PhysicsWorld, _projectileType.Radius, _projectileType.Density);
             _body.BodyType = BodyType.Dynamic;
             _body.LinearDamping = 0;
             _body.LinearVelocity = _direction * _projectileType.Speed;
@@ -53,7 +53,7 @@ namespace ChaoticMind {
             _lifetimeTimer.Finish();
 
             //Check if the object is even an IDamageable, and not the player
-            if (hitObject == null || hitObject == Program.DeprecatedObjects.MainPlayer) {
+            if (hitObject == null || hitObject == _owner.MainPlayer) {
                 return true;
             }
 
@@ -70,7 +70,7 @@ namespace ChaoticMind {
         public override void WasKilled() {
             WasCleared();
             if (_projectileType.DeathParticle != null) {
-                Program.DeprecatedObjects.Particles.Add(new Particle(Position, (float)Utilities.randomDouble(), _projectileType.DeathParticle));
+                _owner.Particles.Add(new Particle(Position, (float)Utilities.randomDouble(), _projectileType.DeathParticle));
             }
         }
 

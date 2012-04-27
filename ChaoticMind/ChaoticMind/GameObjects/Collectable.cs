@@ -11,13 +11,13 @@ namespace ChaoticMind {
 
         CollectibleType _collectibleType;
 
-        public Collectable(CollectibleType collectibleType, Vector2 startingPosition)
-            : base(startingPosition, collectibleType.AnimationSequence, collectibleType.VisibleEntitySize, collectibleType.AnimationDuration, collectibleType.DrawLayer) {
+        public Collectable(GameObjects owner, CollectibleType collectibleType, Vector2 startingPosition)
+            : base(owner, startingPosition, collectibleType.AnimationSequence, collectibleType.VisibleEntitySize, collectibleType.AnimationDuration, collectibleType.DrawLayer) {
 
                 _collectibleType = collectibleType;
 
             //set up the body
-            _body = BodyFactory.CreateCircle(Program.DeprecatedObjects.PhysicsWorld, collectibleType.Radius, 0.5f);
+                _body = BodyFactory.CreateCircle(_owner.PhysicsWorld, collectibleType.Radius, 0.5f);
             _body.BodyType = BodyType.Kinematic;
             _body.AngularDamping = 0;
             _body.AngularVelocity = 5;
@@ -34,14 +34,14 @@ namespace ChaoticMind {
         public override void Update(float deltaTime) {
             base.Update(deltaTime);
             if (_collectibleType == CollectibleType.ObjectiveType && MapTile.isOutOfBounds(Position)) {
-                Program.DeprecatedObjects.MainPlayer.ApplyDamage(50);
+                _owner.MainPlayer.ApplyDamage(50);
                 _shouldBeKilledFlag = true;
                 GameState.spawnNewObjective();
             }
         }
 
         bool _body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact) {
-            if (fixtureB.Body.UserData == Program.DeprecatedObjects.MainPlayer) {
+            if (fixtureB.Body.UserData == _owner.MainPlayer) {
                 _shouldBeKilledFlag = true;
                 if (_collectibleType == CollectibleType.ObjectiveType) {
                     GameState.ObjectiveWasCollected();

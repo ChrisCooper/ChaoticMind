@@ -12,8 +12,8 @@ namespace ChaoticMind {
 
         public float SightGridDistance = 1;
 
-        public Player(Vector2 startingPosition)
-            : base(CharacterType.PlayerType, startingPosition) {
+        public Player(GameObjects owner, Vector2 startingPosition)
+            : base(owner, CharacterType.PlayerType, startingPosition) {
 
             _weapons = new List<Weapon>();
             _weapons.Add(new Weapon(WeaponType.AssaultRifle, 7, this));

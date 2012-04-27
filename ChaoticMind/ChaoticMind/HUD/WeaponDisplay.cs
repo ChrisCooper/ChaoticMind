@@ -31,21 +31,21 @@ namespace ChaoticMind.HUD {
             _weaponImageRectangle = new Rectangle((int)(_weaponFrameRectangle.Left + (0.357f * weaponFrameSideLength)), (int)(_weaponFrameRectangle.Top + (0.150f * weaponFrameSideLength)), (int)(0.547f * _weaponFrameRectangle.Width), (int)(0.547f * _weaponFrameRectangle.Height));
         }
 
-        internal void DrawDisplay(SpriteBatch spriteBatch) {
+        internal void Draw() {
 
-            spriteBatch.Draw(_weaponFrameSprite.Texture, _weaponFrameRectangle, _weaponFrameSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _weaponFrameSprite.DrawLayer);
+            Program.SpriteBatch.Draw(_weaponFrameSprite.Texture, _weaponFrameRectangle, _weaponFrameSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, _weaponFrameSprite.DrawLayer);
 
             //Ammo in clip
             Vector2 ammoPosition = (Program.DeprecatedObjects.MainPlayer.CurrentWeapon.RoundsLeftInClip < 10) ? _ammoLocation + singleDigitOffset : _ammoLocation;
-            spriteBatch.DrawString(FontManager.DebugFont, string.Format("{0:0}", Program.DeprecatedObjects.MainPlayer.CurrentWeapon.RoundsLeftInClip), ammoPosition, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, DrawLayers.HUD.Minimap_normal_elements);
+            Program.SpriteBatch.DrawString(FontManager.DebugFont, string.Format("{0:0}", Program.DeprecatedObjects.MainPlayer.CurrentWeapon.RoundsLeftInClip), ammoPosition, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, DrawLayers.HUD.Minimap_normal_elements);
 
             //Spare clips
-                Vector2 spareClipsPosition = (Program.DeprecatedObjects.MainPlayer.CurrentWeapon.SpareClipsLeft < 10) ? _spareRoundsLocation + singleDigitOffset : _spareRoundsLocation;
-            spriteBatch.DrawString(FontManager.DebugFont, string.Format("{0:0}", Program.DeprecatedObjects.MainPlayer.CurrentWeapon.SpareClipsLeft), spareClipsPosition, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, DrawLayers.HUD.Minimap_normal_elements);
+            Vector2 spareClipsPosition = (Program.DeprecatedObjects.MainPlayer.CurrentWeapon.SpareClipsLeft < 10) ? _spareRoundsLocation + singleDigitOffset : _spareRoundsLocation;
+            Program.SpriteBatch.DrawString(FontManager.DebugFont, string.Format("{0:0}", Program.DeprecatedObjects.MainPlayer.CurrentWeapon.SpareClipsLeft), spareClipsPosition, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, DrawLayers.HUD.Minimap_normal_elements);
 
             //Weapon picture
             AnimatedSprite weaponSprite = Program.DeprecatedObjects.MainPlayer.CurrentWeapon.WeaponType.HUD_Image;
-            spriteBatch.Draw(weaponSprite.Texture, _weaponImageRectangle, weaponSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, weaponSprite.DrawLayer);
+            Program.SpriteBatch.Draw(weaponSprite.Texture, _weaponImageRectangle, weaponSprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, weaponSprite.DrawLayer);
 
         }
     }

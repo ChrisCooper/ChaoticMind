@@ -35,14 +35,14 @@ namespace ChaoticMind {
             Map = new MapManager();
             Map.StartNewGame(mapDimension);
 
-            MainPlayer = new Player(Vector2.Zero);
+            MainPlayer = new Player(this, Vector2.Zero);
 
-            EnemyDirector = new AIDirector();
+            EnemyDirector = new AIDirector(this);
             EnemyDirector.StartNewGame();
 
-            MainCamera = new Camera(Vector2.Zero, 35.0f, Program.DeprecatedGame.GraphicsDevice, Program.DeprecatedGame.SpriteBatch);
+            MainCamera = new Camera(Vector2.Zero, 35.0f, Program.Graphics.GraphicsDevice);
             MainCamera.setTarget(MainPlayer.Body);
-            MainCamera.StartNewGame();
+            MainCamera.StartNewGame(mapDimension, mapDimension);
         }
 
         internal void ClearGame() {

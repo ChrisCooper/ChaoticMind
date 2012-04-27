@@ -11,8 +11,10 @@ namespace ChaoticMind {
     class GameObject {
         protected Body _body;
         protected bool _shouldBeKilledFlag = false;
+        protected GameObjects _owner;
 
-        public GameObject(Vector2 startingPosition) {
+        public GameObject(GameObjects owner, Vector2 startingPosition) {
+            _owner = owner;
         }
 
         public virtual void Update(float deltaTime) {
@@ -40,6 +42,10 @@ namespace ChaoticMind {
 
         public virtual void WasCleared(){
             _body.Dispose();
+        }
+
+        public bool isOutOfGridBounds(Vector2 gridCoord) {
+            return gridCoord.X < 0 || gridCoord.X >= _owner.Map.GridDimension || gridCoord.Y < 0 || gridCoord.Y >= _owner.Map.GridDimension;
         }
     }
 }

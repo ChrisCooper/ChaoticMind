@@ -12,28 +12,28 @@ namespace ChaoticMind {
         protected AnimatedSprite _sprite;
         protected AnimatedSprite _minimapSprite;
 
-        public DrawableGameObject(String spriteResource, int xFrames, int yFrames, float entitySize, float animationDuration, float drawLayer, Vector2 startingPosition)
-            : base(startingPosition) {
+        public DrawableGameObject(GameObjects owner, String spriteResource, int xFrames, int yFrames, float entitySize, float animationDuration, float drawLayer, Vector2 startingPosition)
+            : base(owner, startingPosition) {
             _sprite = new AnimatedSprite(spriteResource, xFrames, yFrames, entitySize, animationDuration, drawLayer);
             _sprite.RandomizeFrame();
         }
 
-        public DrawableGameObject(Vector2 startingPosition, SpriteAnimationSequence spriteSequence, float entitySize, float animationDuration, float drawLayer)
-            : base(startingPosition) {
+        public DrawableGameObject(GameObjects owner, Vector2 startingPosition, SpriteAnimationSequence spriteSequence, float entitySize, float animationDuration, float drawLayer)
+            : base(owner, startingPosition) {
             if (spriteSequence != null) {
                 _sprite = new AnimatedSprite(spriteSequence, entitySize, animationDuration, drawLayer);
                 _sprite.RandomizeFrame();
             }
         }
 
-        public DrawableGameObject(Vector2 startingPosition)
-            : base(startingPosition) {
+        public DrawableGameObject(GameObjects owner, Vector2 startingPosition)
+            : base(owner, startingPosition) {
         }
 
         public override void Update(float deltaTime) {
             //shift the object
-            if (!_body.IsDisposed && Program.DeprecatedObjects.Map.isShifting(_body.Position)) {
-                _body.Position += Program.DeprecatedObjects.Map.shiftAmount() * deltaTime;
+            if (!_body.IsDisposed && _owner.Map.isShifting(_body.Position)) {
+                _body.Position += _owner.Map.shiftAmount() * deltaTime;
             }
 
             //draw the object
