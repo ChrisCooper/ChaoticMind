@@ -80,7 +80,7 @@ namespace ChaoticMind {
 
             PainStaticMaker.Initialize();
 
-            _mouseDrawer.Initialize();
+            MouseDrawer.Initialize();
 
             CharacterType.Initialize();
             ParticleType.Initialize();
@@ -257,8 +257,6 @@ namespace ChaoticMind {
                 default:
                     throw new NotImplementedException("The GameState.GameMode " + GameState.Mode + " is not handled");
             }
-
-            _mouseDrawer.drawMouse(_spriteBatch);
 
             _spriteBatch.End();
 

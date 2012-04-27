@@ -35,7 +35,7 @@ namespace ChaoticMind {
         public static Rectangle ScreenRect { get; set; }
 
         /// <summary>
-        /// A rectanlge taking up the biggest possible square (in the middle of the screen rectangle)
+        /// A rectangle taking up the biggest possible square (in the middle of the screen rectangle)
         /// </summary>
         public static Rectangle BiggestSquare { get; set; }
 

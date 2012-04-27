@@ -7,31 +7,42 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ChaoticMind {
+    public enum MouseType {
+        POINTER,
+        REDICAL
+    }
+
     class MouseDrawer {
 
-        StaticSprite _retical;
-        StaticSprite _mouse;
-        StaticSprite _mouseClicked;
+        static StaticSprite _retical;
+        static StaticSprite _mouse;
+        static StaticSprite _mouseClicked;
 
-        internal void Initialize() {
+        public static void Initialize() {
             _retical = new StaticSprite("UI/Retical", 1, DrawLayers.VeryTop.Mouse);
             _mouse = new StaticSprite("UI/Mouse", 1, DrawLayers.VeryTop.Mouse);
             _mouseClicked = new StaticSprite("UI/Mouse_Clicked", 1, DrawLayers.VeryTop.Mouse);
         }
 
-        internal void drawMouse(SpriteBatch spriteBatch) {
+        //internal
+
+        public static void Draw(MouseType type) {
             Vector2 mouseLocation = InputManager.MouseScreenPosition;
-            if (GameState.Mode == GameState.GameMode.NORMAL) {
-                spriteBatch.Draw(_retical.Texture, mouseLocation, _retical.CurrentTextureBounds, Color.White, 0.0f, _retical.CurrentTextureOrigin, 1, SpriteEffects.None, 0.0f);
+
+            StaticSprite sprite;
+
+            switch (type) {
+                case MouseType.POINTER:
+                    sprite = InputManager.IsMouseDown() ? _mouseClicked : _mouse;
+                    break;
+                case MouseType.REDICAL:
+                    sprite = _retical;
+                    break;
+                default:
+                    throw new Exception("Unhandled MouseType");
             }
-            else {
-                if (!InputManager.IsMouseDown()) {
-                    spriteBatch.Draw(_mouse.Texture, mouseLocation, _mouse.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, 1, SpriteEffects.None, 0.0f);
-                }
-                else {
-                    spriteBatch.Draw(_mouseClicked.Texture, mouseLocation, _mouseClicked.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, 1, SpriteEffects.None, 0.0f);
-                }
-            }
+
+            Program.SpriteBatch.Draw(sprite.Texture, mouseLocation, sprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, 1, SpriteEffects.None, 0.0f);
         }
 
     }

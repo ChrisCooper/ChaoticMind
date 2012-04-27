@@ -25,6 +25,8 @@ namespace ChaoticMind {
         protected override void LoadContent() {
             GraphicsUtils.LoadContent();
 
+            MouseDrawer.Initialize();
+
             ActiveComponent = new FullMenu();
 
             base.LoadContent();

@@ -26,6 +26,7 @@ namespace ChaoticMind.FullMenuScreens {
 
         public void Draw(float deltaTime) {
             ActiveScreen.Draw(deltaTime);
+            MouseDrawer.Draw(MouseType.POINTER);
         }
 
 
