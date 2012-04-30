@@ -35,10 +35,6 @@ namespace ChaoticMind {
             _blackPx.SetData<uint>(px);
         }
 
-        public void ClearGame() {
-            _fadeInTimer.Reset();
-        }
-
         public void Update(float deltaTime) {
             _fadeInTimer.Update(deltaTime);
         }

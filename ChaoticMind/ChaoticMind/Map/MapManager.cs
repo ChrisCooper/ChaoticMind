@@ -79,26 +79,6 @@ namespace ChaoticMind {
             UpdateOverlays();
         }
 
-        internal void ClearGame() {
-
-            //clear the queued up shifts
-            _shiftQueue.Clear();
-
-            //destroy the tiles
-            for (int y = 0; y < _gridDimension; y++) {
-                for (int x = 0; x < _gridDimension; x++) {
-                    _tiles[x, y].WasCleared();
-                    _tiles[x, y] = null;
-                }
-            }
-
-            _tiles = null;
-            _gridDimension = 0;
-            _edgeOfMapdimesion = 0;
-            _isShifting = false;
-
-        }
-
         public void Update(float deltaTime) {
 
             foreach (MapTile tile in _tiles) {
