@@ -69,9 +69,6 @@ namespace ChaoticMind {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public  void Update(float deltaTime) {
 
-            //must call once BEFORE any keyboard/mouse operations
-            InputManager.Update(deltaTime);
-
             //Allows the game to exit
             if (InputManager.IsKeyDown(Keys.Escape)) {
                 return;
