@@ -138,15 +138,18 @@ namespace ChaoticMind {
                 case GameState.GameMode.NORMAL:
                     DrawGameBoard();
                     DrawHUD();
+                    MouseDrawer.Draw(MouseType.REDICAL);
                     break;
                 case GameState.GameMode.PAUSED:
                     DrawGameBoard();
                     drawPauseOverlay();
+                    MouseDrawer.Draw(MouseType.POINTER);
                     break;
                 case GameState.GameMode.SHIFTING:
                     DrawGameBoard();
                     _shiftInterface.Draw();
                     Objects.DrawOnShiftInterface(_shiftInterface);
+                    MouseDrawer.Draw(MouseType.POINTER);
                     break;
                 case GameState.GameMode.GAMEOVERWIN:
                     _winScreen.Draw();

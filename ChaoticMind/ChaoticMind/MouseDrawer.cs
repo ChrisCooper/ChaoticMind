@@ -30,19 +30,22 @@ namespace ChaoticMind {
             Vector2 mouseLocation = InputManager.MouseScreenPosition;
 
             StaticSprite sprite;
+            Vector2 origin;
 
             switch (type) {
                 case MouseType.POINTER:
                     sprite = InputManager.IsMouseDown ? _mouseClicked : _mouse;
+                    origin = Vector2.Zero;
                     break;
                 case MouseType.REDICAL:
                     sprite = _retical;
+                    origin = sprite.CurrentTextureOrigin;
                     break;
                 default:
                     throw new Exception("Unhandled MouseType");
             }
 
-            Program.SpriteBatch.Draw(sprite.Texture, mouseLocation, sprite.CurrentTextureBounds, Color.White, 0.0f, Vector2.Zero, 1, SpriteEffects.None, 0.0f);
+            Program.SpriteBatch.Draw(sprite.Texture, mouseLocation, sprite.CurrentTextureBounds, Color.White, 0.0f, origin, 1, SpriteEffects.None, 0.0f);
         }
 
     }
