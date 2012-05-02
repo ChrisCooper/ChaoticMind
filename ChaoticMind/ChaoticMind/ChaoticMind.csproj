@@ -128,6 +128,7 @@
     <Compile Include="HUD\MinimapDisplay.cs" />
     <Compile Include="HUD\WeaponDisplay.cs" />
     <Compile Include="ChaoticMindGame.cs" />
+    <Compile Include="PauseMenu.cs" />
     <Compile Include="ShiftButton.cs" />
     <Compile Include="Characters\Enemies\Enemy.cs" />
     <Compile Include="Characters\Enemies\Swarmer.cs" />

@@ -26,7 +26,7 @@ namespace ChaoticMind.FullMenuScreens {
         }
 
         public void StartGame() {
-            ParentGame.StartGame();
+            NextComponent = new ChaoticMindPlayable();
         }
 
         public void Draw(float deltaTime) {

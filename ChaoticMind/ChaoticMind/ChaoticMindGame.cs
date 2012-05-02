@@ -46,10 +46,6 @@ namespace ChaoticMind {
             base.Update(gameTime);
         }
 
-        public void StartGame() {
-            ActiveComponent = new ChaoticMindPlayable();
-        }
-
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>

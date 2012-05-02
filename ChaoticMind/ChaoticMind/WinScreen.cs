@@ -5,7 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 
 namespace ChaoticMind {
-    class WinScreen {
+    class WinScreen : IGameFlowComponent {
+
         StaticSprite _winSprite;
 
         public WinScreen() {
@@ -15,8 +16,9 @@ namespace ChaoticMind {
         public void Update(float deltaTime) {
         }
 
-        public void Draw() {
-            //Draw win image
+        public IGameFlowComponent NextComponent { get; set; }
+
+        public void Draw(float deltaTime) {
             Program.SpriteBatch.Draw(_winSprite.Texture, ScreenUtils.BiggestSquare, Color.White);
         }
     }

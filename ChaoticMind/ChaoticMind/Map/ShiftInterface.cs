@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace ChaoticMind {
-    class ShiftInterface {
+    class ShiftInterface : IGameFlowComponent {
 
         //The space around the shift interface on each of the tightest sides
         const int interfacePixelPadding = 50;
@@ -26,8 +26,11 @@ namespace ChaoticMind {
 
         GameObjects _objectsOwner;
 
-        public ShiftInterface(GameObjects objectsOwner) {
+        ChaoticMindPlayable _playable;
 
+        public ShiftInterface(ChaoticMindPlayable playable, GameObjects objectsOwner) {
+
+            _playable = playable;
             _objectsOwner = objectsOwner;
 
             _tiles = _objectsOwner.Map.Tiles;
@@ -95,13 +98,17 @@ namespace ChaoticMind {
             }
         }
 
-        internal void Update(float deltaTime) {
+        public void Update(float deltaTime) {
             _buttons.ForEach(b => b.Update(deltaTime));
 
             _addShiftToQueueButton.Update(deltaTime);
+
+            if (InputManager.IsKeyClicked(Keys.Space)) {
+                _playable.Resume();
+            }
         }
 
-        internal void Draw() {
+        public void Draw(float deltaTime) {
 
             //draw tiles
             Vector2 drawingLocation = new Vector2(_topLeftTilePosition.X, _topLeftTilePosition.Y);
@@ -115,10 +122,20 @@ namespace ChaoticMind {
                 drawingLocation.X = _topLeftTilePosition.X;
             }
 
+            DrawGameObjects();
+
             //draw shift buttons
             _buttons.ForEach(b => b.DrawSelf(Program.SpriteBatch));
 
             _addShiftToQueueButton.DrawSelf(Program.SpriteBatch);
+        }
+
+        private void DrawGameObjects() {
+            _objectsOwner.Particles.ForEach(p => drawOnOverlay(p));
+            _objectsOwner.Projectiles.ForEach(p => drawOnOverlay(p));
+            _objectsOwner.Collectables.ForEach(c => drawOnOverlay(c));
+            _objectsOwner.Enemies.ForEach(e => drawOnOverlay(e));
+            drawOnOverlay(_objectsOwner.MainPlayer);
         }
 
         public void drawOnOverlay(IMiniMapable c) {
@@ -137,5 +154,7 @@ namespace ChaoticMind {
         internal void ButtonWasToggledOff() {
             _pressedButton = null;
         }
+
+        public IGameFlowComponent NextComponent { get; set; }
     }
 }

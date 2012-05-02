@@ -22,7 +22,7 @@ namespace ChaoticMind.HUD {
             _minimapDisplay = new MinimapDisplay();
         }
 
-        internal void Draw() {
+        internal void Draw(float deltaTime) {
             _healthDisplay.Draw();
             _weaponDisplay.Draw();
             _minimapDisplay.Draw();
