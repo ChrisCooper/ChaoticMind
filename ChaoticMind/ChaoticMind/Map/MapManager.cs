@@ -57,7 +57,7 @@ namespace ChaoticMind {
         GameObjects _objectsOwner;
 
         //constructor
-        public MapManager(GameObjects objectsOwner) {
+        public MapManager(GameObjects objectsOwner, int gridDimension) {
             _objectsOwner = objectsOwner;
             _shiftQueue = new LinkedList<MapShift>();
         }
@@ -77,6 +77,18 @@ namespace ChaoticMind {
             }
             //initially set the overlays
             UpdateOverlays();
+            UpdateVisibilities();
+        }
+
+        private void UpdateVisibilities() {
+            for (int x = 0; x < _tiles.GetLength(0); x++) {
+                for (int y = 0; y < _tiles.GetLength(1); y++) {
+                    if (_tiles[x, y] != null) {
+                        _tiles[x, y].updateVisibility();
+                        _tiles[x, y].updateConnectedDoors(getTileDoors(x, y - 1), getTileDoors(x, y + 1), getTileDoors(x + 1, y), getTileDoors(x - 1, y));
+                    }
+                }
+            }
         }
 
         public void Update(float deltaTime) {
@@ -87,6 +99,8 @@ namespace ChaoticMind {
             if (_shiftedOutTile != null) {
                 _shiftedOutTile.Update(deltaTime);
             }
+
+            UpdateVisibilities();
 
             //process queue
             if (_shiftQueue.Count > 0) {
@@ -230,15 +244,15 @@ namespace ChaoticMind {
         }
 
         //Minimap
-        public void DrawMap(Camera camera) {
+        public void DrawMap(HUD.MinimapDisplay display) {
             for (int y = 0; y < _gridDimension; y++) {
                 for (int x = 0; x < _gridDimension; x++) {
                     MapTile tile = _tiles[x, y];
-                    camera.DrawMinimap(tile);
+                    display.DrawMinimap(tile);
                 }
             }
             if (_shiftedOutTile != null) {
-                camera.DrawMinimap(_shiftedOutTile, 1.0f - _shiftedOutTile.travelPercent());
+                display.DrawMinimap(_shiftedOutTile, 1.0f - _shiftedOutTile.travelPercent());
             }
         }
 

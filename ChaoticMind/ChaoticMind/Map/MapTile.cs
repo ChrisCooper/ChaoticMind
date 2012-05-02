@@ -88,11 +88,6 @@ namespace ChaoticMind {
                     snapToTarget();
                 }
             }
-
-            if (Math.Abs(GridCoordinate.X - _owner.MainPlayer.GridCoordinate.X) <= _owner.MainPlayer.SightGridDistance &&
-                Math.Abs(GridCoordinate.Y - _owner.MainPlayer.GridCoordinate.Y) <= _owner.MainPlayer.SightGridDistance) {
-                IsVisible = true;
-            }
         }
 
         private void snapToTarget() {
@@ -123,7 +118,13 @@ namespace ChaoticMind {
             return new Vector2(TileSideLength * x, TileSideLength * y);
         }
 
-        //updates the connected doors
+        internal void updateVisibility() {
+            if (Math.Abs(GridCoordinate.X - _owner.MainPlayer.GridCoordinate.X) <= _owner.MainPlayer.SightGridDistance &&
+                Math.Abs(GridCoordinate.Y - _owner.MainPlayer.GridCoordinate.Y) <= _owner.MainPlayer.SightGridDistance) {
+                IsVisible = true;
+            }
+        }
+
         public void updateConnectedDoors(DoorDirections n, DoorDirections s, DoorDirections e, DoorDirections w) {
             _connectedDoors.hasNorth = _openDoors.hasNorth && n != null && n.hasSouth;
             _connectedDoors.hasSouth = _openDoors.hasSouth && s != null && s.hasNorth;

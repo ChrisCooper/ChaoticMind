@@ -41,17 +41,16 @@ namespace ChaoticMind {
             Collectables = new List<IGameObject>();
             Enemies = new List<IGameObject>();
 
-            Map = new MapManager(this);
-            Map.StartNewGame(mapDimension);
-
             MainPlayer = new Player(this, Vector2.Zero);
+
+            Map = new MapManager(this, mapDimension);
+            Map.StartNewGame(mapDimension);
 
             EnemyDirector = new AIDirector(this);
             EnemyDirector.StartNewGame();
 
             MainCamera = new Camera(Vector2.Zero, 35.0f, Program.Graphics.GraphicsDevice);
-            MainCamera.setTarget(MainPlayer.Body);
-            MainCamera.StartNewGame(mapDimension, mapDimension);
+            MainCamera.Target = MainPlayer.Body;
 
             _shiftInterface = new ShiftInterface(_playable, this);
         }
@@ -122,15 +121,6 @@ namespace ChaoticMind {
             Collectables.ForEach(c => camera.DrawGlow(c));
             Enemies.ForEach(e => camera.DrawGlow(e));
             camera.DrawGlow(MainPlayer);
-        }
-
-        internal void DrawMinimap(Camera camera) {
-            Map.DrawMap(camera);
-            Particles.ForEach(p => camera.DrawMinimap(p));
-            Projectiles.ForEach(p => camera.DrawMinimap(p));
-            Collectables.ForEach(c => camera.DrawMinimap(c));
-            Enemies.ForEach(e => camera.DrawMinimap(e));
-            camera.DrawMinimap(MainPlayer);
         }
 
         public IGameFlowComponent NextComponent { get; set; }

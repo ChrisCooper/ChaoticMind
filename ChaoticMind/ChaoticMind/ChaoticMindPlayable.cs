@@ -78,8 +78,6 @@ namespace ChaoticMind {
             }
             else {
                 _hudManager.Draw(deltaTime);
-                //TODO: Put this drawing code into the hudmanager, out of camera
-                ((GameObjects)_gameComponent).DrawMinimap(((GameObjects)_gameComponent).MainCamera);
                 MouseDrawer.Draw(MouseType.POINTER);
             }
         }

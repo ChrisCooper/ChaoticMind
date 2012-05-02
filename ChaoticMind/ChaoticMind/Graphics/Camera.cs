@@ -25,14 +25,16 @@ namespace ChaoticMind {
         Vector2 _toCentre = Vector2.Zero;
 
         Body _target;
+        public Body Target {
+            set {
+                _target = value;
+                _position = _target.Position;
+            }
+        }
 
         float _shakeMagnitude = 0.0f;
         float _shakeDecay = 0.97f;
         float _shakeIncreaseAmount = 1.0f;
-
-        Rectangle _minimapRect;
-        private float _mapWidthScale;
-        private float _mapHeightScale;
 
         public Camera(Vector2 startingPosition, float startingZoom, GraphicsDevice graphics ) {
             _position = startingPosition;
@@ -40,22 +42,6 @@ namespace ChaoticMind {
             _startingZoom = startingZoom;
             _graphicsDevice = graphics;
             _spriteBatch = Program.SpriteBatch;
-            _minimapRect = new Rectangle(10, 600, 100, 100);//TODO: HUDManager.MinimapRect;
-        }
-
-        public void resetZoom() {
-            _zoom = _startingZoom;
-        }
-
-        public void StartNewGame(float mapWidth, float mapHeight) {
-            _mapWidthScale = _minimapRect.Width / mapWidth;
-            _mapHeightScale = _minimapRect.Height / mapHeight;
-            resetZoom();
-        }
-
-        public void setTarget(Body target) {
-            _target = target;
-            _position = _target.Position;
         }
 
         public Vector2 screenPointToWorld(Vector2 screenPoint) {
@@ -86,27 +72,6 @@ namespace ChaoticMind {
             if (tile.Overlay != null) {
                 _spriteBatch.Draw(tile.Overlay.Texture, WorldToScreenPos(tile.Position), tile.Overlay.CurrentTextureBounds, clr, tile.OverlayRotation, tile.Overlay.CurrentTextureOrigin, _zoom / tile.Overlay.PixelsPerMeter, SpriteEffects.None, tile.OverlayDrawLayer);
             }
-        }
-
-        public void DrawMinimap(IMiniMapable obj) {
-            DrawMinimap(obj, 1.0f);
-        }
-
-        public void DrawMinimap(IMiniMapable obj, float alpha) {
-            if (obj.MapSprite != null) {
-                _spriteBatch.Draw(obj.MapSprite.Texture, WorldToMapPos(obj.MapPosition), obj.MapSprite.CurrentTextureBounds, Color.White * alpha, obj.MapRotation, obj.MapSprite.CurrentTextureOrigin, WorldToMapScale(1 / obj.MapSprite.PixelsPerMeter), SpriteEffects.None, obj.MapDrawLayer);
-            }
-        }
-
-        private float WorldToMapScale(float worldScale) {
-            return worldScale * _mapWidthScale;
-        }
-
-        private Vector2 WorldToMapPos(Vector2 worldPoint) {
-
-            float x = _minimapRect.Left + (worldPoint.X * _mapWidthScale) + MapTile.TileSideLength / 2 * _mapWidthScale;
-            float y = _minimapRect.Top + (worldPoint.Y * _mapHeightScale) + MapTile.TileSideLength / 2 * _mapHeightScale;
-            return new Vector2(x, y);
         }
 
         public void Update(float deltaTime) {
