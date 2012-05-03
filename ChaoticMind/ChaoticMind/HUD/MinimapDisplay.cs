@@ -31,7 +31,7 @@ namespace ChaoticMind.HUD {
             float frameWidth = _mapFrameWidthFraction * mapFrameSideLength;
             _mapRect = new Rectangle((int)(_mapFrameRect.Left + frameWidth), (int)(_mapFrameRect.Top + frameWidth), (int)(_mapFrameRect.Width - 2 * frameWidth), (int)(_mapFrameRect.Height - 2 * frameWidth));
 
-            _mapScale = _mapRect.Width / _objectsOwner.Map.EdgeOfMapdimesion;
+            _mapScale = _mapRect.Width / _objectsOwner.Map.EdgeOfMapDimesion;
         }
 
         internal void Draw() {

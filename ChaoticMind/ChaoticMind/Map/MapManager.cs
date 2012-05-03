@@ -276,7 +276,7 @@ namespace ChaoticMind {
         }
 
         //The fartherst point still on the map
-        public float EdgeOfMapdimesion {
+        public float EdgeOfMapDimesion {
             get { return _edgeOfMapdimesion; }
         }
 

@@ -28,6 +28,8 @@ namespace ChaoticMind {
 
         ChaoticMindPlayable _playable;
 
+        private float _mapScale;
+
         public ShiftInterface(ChaoticMindPlayable playable, GameObjects objectsOwner) {
 
             _playable = playable;
@@ -45,6 +47,7 @@ namespace ChaoticMind {
 
             StaticSprite tileSprite = _tiles[0, 0].ShiftTexture;
             _scalingFactor = _tileSideLength / tileSprite.CurrentTextureBounds.Width;
+            _mapScale = interfaceSideLength / _objectsOwner.Map.EdgeOfMapDimesion;
 
             //Create buttons
 
@@ -140,8 +143,16 @@ namespace ChaoticMind {
 
         public void drawOnOverlay(IMiniMapable c) {
             if (c.MapSprite != null) {
-                Program.SpriteBatch.Draw(c.MapSprite.Texture, c.MapPosition / (float)MapTile.TileSideLength * _tileSideLength + _topLeftTilePosition, c.MapSprite.CurrentTextureBounds, Color.White, c.MapRotation, c.MapSprite.CurrentTextureOrigin, 1 / c.MapSprite.PixelsPerMeter * 2, SpriteEffects.None, DrawLayers.Menu.HighlightElements);
+                Program.SpriteBatch.Draw(c.MapSprite.Texture, WorldToMapPos(c.MapPosition), c.MapSprite.CurrentTextureBounds, Color.White, c.MapRotation, c.MapSprite.CurrentTextureOrigin, WorldToMapScale(1 / c.MapSprite.PixelsPerMeter), SpriteEffects.None, DrawLayers.Menu.HighlightElements);
             }
+        }
+
+        private float WorldToMapScale(float worldScale) {
+            return worldScale * _mapScale / 2;
+        }
+
+        private Vector2 WorldToMapPos(Vector2 worldPosition) {
+            return worldPosition / (float)MapTile.TileSideLength * _tileSideLength + _topLeftTilePosition;
         }
 
         internal void ButtonWasPressed(ShiftButton pressedButton) {
