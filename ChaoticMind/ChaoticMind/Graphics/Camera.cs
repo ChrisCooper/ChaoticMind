@@ -77,8 +77,6 @@ namespace ChaoticMind {
         public void Update(float deltaTime) {
 
             if (_target != null) {
-                //to make shooting work properly
-                //_position = _target.worldPosition;
                 _position += FollowFaithfulness * (_target.Position - _position);
             }
 
