@@ -19,7 +19,7 @@ namespace ChaoticMind {
 
 
         public void Update(float deltaTime) {
-            if (InputManager.IsKeyClicked(Keys.P)) {
+            if (InputManager.IsKeyClicked(KeyInput.TOGGLE_PAUSE_MENU)) {
                 _playble.Resume();
             }
         }

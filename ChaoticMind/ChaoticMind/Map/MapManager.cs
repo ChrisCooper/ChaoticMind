@@ -41,7 +41,7 @@ namespace ChaoticMind {
         float _edgeOfMapdimesion;
 
         MapTile[,] _tiles;
-        LinkedList<MapShift> _shiftQueue; //note: doubly linked
+        LinkedList<MapShift> _shiftQueue;
 
         private const float NERVE_PULSE_SPEED = 0.003f;
         private const float NERVE_MAX_ALPHA = 0.9f;

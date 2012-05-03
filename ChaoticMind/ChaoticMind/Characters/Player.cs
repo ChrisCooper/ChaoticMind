@@ -41,16 +41,16 @@ namespace ChaoticMind {
 
             Vector2 movementVector = Vector2.Zero;
 
-            if (InputManager.IsKeyDown(Keys.A)) {
+            if (InputManager.IsKeyDown(KeyInput.MOVE_LEFT)) {
                 movementVector -= Vector2.UnitX;
             }
-            if (InputManager.IsKeyDown(Keys.D)) {
+            if (InputManager.IsKeyDown(KeyInput.MOVE_RIGHT)) {
                 movementVector += Vector2.UnitX;
             }
-            if (InputManager.IsKeyDown(Keys.W)) {
+            if (InputManager.IsKeyDown(KeyInput.MOVE_FORWARD)) {
                 movementVector -= Vector2.UnitY;
             }
-            if (InputManager.IsKeyDown(Keys.S)) {
+            if (InputManager.IsKeyDown(KeyInput.MOVE_BACKWARD)) {
                 movementVector += Vector2.UnitY;
             }
 
@@ -67,12 +67,12 @@ namespace ChaoticMind {
             }
 
             //reload
-            if (InputManager.IsKeyClicked(Keys.E)) {
+            if (InputManager.IsKeyClicked(KeyInput.RELOAD)) {
                 Reload();
             }
 
             //Switch weapon
-            if (InputManager.IsKeyClicked(Keys.Tab)) {
+            if (InputManager.IsKeyClicked(KeyInput.CHANGE_WEAPON)) {
                 GoToNextWeapon();
             }
         }

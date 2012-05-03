@@ -86,10 +86,10 @@ namespace ChaoticMind {
             } else if (_deprecatedState.AllObjectivesCollected) {
                 _deprecatedState.Mode = GameState.GameMode.GAMEOVERWIN;
             } else */
-            if (InputManager.IsKeyClicked(Keys.P)) {
+            if (InputManager.IsKeyClicked(KeyInput.TOGGLE_PAUSE_MENU)) {
                 NextComponent = new PauseMenu(_playable);
                 //_deprecatedState.Mode = GameState.GameMode.PAUSED;
-            } else if (InputManager.IsKeyClicked(Keys.Space)) {
+            } else if (InputManager.IsKeyClicked(KeyInput.TOGGLE_SHIFT_MENU)) {
                 NextComponent = _shiftInterface;
             }
         }

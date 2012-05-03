@@ -103,7 +103,7 @@ namespace ChaoticMind {
 
             _addShiftToQueueButton.Update(deltaTime);
 
-            if (InputManager.IsKeyClicked(Keys.Space)) {
+            if (InputManager.IsKeyClicked(KeyInput.TOGGLE_SHIFT_MENU)) {
                 _playable.Resume();
             }
         }
