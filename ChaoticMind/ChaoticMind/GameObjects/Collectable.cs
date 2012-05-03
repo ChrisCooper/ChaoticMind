@@ -44,7 +44,7 @@ namespace ChaoticMind {
             if (fixtureB.Body.UserData == _owner.MainPlayer) {
                 _shouldBeKilledFlag = true;
                 if (_collectibleType == CollectibleType.ObjectiveType) {
-                    //TODO: spawn objective
+                    _owner.Objectives.ObjectiveWasCollected();
                 }
             }
             return false;

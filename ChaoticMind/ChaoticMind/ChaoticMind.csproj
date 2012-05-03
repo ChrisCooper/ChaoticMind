@@ -136,7 +136,7 @@
     <Compile Include="GameObjects\CollectibleType.cs" />
     <Compile Include="Weapons\ProjectileType.cs" />
     <Compile Include="Weapons\WeaponType.cs" />
-    <Compile Include="GameState.cs" />
+    <Compile Include="ObjectiveManager.cs" />
     <Compile Include="Weapons\Weapon.cs" />
     <Compile Include="Weapons\ProjectileManager.cs" />
     <Compile Include="Weapons\Projectile.cs" />

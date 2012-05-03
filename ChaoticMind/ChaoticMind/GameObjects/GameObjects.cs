@@ -25,6 +25,7 @@ namespace ChaoticMind {
 
         internal Camera MainCamera { get; set; }
 
+        internal ObjectiveManager Objectives { get; set; }
 
         ShiftInterface _shiftInterface;
 
@@ -51,6 +52,8 @@ namespace ChaoticMind {
 
             MainCamera = new Camera(Vector2.Zero, 35.0f, Program.Graphics.GraphicsDevice);
             MainCamera.Target = MainPlayer.Body;
+
+            Objectives = new ObjectiveManager(this);
 
             _shiftInterface = new ShiftInterface(_playable, this);
         }
@@ -82,9 +85,9 @@ namespace ChaoticMind {
         private void CheckGameState() {
             NextComponent = null;
             /*if (Objects.MainPlayer.ShouldBeKilled) {
-                _deprecatedState.Mode = GameState.GameMode.GAMEOVERLOSE;
+                _deprecatedState.Mode = ObjectiveManager.GameMode.GAMEOVERLOSE;
             } else if (_deprecatedState.AllObjectivesCollected) {
-                _deprecatedState.Mode = GameState.GameMode.GAMEOVERWIN;
+                _deprecatedState.Mode = ObjectiveManager.GameMode.GAMEOVERWIN;
             } else */
             if (InputManager.IsKeyClicked(KeyInput.TOGGLE_PAUSE_MENU)) {
                 NextComponent = new PauseMenu(_playable);
