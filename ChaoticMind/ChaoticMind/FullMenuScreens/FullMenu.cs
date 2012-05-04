@@ -26,7 +26,10 @@ namespace ChaoticMind.FullMenuScreens {
         }
 
         public void StartGame() {
-            NextComponent = new ChaoticMindPlayable();
+            GameLevel testLevel = new GameLevel();
+            testLevel.MapDimension = 4;
+            testLevel.ObjectivesToCollect = 2;
+            NextComponent = new ChaoticMindPlayable(testLevel);
         }
 
         public void Draw(float deltaTime) {

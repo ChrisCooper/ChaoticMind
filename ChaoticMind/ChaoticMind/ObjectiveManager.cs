@@ -14,12 +14,12 @@ namespace ChaoticMind {
 
         GameObjects _objectsOwner;
 
-        public ObjectiveManager(GameObjects objectsOwner) {
+        public ObjectiveManager(GameObjects objectsOwner, GameLevel level) {
             _objectsOwner = objectsOwner;
 
             _objectiveCollectables = new List<Collectable>();
 
-            ObjectivesRemaining = 2;
+            ObjectivesRemaining = level.ObjectivesToCollect;
 
             SpawnNewObjective();
         }

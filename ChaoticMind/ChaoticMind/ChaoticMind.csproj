@@ -111,6 +111,7 @@
     <Compile Include="Characters\AIDirector.cs" />
     <Compile Include="Characters\Enemies\Parasite.cs" />
     <Compile Include="FullMenuScreens\FrontMenu.cs" />
+    <Compile Include="GameLevel.cs" />
     <Compile Include="GameObjects\GameObjects.cs" />
     <Compile Include="GameObjects\ToggleButton.cs" />
     <Compile Include="GameObjects\UIButton.cs" />

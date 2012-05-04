@@ -20,12 +20,10 @@ namespace ChaoticMind {
         IGameFlowComponent _gameComponent;
         IGameFlowComponent _overlayComponent;
 
-        //map dimension
-        const int MAP_SIZE = 4;
-
         HUDManager _hudManager;
 
-        public ChaoticMindPlayable() {
+        internal ChaoticMindPlayable(GameLevel level) {
+
             GameObjects gameObjects = new GameObjects();
 
             PainStaticMaker.Initialize();
@@ -34,7 +32,7 @@ namespace ChaoticMind {
             ParticleType.Initialize();
 
             //Start the game
-            gameObjects.StartNewGame(this, MAP_SIZE);
+            gameObjects.StartNewGame(this, level);
 
             _hudManager = new HUDManager(gameObjects);
 

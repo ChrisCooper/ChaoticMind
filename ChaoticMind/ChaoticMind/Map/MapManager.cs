@@ -57,14 +57,14 @@ namespace ChaoticMind {
         GameObjects _objectsOwner;
 
         //constructor
-        public MapManager(GameObjects objectsOwner, int gridDimension) {
+        public MapManager(GameObjects objectsOwner) {
             _objectsOwner = objectsOwner;
             _shiftQueue = new LinkedList<MapShift>();
         }
 
         //Make the tiles
-        public void StartNewGame(int gridDimension) {
-            _gridDimension = gridDimension;
+        public void StartNewGame(GameLevel level) {
+            _gridDimension = level.MapDimension;
 
             _edgeOfMapdimesion = _gridDimension * MapTile.TileSideLength;
 

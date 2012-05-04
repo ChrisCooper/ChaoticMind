@@ -27,12 +27,15 @@ namespace ChaoticMind {
 
         internal ObjectiveManager Objectives { get; set; }
 
+        internal GameLevel Level { get; set; }
+
         ShiftInterface _shiftInterface;
 
         ChaoticMindPlayable _playable;
 
-        internal void StartNewGame(ChaoticMindPlayable playable, int mapDimension) {
+        internal void StartNewGame(ChaoticMindPlayable playable, GameLevel level) {
             _playable = playable;
+            Level = level;
 
             //Create the physics simulator object, specifying that we want no gravity (since we're top-down)
             PhysicsWorld = new World(Vector2.Zero);
@@ -44,8 +47,8 @@ namespace ChaoticMind {
 
             MainPlayer = new Player(this, Vector2.Zero);
 
-            Map = new MapManager(this, mapDimension);
-            Map.StartNewGame(mapDimension);
+            Map = new MapManager(this);
+            Map.StartNewGame(Level);
 
             EnemyDirector = new AIDirector(this);
             EnemyDirector.StartNewGame();
@@ -53,7 +56,7 @@ namespace ChaoticMind {
             MainCamera = new Camera(Vector2.Zero, 35.0f, Program.Graphics.GraphicsDevice);
             MainCamera.Target = MainPlayer.Body;
 
-            Objectives = new ObjectiveManager(this);
+            Objectives = new ObjectiveManager(this, Level);
 
             _shiftInterface = new ShiftInterface(_playable, this);
         }
