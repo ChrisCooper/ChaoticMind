@@ -40,5 +40,9 @@ namespace ChaoticMind {
         public static Rectangle BiggestSquare { get; set; }
 
         public static int SmallestDimension { get { return Math.Min(Width, Height); } }
+
+        internal static Rectangle VertCenteredRect(int width, int height, int verticalCenter) {
+            return new Rectangle((int)Center.X, verticalCenter - height / 2, width, height);
+        }
     }
 }

@@ -71,6 +71,7 @@ namespace ChaoticMind {
             _gameComponent.Draw(deltaTime);
 
             if (_overlayComponent != null) {
+
                 _overlayComponent.Draw(deltaTime);
                 MouseDrawer.Draw(MouseType.POINTER);
             }

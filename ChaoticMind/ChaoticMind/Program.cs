@@ -11,7 +11,7 @@ namespace ChaoticMind {
         public static SpriteBatch SpriteBatch { get { return OverallGame.GraphicsUtils.MainSpriteBatch; } }
         public static ContentManager Content { get { return OverallGame.Content; } }
 
-        static ChaoticMindGame OverallGame;
+        public static ChaoticMindGame OverallGame;
 
         /// <summary>
         /// The main entry point for the application.

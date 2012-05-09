@@ -59,6 +59,9 @@ namespace ChaoticMind {
             Objectives = new ObjectiveManager(this, Level);
 
             _shiftInterface = new ShiftInterface(_playable, this);
+
+            //Start the game off
+            Update(0f);
         }
 
         public void Update(float deltaTime) {
@@ -110,28 +113,28 @@ namespace ChaoticMind {
             }
         }
 
-        internal void DrawObjects(Camera camera) {
-            Map.DrawTiles(camera);
-            Particles.ForEach(p => camera.Draw(p));
-            Projectiles.ForEach(p => camera.Draw(p));
-            Collectables.ForEach(c => camera.Draw(c));
-            Enemies.ForEach(e => camera.Draw(e));
-            camera.Draw(MainPlayer);
+        internal void DrawObjects() {
+            Map.DrawTiles(MainCamera);
+            Particles.ForEach(p => MainCamera.Draw(p));
+            Projectiles.ForEach(p => MainCamera.Draw(p));
+            Collectables.ForEach(c => MainCamera.Draw(c));
+            Enemies.ForEach(e => MainCamera.Draw(e));
+            MainCamera.Draw(MainPlayer);
         }
 
-        internal void DrawGlows(Camera camera) {
-            Map.DrawGlows(camera);
-            Particles.ForEach(p => camera.DrawGlow(p));
-            Projectiles.ForEach(p => camera.DrawGlow(p));
-            Collectables.ForEach(c => camera.DrawGlow(c));
-            Enemies.ForEach(e => camera.DrawGlow(e));
-            camera.DrawGlow(MainPlayer);
+        internal void DrawGlows() {
+            Map.DrawGlows(MainCamera);
+            Particles.ForEach(p => MainCamera.DrawGlow(p));
+            Projectiles.ForEach(p => MainCamera.DrawGlow(p));
+            Collectables.ForEach(c => MainCamera.DrawGlow(c));
+            Enemies.ForEach(e => MainCamera.DrawGlow(e));
+            MainCamera.DrawGlow(MainPlayer);
         }
 
         public IGameFlowComponent NextComponent { get; set; }
 
         public void Draw(float deltaTime) {
-            DrawObjects(MainCamera);
+            DrawObjects();
             Program.SpriteBatch.End();
 
             /**** Draw Glow Effects ****/
@@ -139,7 +142,7 @@ namespace ChaoticMind {
             //This means colors will be intensified, and look like glow
             Program.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
 
-            DrawGlows(MainCamera);
+            DrawGlows();
             PainStaticMaker.DrawStatic();
 
             Program.SpriteBatch.End();

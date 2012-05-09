@@ -14,7 +14,6 @@ namespace ChaoticMind {
         static AnimatedSprite _staticSprite;
 
         private static float _opacity;
-        private static float _deathFadeInSpeed = 0.005f;
 
         public static void Initialize() {
             _staticSprite = new AnimatedSprite("Screens/PainStatic", 12, 3, 1, 1.0f, DrawLayers.VeryTop.FullOverlay);
