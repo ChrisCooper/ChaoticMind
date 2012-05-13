@@ -20,8 +20,8 @@ namespace ChaoticMind {
             _pauseBackground = new StaticSprite("UI/PauseScreen", 1, DrawLayers.Menu.Backgrounds);
 
 
-            _exitGameButton = new UIButton(new Vector2(100,100), 
-            _exitGameButton = new UIButton(ScreenUtils.VertCenteredRect(400, 200, 600), 0, new StaticSprite("PauseMenu/ExitGameButton", 1, DrawLayers.Menu.HighlightElements), new StaticSprite("PauseMenu/ExitGameButtonPressed", 1, DrawLayers.Menu.Elements));
+            _exitGameButton = new UIButton(new Vector2(0.5f, 0.7f), 0.5f, "PauseMenu/ExitGameButton", DrawLayers.Menu.Elements);
+            //_exitGameButton = new UIButton(ScreenUtils.VertCenteredRect(400, 200, 600), 0, new StaticSprite("PauseMenu/ExitGameButton", 1, DrawLayers.Menu.HighlightElements), new StaticSprite("PauseMenu/ExitGameButtonPressed", 1, DrawLayers.Menu.Elements));
             _exitGameButton.setTarget(ExitGame);
         }
 

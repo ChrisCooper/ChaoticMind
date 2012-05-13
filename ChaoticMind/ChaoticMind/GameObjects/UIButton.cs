@@ -33,7 +33,33 @@ namespace ChaoticMind {
             _normalSprite = normalSprite;
             _pressedSprite = pressedSprite;
             _rotation = rotation;
-            ScalingFactor = new Vector2(rectangle.Width / (float)_normalSprite.CurrentTextureBounds.Width, rectangle.Height / (float)_normalSprite.CurrentTextureBounds.Height);
+
+            DecideScalingFactor();
+
+            _state = UIButtonState.NORMAL;
+        }
+
+        private void DecideScalingFactor() {
+            ScalingFactor = new Vector2(_frame.Width / (float)_normalSprite.CurrentTextureBounds.Width, _frame.Height / (float)_normalSprite.CurrentTextureBounds.Height);
+        }
+
+        public UIButton(Vector2 center, float widthFractionOfBiggestSquare, string resourceBasename, float drawLayer) {
+
+            center = ScreenUtils.BiggestSquareProportionToPixels(center);
+
+            _normalSprite = new StaticSprite(resourceBasename, 1, DrawLayers.Menu.Elements);
+            _pressedSprite = new StaticSprite(resourceBasename + "Pressed", 1, DrawLayers.Menu.Elements);
+
+            float width = widthFractionOfBiggestSquare * ScreenUtils.BiggestSquare.Width;
+            float height = width/ _normalSprite.CurrentTextureBounds.Width * _normalSprite.CurrentTextureBounds.Height;
+            _frame = new Rectangle((int)(center.X - width / 2), (int)(center.Y - height / 2), (int)width, (int)height);
+            Center = new Vector2(_frame.Center.X, _frame.Center.Y);
+
+            _rotation = 0;
+
+            DecideScalingFactor();
+
+            _state = UIButtonState.NORMAL;
         }
 
         public void setTarget(ButtonWasClickedListener buttonClickSignal) {

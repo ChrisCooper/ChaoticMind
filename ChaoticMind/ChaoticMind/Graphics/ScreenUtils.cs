@@ -44,5 +44,10 @@ namespace ChaoticMind {
         internal static Rectangle VertCenteredRect(int width, int height, int verticalCenter) {
             return new Rectangle((int)Center.X, verticalCenter - height / 2, width, height);
         }
+
+        internal static Vector2 BiggestSquareProportionToPixels(Vector2 Center) {
+            return (Center*BiggestSquare.Width) + new Vector2(BiggestSquare.Location.X, BiggestSquare.Location.Y);
+
+        }
     }
 }
