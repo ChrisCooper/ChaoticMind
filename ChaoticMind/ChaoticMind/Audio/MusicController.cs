@@ -42,7 +42,7 @@ namespace ChaoticMind {
             //Enumerate and load contents of Music resources folder
             DirectoryInfo dir = new DirectoryInfo(SharedContentManager.RootDirectory + "/Music");
             if (!dir.Exists)
-                throw new DirectoryNotFoundException();
+                return;
 
             FileInfo[] files = dir.GetFiles("*.wma");
             foreach (FileInfo file in files) {
@@ -64,7 +64,14 @@ namespace ChaoticMind {
         }
 
         public Song CurrentSong {
-            get { return _playlist[_playlistIndex]; }
+            get {
+                try {
+                    return _playlist[_playlistIndex];
+                }
+                catch (ArgumentOutOfRangeException) {
+                    return null;
+                }
+            }
             set { }
         }
 
@@ -82,7 +89,9 @@ namespace ChaoticMind {
         /// Starts playing through the queue of music
         /// </summary>
         public void Play() {
-            Song currentSong = _playlist[_playlistIndex];
+            Song currentSong = CurrentSong;
+            if (currentSong == null)
+                return;
 
             _ownMediaStateActionCount++;
             try {
@@ -166,7 +175,12 @@ namespace ChaoticMind {
         /// </summary>
         /// <param name="id">string name of song</param>
         public void Enqueue(string id) {
-            _playlist.Add(_songs[id]);
+            try {
+                _playlist.Add(_songs[id]);
+            }
+            catch (KeyNotFoundException) {
+                Console.WriteLine("Couldn't find the specified file to play");
+            }
 
             //If the playlist was clear before this Song was added
             if (_playlistIndex == -1) {
